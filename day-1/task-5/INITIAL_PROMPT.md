@@ -1,0 +1,3 @@
+# Initial AI prompt
+
+> Use the validation and order-processing logic from my completed Task 4 `OrderService`. Refactor the private `ValidateBusinessRules` method into a simple strategy-pattern design. Create `IOrderRule`, `RequiredFieldsRule`, `QuantityRule`, and `PriceRule`, then make `OrderService` accept and run a collection of rules. A new validation rule should be addable without changing the service. Keep the discount calculation and its quantity-10 boundary behavior unchanged. Do not modify Task 4, do not add extra architecture, and keep every class easy for a junior developer to explain. Add three xUnit tests from test-prompt comments: negative quantity fails, a valid order succeeds, and an empty product code fails.
