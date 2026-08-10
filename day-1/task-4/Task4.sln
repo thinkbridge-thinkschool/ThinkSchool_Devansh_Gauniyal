@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderApi", "OrderApi\OrderApi.csproj", "{193ACFE8-2351-4B31-B6A8-3693B4D31100}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderApi.Tests", "OrderApi.Tests\OrderApi.Tests.csproj", "{1F85264B-C5E9-4A86-8CBF-E15532E4C89E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{193ACFE8-2351-4B31-B6A8-3693B4D31100}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{193ACFE8-2351-4B31-B6A8-3693B4D31100}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{193ACFE8-2351-4B31-B6A8-3693B4D31100}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{193ACFE8-2351-4B31-B6A8-3693B4D31100}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F85264B-C5E9-4A86-8CBF-E15532E4C89E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F85264B-C5E9-4A86-8CBF-E15532E4C89E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F85264B-C5E9-4A86-8CBF-E15532E4C89E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F85264B-C5E9-4A86-8CBF-E15532E4C89E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

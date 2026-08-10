@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="OrderApi/OrderApi.csproj" />
+  <Project Path="OrderApi.Tests/OrderApi.Tests.csproj" />
+</Solution>
