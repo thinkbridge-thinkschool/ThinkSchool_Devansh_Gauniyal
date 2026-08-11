@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="QuotesApi.Tests/QuotesApi.Tests.csproj" />
+  <Project Path="QuotesApi/QuotesApi.csproj" />
+</Solution>
