@@ -1,0 +1,4 @@
+# The API creates its local database from EF Core migrations at startup.
+*.db
+*.db-shm
+*.db-wal
