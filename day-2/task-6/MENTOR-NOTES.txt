@@ -1,0 +1,98 @@
+Day 2, Task 6 — Self-issued JWT authentication
+
+Complete login endpoint code:
+
+app.MapPost("/api/auth/login", async (
+    LoginRequest request,
+    QuotesDbContext db,
+    JwtTokenService tokenService,
+    CancellationToken cancellationToken) =>
+{
+    if (string.IsNullOrWhiteSpace(request.Email) ||
+        string.IsNullOrWhiteSpace(request.Password))
+    {
+        return Results.Unauthorized();
+    }
+
+    var normalizedEmail = User.NormalizeEmail(request.Email);
+    var user = await db.Users.SingleOrDefaultAsync(
+        value => value.Email == normalizedEmail,
+        cancellationToken);
+
+    if (user is null ||
+        !BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
+    {
+        return Results.Unauthorized();
+    }
+
+    return Results.Ok(tokenService.Issue(user));
+});
+
+Response DTO:
+
+public sealed record LoginResponse(
+    [property: JsonPropertyName("access_token")] string AccessToken,
+    [property: JsonPropertyName("refresh_token")] string RefreshToken,
+    [property: JsonPropertyName("expires_in")] int ExpiresIn);
+
+1. POST without a token
+
+curl --silent --include --request POST "http://127.0.0.1:5196/api/quotes" \
+  --header "Content-Type: application/json" \
+  --data '{"author":"Live verifier","text":"Authentication is required."}'
+
+Actual response:
+
+HTTP/1.1 401 Unauthorized
+Content-Length: 0
+Date: Tue, 11 Aug 2026 07:20:51 GMT
+Server: Kestrel
+WWW-Authenticate: Bearer
+
+Response body: empty.
+
+2. POST with a valid token
+
+curl --silent --include --request POST "http://127.0.0.1:5196/api/quotes" \
+  --header "Content-Type: application/json" \
+  --header "Authorization: Bearer $ACCESS_TOKEN" \
+  --data '{"author":"Live verifier","text":"A valid token reaches the protected endpoint."}'
+
+Actual response (Authorization value redacted):
+
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+Date: Tue, 11 Aug 2026 07:20:51 GMT
+Server: Kestrel
+Transfer-Encoding: chunked
+
+{"id":1,"author":"Live verifier","text":"A valid token reaches the protected endpoint.","createdAtUtc":"2026-08-11T07:20:51.92996+00:00","isDeleted":false}
+
+3. POST with an expired token
+
+The correctly signed token had an intentional 2-second verification lifetime and was sent after 3 seconds.
+
+curl --silent --include --request POST "http://127.0.0.1:5196/api/quotes" \
+  --header "Content-Type: application/json" \
+  --header "Authorization: Bearer $EXPIRED_TOKEN" \
+  --data '{"author":"Live verifier","text":"An expired token must be rejected."}'
+
+Actual response (Authorization value redacted):
+
+HTTP/1.1 401 Unauthorized
+Content-Length: 0
+Date: Tue, 11 Aug 2026 07:20:54 GMT
+Server: Kestrel
+WWW-Authenticate: Bearer error="invalid_token", error_description="The token expired at '08/11/2026 07:20:53'"
+
+Response body: empty.
+
+Verification summary:
+- dotnet restore Task6.slnx succeeded.
+- dotnet build Task6.slnx succeeded with 0 warnings and 0 errors.
+- Two final test runs passed all 16 authentication tests; reported durations were 3 seconds and 2 seconds.
+- Live results were 401 without a token, 200 with a valid token, and 401 with the required Bearer invalid_token challenge after expiry.
+- GET routes remained public; POST and DELETE were verified protected.
+- The API was shut down and its temporary database was removed.
+
+Implementation commit: d22304f663fa810c0baf4b4cbbd6058906f8f5a4
