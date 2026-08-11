@@ -1,0 +1,190 @@
+Day 2, Task 7 — Refresh tokens with rotation
+
+POST /api/auth/refresh endpoint:
+
+app.MapPost("/api/auth/refresh", async (
+    RefreshTokenRequest request,
+    RefreshTokenService refreshTokenService,
+    CancellationToken cancellationToken) =>
+{
+    if (string.IsNullOrWhiteSpace(request.RefreshToken))
+    {
+        return Results.Unauthorized();
+    }
+
+    var response = await refreshTokenService.RotateAsync(
+        request.RefreshToken,
+        cancellationToken);
+
+    return response is null
+        ? Results.Unauthorized()
+        : Results.Ok(response);
+});
+
+Core rotation and reuse-detection service code:
+
+public async Task<LoginResponse?> RotateAsync(
+    string rawToken,
+    CancellationToken cancellationToken)
+{
+    var tokenHash = HashToken(rawToken);
+    await using var transaction = await _db.Database.BeginTransactionAsync(
+        IsolationLevel.Serializable,
+        cancellationToken);
+
+    var storedToken = await _db.RefreshTokens
+        .Include(token => token.User)
+        .SingleOrDefaultAsync(
+            token => token.Token == tokenHash,
+            cancellationToken);
+
+    if (storedToken is null)
+    {
+        return null;
+    }
+
+    var now = _clock.UtcNow;
+    if (storedToken.RevokedAt is not null)
+    {
+        if (storedToken.ReplacedByToken is not null)
+        {
+            await RevokeReplacementChainAsync(
+                storedToken,
+                now,
+                cancellationToken);
+            await _db.SaveChangesAsync(cancellationToken);
+            await transaction.CommitAsync(cancellationToken);
+            _logger.LogWarning(
+                "Refresh-token reuse detected; the replacement chain was revoked for user {UserId}.",
+                storedToken.UserId);
+        }
+
+        return null;
+    }
+
+    if (storedToken.IsExpired(now))
+    {
+        return null;
+    }
+
+    var response = _tokenService.Issue(storedToken.User);
+    var replacementHash = HashToken(response.RefreshToken);
+    var replacement = RefreshToken.Create(
+        storedToken.UserId,
+        replacementHash,
+        now.Add(RefreshTokenLifetime));
+
+    storedToken.Rotate(now, replacementHash);
+    _db.RefreshTokens.Add(replacement);
+
+    try
+    {
+        await _db.SaveChangesAsync(cancellationToken);
+        await transaction.CommitAsync(cancellationToken);
+        return response;
+    }
+    catch (DbUpdateConcurrencyException)
+    {
+        await transaction.RollbackAsync(cancellationToken);
+        _db.ChangeTracker.Clear();
+        await RevokeAfterConcurrentReuseAsync(tokenHash, cancellationToken);
+        return null;
+    }
+}
+
+public static string HashToken(string rawToken)
+{
+    ArgumentException.ThrowIfNullOrWhiteSpace(rawToken);
+    var bytes = Encoding.UTF8.GetBytes(rawToken);
+    return Convert.ToHexString(SHA256.HashData(bytes));
+}
+
+private async Task RevokeReplacementChainAsync(
+    RefreshToken compromisedToken,
+    DateTimeOffset now,
+    CancellationToken cancellationToken)
+{
+    var replacementHash = compromisedToken.ReplacedByToken;
+    var visited = new HashSet<string>(StringComparer.Ordinal);
+
+    while (replacementHash is not null && visited.Add(replacementHash))
+    {
+        var replacement = await _db.RefreshTokens.SingleOrDefaultAsync(
+            token => token.Token == replacementHash,
+            cancellationToken);
+        if (replacement is null)
+        {
+            break;
+        }
+
+        replacement.Revoke(now);
+        replacementHash = replacement.ReplacedByToken;
+    }
+}
+
+private async Task RevokeAfterConcurrentReuseAsync(
+    string tokenHash,
+    CancellationToken cancellationToken)
+{
+    await using var transaction = await _db.Database.BeginTransactionAsync(
+        IsolationLevel.Serializable,
+        cancellationToken);
+    var storedToken = await _db.RefreshTokens.SingleOrDefaultAsync(
+        token => token.Token == tokenHash,
+        cancellationToken);
+
+    if (storedToken?.ReplacedByToken is null)
+    {
+        return;
+    }
+
+    await RevokeReplacementChainAsync(
+        storedToken,
+        _clock.UtcNow,
+        cancellationToken);
+    await _db.SaveChangesAsync(cancellationToken);
+    await transaction.CommitAsync(cancellationToken);
+    _logger.LogWarning(
+        "Concurrent refresh-token reuse detected; the replacement chain was revoked for user {UserId}.",
+        storedToken.UserId);
+}
+
+Required reuse-detection integration test:
+
+[Fact]
+public async Task ReusingRotatedRefreshToken_RevokesEntireChain()
+{
+    var firstPair = await LoginAsync();
+    var secondPair = await ReadPairAsync(
+        await RefreshAsync(firstPair.RefreshToken));
+    var thirdPair = await ReadPairAsync(
+        await RefreshAsync(secondPair.RefreshToken));
+
+    var reuseResponse = await RefreshAsync(firstPair.RefreshToken);
+    var activeReplacementResponse = await RefreshAsync(thirdPair.RefreshToken);
+
+    reuseResponse.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+    activeReplacementResponse.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+
+    var chainHashes = new[]
+    {
+        RefreshTokenService.HashToken(firstPair.RefreshToken),
+        RefreshTokenService.HashToken(secondPair.RefreshToken),
+        RefreshTokenService.HashToken(thirdPair.RefreshToken)
+    };
+    await using var scope = _factory.Services.CreateAsyncScope();
+    var db = scope.ServiceProvider.GetRequiredService<QuotesDbContext>();
+    var storedChain = await db.RefreshTokens
+        .Where(token => chainHashes.Contains(token.Token))
+        .ToListAsync();
+
+    storedChain.Should().HaveCount(3);
+    storedChain.All(token => token.RevokedAt is not null).Should().BeTrue();
+}
+
+Actual verification:
+- Build succeeded with 0 warnings and 0 errors.
+- The complete authentication suite passed 29/29 tests in 4 seconds.
+- ReusingRotatedRefreshToken_RevokesEntireChain passed independently twice, each in 1 second.
+
+Implementation commit: 66444ed96fd7a20befd124b11f260fbfe81d129f
