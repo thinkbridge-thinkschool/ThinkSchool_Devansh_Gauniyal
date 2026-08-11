@@ -1,0 +1,239 @@
+Cancellation now flows from the real Collection HTTP endpoint through the service and repository to EF Core.
+
+Cancellation-aware service interface:
+
+using CollectionApi.Models;
+
+namespace CollectionApi.Services;
+
+public interface ICollectionService
+{
+    Task<Collection> CreateAsync(
+        string? name,
+        int ownerId,
+        CancellationToken cancellationToken);
+
+    Task<Collection?> AddQuoteAsync(
+        int collectionId,
+        int quoteId,
+        CancellationToken cancellationToken);
+
+    Task<bool> RemoveQuoteAsync(
+        int collectionId,
+        int quoteId,
+        CancellationToken cancellationToken);
+}
+
+Cancellation-aware service implementation:
+
+using CollectionApi.Models;
+using CollectionApi.Repositories;
+using CollectionApi.Services.Time;
+
+namespace CollectionApi.Services;
+
+public sealed class CollectionService(
+    ICollectionRepository repository,
+    IClock clock) : ICollectionService
+{
+    public async Task<Collection> CreateAsync(
+        string? name,
+        int ownerId,
+        CancellationToken cancellationToken)
+    {
+        var collection = new Collection(name, ownerId);
+        await repository.AddAsync(collection, cancellationToken);
+        return collection;
+    }
+
+    public async Task<Collection?> AddQuoteAsync(
+        int collectionId,
+        int quoteId,
+        CancellationToken cancellationToken)
+    {
+        var collection = await repository.GetByIdAsync(collectionId, cancellationToken);
+        if (collection is null)
+        {
+            return null;
+        }
+
+        collection.AddItem(quoteId, clock.UtcNow);
+        await repository.UpdateAsync(collection, cancellationToken);
+        return collection;
+    }
+
+    public async Task<bool> RemoveQuoteAsync(
+        int collectionId,
+        int quoteId,
+        CancellationToken cancellationToken)
+    {
+        var collection = await repository.GetByIdAsync(collectionId, cancellationToken);
+        if (collection is null || !collection.RemoveItem(quoteId))
+        {
+            return false;
+        }
+
+        await repository.UpdateAsync(collection, cancellationToken);
+        return true;
+    }
+}
+
+Repository cancellation propagation:
+
+using CollectionApi.Models;
+
+namespace CollectionApi.Repositories;
+
+public interface ICollectionRepository
+{
+    Task<Collection?> GetByIdAsync(int id, CancellationToken cancellationToken);
+    Task AddAsync(Collection collection, CancellationToken cancellationToken);
+    Task UpdateAsync(Collection collection, CancellationToken cancellationToken);
+    Task DeleteAsync(Collection collection, CancellationToken cancellationToken);
+}
+
+using CollectionApi.Data;
+using CollectionApi.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace CollectionApi.Repositories;
+
+public sealed class CollectionRepository(CollectionDbContext dbContext)
+    : ICollectionRepository
+{
+    public Task<Collection?> GetByIdAsync(int id, CancellationToken cancellationToken) =>
+        dbContext.Collections
+            .Include(collection => collection.Items)
+            .SingleOrDefaultAsync(collection => collection.Id == id, cancellationToken);
+
+    public async Task AddAsync(Collection collection, CancellationToken cancellationToken)
+    {
+        await dbContext.Collections.AddAsync(collection, cancellationToken);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task UpdateAsync(Collection collection, CancellationToken cancellationToken)
+    {
+        dbContext.Collections.Update(collection);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task DeleteAsync(Collection collection, CancellationToken cancellationToken)
+    {
+        dbContext.Collections.Remove(collection);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
+}
+
+Mid-request cancellation integration test:
+
+using System.Net.Http.Json;
+using CollectionApi.Dtos;
+using CollectionApi.Repositories;
+using CollectionApi.Tests.Fakes;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+
+namespace CollectionApi.Tests;
+
+public sealed class CollectionCancellationTests
+{
+    private static readonly TimeSpan TestTimeout = TimeSpan.FromSeconds(5);
+
+    [Fact]
+    public async Task CollectionRequest_CancelledMidRequest_DoesNotCompleteOperation()
+    {
+        var repository = new BlockingCollectionRepository();
+        await using var factory = new WebApplicationFactory<Program>()
+            .WithWebHostBuilder(builder =>
+            {
+                builder.UseSetting(
+                    "ConnectionStrings:Collections",
+                    "Data Source=:memory:");
+                builder.ConfigureServices(services =>
+                {
+                    services.RemoveAll<ICollectionRepository>();
+                    services.AddSingleton(repository);
+                    services.AddSingleton<ICollectionRepository>(repository);
+                });
+            });
+        using var client = factory.CreateClient();
+        using var requestCancellation = new CancellationTokenSource();
+
+        var requestTask = client.PostAsJsonAsync(
+            "/api/collections",
+            new CreateCollectionRequest("Cancellation proof", OwnerId: 7),
+            requestCancellation.Token);
+
+        await repository.Started.WaitAsync(TestTimeout);
+        Assert.True(repository.ReceivedCancellableToken);
+
+        requestCancellation.Cancel();
+
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(async () =>
+            await requestTask.WaitAsync(TestTimeout));
+        await repository.CancellationObserved.WaitAsync(TestTimeout);
+        Assert.False(repository.OperationCompleted);
+    }
+}
+
+Test-only blocking repository:
+
+using CollectionApi.Models;
+using CollectionApi.Repositories;
+
+namespace CollectionApi.Tests.Fakes;
+
+public sealed class BlockingCollectionRepository : ICollectionRepository
+{
+    private readonly TaskCompletionSource _started = new(
+        TaskCreationOptions.RunContinuationsAsynchronously);
+    private readonly TaskCompletionSource _cancellationObserved = new(
+        TaskCreationOptions.RunContinuationsAsynchronously);
+
+    public Task Started => _started.Task;
+    public Task CancellationObserved => _cancellationObserved.Task;
+    public bool ReceivedCancellableToken { get; private set; }
+    public bool OperationCompleted { get; private set; }
+
+    public Task<Collection?> GetByIdAsync(
+        int id,
+        CancellationToken cancellationToken) =>
+        throw new NotSupportedException("This test double only supports AddAsync.");
+
+    public async Task AddAsync(
+        Collection collection,
+        CancellationToken cancellationToken)
+    {
+        ReceivedCancellableToken = cancellationToken.CanBeCanceled;
+        _started.TrySetResult();
+
+        try
+        {
+            await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken)
+                .WaitAsync(TimeSpan.FromSeconds(15));
+            OperationCompleted = true;
+        }
+        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+        {
+            _cancellationObserved.TrySetResult();
+            throw;
+        }
+    }
+
+    public Task UpdateAsync(
+        Collection collection,
+        CancellationToken cancellationToken) =>
+        throw new NotSupportedException("This test double only supports AddAsync.");
+
+    public Task DeleteAsync(
+        Collection collection,
+        CancellationToken cancellationToken) =>
+        throw new NotSupportedException("This test double only supports AddAsync.");
+}
+
+Verification: build succeeded with 0 warnings and 0 errors; all 7 tests passed; the focused cancellation test passed three additional consecutive runs.
+
+Implementation commit: 2a704fed710555335474d7b070702d06fd0bee13
