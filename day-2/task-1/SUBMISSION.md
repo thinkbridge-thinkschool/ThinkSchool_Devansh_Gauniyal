@@ -129,8 +129,8 @@ This tests real application behavior: `QuoteRepository.CreateAsync` uses the inj
 ## 8. Git and GitHub
 
 - Branch: `day-2/task-1`
-- Task commit: `<TO BE ADDED AFTER THE TASK COMMIT>`
-- GitHub link: `<TO BE ADDED AFTER THE BRANCH IS PUSHED>`
+- Task commit: `761b736d1c9eabedcb1b268355c27c5f01692651`
+- GitHub link: `https://github.com/devansh-gauniyal/thinkschool/tree/761b736d1c9eabedcb1b268355c27c5f01692651/day-2/task-1`
 
 If publication is still pending, run from the repository root:
 
@@ -138,7 +138,7 @@ If publication is still pending, run from the repository root:
 git push -u origin day-2/task-1
 ```
 
-Then use the exact repository folder or commit URL reported in this file; do not submit the placeholder.
+The commit link above becomes available as soon as that push succeeds.
 
 ## 9. Ready-to-paste form answers
 
