@@ -130,15 +130,7 @@ This tests real application behavior: `QuoteRepository.CreateAsync` uses the inj
 
 - Branch: `day-2/task-1`
 - Task commit: `761b736d1c9eabedcb1b268355c27c5f01692651`
-- GitHub link: **PENDING PUBLICATION** — after pushing, use `https://github.com/devansh-gauniyal/thinkschool/tree/761b736d1c9eabedcb1b268355c27c5f01692651/day-2/task-1`
-
-If publication is still pending, run from the repository root:
-
-```bash
-git push -u origin day-2/task-1
-```
-
-The commit link above becomes available as soon as that push succeeds.
+- GitHub link: `https://github.com/devansh-gauniyal/thinkschool/tree/main/day-2/task-1`
 
 ## 9. Ready-to-paste form answers
 
