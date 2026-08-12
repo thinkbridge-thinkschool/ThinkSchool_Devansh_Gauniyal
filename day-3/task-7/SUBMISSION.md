@@ -2,13 +2,13 @@
 
 ## 1. GitHub link
 
-NOT YET VERIFIED
+https://github.com/thinkbridge-thinkschool/ThinkSchool_Devansh_Gauniyal/tree/day-3/task-7/day-3/task-7
 
 ## 2. Required mentor notes/deliverables
 
 The integration suite starts one disposable SQL Server 2022 Testcontainer for the xUnit collection. Each test creates a unique database, applies the real SQL Server EF Core migration through `WebApplicationFactory`, and seeds only its own data.
 
-CI verification: NOT YET VERIFIED
+CI verification: https://github.com/thinkbridge-thinkschool/ThinkSchool_Devansh_Gauniyal/actions/runs/31594816964
 
 ## 3. Testcontainers fixture
 
@@ -110,7 +110,11 @@ jobs:
 
 ## 6. CI verification
 
-NOT YET VERIFIED
+Successful GitHub Actions run:
+
+https://github.com/thinkbridge-thinkschool/ThinkSchool_Devansh_Gauniyal/actions/runs/31594816964
+
+The `ubuntu-24.04` x86-64 runner completed every workflow step successfully. Docker availability, restore, build, and `dotnet test` against the SQL Server 2022 Testcontainer all passed with no skipped workflow steps. The test project contains 15 discovered integration tests, all executed by the successful unfiltered test command.
 
 Local verification before push:
 
