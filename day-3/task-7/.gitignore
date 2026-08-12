@@ -1,0 +1,14 @@
+**/bin/
+**/obj/
+TestResults/
+.vs/
+.env
+.env.*
+secrets.json
+local.settings.json
+*.p12
+*.pem
+*.key
+*.db
+*.db-shm
+*.db-wal

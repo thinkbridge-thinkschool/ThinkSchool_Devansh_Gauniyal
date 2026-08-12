@@ -1,0 +1,41 @@
+name: Day 3 Task 7 SQL Server Tests
+
+on:
+  push:
+    branches:
+      - day-3/task-7
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  sql-server-integration-tests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Confirm x86-64 Docker host
+        run: |
+          test "$(uname -m)" = "x86_64"
+          docker info
+
+      - name: Set up .NET SDK
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.302
+
+      - name: Restore Task 7
+        run: dotnet restore day-3/task-7/Task7.slnx
+
+      - name: Build Task 7
+        run: dotnet build day-3/task-7/Task7.slnx --no-restore
+
+      - name: Test Task 7 against SQL Server 2022
+        run: dotnet test day-3/task-7/Task7.slnx --no-build --verbosity normal
