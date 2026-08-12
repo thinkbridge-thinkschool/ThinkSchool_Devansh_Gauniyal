@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="EntraAuthApi/EntraAuthApi.csproj" />
+  <Project Path="EntraAuthApi.Tests/EntraAuthApi.Tests.csproj" />
+</Solution>
