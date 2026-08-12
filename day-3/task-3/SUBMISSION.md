@@ -2,17 +2,19 @@
 
 ## 1. GitHub link / pull-request URL
 
-NOT YET AVAILABLE
+https://github.com/thinkbridge-thinkschool/ThinkSchool_Devansh_Gauniyal/pull/2
 
 ## 2. CI run URL
 
-NOT YET AVAILABLE
+https://github.com/thinkbridge-thinkschool/ThinkSchool_Devansh_Gauniyal/actions/runs/31584305491
 
 ## 3. Required mentor notes
 
-CI run: NOT YET AVAILABLE
+CI run: https://github.com/thinkbridge-thinkschool/ThinkSchool_Devansh_Gauniyal/actions/runs/31584305491
 
-PR review: NOT YET AVAILABLE
+PR review: this is solid
+
+All required authentication and authorization integration tests passed in GitHub Actions, covering anonymous access (`401`), authenticated access with the wrong policy (`403`), authenticated access with the correct policy (`200`), expired access tokens (`401`), and revoked refresh-token chains (`401`).
 
 The standalone Quotes API combines internal JWT and Entra JWT validation, refresh-token rotation with reuse detection, named authorization policies on every quote-domain mutation, and end-to-end integration tests through `WebApplicationFactory`.
 
@@ -77,11 +79,21 @@ Total tests: 19
 
 ## 6. CI test result
 
-NOT YET AVAILABLE
+Direct run: https://github.com/thinkbridge-thinkschool/ThinkSchool_Devansh_Gauniyal/actions/runs/31584305491
+
+```text
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Test Run Successful.
+Total tests: 19
+     Passed: 19
+```
 
 ## 7. PR review line
 
-NOT YET AVAILABLE
+this is solid
 
 ## 8. What did you learn this session?
 
