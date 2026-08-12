@@ -1,6 +1,6 @@
 # GitHub link
 
-The exact pushed folder link will be added after the branch is pushed.
+https://github.com/devansh-gauniyal/thinkschool/tree/day-3/task-1/day-3/task-1
 
 # Required mentor notes/deliverables
 
