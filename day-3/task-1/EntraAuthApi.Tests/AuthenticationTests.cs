@@ -26,6 +26,14 @@ public sealed class AuthenticationTests : IClassFixture<AuthApiFactory>
     }
 
     [Fact]
+    public async Task ProtectedEndpoint_WithMalformedJwt_ReturnsUnauthorized()
+    {
+        var response = await GetProtectedAsync("aaaaa.aaaaa.aaaaa");
+
+        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
+    }
+
+    [Fact]
     public async Task ProtectedEndpoint_WithValidInternalToken_ReturnsOk()
     {
         var token = CreateToken(

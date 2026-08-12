@@ -10,7 +10,7 @@ https://github.com/devansh-gauniyal/thinkschool/tree/day-3/task-1/day-3/task-1
 - Configuration keys: `InternalJwt:Issuer`, `InternalJwt:Audience`, `InternalJwt:SigningKeyBase64`, `Entra:TenantId`, `Entra:ClientId`, and `Entra:Audience`
 - Restore: succeeded.
 - Build: succeeded with 0 warnings and 0 errors.
-- Tests: 5 passed, 0 failed, 0 skipped.
+- Tests: 6 passed, 0 failed, 0 skipped.
 - Anonymous curl: genuine `HTTP/1.1 401 Unauthorized`, empty body, and `WWW-Authenticate: Bearer`.
 - Real Microsoft Entra curl: genuine `HTTP/1.1 200 OK` with `{"message":"Authentication succeeded."}`.
 
@@ -64,13 +64,20 @@ builder.Services
 
                     if (handler.CanReadToken(token))
                     {
-                        var issuer = handler.ReadJwtToken(token).Issuer;
-                        if (string.Equals(
-                                issuer,
-                                entraAuthority,
-                                StringComparison.OrdinalIgnoreCase))
+                        try
                         {
-                            return AuthenticationSchemes.EntraId;
+                            var issuer = handler.ReadJwtToken(token).Issuer;
+                            if (string.Equals(
+                                    issuer,
+                                    entraAuthority,
+                                    StringComparison.OrdinalIgnoreCase))
+                            {
+                                return AuthenticationSchemes.EntraId;
+                            }
+                        }
+                        catch (ArgumentException)
+                        {
+                            // The selected JWT handler will reject the malformed token.
                         }
                     }
                 }

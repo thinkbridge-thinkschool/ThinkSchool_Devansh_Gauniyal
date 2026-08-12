@@ -53,13 +53,20 @@ builder.Services
 
                     if (handler.CanReadToken(token))
                     {
-                        var issuer = handler.ReadJwtToken(token).Issuer;
-                        if (string.Equals(
-                                issuer,
-                                entraAuthority,
-                                StringComparison.OrdinalIgnoreCase))
+                        try
                         {
-                            return AuthenticationSchemes.EntraId;
+                            var issuer = handler.ReadJwtToken(token).Issuer;
+                            if (string.Equals(
+                                    issuer,
+                                    entraAuthority,
+                                    StringComparison.OrdinalIgnoreCase))
+                            {
+                                return AuthenticationSchemes.EntraId;
+                            }
+                        }
+                        catch (ArgumentException)
+                        {
+                            // The selected JWT handler will reject the malformed token.
                         }
                     }
                 }
