@@ -2,7 +2,7 @@
 
 ## 1. GitHub link
 
-NOT YET AVAILABLE
+https://github.com/thinkbridge-thinkschool/ThinkSchool_Devansh_Gauniyal/tree/day-3/task-5/day-3/task-5
 
 ## 2. Required mentor notes/deliverables
 
