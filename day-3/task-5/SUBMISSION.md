@@ -91,7 +91,7 @@ dotnet test Task5.slnx --no-build --verbosity normal
 Test Run Successful.
 Total tests: 44
      Passed: 44
- Total time: 0.3943 Seconds
+ Total time: 0.3794 Seconds
 
 Build succeeded.
     0 Warning(s)
@@ -102,7 +102,7 @@ Time Elapsed 00:00:00.74
 
 ### 8. Total test time
 
-0.3943 seconds, as reported by the test runner.
+0.3794 seconds, as reported by the test runner.
 
 ## 9. What did you learn this session?
 
