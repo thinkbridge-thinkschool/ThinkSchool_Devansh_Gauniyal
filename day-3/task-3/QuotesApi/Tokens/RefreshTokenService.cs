@@ -70,7 +70,6 @@ public sealed class RefreshTokenService
             _tokens.Add(
                 replacementHash,
                 new StoredRefreshToken(
-                    replacementHash,
                     stored.FamilyId,
                     stored.UserId,
                     stored.Email,
@@ -94,7 +93,6 @@ public sealed class RefreshTokenService
         _tokens.Add(
             tokenHash,
             new StoredRefreshToken(
-                tokenHash,
                 familyId,
                 userId,
                 email,
@@ -124,20 +122,17 @@ public sealed class RefreshTokenService
     private sealed class StoredRefreshToken
     {
         public StoredRefreshToken(
-            string tokenHash,
             Guid familyId,
             string userId,
             string email,
             DateTimeOffset expiresAt)
         {
-            TokenHash = tokenHash;
             FamilyId = familyId;
             UserId = userId;
             Email = email;
             ExpiresAt = expiresAt;
         }
 
-        public string TokenHash { get; }
         public Guid FamilyId { get; }
         public string UserId { get; }
         public string Email { get; }

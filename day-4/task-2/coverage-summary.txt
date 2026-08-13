@@ -1,0 +1,45 @@
+Day 4 Task 2 — auth code coverage summary
+Target: day-3/task-3/QuotesApi (Program.cs, Authentication/, Authorization/, Tokens/, Quotes/, Configuration/)
+
+BASELINE (existing 19 tests in day-3/task-3/QuotesApi.Tests, after adding coverlet.collector
+to that project so it could be measured at all — no test logic changed):
+
+  dotnet test day-3/task-3/Task3.slnx --collect:"XPlat Code Coverage" --results-directory <dir>
+  Passed! - Failed: 0, Passed: 19, Skipped: 0, Total: 19
+
+  Overall line-rate:   90.20%  (433/480)
+  Overall branch-rate: 66.25%  (53/80)
+
+FINAL (19 existing tests + 37 new tests in day-4/task-2/QuotesApi.Auth.Tests, run together via
+day-4/task-2/Task2.slnx; TokenHash dead property removed from RefreshTokenService.cs, which is
+why the total line count drops slightly from 480 to 475):
+
+  dotnet test day-4/task-2/Task2.slnx --no-build --collect:"XPlat Code Coverage" --results-directory <dir>
+  QuotesApi.Auth.Tests.dll: Passed! - Failed: 0, Passed: 37, Skipped: 0, Total: 37
+  QuotesApi.Tests.dll:      Passed! - Failed: 0, Passed: 19, Skipped: 0, Total: 19
+
+  Per-report (each project's own coverage of the SAME QuotesApi.dll, informational only —
+  summing these directly would double-count the shared 475-line denominator):
+    QuotesApi.Tests (existing 19 tests) alone:      429/475 lines = 90.31%,  branch 53/80 = 66.25%
+    QuotesApi.Auth.Tests (new 37 tests) alone:       333/475 lines = 70.10%, branch 52/80 = 65.00%
+
+  TRUE COMBINED result — union of lines covered by EITHER test project, computed by
+  day-4/task-2/scripts/merge_coverage.py (not a naive sum of the two reports above):
+
+    Reports merged:        2
+    Union line coverage:   475/475 = 100.00%
+
+    Still-uncovered lines after merge, by file:
+      (none)
+
+  Branch coverage could not be rigorously merged across the two reports: this coverlet/Cobertura
+  output does not attribute individual branch outcomes at the <line> level (no line in either
+  XML carries branch="true", despite the root <coverage> element reporting an aggregate
+  branches-covered/branches-valid count). Each suite's own branch-rate is ~65-66% as shown above.
+  What can be said with certainty: every specific line and conditional branch identified as
+  uncovered in the baseline report (see README.md's gap table) was individually targeted by a
+  new test, and the line-level merge confirms zero lines remain uncovered anywhere in the
+  auth codebase after both suites run together.
+
+TARGET: 80%+ line coverage (per the Day 4 Task 2 exercise).
+RESULT: 100.00% line coverage, genuinely measured, not estimated.
