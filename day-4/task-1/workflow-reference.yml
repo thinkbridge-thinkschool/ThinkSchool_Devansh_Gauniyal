@@ -1,0 +1,68 @@
+# This is a READ-ONLY reference copy of the active workflow for your mentor to review.
+# It is NOT executed by GitHub Actions — only .github/workflows/ci.yml (repo root) runs.
+# Keep the two files in sync manually; do not rename this one into .github/workflows/.
+
+name: CI
+
+"on":
+  push:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  SOLUTION_PATH: day-4/task-1/Task1.slnx
+  RESULTS_DIR: ${{ github.workspace }}/test-results
+  COVERAGE_THRESHOLD: 70
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up .NET SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore
+        run: dotnet restore ${{ env.SOLUTION_PATH }}
+
+      - name: Build
+        run: dotnet build ${{ env.SOLUTION_PATH }} --no-restore
+
+      - name: Test
+        run: >
+          dotnet test ${{ env.SOLUTION_PATH }} --no-build
+          --logger "trx;LogFileName=test-results.trx"
+          --collect:"XPlat Code Coverage"
+          --results-directory ${{ env.RESULTS_DIR }}
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: ${{ env.RESULTS_DIR }}/**/test-results.trx
+          if-no-files-found: warn
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: ${{ env.RESULTS_DIR }}/**/coverage.cobertura.xml
+          if-no-files-found: warn
+
+      - name: Enforce coverage threshold
+        if: always()
+        run: python3 day-4/task-1/scripts/check_coverage.py "${{ env.RESULTS_DIR }}" "${{ env.COVERAGE_THRESHOLD }}"

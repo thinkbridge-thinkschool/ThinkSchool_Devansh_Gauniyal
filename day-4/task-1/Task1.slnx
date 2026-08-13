@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="CiDemo/CiDemo.csproj" />
+  <Project Path="CiDemo.Tests/CiDemo.Tests.csproj" />
+</Solution>
