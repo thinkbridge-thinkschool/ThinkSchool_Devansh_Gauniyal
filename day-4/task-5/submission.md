@@ -63,10 +63,10 @@ activity?.SetTag("refresh_token.outcome", "rotated");
 
 ## What did you learn this session?
 
-The task's claim that logs and traces correlate automatically was false until I checked — `ctx.TraceIdentifier` and OTel's trace ID are entirely different values that would never match.
-The Aspire dashboard has no queryable API, so I switched to Jaeger specifically so I could confirm export succeeded through its REST API before trusting a screenshot.
+Logs and traces didn't actually correlate — ctx.TraceIdentifier and OTel's trace ID are different values.
+Aspire has no queryable API, so I used Jaeger instead to verify the trace actually arrived.
 
 ## What would break this?
 
-An uninstrumented dependency shows up as unexplained gap time inside its parent span, and if the collector were down, spans would be dropped silently with no error in the app.
-Sampling could mean a specific request was never recorded at all, and trace context not propagating across a service boundary would split one logical request into two disconnected traces.
+An uninstrumented dependency just looks like unexplained gap time in the parent span.
+If the collector goes down, spans are dropped silently with no error.
