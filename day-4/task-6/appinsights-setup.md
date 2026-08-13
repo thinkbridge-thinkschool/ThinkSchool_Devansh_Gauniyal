@@ -1,6 +1,6 @@
 # App Insights connection setup
 
-**Status: pending** — no Azure subscription available to create the actual resources against (see README.md). This is the real code, ready to use once a resource exists.
+**Status: complete** — real resources created and verified against (see README.md for full details): Application Insights `thinkschool-day4-task6-ai`, Key Vault `thinkschool-day4-t6-kv`, resource group `thinkschool-day4-task6` (Central India).
 
 ## Packages (`QuotesApi.csproj`)
 
@@ -54,9 +54,24 @@ static string ResolveAppInsightsConnectionString(IConfiguration configuration)
             "connection string outside the Development/Testing environments.");
     }
 
+    // Opt-in escape hatch, off by default: on a real Azure VM/App Service deployment,
+    // ManagedIdentityCredential's IMDS probe succeeds in milliseconds, so this stays
+    // false there and managed identity keeps working exactly as before. Off Azure, a
+    // dropped (rather than refused) probe to 169.254.169.254 makes Azure.Identity
+    // classify the timeout as a fatal AuthenticationFailedException instead of "try
+    // the next credential", which otherwise stops DefaultAzureCredential from ever
+    // reaching AzureCliCredential during local verification. Confirmed against this
+    // exact vault: real local runs hung for ~3 minutes and then failed outright
+    // until this flag was added -- see README.md's "What actually happened" section.
+    var credentialOptions = new DefaultAzureCredentialOptions
+    {
+        ExcludeManagedIdentityCredential =
+            configuration.GetValue<bool>("KeyVault:ExcludeManagedIdentityCredential")
+    };
+
     var client = new SecretClient(
         new Uri($"https://{vaultName}.vault.azure.net/"),
-        new DefaultAzureCredential());
+        new DefaultAzureCredential(credentialOptions));
 
     try
     {
@@ -77,18 +92,30 @@ static string ResolveAppInsightsConnectionString(IConfiguration configuration)
 ```json
 {
   "KeyVault": {
-    "Name": "YOUR_KEY_VAULT_NAME"
+    "Name": "thinkschool-day4-t6-kv"
   }
 }
 ```
 
-## Creating the secret (once a Key Vault exists)
+Real vault name shown as-is (not secret). Not committed to any checked-in `appsettings.*.json` — this app has no real Azure-hosted deployment target yet, so it was supplied via the `KeyVault__Name` environment variable for the local verification run instead.
+
+## Creating the secret (real vault, real secret — value never displayed)
 
 ```
+CONN=$(az monitor app-insights component show \
+  --app thinkschool-day4-task6-ai \
+  --resource-group thinkschool-day4-task6 \
+  --query connectionString -o tsv)
+
 az keyvault secret set \
-  --vault-name YOUR_KEY_VAULT_NAME \
+  --vault-name thinkschool-day4-t6-kv \
   --name ApplicationInsights-ConnectionString \
-  --value "YOUR_APP_INSIGHTS_CONNECTION_STRING"
+  --value "$CONN" \
+  -o none
+
+unset CONN
 ```
 
-`DefaultAzureCredential` uses the local `az login` identity when developing, and a managed identity automatically once deployed — no credential material appears in configuration or code either way.
+Both commands run in one shell invocation so the value only ever exists in a local, never-echoed variable. Verified afterward with `az keyvault secret show ... --query "{name:name, enabled:attributes.enabled}"` — metadata only, never the value.
+
+`DefaultAzureCredential` uses the local `az login` identity when developing (confirmed working, after the `ExcludeManagedIdentityCredential` fix above), and would use a managed identity automatically once deployed — no credential material appears in configuration or code either way.
