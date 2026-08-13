@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Logging;
 using QuotesApi.Configuration;
 
 namespace QuotesApi.Tokens;
@@ -13,15 +14,18 @@ public sealed class RefreshTokenService
     private readonly InternalAccessTokenService _accessTokens;
     private readonly InternalJwtOptions _jwtOptions;
     private readonly TimeProvider _timeProvider;
+    private readonly ILogger<RefreshTokenService> _logger;
 
     public RefreshTokenService(
         InternalAccessTokenService accessTokens,
         InternalJwtOptions jwtOptions,
-        TimeProvider timeProvider)
+        TimeProvider timeProvider,
+        ILogger<RefreshTokenService> logger)
     {
         _accessTokens = accessTokens;
         _jwtOptions = jwtOptions;
         _timeProvider = timeProvider;
+        _logger = logger;
     }
 
     public TokenPair Issue(string userId, string email)
@@ -30,7 +34,12 @@ public sealed class RefreshTokenService
         {
             var now = _timeProvider.GetUtcNow();
             var familyId = Guid.NewGuid();
-            return CreatePair(userId, email, familyId, now);
+            var pair = CreatePair(userId, email, familyId, now);
+            _logger.LogInformation(
+                "Refresh token issued for user {UserId} in family {FamilyId}",
+                userId,
+                familyId);
+            return pair;
         }
     }
 
@@ -49,6 +58,7 @@ public sealed class RefreshTokenService
             if (!_tokens.TryGetValue(tokenHash, out var stored)
                 || stored.ExpiresAt <= now)
             {
+                _logger.LogWarning("Refresh token rejected: unknown or expired");
                 return null;
             }
 
@@ -56,6 +66,13 @@ public sealed class RefreshTokenService
             {
                 if (stored.ReplacedByHash is not null)
                 {
+                    // A previously-rotated token was presented again -- a strong signal the
+                    // raw token leaked to a second party. Revoking the whole family (every
+                    // token descended from the original Issue) invalidates the attacker's
+                    // copy along with the legitimate holder's, forcing a fresh login.
+                    _logger.LogWarning(
+                        "Refresh token reuse detected; revoking family {FamilyId}",
+                        stored.FamilyId);
                     RevokeFamily(stored.FamilyId, now);
                 }
 
@@ -74,6 +91,11 @@ public sealed class RefreshTokenService
                     stored.UserId,
                     stored.Email,
                     now.Add(RefreshLifetime)));
+
+            _logger.LogInformation(
+                "Refresh token rotated for user {UserId} in family {FamilyId}",
+                stored.UserId,
+                stored.FamilyId);
 
             return new TokenPair(
                 _accessTokens.Create(stored.UserId, stored.Email, now),
