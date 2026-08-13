@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../QuotesApi/QuotesApi.csproj" />
+    <ProjectReference Include="../../../day-3/task-3/QuotesApi/QuotesApi.csproj" />
   </ItemGroup>
 
 </Project>
