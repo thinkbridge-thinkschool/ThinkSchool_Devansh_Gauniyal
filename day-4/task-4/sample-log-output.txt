@@ -1,0 +1,26 @@
+Genuinely captured from a real local run of day-3/task-3/QuotesApi (dotnet run), for a single
+POST /api/auth/login request with a synthetic demo user (UserId "demo-user-1", not a real
+account -- config supplied via environment variables for this one run only, never committed).
+
+Command: curl -s -X POST http://localhost:5298/api/auth/login -H "Content-Type: application/json" \
+  -d '{"email":"demo.user@example.test","password":"demo-password-not-real-123"}'
+
+[14:06:48 INF] (9d7dc20f6c11923ff5b5bb6e0098d8e3) Login attempt received
+[14:06:48 INF] (9d7dc20f6c11923ff5b5bb6e0098d8e3) Access token created for user demo-user-1 with lifetime 900s
+[14:06:48 INF] (9d7dc20f6c11923ff5b5bb6e0098d8e3) Refresh token issued for user demo-user-1 in family e486a74c-0257-47b4-a5f8-e3c2772dcd41
+[14:06:48 INF] (9d7dc20f6c11923ff5b5bb6e0098d8e3) Login succeeded for user demo-user-1
+[14:06:48 INF] (9d7dc20f6c11923ff5b5bb6e0098d8e3) HTTP POST /api/auth/login responded 200 in 43.5029 ms
+
+All 5 lines share the same TraceId (9d7dc20f6c11923ff5b5bb6e0098d8e3), pushed onto Serilog's
+LogContext by the correlation middleware before routing/authentication/endpoints run. No
+password, token, or email appears anywhere -- only the (synthetic) UserId and a non-sensitive
+refresh-token family GUID, both needed to explain what happened.
+
+For contrast, a failed attempt against the same running instance (also real, not invented):
+
+[14:07:12 INF] (0d69eb6bda6ec554b117c177da518444) Login attempt received
+[14:07:12 WRN] (0d69eb6bda6ec554b117c177da518444) Login attempt failed
+[14:07:12 INF] (0d69eb6bda6ec554b117c177da518444) HTTP POST /api/auth/login responded 401 in 14.3332 ms
+
+Different request, different TraceId (0d69eb6bda6ec554b117c177da518444) -- and no email or
+password appears here either, even though the submitted password was wrong.
