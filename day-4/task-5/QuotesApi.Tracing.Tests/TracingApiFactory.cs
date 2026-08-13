@@ -37,7 +37,7 @@ public sealed class TracingApiFactory : WebApplicationFactory<Program>
                 ["InternalJwt:Audience"] = "quotes-api.tracing-test-clients",
                 ["InternalJwt:SigningKeyBase64"] =
                     Convert.ToBase64String(RandomNumberGenerator.GetBytes(32)),
-                ["InternalJwt:AccessTokenLifetimeSeconds"] = "900",
+                ["InternalJwt:AccessTokenLifetime"] = "00:15:00",
                 ["Entra:TenantId"] = Guid.NewGuid().ToString(),
                 ["Entra:Audience"] = "quotes-api.tracing-tests-entra-audience",
                 ["InternalCaller:UserId"] = "tracing-test-user",

@@ -1,6 +1,7 @@
 using System.Security.Cryptography;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using QuotesApi.Configuration;
 
 namespace QuotesApi.Tokens;
@@ -18,12 +19,12 @@ public sealed class RefreshTokenService
 
     public RefreshTokenService(
         InternalAccessTokenService accessTokens,
-        InternalJwtOptions jwtOptions,
+        IOptions<InternalJwtOptions> jwtOptions,
         TimeProvider timeProvider,
         ILogger<RefreshTokenService> logger)
     {
         _accessTokens = accessTokens;
-        _jwtOptions = jwtOptions;
+        _jwtOptions = jwtOptions.Value;
         _timeProvider = timeProvider;
         _logger = logger;
     }
@@ -117,7 +118,10 @@ public sealed class RefreshTokenService
             return new TokenPair(
                 _accessTokens.Create(stored.UserId, stored.Email, now),
                 replacementRaw,
-                _jwtOptions.AccessTokenLifetimeSeconds);
+                // TokenPair's wire contract (JSON "expires_in") is a whole-seconds int,
+                // the conventional OAuth2 shape -- unrelated to how the lifetime is
+                // configured/bound (TimeSpan), so it's converted only at this boundary.
+                (int)_jwtOptions.AccessTokenLifetime.TotalSeconds);
         }
     }
 
@@ -140,7 +144,7 @@ public sealed class RefreshTokenService
         return new TokenPair(
             _accessTokens.Create(userId, email, now),
             rawToken,
-            _jwtOptions.AccessTokenLifetimeSeconds);
+            (int)_jwtOptions.AccessTokenLifetime.TotalSeconds);
     }
 
     private void RevokeFamily(Guid familyId, DateTimeOffset now)

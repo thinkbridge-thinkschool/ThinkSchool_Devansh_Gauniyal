@@ -6,6 +6,7 @@ using Azure.Monitor.OpenTelemetry.AspNetCore;
 using Azure.Security.KeyVault.Secrets;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -126,15 +127,22 @@ static string ResolveAppInsightsConnectionString(IConfiguration configuration)
     }
 }
 
-builder.Services.AddSingleton(serviceProvider =>
-{
-    var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-    var options = configuration
-        .GetSection(InternalJwtOptions.SectionName)
-        .Get<InternalJwtOptions>() ?? new InternalJwtOptions();
-    options.ValidateAndGetSigningKey();
-    return options;
-});
+// Day 4 Task 7: the real IOptions pattern -- bind the "InternalJwt" section into
+// InternalJwtOptions, and fail startup loudly (ValidateOnStart) rather than let a
+// missing/malformed signing key or lifetime surface later as a broken token. The
+// Validate delegate reuses ValidateAndGetSigningKey() as the single source of truth
+// for what "valid" means, instead of duplicating those rules here.
+builder.Services
+    .AddOptions<InternalJwtOptions>()
+    .Bind(builder.Configuration.GetSection(InternalJwtOptions.SectionName))
+    .Validate(
+        options =>
+        {
+            options.ValidateAndGetSigningKey();
+            return true;
+        })
+    .ValidateOnStart();
+
 builder.Services.AddSingleton(serviceProvider =>
 {
     var configuration = serviceProvider.GetRequiredService<IConfiguration>();
@@ -207,8 +215,9 @@ builder.Services
 
 builder.Services
     .AddOptions<JwtBearerOptions>(AuthenticationSchemes.InternalJwt)
-    .Configure<InternalJwtOptions>((options, internalJwt) =>
+    .Configure<IOptions<InternalJwtOptions>>((options, internalJwtOptions) =>
     {
+        var internalJwt = internalJwtOptions.Value;
         options.MapInboundClaims = false;
         options.TokenValidationParameters = new TokenValidationParameters
         {
@@ -261,7 +270,8 @@ builder.Services.AddAuthorization(options =>
 });
 
 var app = builder.Build();
-_ = app.Services.GetRequiredService<InternalJwtOptions>();
+// InternalJwtOptions no longer needs an eager GetRequiredService call here --
+// ValidateOnStart() (registered above) already validates it as part of app startup.
 _ = app.Services.GetRequiredService<EntraOptions>();
 _ = app.Services.GetRequiredService<InternalCallerOptions>();
 
