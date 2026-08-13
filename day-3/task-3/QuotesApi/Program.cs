@@ -1,6 +1,9 @@
 using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Azure.Identity;
+using Azure.Monitor.OpenTelemetry.AspNetCore;
+using Azure.Security.KeyVault.Secrets;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
@@ -36,26 +39,79 @@ builder.Host.UseSerilog((context, services, configuration) =>
     }
 });
 
-builder.Services.AddOpenTelemetry()
-    .ConfigureResource(resource => resource.AddService(Telemetry.ServiceName))
-    .WithTracing(tracing =>
-    {
-        tracing
-            .AddSource(Telemetry.ServiceName)
-            .AddAspNetCoreInstrumentation()
-            .AddHttpClientInstrumentation();
+// Exporter decision (Day 4 Task 6): OTLP-to-local-Jaeger stays a Development-only
+// convenience; Azure Monitor is the exporter for every other real environment. Never
+// both at once, and never anything in "Testing" -- see the class-level comments below
+// on each branch for why.
+var openTelemetryBuilder = builder.Services.AddOpenTelemetry()
+    .ConfigureResource(resource => resource.AddService(Telemetry.ServiceName));
 
-        // No collector is reachable in the "Testing" environment (every
-        // WebApplicationFactory-hosted test uses it), so the OTLP exporter is skipped
-        // there entirely -- otherwise tests would try to connect to a nonexistent
-        // localhost:4317 collector on every run. AddOtlpExporter() otherwise reads the
-        // standard OTEL_EXPORTER_OTLP_ENDPOINT environment variable itself, defaulting
-        // to http://localhost:4317 when unset.
-        if (!builder.Environment.IsEnvironment("Testing"))
-        {
-            tracing.AddOtlpExporter();
-        }
+openTelemetryBuilder.WithTracing(tracing =>
+{
+    tracing
+        .AddSource(Telemetry.ServiceName)
+        .AddAspNetCoreInstrumentation()
+        .AddHttpClientInstrumentation();
+
+    // No collector is reachable in "Testing" (every WebApplicationFactory-hosted test
+    // uses it) so no exporter at all is added there -- AddSource/instrumentation stay
+    // registered so Activities are still genuinely created and sampled (tests assert on
+    // them via a raw ActivityListener), just never sent anywhere over the network.
+    if (builder.Environment.IsDevelopment())
+    {
+        // AddOtlpExporter() reads the standard OTEL_EXPORTER_OTLP_ENDPOINT environment
+        // variable itself, defaulting to http://localhost:4317 when unset.
+        tracing.AddOtlpExporter();
+    }
+});
+
+if (!builder.Environment.IsEnvironment("Testing") && !builder.Environment.IsDevelopment())
+{
+    var appInsightsConnectionString = ResolveAppInsightsConnectionString(builder.Configuration);
+    openTelemetryBuilder.UseAzureMonitor(options =>
+    {
+        options.ConnectionString = appInsightsConnectionString;
     });
+}
+
+// Resolves the App Insights connection string from Key Vault using DefaultAzureCredential
+// (the local `az login` identity locally, a managed identity when deployed) -- never from
+// appsettings, a code literal, or an environment variable holding the string itself. Only
+// the Key Vault NAME is configuration, via "KeyVault:Name".
+static string ResolveAppInsightsConnectionString(IConfiguration configuration)
+{
+    const string ConnectionStringSecretName = "ApplicationInsights-ConnectionString";
+
+    var vaultName = configuration["KeyVault:Name"];
+    if (string.IsNullOrWhiteSpace(vaultName))
+    {
+        throw new InvalidOperationException(
+            "KeyVault:Name must be configured to resolve the Application Insights " +
+            "connection string outside the Development/Testing environments.");
+    }
+
+    var client = new SecretClient(
+        new Uri($"https://{vaultName}.vault.azure.net/"),
+        new DefaultAzureCredential());
+
+    try
+    {
+        // One-time synchronous call during startup bootstrap, not per-request code.
+        return client.GetSecret(ConnectionStringSecretName).Value.Value;
+    }
+    catch (Exception exception) when (exception is not InvalidOperationException)
+    {
+        // Deliberately not including exception.Message or the exception itself: fail
+        // loudly with a generic, safe message instead of ever risking a Key Vault
+        // error detail -- or worse, a partially-read secret -- reaching a log sink.
+        // The alternative (starting up with telemetry silently disabled) is worse:
+        // it would hide a real misconfiguration behind an app that looks healthy.
+        throw new InvalidOperationException(
+            "Failed to retrieve the Application Insights connection string from Key " +
+            "Vault. Check that the vault is reachable, DefaultAzureCredential can " +
+            "authenticate, and the secret exists.");
+    }
+}
 
 builder.Services.AddSingleton(serviceProvider =>
 {
