@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="../../day-3/task-3/QuotesApi/QuotesApi.csproj" />
+  <Project Path="../../day-3/task-3/QuotesApi.Tests/QuotesApi.Tests.csproj" />
+  <Project Path="../../day-4/task-2/QuotesApi.Auth.Tests/QuotesApi.Auth.Tests.csproj" />
+  <Project Path="../../day-4/task-4/QuotesApi.Logging.Tests/QuotesApi.Logging.Tests.csproj" />
+  <Project Path="QuotesApi.Tracing.Tests/QuotesApi.Tracing.Tests.csproj" />
+</Solution>

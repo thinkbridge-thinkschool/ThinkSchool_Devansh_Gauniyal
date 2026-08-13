@@ -1,8 +1,12 @@
+using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+using QuotesApi;
 using QuotesApi.Authentication;
 using QuotesApi.Authorization;
 using QuotesApi.Configuration;
@@ -31,6 +35,27 @@ builder.Host.UseSerilog((context, services, configuration) =>
         configuration.WriteTo.Sink(sink);
     }
 });
+
+builder.Services.AddOpenTelemetry()
+    .ConfigureResource(resource => resource.AddService(Telemetry.ServiceName))
+    .WithTracing(tracing =>
+    {
+        tracing
+            .AddSource(Telemetry.ServiceName)
+            .AddAspNetCoreInstrumentation()
+            .AddHttpClientInstrumentation();
+
+        // No collector is reachable in the "Testing" environment (every
+        // WebApplicationFactory-hosted test uses it), so the OTLP exporter is skipped
+        // there entirely -- otherwise tests would try to connect to a nonexistent
+        // localhost:4317 collector on every run. AddOtlpExporter() otherwise reads the
+        // standard OTEL_EXPORTER_OTLP_ENDPOINT environment variable itself, defaulting
+        // to http://localhost:4317 when unset.
+        if (!builder.Environment.IsEnvironment("Testing"))
+        {
+            tracing.AddOtlpExporter();
+        }
+    });
 
 builder.Services.AddSingleton(serviceProvider =>
 {
@@ -175,9 +200,16 @@ _ = app.Services.GetRequiredService<InternalCallerOptions>();
 // TraceId, so a mentor (or ReportGenerator, or App Insights/KQL later) can pull every
 // log line for one request by filtering on this property. Registered before routing,
 // authentication and endpoints so nothing downstream logs without it attached.
+//
+// Prefers the real OpenTelemetry W3C trace ID (Activity.Current?.TraceId) so this value
+// genuinely matches the TraceId on the exported span -- ctx.TraceIdentifier is ASP.NET
+// Core's own unrelated per-request identifier and would never match an OTel trace ID.
+// Falls back to TraceIdentifier only if no Activity is active for some reason (e.g. if
+// AspNetCore instrumentation were ever removed).
 app.Use(async (ctx, next) =>
 {
-    using (LogContext.PushProperty("TraceId", ctx.TraceIdentifier))
+    var traceId = Activity.Current?.TraceId.ToString() ?? ctx.TraceIdentifier;
+    using (LogContext.PushProperty("TraceId", traceId))
     {
         await next();
     }
