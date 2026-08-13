@@ -50,6 +50,12 @@ public sealed class RefreshTokenService
             return null;
         }
 
+        // Custom span: rotation involves a hash lookup, expiry/revocation checks, and
+        // reuse-family revocation -- genuine branching logic that automatic AspNetCore/
+        // HttpClient instrumentation never sees, since it's all in-process work with no
+        // HTTP call or EF query of its own.
+        using var activity = Telemetry.Source.StartActivity("refresh-token.rotate");
+
         lock (_gate)
         {
             var now = _timeProvider.GetUtcNow();
@@ -58,9 +64,14 @@ public sealed class RefreshTokenService
             if (!_tokens.TryGetValue(tokenHash, out var stored)
                 || stored.ExpiresAt <= now)
             {
+                activity?.SetTag("refresh_token.outcome", "not_found_or_expired");
                 _logger.LogWarning("Refresh token rejected: unknown or expired");
                 return null;
             }
+
+            // user.id is PII -- see README for the retention note that applies to it here
+            // too, same as the rest of the auth flow's logging.
+            activity?.SetTag("user.id", stored.UserId);
 
             if (stored.RevokedAt is not null)
             {
@@ -70,10 +81,15 @@ public sealed class RefreshTokenService
                     // raw token leaked to a second party. Revoking the whole family (every
                     // token descended from the original Issue) invalidates the attacker's
                     // copy along with the legitimate holder's, forcing a fresh login.
+                    activity?.SetTag("refresh_token.outcome", "reuse_detected");
                     _logger.LogWarning(
                         "Refresh token reuse detected; revoking family {FamilyId}",
                         stored.FamilyId);
                     RevokeFamily(stored.FamilyId, now);
+                }
+                else
+                {
+                    activity?.SetTag("refresh_token.outcome", "already_revoked");
                 }
 
                 return null;
@@ -92,6 +108,7 @@ public sealed class RefreshTokenService
                     stored.Email,
                     now.Add(RefreshLifetime)));
 
+            activity?.SetTag("refresh_token.outcome", "rotated");
             _logger.LogInformation(
                 "Refresh token rotated for user {UserId} in family {FamilyId}",
                 stored.UserId,
