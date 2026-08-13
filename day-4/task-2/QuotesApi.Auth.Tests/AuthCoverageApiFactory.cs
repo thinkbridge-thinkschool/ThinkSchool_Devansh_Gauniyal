@@ -37,7 +37,7 @@ public sealed class AuthCoverageApiFactory : WebApplicationFactory<Program>
                 ["InternalJwt:Issuer"] = Issuer,
                 ["InternalJwt:Audience"] = Audience,
                 ["InternalJwt:SigningKeyBase64"] = Convert.ToBase64String(SigningKey),
-                ["InternalJwt:AccessTokenLifetimeSeconds"] = "900",
+                ["InternalJwt:AccessTokenLifetime"] = "00:15:00",
                 // Entra options are resolved eagerly at startup regardless of whether a test
                 // exercises the Entra scheme, so a valid (synthetic) value is required here too.
                 ["Entra:TenantId"] = Guid.NewGuid().ToString(),

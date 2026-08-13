@@ -34,7 +34,7 @@ public sealed class LoggingApiFactory : WebApplicationFactory<Program>
                 ["InternalJwt:Audience"] = "quotes-api.logging-test-clients",
                 ["InternalJwt:SigningKeyBase64"] =
                     Convert.ToBase64String(RandomNumberGenerator.GetBytes(32)),
-                ["InternalJwt:AccessTokenLifetimeSeconds"] = "900",
+                ["InternalJwt:AccessTokenLifetime"] = "00:15:00",
                 ["Entra:TenantId"] = Guid.NewGuid().ToString(),
                 ["Entra:Audience"] = "quotes-api.logging-tests-entra-audience",
                 ["InternalCaller:UserId"] = "logging-test-user",
