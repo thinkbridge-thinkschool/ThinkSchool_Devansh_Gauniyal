@@ -1,13 +1,16 @@
+# Options setup — the four exercise pieces
+
+**Status: complete.** Naming note: this app's class is `InternalJwtOptions` / section `"InternalJwt"`, not the task's literal `JwtOptions`/`"Jwt"` — the app has two JWT-bearer schemes (internal + Entra ID), and the existing name distinguishes them. Full reasoning in `README.md`.
+
+## 1. The options class
+
+```csharp
 namespace QuotesApi.Configuration;
 
 public sealed record InternalJwtOptions
 {
     public const string SectionName = "InternalJwt";
 
-    // Generous but bounded: catches the verified real TimeSpan-binding pitfall (a bare
-    // number like "900" parses as 900 DAYS, not 900 seconds and not TimeSpan.Zero --
-    // confirmed empirically, not assumed) while still allowing a legitimately long
-    // internal-service token lifetime.
     private static readonly TimeSpan MaxAccessTokenLifetime = TimeSpan.FromHours(24);
 
     public string? Issuer { get; init; }
@@ -72,3 +75,71 @@ public sealed record InternalJwtOptions
         return key;
     }
 }
+```
+
+## 2. The appsettings section (secret left absent, not a placeholder — see README for why)
+
+```json
+{
+  "InternalJwt": {
+    "Issuer": "QuotesApi.Internal",
+    "Audience": "QuotesApi.InternalClients",
+    "AccessTokenLifetime": "00:15:00"
+  }
+}
+```
+
+`InternalJwt:SigningKeyBase64` is supplied via `dotnet user-secrets` locally (never committed) — see README's "Secrets" section for the exact command to run yourself.
+
+## 3. The DI registration
+
+```csharp
+// Program.cs
+builder.Services
+    .AddOptions<InternalJwtOptions>()
+    .Bind(builder.Configuration.GetSection(InternalJwtOptions.SectionName))
+    .Validate(options =>
+    {
+        options.ValidateAndGetSigningKey();
+        return true;
+    })
+    .ValidateOnStart();
+```
+
+## 4. Injecting it into a service
+
+```csharp
+// Tokens/InternalAccessTokenService.cs
+public sealed class InternalAccessTokenService
+{
+    private readonly InternalJwtOptions _options;
+    private readonly SigningCredentials _credentials;
+    private readonly ILogger<InternalAccessTokenService> _logger;
+
+    public InternalAccessTokenService(
+        IOptions<InternalJwtOptions> options,
+        ILogger<InternalAccessTokenService> logger)
+    {
+        _options = options.Value;
+        _credentials = new SigningCredentials(
+            new SymmetricSecurityKey(_options.ValidateAndGetSigningKey()),
+            SecurityAlgorithms.HmacSha256);
+        _logger = logger;
+    }
+
+    public string Create(string userId, string email, DateTimeOffset now)
+    {
+        var token = new JwtSecurityToken(
+            issuer: _options.Issuer,
+            audience: _options.Audience,
+            claims: /* ... */ null,
+            notBefore: now.UtcDateTime,
+            expires: now.Add(_options.AccessTokenLifetime).UtcDateTime,
+            signingCredentials: _credentials);
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+}
+```
+
+(`RefreshTokenService` injects `IOptions<InternalJwtOptions>` the same way, for the wire-format `expires_in` seconds value — see README.)

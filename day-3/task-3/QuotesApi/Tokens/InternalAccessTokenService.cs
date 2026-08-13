@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using QuotesApi.Configuration;
 
@@ -13,12 +14,12 @@ public sealed class InternalAccessTokenService
     private readonly ILogger<InternalAccessTokenService> _logger;
 
     public InternalAccessTokenService(
-        InternalJwtOptions options,
+        IOptions<InternalJwtOptions> options,
         ILogger<InternalAccessTokenService> logger)
     {
-        _options = options;
+        _options = options.Value;
         _credentials = new SigningCredentials(
-            new SymmetricSecurityKey(options.ValidateAndGetSigningKey()),
+            new SymmetricSecurityKey(_options.ValidateAndGetSigningKey()),
             SecurityAlgorithms.HmacSha256);
         _logger = logger;
     }
@@ -38,14 +39,14 @@ public sealed class InternalAccessTokenService
             audience: _options.Audience,
             claims: claims,
             notBefore: now.UtcDateTime,
-            expires: now.AddSeconds(_options.AccessTokenLifetimeSeconds).UtcDateTime,
+            expires: now.Add(_options.AccessTokenLifetime).UtcDateTime,
             signingCredentials: _credentials);
 
         // Never log the token itself -- only the identifiers needed to explain what happened.
         _logger.LogInformation(
-            "Access token created for user {UserId} with lifetime {LifetimeSeconds}s",
+            "Access token created for user {UserId} with lifetime {Lifetime}",
             userId,
-            _options.AccessTokenLifetimeSeconds);
+            _options.AccessTokenLifetime);
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }

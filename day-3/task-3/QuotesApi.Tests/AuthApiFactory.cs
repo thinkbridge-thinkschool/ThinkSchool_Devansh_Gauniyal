@@ -74,7 +74,7 @@ public sealed class AuthApiFactory : WebApplicationFactory<Program>
                 ["InternalJwt:Audience"] = InternalAudience,
                 ["InternalJwt:SigningKeyBase64"] =
                     Convert.ToBase64String(InternalSigningKey),
-                ["InternalJwt:AccessTokenLifetimeSeconds"] = "900",
+                ["InternalJwt:AccessTokenLifetime"] = "00:15:00",
                 ["Entra:TenantId"] = TenantId,
                 ["Entra:Audience"] = EntraAudience,
                 ["InternalCaller:UserId"] = UserId,

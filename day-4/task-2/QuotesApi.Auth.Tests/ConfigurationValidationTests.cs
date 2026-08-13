@@ -90,7 +90,7 @@ public class InternalJwtOptionsTests
             Issuer = ValidIssuer,
             Audience = ValidAudience,
             SigningKeyBase64 = ValidSigningKeyBase64,
-            AccessTokenLifetimeSeconds = 0
+            AccessTokenLifetime = TimeSpan.Zero
         };
 
         Assert.Throws<InvalidOperationException>(() => options.ValidateAndGetSigningKey());
