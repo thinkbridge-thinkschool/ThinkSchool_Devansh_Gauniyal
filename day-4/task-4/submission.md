@@ -69,8 +69,10 @@ app.UseAuthorization();
 
 ## What did you learn this session?
 
-The `appsettings.json` I inherited already had a `Logging:LogLevel` section, and it would have kept sitting there doing absolutely nothing the moment Serilog took over — that's a real, easy-to-miss failure mode, not a hypothetical one, since the app would still run and log just fine while that whole section silently stopped mattering. I also learned that testing correlation properly can't rely on capturing real console output, since redirecting `Console.Out` is unsafe once other test classes are running concurrently against their own app instances — the fix was a small DI seam letting a test register its own in-memory sink instead.
+The old `Logging:LogLevel` section would have kept sitting there doing nothing once Serilog took over — an easy, silent failure mode.
+Testing correlation can't rely on redirecting real console output, since other tests run concurrently against their own app instances.
 
 ## What would break this?
 
-Two things I actually hit while building this: the dead `Logging` section above, and needing to place `UseSerilogRequestLogging()` after the correlation middleware specifically, since registering it first would mean its own summary line logs outside the `TraceId` scope. Beyond that: `ctx.TraceIdentifier` doesn't cross a service boundary on its own (unlike `Activity.Current.TraceId`/W3C trace context), so this correlation only holds within one process; and a Console sink outage (e.g. a blocked or redirected stdout) would silently lose log events with no built-in fallback.
+`UseSerilogRequestLogging()` has to sit after the correlation middleware, or its own summary line logs outside the `TraceId` scope.
+`ctx.TraceIdentifier` doesn't cross a service boundary on its own, and a Console sink outage would silently lose log events.
