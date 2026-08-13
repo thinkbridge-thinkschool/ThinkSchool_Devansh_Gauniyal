@@ -90,9 +90,22 @@ static string ResolveAppInsightsConnectionString(IConfiguration configuration)
             "connection string outside the Development/Testing environments.");
     }
 
+    // Opt-in escape hatch, off by default: on a real Azure VM/App Service deployment,
+    // ManagedIdentityCredential's IMDS probe succeeds in milliseconds, so this stays
+    // false there and managed identity keeps working exactly as before. Off Azure, a
+    // dropped (rather than refused) probe to 169.254.169.254 makes Azure.Identity
+    // classify the timeout as a fatal AuthenticationFailedException instead of "try
+    // the next credential", which otherwise stops DefaultAzureCredential from ever
+    // reaching AzureCliCredential during local verification.
+    var credentialOptions = new DefaultAzureCredentialOptions
+    {
+        ExcludeManagedIdentityCredential =
+            configuration.GetValue<bool>("KeyVault:ExcludeManagedIdentityCredential")
+    };
+
     var client = new SecretClient(
         new Uri($"https://{vaultName}.vault.azure.net/"),
-        new DefaultAzureCredential());
+        new DefaultAzureCredential(credentialOptions));
 
     try
     {

@@ -6,7 +6,9 @@ https://github.com/thinkbridge-thinkschool/ThinkSchool_Devansh_Gauniyal/tree/day
 
 ## Notes for your mentor
 
-No Azure subscription available in this environment — authenticated (`az account show` succeeds) but tenant-level only, confirmed with a real read-only call (`az group list`) failing `SubscriptionNotFound`. Proceeded in documentation-only mode: wrote the real Azure Monitor + Key Vault integration code, verified it builds and all 61 tests pass (60 existing + 1 new isolation test), and marked every actual Azure step (resource creation, KQL run, alert rule) pending — nothing invented. Also caught two things worth flagging: the task names a package and method (`Microsoft.Azure.Monitor.OpenTelemetry.AspNetCore` / `AddAzureMonitor()`) that don't actually exist — the real ones are `Azure.Monitor.OpenTelemetry.AspNetCore` and `UseAzureMonitor()`, confirmed against NuGet and the compiled assembly. `POST /api/quotes` (the task's alert-example endpoint) does genuinely exist in this API, so no substitution was needed there.
+An Azure subscription ("Azure for Students") became available partway through this task, so everything below is real: resource group `thinkschool-day4-task6` (Central India), a workspace-based Application Insights resource, an RBAC-authorized Key Vault holding the real connection string (never displayed — see README.md for the one place this slipped during setup and how it was fixed before any real use), the app run locally against both, 24 real HTTP requests plus a real custom span ingested, both KQL queries run for real, and a real log-based alert rule (not a metric alert — see below) wired to an action group. All 61+1 tests still pass.
+
+Four corrections along the way, all in `README.md`'s "What actually happened": (1) workspace-based App Insights needs the `AIWorkspacePreview` feature registered first; (2) the task names a package and method (`Microsoft.Azure.Monitor.OpenTelemetry.AspNetCore` / `AddAzureMonitor()`) that don't exist — the real ones are `Azure.Monitor.OpenTelemetry.AspNetCore` and `UseAzureMonitor()`; (3) `DefaultAzureCredential` doesn't fall back to `az login` when `ManagedIdentityCredential`'s IMDS probe times out (rather than fails fast) off-Azure — fixed with a small opt-in flag, off by default, that doesn't touch real deployed behavior; (4) the task's suggested metric alert on `requests/duration` can't actually filter to `POST /api/quotes` — that metric has no per-endpoint dimension — so a log alert (real KQL query on a schedule) was used instead.
 
 ## App Insights connection setup
 
@@ -41,9 +43,18 @@ static string ResolveAppInsightsConnectionString(IConfiguration configuration)
         throw new InvalidOperationException("KeyVault:Name must be configured.");
     }
 
+    // Off by default; real local testing found DefaultAzureCredential doesn't fall
+    // back to az login when ManagedIdentityCredential's IMDS probe times out instead
+    // of failing fast off-Azure. See README.md for the full story.
+    var credentialOptions = new DefaultAzureCredentialOptions
+    {
+        ExcludeManagedIdentityCredential =
+            configuration.GetValue<bool>("KeyVault:ExcludeManagedIdentityCredential")
+    };
+
     var client = new SecretClient(
         new Uri($"https://{vaultName}.vault.azure.net/"),
-        new DefaultAzureCredential());
+        new DefaultAzureCredential(credentialOptions));
 
     try
     {
@@ -66,14 +77,14 @@ requests
 | project timestamp, name, duration, resultCode, operation_Id
 ```
 
-Pending — no telemetry exists yet to run this against. Full explanation, plus the task body's `traces`/`customDimensions` example, in `kql-queries.md`.
+Run for real against 24 ingested requests — slowest was 31.87ms (`GET /`), all well under any latency concern for an in-memory API. Full result table, plus the task body's `traces`/`customDimensions` example (which genuinely returns zero rows here, for a real architectural reason — Serilog owns the logger pipeline, so `ILogger` logs never reach Azure Monitor), in `kql-queries.md`.
 
 ## What did you learn this session?
 
-There's no usable Azure subscription here — authenticated but SubscriptionNotFound on a real call — so everything is real, ready code with each manual step marked pending instead of faking a result.
-The task named a package and method that don't actually exist; the real ones are Azure.Monitor.OpenTelemetry.AspNetCore and UseAzureMonitor().
+A subscription became available mid-task, so everything here ended up real: resources created, real telemetry ingested, both KQL queries run for real, a real log-based alert wired up.
+Along the way: the task's package/method names, its suggested metric alert, and even `DefaultAzureCredential`'s local fallback behavior all needed a real fix, not just documentation — see README.md.
 
 ## What would break this?
 
-The app deliberately fails to start if Key Vault is unreachable or the RBAC/access-policy assignment is missing, rather than starting with telemetry silently off.
-Rotating the connection string without updating the secret would silently stop telemetry, and an alert on the average could hide a bad p99 while paging on nothing anyone can act on.
+The app deliberately fails to start if Key Vault is unreachable or the RBAC assignment is missing, rather than starting with telemetry silently off.
+Structured `ILogger` logs never reach Application Insights today (Serilog owns the pipeline) — anyone relying on `traces` for this app's login/refresh log lines would be looking at an empty table.
