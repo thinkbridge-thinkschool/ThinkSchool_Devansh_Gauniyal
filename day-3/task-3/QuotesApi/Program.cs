@@ -8,8 +8,29 @@ using QuotesApi.Authorization;
 using QuotesApi.Configuration;
 using QuotesApi.Quotes;
 using QuotesApi.Tokens;
+using Serilog;
+using Serilog.Context;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, services, configuration) =>
+{
+    configuration
+        .ReadFrom.Configuration(context.Configuration)
+        .Enrich.FromLogContext()
+        .WriteTo.Console(
+            outputTemplate:
+                "[{Timestamp:HH:mm:ss} {Level:u3}] ({TraceId}) {Message:lj}{NewLine}{Exception}");
+
+    // Test seam only: lets a WebApplicationFactory-hosted test register an in-memory
+    // Serilog.Core.ILogEventSink via DI to assert on emitted log events (e.g. that a
+    // request's log lines share a TraceId), without touching real console output.
+    // No sink is registered in production, so this is a no-op outside of tests.
+    foreach (var sink in services.GetServices<Serilog.Core.ILogEventSink>())
+    {
+        configuration.WriteTo.Sink(sink);
+    }
+});
 
 builder.Services.AddSingleton(serviceProvider =>
 {
@@ -150,6 +171,19 @@ _ = app.Services.GetRequiredService<InternalJwtOptions>();
 _ = app.Services.GetRequiredService<EntraOptions>();
 _ = app.Services.GetRequiredService<InternalCallerOptions>();
 
+// Correlation: every log line written while handling this request shares the same
+// TraceId, so a mentor (or ReportGenerator, or App Insights/KQL later) can pull every
+// log line for one request by filtering on this property. Registered before routing,
+// authentication and endpoints so nothing downstream logs without it attached.
+app.Use(async (ctx, next) =>
+{
+    using (LogContext.PushProperty("TraceId", ctx.TraceIdentifier))
+    {
+        await next();
+    }
+});
+app.UseSerilogRequestLogging();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -163,17 +197,27 @@ app.MapGet("/api/protected", () =>
 app.MapPost("/api/auth/login", (
     LoginRequest request,
     InternalCallerOptions caller,
-    RefreshTokenService tokens) =>
+    RefreshTokenService tokens,
+    ILogger<Program> logger) =>
 {
+    logger.LogInformation("Login attempt received");
+
     if (string.IsNullOrWhiteSpace(request.Email)
         || string.IsNullOrWhiteSpace(request.Password)
         || !string.Equals(request.Email, caller.Email, StringComparison.OrdinalIgnoreCase)
         || !caller.PasswordMatches(request.Password))
     {
+        // Deliberately not logging the submitted email: it's unvalidated input, logging it
+        // would let an attacker use logs to enumerate which addresses look "close" to real,
+        // and it isn't needed to explain what happened (the caller is the single configured
+        // internal account either way).
+        logger.LogWarning("Login attempt failed");
         return Results.Unauthorized();
     }
 
-    return Results.Ok(tokens.Issue(caller.UserId!, caller.Email!));
+    var issued = tokens.Issue(caller.UserId!, caller.Email!);
+    logger.LogInformation("Login succeeded for user {UserId}", caller.UserId);
+    return Results.Ok(issued);
 });
 
 app.MapPost("/api/auth/refresh", (
