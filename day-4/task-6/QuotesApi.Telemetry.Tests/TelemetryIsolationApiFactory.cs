@@ -34,7 +34,7 @@ public sealed class TelemetryIsolationApiFactory : WebApplicationFactory<Program
                 ["InternalJwt:Audience"] = "quotes-api.telemetry-test-clients",
                 ["InternalJwt:SigningKeyBase64"] =
                     Convert.ToBase64String(RandomNumberGenerator.GetBytes(32)),
-                ["InternalJwt:AccessTokenLifetimeSeconds"] = "900",
+                ["InternalJwt:AccessTokenLifetime"] = "00:15:00",
                 ["Entra:TenantId"] = Guid.NewGuid().ToString(),
                 ["Entra:Audience"] = "quotes-api.telemetry-tests-entra-audience",
                 ["InternalCaller:UserId"] = "telemetry-test-user",
