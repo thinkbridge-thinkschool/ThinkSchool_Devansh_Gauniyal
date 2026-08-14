@@ -1,0 +1,38 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <!-- Not the Alpine variant: azd hardcodes the glibc targeted linux-x64 runtime
+         identifier for .NET container publishing (confirmed from azd's own source),
+         but Alpine uses musl, not glibc. The glibc built native SQLite library then
+         fails to load on the musl base image (symbol not found), a container crash
+         bug only visible once actually deployed and checked, not at build or
+         provisioning time. A glibc based image is required here specifically
+         because azd's RID cannot be changed to match Alpine. -->
+    <ContainerBaseImage>mcr.microsoft.com/dotnet/aspnet:10.0</ContainerBaseImage>
+    <UserSecretsId>5b189367-afe2-4bf3-9740-86fcc87069f7</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- The official aspnet image runs as a non-root user that cannot write to its own
+         /app working directory (verified: /app is root:root, /tmp is world-writable).
+         SQLite needs a writable path for its db file, so only inside the container
+         (never for local `dotnet run`) redirect it to /tmp. -->
+    <ContainerEnvironmentVariable Include="ConnectionStrings__QuotesApi" Value="Data Source=/tmp/quotesapi.db" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.6.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.10" />
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.17.0" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.17.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.17.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.EntityFrameworkCore" Version="1.17.0-beta.1" />
+    <PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="10.0.1" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
+  </ItemGroup>
+
+</Project>
