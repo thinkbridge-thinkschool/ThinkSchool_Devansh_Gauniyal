@@ -2,7 +2,7 @@
 
 All output below is copied from actual commands run against a real Azure subscription ("Azure for Students"). Nothing here is invented.
 
-**Redaction note:** every subscription ID, tenant ID, and Log Analytics workspace ID has been replaced with a placeholder (`YOUR_SUBSCRIPTION_ID`, `YOUR_TENANT_ID`, `YOUR_WORKSPACE_ID`). The environment's custom-domain verification token and the account email in `systemData` were also redacted/omitted, even though not explicitly named in the task's redaction list, out of the same caution. No key, shared key, or connection string is included anywhere -- the one field that could carry one (`sharedKey`) was returned as `null` by Azure itself. The environment's default domain and static IP were redacted by default (see `notes.md` for what each would reveal if kept). These are placeholders, not errors -- ask if you want any of them explained further.
+**Redaction note:** the subscription ID is shown in full below (`7cf66c88-43bb-432a-ad87-0f5c63589d68`) at the user's explicit request -- it's an identifier, not a credential, and no access is granted by knowing it alone. The Log Analytics workspace ID, the environment's custom-domain verification token, and the account email in `systemData` remain redacted/omitted as placeholders (`YOUR_WORKSPACE_ID`, `YOUR_DOMAIN_VERIFICATION_ID`, `YOUR_ACCOUNT_EMAIL`), even though not all of these were explicitly named in the task's redaction list, out of the same caution. No key, shared key, or connection string is included anywhere -- the one field that could carry one (`sharedKey`) was returned as `null` by Azure itself. The environment's default domain and static IP remain redacted (see `notes.md` for what each would reveal if kept). Tenant ID never actually appeared in any of this file's captured command output. These placeholders are intentional, not errors -- ask if you want any of them explained further.
 
 ## Pre-flight checks
 
@@ -14,7 +14,7 @@ $ az provider show -n Microsoft.App --query "{namespace:namespace, registrationS
 }
 
 $ az containerapp env list -o table
-ERROR: Subscription YOUR_SUBSCRIPTION_ID is not registered for the Microsoft.App resource provider. Please run "az provider register -n Microsoft.App --wait" to register your subscription.
+ERROR: Subscription 7cf66c88-43bb-432a-ad87-0f5c63589d68 is not registered for the Microsoft.App resource provider. Please run "az provider register -n Microsoft.App --wait" to register your subscription.
 
 $ az provider show -n Microsoft.OperationalInsights --query "{namespace:namespace, registrationState:registrationState}" -o json
 {
@@ -58,7 +58,7 @@ $ az provider show -n Microsoft.App --query "{namespace:namespace, registrationS
 ```
 $ az group create -n thinkschool-rg -l centralindia
 {
-  "id": "/subscriptions/YOUR_SUBSCRIPTION_ID/resourceGroups/thinkschool-rg",
+  "id": "/subscriptions/7cf66c88-43bb-432a-ad87-0f5c63589d68/resourceGroups/thinkschool-rg",
   "location": "centralindia",
   "managedBy": null,
   "name": "thinkschool-rg",
@@ -79,7 +79,7 @@ WARNING: Generating a Log Analytics workspace with name "workspace-thinkschoolrg
 WARNING: Container Apps environment created. To deploy a container app, use: az containerapp create --help
 
 {
-  "id": "/subscriptions/YOUR_SUBSCRIPTION_ID/resourceGroups/thinkschool-rg/providers/Microsoft.App/managedEnvironments/thinkschool-env",
+  "id": "/subscriptions/7cf66c88-43bb-432a-ad87-0f5c63589d68/resourceGroups/thinkschool-rg/providers/Microsoft.App/managedEnvironments/thinkschool-env",
   "location": "Central India",
   "name": "thinkschool-env",
   "properties": {
@@ -105,7 +105,7 @@ WARNING: Container Apps environment created. To deploy a container app, use: az 
     "daprAIInstrumentationKey": null,
     "daprConfiguration": { "version": "1.16.4-msft.11" },
     "defaultDomain": "YOUR_DEFAULT_DOMAIN",
-    "eventStreamEndpoint": "https://centralindia.azurecontainerapps.dev/subscriptions/YOUR_SUBSCRIPTION_ID/resourceGroups/thinkschool-rg/managedEnvironments/thinkschool-env/eventstream",
+    "eventStreamEndpoint": "https://centralindia.azurecontainerapps.dev/subscriptions/7cf66c88-43bb-432a-ad87-0f5c63589d68/resourceGroups/thinkschool-rg/managedEnvironments/thinkschool-env/eventstream",
     "infrastructureResourceGroup": null,
     "ingressConfiguration": null,
     "kedaConfiguration": { "version": "2.18.1" },
