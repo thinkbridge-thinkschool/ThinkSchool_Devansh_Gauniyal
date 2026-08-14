@@ -56,19 +56,18 @@ app.UseSerilogRequestLogging();
 
 app.MapGet("/authors/slow", async (AppDbContext db, CancellationToken ct) =>
 {
-    // BEFORE FIX: deliberate N+1 -- one query for the author list, then one more query
-    // per author for that author's books. The trace should show this as many short
-    // repeated database spans in sequence.
-    var result = await AuthorQueries.GetAuthorsNPlusOneAsync(db, ct);
+    // FIXED: was a deliberate N+1 -- one query per author (31 round trips, 66.07ms in the
+    // traced run). Now calls the single-query method, same as /authors/fast.
+    // GetAuthorsNPlusOneAsync is kept in AuthorQueries as the regression-test fixture that
+    // proves the round-trip-counting test would catch a slide back to N+1.
+    var result = await AuthorQueries.GetAuthorsSingleQueryAsync(db, ct);
     return Results.Ok(result);
 });
 
 app.MapGet("/authors/sleep", async (AppDbContext db, CancellationToken ct) =>
 {
-    // BEFORE FIX: Thread.Sleep(1500) exactly as named by the Day 5 Task 1 exercise --
-    // simulates a slow synchronous operation unrelated to the database. The trace should
-    // show one long request span with no child spans inside it.
-    Thread.Sleep(1500);
+    // FIXED: the Thread.Sleep(1500) named by the Day 5 Task 1 exercise (1.54s in the
+    // traced run, with no child spans under it) has been removed.
     var result = await AuthorQueries.GetAuthorsSingleQueryAsync(db, ct);
     return Results.Ok(result);
 });
