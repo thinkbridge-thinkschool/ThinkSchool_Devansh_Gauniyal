@@ -1,0 +1,27 @@
+// slow-endpoints.kql
+//
+// NOT run against live Application Insights: this TraceDemo project sends its
+// telemetry to a local Jaeger instance over OTLP only, never to App Insights, so
+// there is no live "requests" table to execute this against. No Azure resource was
+// created for this task. Written and reviewed, not verified against live data.
+
+requests
+// Look at a recent, bounded window rather than the whole table.
+| where timestamp > ago(24h)
+// One row per endpoint, not per request: group everything by which operation
+// (endpoint) handled the request.
+| summarize
+    RequestCount = count(),
+    // A percentile instead of an average. An average lets a handful of genuinely slow
+    // requests hide inside a much larger number of fast ones -- the number can look
+    // healthy even while real users are hitting a slow path. The 95th percentile
+    // instead answers "how slow is it for the worst-affected 5% of requests", which is
+    // the number that actually matches user complaints, and the number an N+1 query or
+    // a stray Thread.Sleep would show up in clearly instead of being averaged away.
+    P50DurationMs = percentile(duration, 50),
+    P95DurationMs = percentile(duration, 95),
+    P99DurationMs = percentile(duration, 99)
+    by operation_Name
+// Slowest endpoints first, ranked by the 95th percentile -- not by request count and
+// not by average -- since that's the number this investigation actually cares about.
+| order by P95DurationMs desc
