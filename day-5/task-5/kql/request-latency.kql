@@ -1,0 +1,30 @@
+// request-latency.kql
+// Saved in the portal as a function named: RequestLatencyByEndpoint
+//
+// Run against the appi-hvnke3dqrbwrq Application Insights resource's Logs blade.
+
+requests
+// Start from the "requests" table -- every incoming HTTP request the app's own
+// OpenTelemetry pipeline (via UseAzureMonitor(), added in this task) reported to
+// Application Insights, one row per request.
+| where timestamp > ago(30m)
+// Only look at the last 30 minutes, so this reflects the traffic just generated,
+// not stale data from an earlier run.
+| summarize
+    count(),
+    // p50 (the median): what a TYPICAL request experienced.
+    p50=percentile(duration, 50),
+    // p99: what the UNLUCKIEST 1% of requests experienced. An average would hide
+    // this entirely -- a handful of slow outliers get smoothed away by the much
+    // larger number of fast requests around them. p99 can't be smoothed away like
+    // that: it's still there, showing exactly how bad the tail actually gets, which
+    // is the number that correlates with real user complaints, not the average.
+    p99=percentile(duration, 99)
+    by name
+    // Grouped by "name" -- the human-readable request name (e.g. "GET /health"),
+    // confirmed against the official AppRequests table schema as the correct column
+    // for per-endpoint identification, distinct from "operation_Name" which is meant
+    // for correlating a whole multi-step transaction rather than identifying a
+    // single endpoint.
+| order by p99 desc
+// Slowest (by the tail, not the average) endpoint first.
