@@ -1,0 +1,24 @@
+SetOperator  RowCount
+-----------  --------
+UNION        11      
+SetOperator  RowCount
+-----------  --------
+UNION ALL    12      
+AuthorName 
+-----------
+Wilder Voss
+AuthorName 
+-----------
+Wilder Voss
+AuthorName
+----------
+Anouk Fenn
+AuthorName  DuplicatedJoinRowCount
+----------  ----------------------
+Anouk Fenn  6                     
+Id  Note
+--  ----
+1       
+WhatPlainEqualsReturnsForNullVsNull
+-----------------------------------
+                                   
