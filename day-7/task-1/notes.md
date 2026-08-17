@@ -48,8 +48,14 @@ the query still terminates.
 `tests/` uses xunit + `Microsoft.Data.Sqlite` only (no EF Core, per the tech-stack constraint).
 Each test builds a fresh temp-file SQLite database from `01_schema.sql` + `02_seed.sql`, and reads
 the real `.sql` query files from disk via a `CopyToOutputDirectory` link in the csproj — none of
-the SQL is duplicated as C# string literals. 10/10 tests pass:
-`dotnet test day-7/task-1/Task1.slnx`.
+the SQL is duplicated as C# string literals. 11/11 tests pass: `dotnet test Task1.slnx`.
+
+**Mutation-testing proof**: temporarily changed `ORDER BY CreatedAt DESC, Id DESC` to
+`CreatedAt ASC, Id ASC` in the `RankedQuotes` CTE of `20_author_quote_summary.sql`, re-ran the
+suite, and got 2 real failures (`TiedMostRecentQuotes_ResolveDeterministicallyByHighestId` and
+`MostRecentQuote_IsCorrectForANormalNonTiedAuthor`, both expected-vs-actual string mismatches on
+the wrong quote being picked as "most recent"). Reverted the change; the suite went back to
+11/11. Full before/after output is in the task's final report.
 
 ## Runner
 
