@@ -1,0 +1,15 @@
+TagName     
+------------
+agility     
+antiquity   
+asceticism  
+design      
+mindfulness 
+minimalism  
+productivity
+rhetoric    
+stoicism    
+virtue      
+wisdom      
+
+Row count: 11
