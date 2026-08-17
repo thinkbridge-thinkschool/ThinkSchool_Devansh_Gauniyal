@@ -1,0 +1,62 @@
+AuthorName           TagName         EverUsedByAuthor
+-------------------  --------------  ----------------
+Chrysippus           ethics          0               
+Chrysippus           existentialism  0               
+Chrysippus           nihilism        0               
+Chrysippus           stoicism        1               
+Chrysippus           taoism          0               
+Chrysippus           unused-tag      0               
+Confucius            ethics          0               
+Confucius            existentialism  0               
+Confucius            nihilism        0               
+Confucius            stoicism        0               
+Confucius            taoism          0               
+Confucius            unused-tag      0               
+Epictetus            ethics          1               
+Epictetus            existentialism  0               
+Epictetus            nihilism        0               
+Epictetus            stoicism        1               
+Epictetus            taoism          0               
+Epictetus            unused-tag      0               
+Friedrich Nietzsche  ethics          0               
+Friedrich Nietzsche  existentialism  1               
+Friedrich Nietzsche  nihilism        1               
+Friedrich Nietzsche  stoicism        0               
+Friedrich Nietzsche  taoism          0               
+Friedrich Nietzsche  unused-tag      0               
+Laozi                ethics          0               
+Laozi                existentialism  0               
+Laozi                nihilism        0               
+Laozi                stoicism        0               
+Laozi                taoism          1               
+Laozi                unused-tag      0               
+Marcus Aurelius      ethics          1               
+Marcus Aurelius      existentialism  0               
+Marcus Aurelius      nihilism        0               
+Marcus Aurelius      stoicism        1               
+Marcus Aurelius      taoism          0               
+Marcus Aurelius      unused-tag      0               
+Ryan Holiday         ethics          1               
+Ryan Holiday         existentialism  0               
+Ryan Holiday         nihilism        0               
+Ryan Holiday         stoicism        1               
+Ryan Holiday         taoism          0               
+Ryan Holiday         unused-tag      0               
+Seneca               ethics          1               
+Seneca               existentialism  0               
+Seneca               nihilism        0               
+Seneca               stoicism        1               
+Seneca               taoism          0               
+Seneca               unused-tag      0               
+Simone de Beauvoir   ethics          0               
+Simone de Beauvoir   existentialism  1               
+Simone de Beauvoir   nihilism        0               
+Simone de Beauvoir   stoicism        0               
+Simone de Beauvoir   taoism          0               
+Simone de Beauvoir   unused-tag      0               
+Zeno of Citium       ethics          0               
+Zeno of Citium       existentialism  0               
+Zeno of Citium       nihilism        0               
+Zeno of Citium       stoicism        1               
+Zeno of Citium       taoism          0               
+Zeno of Citium       unused-tag      0               

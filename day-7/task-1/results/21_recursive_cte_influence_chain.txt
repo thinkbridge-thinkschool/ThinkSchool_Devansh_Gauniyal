@@ -1,0 +1,12 @@
+AuthorId  AuthorName           RootAncestorId  RootAncestorName     Depth
+--------  -------------------  --------------  -------------------  -----
+6         Chrysippus           5               Zeno of Citium       1    
+7         Confucius            7               Confucius            0    
+2         Epictetus            1               Seneca               1    
+9         Friedrich Nietzsche  9               Friedrich Nietzsche  0    
+8         Laozi                8               Laozi                0    
+3         Marcus Aurelius      1               Seneca               2    
+4         Ryan Holiday         1               Seneca               3    
+1         Seneca               1               Seneca               0    
+10        Simone de Beauvoir   9               Friedrich Nietzsche  1    
+5         Zeno of Citium       5               Zeno of Citium       0    
