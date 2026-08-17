@@ -1,0 +1,33 @@
+AuthorName      QuoteText                                                             CreatedAt            RunningQuoteCount  PreviousQuoteCreatedAt  GapDaysRaw        GapDaysRounded
+--------------  --------------------------------------------------------------------  -------------------  -----------------  ----------------------  ----------------  --------------
+Callum Reyes    A single note, played well, outlasts a careless symphony.             2023-07-02 09:00:00  1                                                                          
+Dorian Fenwick  Every ledger eventually asks to be read aloud.                        2023-01-05 08:00:00  1                                                                          
+Dorian Fenwick  A door left ajar is not the same as an invitation.                    2023-01-20 10:00:00  2                  2023-01-05 08:00:00     15.0833333330229  15.0          
+Dorian Fenwick  The quiet ones keep the loudest records.                              2023-02-10 09:00:00  3                  2023-01-20 10:00:00     20.9583333334886  21.0          
+Dorian Fenwick  Debt is just memory with interest.                                    2023-03-01 11:00:00  4                  2023-02-10 09:00:00     19.0833333334886  19.0          
+Dorian Fenwick  No harvest forgives a skipped planting.                               2023-03-25 09:00:00  5                  2023-03-01 11:00:00     23.9166666665114  24.0          
+Dorian Fenwick  The bridge remembers every crossing, even the ones that turned back.  2023-04-15 10:00:00  6                  2023-03-25 09:00:00     21.0416666665114  21.0          
+Dorian Fenwick  Ambition without a map is just motion.                                2023-05-10 09:00:00  7                  2023-04-15 10:00:00     24.9583333334886  25.0          
+Dorian Fenwick  What the fire spares, the flood usually finds.                        2023-06-15 11:00:00  8                  2023-05-10 09:00:00     36.0833333334886  36.0          
+Dorian Fenwick  A promise deferred is still a promise owed.                           2023-07-20 09:00:00  9                  2023-06-15 11:00:00     34.9166666665114  35.0          
+Dorian Fenwick  The archive does not forgive; it only files.                          2023-09-01 10:00:00  10                 2023-07-20 09:00:00     43.0416666665114  43.0          
+Dorian Fenwick  Last words are rarely the important ones.                             2023-11-15 09:00:00  11                 2023-09-01 10:00:00     74.9583333334886  75.0          
+Priya Novak     A garden untended still keeps its own schedule.                       2023-01-12 08:30:00  1                                                                          
+Priya Novak     The tide does not negotiate with the shoreline.                       2023-02-02 09:15:00  2                  2023-01-12 08:30:00     21.03125          21.0          
+Priya Novak     Every apprenticeship ends the day you stop asking why.                2023-02-28 10:00:00  3                  2023-02-02 09:15:00     26.03125          26.0          
+Priya Novak     Silence is a language most people never study.                        2023-03-19 09:45:00  4                  2023-02-28 10:00:00     18.9895833334886  19.0          
+Priya Novak     The recipe survives; the cook is optional.                            2023-04-22 08:00:00  5                  2023-03-19 09:45:00     33.9270833334886  34.0          
+Priya Novak     A compass is only honest when nobody is watching.                     2023-05-30 10:30:00  6                  2023-04-22 08:00:00     38.1041666665114  38.0          
+Priya Novak     Grief and gratitude often share a doorway.                            2023-07-04 09:00:00  7                  2023-05-30 10:30:00     34.9375           35.0          
+Priya Novak     The second draft is where the honesty begins.                         2023-08-11 09:20:00  8                  2023-07-04 09:00:00     38.0138888889924  38.0          
+Priya Novak     No harbor was ever built for calm weather.                            2023-09-29 10:00:00  9                  2023-08-11 09:20:00     49.0277777775191  49.0          
+Priya Novak     A rumor is a fact that got tired of waiting.                          2023-10-31 09:00:00  10                 2023-09-29 10:00:00     31.9583333334886  32.0          
+Priya Novak     The last mile costs more than the first ten.                          2023-12-05 10:00:00  11                 2023-10-31 09:00:00     35.0416666665114  35.0          
+Talia Marsh     Attention paid freely is the only gift that costs everything.         2023-04-10 12:00:00  1                                                                          
+Talia Marsh     Two clocks can strike the same hour and still disagree about time.    2023-04-10 12:00:00  2                  2023-04-10 12:00:00     0.0               0.0           
+Talia Marsh     Light borrowed is still light.                                        2023-08-20 09:00:00  3                  2023-04-10 12:00:00     131.875           132.0         
+Wren Ashby      The map is never the mountain, only a promise about the mountain.     2023-06-01 09:00:00  1                                                                          
+Wren Ashby      Patience is a room you build one plank at a time.                     2023-06-01 15:00:00  2                  2023-06-01 09:00:00     0.25              0.0           
+Wren Ashby      A held breath teaches more than a shouted answer.                     2023-06-05 10:00:00  3                  2023-06-01 15:00:00     3.79166666651145  4.0           
+Wren Ashby      Winter asks the same questions summer avoided.                        2024-01-10 08:00:00  4                  2023-06-05 10:00:00     218.916666666977  219.0         
+Wren Ashby      Small repairs, done early, prevent large collapses.                   2024-01-15 08:00:00  5                  2024-01-10 08:00:00     5.0               5.0           

@@ -1,0 +1,18 @@
+SAMPLE ROWS (~12-15): Callum Reyes (single-quote author), Talia Marsh (tied timestamps),
+Wren Ashby (same-day / few-days / year-boundary gaps), and Dorian Fenwick's first 4 (ordinary rows).
+
+AuthorName      QuoteText                                                           CreatedAt            RunningQuoteCount  PreviousQuoteCreatedAt  GapDaysRaw        GapDaysRounded
+--------------  ------------------------------------------------------------------  -------------------  -----------------  ----------------------  ----------------  --------------
+Callum Reyes    A single note, played well, outlasts a careless symphony.           2023-07-02 09:00:00  1                                                                          
+Dorian Fenwick  Every ledger eventually asks to be read aloud.                      2023-01-05 08:00:00  1                                                                          
+Dorian Fenwick  A door left ajar is not the same as an invitation.                  2023-01-20 10:00:00  2                  2023-01-05 08:00:00     15.0833333330229  15.0          
+Dorian Fenwick  The quiet ones keep the loudest records.                            2023-02-10 09:00:00  3                  2023-01-20 10:00:00     20.9583333334886  21.0          
+Dorian Fenwick  Debt is just memory with interest.                                  2023-03-01 11:00:00  4                  2023-02-10 09:00:00     19.0833333334886  19.0          
+Talia Marsh     Attention paid freely is the only gift that costs everything.       2023-04-10 12:00:00  1                                                                          
+Talia Marsh     Two clocks can strike the same hour and still disagree about time.  2023-04-10 12:00:00  2                  2023-04-10 12:00:00     0.0               0.0           
+Talia Marsh     Light borrowed is still light.                                      2023-08-20 09:00:00  3                  2023-04-10 12:00:00     131.875           132.0         
+Wren Ashby      The map is never the mountain, only a promise about the mountain.   2023-06-01 09:00:00  1                                                                          
+Wren Ashby      Patience is a room you build one plank at a time.                   2023-06-01 15:00:00  2                  2023-06-01 09:00:00     0.25              0.0           
+Wren Ashby      A held breath teaches more than a shouted answer.                   2023-06-05 10:00:00  3                  2023-06-01 15:00:00     3.79166666651145  4.0           
+Wren Ashby      Winter asks the same questions summer avoided.                      2024-01-10 08:00:00  4                  2023-06-05 10:00:00     218.916666666977  219.0         
+Wren Ashby      Small repairs, done early, prevent large collapses.                 2024-01-15 08:00:00  5                  2024-01-10 08:00:00     5.0               5.0           
