@@ -1,0 +1,13 @@
+TOP 10 ROWS
+AuthorId  AuthorName           QuoteCount  MostRecentQuoteText                                                          MostRecentQuoteCreatedAt
+--------  -------------------  ----------  ---------------------------------------------------------------------------  ------------------------
+6         Chrysippus           2           The wise man is free from passion.                                           2023-07-04T11:00:00     
+7         Confucius            0                                                                                                                
+2         Epictetus            3           First say to yourself what you would be; and then do what you have to do.    2023-07-30T10:00:00     
+9         Friedrich Nietzsche  3           Without music, life would be a mistake.                                      2023-11-02T10:00:00     
+8         Laozi                3           When I let go of what I am, I become what I might be.                        2023-09-25T17:00:00     
+3         Marcus Aurelius      4           Very little is needed to make a happy life.                                  2023-08-01T09:00:00     
+4         Ryan Holiday         2           Focus on what is in your control, let go of what is not.                     2023-10-01T13:30:00     
+1         Seneca               3           It is not that we have a short time to live, but that we waste a lot of it.  2023-06-05T14:20:00     
+10        Simone de Beauvoir   3           It is up to each of us to invent our own path.                               2023-12-01T11:00:00     
+5         Zeno of Citium       2           Man conquers the world by conquering himself.                                2023-06-19T15:00:00     
