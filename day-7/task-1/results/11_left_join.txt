@@ -1,0 +1,12 @@
+AuthorId  AuthorName           RowCount_IncludesNullRow  QuoteCount_TrueCount
+--------  -------------------  ------------------------  --------------------
+6         Chrysippus           2                         2                   
+7         Confucius            1                         0                   
+2         Epictetus            3                         3                   
+9         Friedrich Nietzsche  3                         3                   
+8         Laozi                3                         3                   
+3         Marcus Aurelius      4                         4                   
+4         Ryan Holiday         2                         2                   
+1         Seneca               3                         3                   
+10        Simone de Beauvoir   3                         3                   
+5         Zeno of Citium       2                         2                   
