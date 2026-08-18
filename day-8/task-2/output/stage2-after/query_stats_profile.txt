@@ -1,0 +1,35 @@
+
+ SQL Server Execution Times:
+   CPU time = 0 ms,  elapsed time = 0 ms.
+SQL Server parse and compile time: 
+   CPU time = 0 ms, elapsed time = 0 ms.
+SQL Server parse and compile time: 
+   CPU time = 1 ms, elapsed time = 1 ms.
+SQL Server parse and compile time: 
+   CPU time = 0 ms, elapsed time = 0 ms.
+1233 2024-05-18 00:00:00 12.34 Completed
+6233 2023-01-26 00:00:00 62.34 Completed
+11233 2021-10-05 00:00:00 112.34 Completed
+16233 2025-06-14 00:00:00 162.34 Completed
+21233 2024-02-22 00:00:00 212.34 Completed
+26233 2022-11-01 00:00:00 262.34 Completed
+31233 2021-07-11 00:00:00 312.34 Completed
+36233 2025-03-20 00:00:00 362.34 Completed
+41233 2023-11-28 00:00:00 412.34 Completed
+46233 2022-08-07 00:00:00 462.34 Completed
+51233 2021-04-16 00:00:00 12.34 Completed
+56233 2024-12-24 00:00:00 62.34 Completed
+61233 2023-09-03 00:00:00 112.34 Completed
+66233 2022-05-13 00:00:00 162.34 Completed
+71233 2021-01-20 00:00:00 212.34 Completed
+76233 2024-09-29 00:00:00 262.34 Completed
+81233 2023-06-09 00:00:00 312.34 Completed
+86233 2022-02-16 00:00:00 362.34 Completed
+91233 2025-10-26 00:00:00 412.34 Completed
+96233 2024-07-05 00:00:00 462.34 Completed
+Table 'Orders'. Scan count 1, logical reads 3, physical reads 0, page server reads 0, read-ahead reads 0, page server read-ahead reads 0, lob logical reads 0, lob physical reads 0, lob page server reads 0, lob read-ahead reads 0, lob page server read-ahead reads 0.
+20 1 SELECT [OrderId],[OrderDate],[Amount],[Status] FROM [dbo].[Orders] WHERE [CustomerId]=@1 1 1 0 NULL NULL NULL NULL 20.0 NULL NULL NULL 0.003304 NULL NULL SELECT 0 NULL
+20 1   |--Index Seek(OBJECT:([CoveringLab].[dbo].[Orders].[IX_Orders_CustomerId]), SEEK:([CoveringLab].[dbo].[Orders].[CustomerId]=CONVERT_IMPLICIT(int,[@1],0)) ORDERED FORWARD) 1 2 1 Index Seek Index Seek OBJECT:([CoveringLab].[dbo].[Orders].[IX_Orders_CustomerId]), SEEK:([CoveringLab].[dbo].[Orders].[CustomerId]=CONVERT_IMPLICIT(int,[@1],0)) ORDERED FORWARD [CoveringLab].[dbo].[Orders].[OrderId], [CoveringLab].[dbo].[Orders].[OrderDate], [CoveringLab].[dbo].[Orders].[Status], [CoveringLab].[dbo].[Orders].[Amount] 20.0 0.003125 0.000179 40 0.003304 [CoveringLab].[dbo].[Orders].[OrderId], [CoveringLab].[dbo].[Orders].[OrderDate], [CoveringLab].[dbo].[Orders].[Status], [CoveringLab].[dbo].[Orders].[Amount] NULL PLAN_ROW 0 1.0
+
+ SQL Server Execution Times:
+   CPU time = 1 ms,  elapsed time = 0 ms.

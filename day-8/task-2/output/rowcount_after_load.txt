@@ -1,0 +1,9 @@
+Changed database context to 'CoveringLab'.
+
+(100000 rows affected)
+100000
+
+(1 rows affected)
+20
+
+(1 rows affected)
