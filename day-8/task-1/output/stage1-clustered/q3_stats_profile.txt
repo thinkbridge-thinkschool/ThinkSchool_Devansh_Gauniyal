@@ -1,0 +1,35 @@
+
+ SQL Server Execution Times:
+   CPU time = 0 ms,  elapsed time = 0 ms.
+SQL Server parse and compile time: 
+   CPU time = 0 ms, elapsed time = 0 ms.
+SQL Server parse and compile time: 
+   CPU time = 0 ms, elapsed time = 1 ms.
+SQL Server parse and compile time: 
+   CPU time = 0 ms, elapsed time = 0 ms.
+1234 212.34 Completed
+1234 12.34 Completed
+1234 312.34 Completed
+1234 112.34 Completed
+1234 362.34 Completed
+1234 162.34 Completed
+1234 462.34 Completed
+1234 262.34 Completed
+1234 62.34 Completed
+1234 312.34 Completed
+1234 112.34 Completed
+1234 412.34 Completed
+1234 212.34 Completed
+1234 12.34 Completed
+1234 462.34 Completed
+1234 262.34 Completed
+1234 62.34 Completed
+1234 362.34 Completed
+1234 162.34 Completed
+1234 412.34 Completed
+Table 'Orders'. Scan count 1, logical reads 4375, physical reads 0, page server reads 0, read-ahead reads 0, page server read-ahead reads 0, lob logical reads 0, lob physical reads 0, lob page server reads 0, lob read-ahead reads 0, lob page server read-ahead reads 0.
+20 1 SELECT [CustomerId],[Amount],[Status] FROM [dbo].[Orders] WHERE [CustomerId]=@1 1 1 0 NULL NULL NULL NULL 19.186272 NULL NULL NULL 3.3369856 NULL NULL SELECT 0 NULL
+20 1   |--Clustered Index Scan(OBJECT:([IndexLab].[dbo].[Orders].[CIX_Orders_OrderDate]), WHERE:([IndexLab].[dbo].[Orders].[CustomerId]=CONVERT_IMPLICIT(int,[@1],0))) 1 2 1 Clustered Index Scan Clustered Index Scan OBJECT:([IndexLab].[dbo].[Orders].[CIX_Orders_OrderDate]), WHERE:([IndexLab].[dbo].[Orders].[CustomerId]=CONVERT_IMPLICIT(int,[@1],0)) [IndexLab].[dbo].[Orders].[CustomerId], [IndexLab].[dbo].[Orders].[Status], [IndexLab].[dbo].[Orders].[Amount] 19.186272 3.2268288 0.110157 34 3.3369856 [IndexLab].[dbo].[Orders].[CustomerId], [IndexLab].[dbo].[Orders].[Status], [IndexLab].[dbo].[Orders].[Amount] NULL PLAN_ROW 0 1.0
+
+ SQL Server Execution Times:
+   CPU time = 8 ms,  elapsed time = 7 ms.

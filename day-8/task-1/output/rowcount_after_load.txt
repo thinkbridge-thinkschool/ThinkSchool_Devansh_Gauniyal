@@ -1,0 +1,6 @@
+Changed database context to 'IndexLab'.
+
+(100000 rows affected)
+100000
+
+(1 rows affected)

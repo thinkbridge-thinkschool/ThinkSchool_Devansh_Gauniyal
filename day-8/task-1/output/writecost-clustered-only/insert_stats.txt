@@ -1,0 +1,14 @@
+Changed database context to 'IndexLab'.
+Table 'Orders'. Scan count 1, logical reads 4375, physical reads 0, page server reads 0, read-ahead reads 0, page server read-ahead reads 0, lob logical reads 0, lob physical reads 0, lob page server reads 0, lob read-ahead reads 0, lob page server read-ahead reads 0.
+
+ SQL Server Execution Times:
+   CPU time = 10 ms,  elapsed time = 10 ms.
+Table 'Orders'. Scan count 0, logical reads 43266, physical reads 0, page server reads 0, read-ahead reads 16, page server read-ahead reads 0, lob logical reads 0, lob physical reads 0, lob page server reads 0, lob read-ahead reads 0, lob page server read-ahead reads 0.
+Table 'Worktable'. Scan count 0, logical reads 0, physical reads 0, page server reads 0, read-ahead reads 0, page server read-ahead reads 0, lob logical reads 0, lob physical reads 0, lob page server reads 0, lob read-ahead reads 0, lob page server read-ahead reads 0.
+
+ SQL Server Execution Times:
+   CPU time = 66 ms,  elapsed time = 66 ms.
+
+(10000 rows affected)
+
+(10000 rows affected)
