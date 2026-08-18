@@ -1,0 +1,18 @@
+Changed database context to 'IndexLab'.
+SQL Server parse and compile time: 
+   CPU time = 1 ms, elapsed time = 1 ms.
+Table 'Orders'. Scan count 1, logical reads 6202, physical reads 0, page server reads 0, read-ahead reads 0, page server read-ahead reads 0, lob logical reads 0, lob physical reads 0, lob page server reads 0, lob read-ahead reads 0, lob page server read-ahead reads 0.
+
+ SQL Server Execution Times:
+   CPU time = 12 ms,  elapsed time = 11 ms.
+SQL Server parse and compile time: 
+   CPU time = 8 ms, elapsed time = 8 ms.
+Table 'Orders'. Scan count 0, logical reads 101174, physical reads 0, page server reads 0, read-ahead reads 18, page server read-ahead reads 0, lob logical reads 0, lob physical reads 0, lob page server reads 0, lob read-ahead reads 0, lob page server read-ahead reads 0.
+Table 'Worktable'. Scan count 2, logical reads 20438, physical reads 0, page server reads 0, read-ahead reads 0, page server read-ahead reads 0, lob logical reads 0, lob physical reads 0, lob page server reads 0, lob read-ahead reads 0, lob page server read-ahead reads 0.
+
+ SQL Server Execution Times:
+   CPU time = 97 ms,  elapsed time = 99 ms.
+
+(10000 rows affected)
+
+(10000 rows affected)
