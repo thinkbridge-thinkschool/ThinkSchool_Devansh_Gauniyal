@@ -1,0 +1,4 @@
+Session A saw error 1205: 1
+Session B saw error 1205: 0
+Victim: Session A (SPID 54)
+Victim selection is not deterministic - SQL Server picks by estimated rollback cost, so a re-run may pick the other session.
