@@ -1,0 +1,12 @@
+SPID:54
+MARK:SPID_A_CAPTURED
+
+(1 rows affected)
+MARK:A_STEP1_LOCK_ACCOUNTS_DONE
+MARK:A_STEP2_STARTING
+Msg 1205, Level 13, State 51, Server 27ee1b19a82a, Line 4
+Transaction (Process ID 54) was deadlocked on lock resources with another process and has been chosen as the deadlock victim. Rerun the transaction.
+MARK:A_STEP2_DONE
+Msg 3902, Level 16, State 1, Server 27ee1b19a82a, Line 6
+The COMMIT TRANSACTION request has no corresponding BEGIN TRANSACTION.
+MARK:A_STEP3_COMMIT_DONE

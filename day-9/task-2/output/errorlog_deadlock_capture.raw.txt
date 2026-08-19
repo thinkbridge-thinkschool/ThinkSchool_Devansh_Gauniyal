@@ -1,0 +1,297 @@
+2026-08-19 09:18:32.960 Server Microsoft SQL Server 2022 (RTM-CU26) (KB5093420) - 16.0.4265.3 (X64) 
+	Jul  7 2026 14:37:25 
+	Copyright (C) 2022 Microsoft Corporation
+	Developer Edition (64-bit) on Linux (Ubuntu 22.04.5 LTS) <X64>
+2026-08-19 09:18:32.960 Server UTC adjustment: 0:00
+2026-08-19 09:18:32.960 Server (c) Microsoft Corporation.
+2026-08-19 09:18:32.960 Server All rights reserved.
+2026-08-19 09:18:32.970 Server Server process ID is 484.
+2026-08-19 09:18:32.970 Server Logging SQL Server messages in file '/var/opt/mssql/log/errorlog'.
+2026-08-19 09:18:32.970 Server Registry startup parameters: 
+	 -d /var/opt/mssql/data/master.mdf
+	 -l /var/opt/mssql/data/mastlog.ldf
+	 -e /var/opt/mssql/log/errorlog
+2026-08-19 09:18:32.970 Server SQL Server detected 1 sockets with 10 cores per socket and 10 logical processors per socket, 10 total logical processors; using 10 logical processors based on SQL Server licensing. This is an informational message; no user action is required.
+2026-08-19 09:18:32.970 Server SQL Server is starting at normal priority base (=7). This is an informational message only. No user action is required.
+2026-08-19 09:18:32.970 Server Detected 6349 MB of RAM, 5077 MB of available memory, 5077 MB of available page file. This is an informational message; no user action is required.
+2026-08-19 09:18:32.970 Server Using conventional memory in the memory manager.
+2026-08-19 09:18:32.970 Server Detected pause instruction latency: 0 cycles.
+2026-08-19 09:18:32.970 Server SQL Server detected the following NUMA node configuration (NUMA Node number 0, Processor Group number 0, CPU Mask 0x00000000000003ff).
+2026-08-19 09:18:32.970 Server Page exclusion bitmap is enabled.
+2026-08-19 09:18:33.000 Server Buffer pool extension is not supported on Linux platform.
+2026-08-19 09:18:33.000 Server Buffer Pool: Allocating 8388608 bytes for 804580 hashPages.
+2026-08-19 09:18:33.030 Server Automatic soft-NUMA was enabled because SQL Server has detected hardware NUMA nodes with greater than 8 physical cores.
+2026-08-19 09:18:33.110 Server Buffer pool extension is already disabled. No action is necessary.
+2026-08-19 09:18:33.430 Server Installing Client TLS certificates to the store.
+2026-08-19 09:18:33.430 Server CPU vectorization level(s) detected:  SSE SSE2 SSE3 SSSE3 SSE41 SSE42 AVX AVX2 POPCNT BMI1 BMI2
+2026-08-19 09:18:33.460 Server Successfully initialized the TLS configuration. Allowed TLS protocol versions are ['1.0 1.1 1.2']. Allowed TLS ciphers are ['ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA:ECDHE-ECDSA-AES128-SHA:AES256-GCM-SHA384:AES128-GCM-SHA256:AES256-SHA256:AES128-SHA256:AES256-SHA:AES128-SHA:!DHE-RSA-AES256-GCM-SHA384:!DHE-RSA-AES128-GCM-SHA256:!DHE-RSA-AES256-SHA:!DHE-RSA-AES128-SHA'].
+2026-08-19 09:18:33.490 Server Query Store settings initialized with enabled = 1, 
+2026-08-19 09:18:33.500 Server The maximum number of dedicated administrator connections for this instance is '1'
+2026-08-19 09:18:33.510 Server Node configuration: node 0: CPU mask: 0x000000000000001f:0 Active CPU mask: 0x000000000000001f:0. This message provides a description of the NUMA configuration for this computer. This is an informational message only. No user action is required.
+2026-08-19 09:18:33.510 Server Node configuration: node 1: CPU mask: 0x00000000000003e0:0 Active CPU mask: 0x00000000000003e0:0. This message provides a description of the NUMA configuration for this computer. This is an informational message only. No user action is required.
+2026-08-19 09:18:33.510 Server Using dynamic lock allocation.  Initial allocation of 2500 Lock blocks and 5000 Lock Owner blocks per node.  This is an informational message only.  No user action is required.
+2026-08-19 09:18:33.580 Server In-Memory OLTP initialized on lowend machine.
+2026-08-19 09:18:33.610 Server [INFO] Created Extended Events session 'hkenginexesession'
+2026-08-19 09:18:33.610 Server Database Instant File Initialization: enabled. For security and performance considerations see the topic 'Database Instant File Initialization' in SQL Server Books Online. This is an informational message only. No user action is required.
+2026-08-19 09:18:33.620 Server Total Log Writer threads: 2. This is an informational message; no user action is required.
+2026-08-19 09:18:33.630 Server clflush is selected for pmem flush operation.
+2026-08-19 09:18:33.630 Server Software Usage Metrics is disabled.
+2026-08-19 09:18:33.650 spid31s [1]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1. ConcurrentGAMUpdate: 1. ConcurrentSGAMUpdate: 1, CleanupUnderUserTransaction: 0. TranLevelPVS: 0
+2026-08-19 09:18:33.650 spid31s Starting up database 'master'.
+2026-08-19 09:18:33.660 Server CLR version v4.0.30319 loaded.
+2026-08-19 09:18:33.900 spid31s Converting database 'master' from version 927 to the current version 957.
+2026-08-19 09:18:33.900 spid31s Database 'master' running the upgrade step from version 927 to version 928.
+2026-08-19 09:18:33.990 spid31s Database 'master' running the upgrade step from version 928 to version 929.
+2026-08-19 09:18:34.010 spid31s Database 'master' running the upgrade step from version 929 to version 930.
+2026-08-19 09:18:34.010 spid31s Database 'master' running the upgrade step from version 930 to version 931.
+2026-08-19 09:18:34.020 spid31s Database 'master' running the upgrade step from version 931 to version 932.
+2026-08-19 09:18:34.020 spid31s Database 'master' running the upgrade step from version 932 to version 933.
+2026-08-19 09:18:34.020 spid31s Database 'master' running the upgrade step from version 933 to version 934.
+2026-08-19 09:18:34.020 spid31s Database 'master' running the upgrade step from version 934 to version 935.
+2026-08-19 09:18:34.040 spid31s Database 'master' running the upgrade step from version 935 to version 936.
+2026-08-19 09:18:34.040 spid31s Database 'master' running the upgrade step from version 936 to version 937.
+2026-08-19 09:18:34.040 spid31s Database 'master' running the upgrade step from version 937 to version 938.
+2026-08-19 09:18:34.040 spid31s Database 'master' running the upgrade step from version 938 to version 939.
+2026-08-19 09:18:34.050 spid31s Database 'master' running the upgrade step from version 939 to version 940.
+2026-08-19 09:18:34.050 spid31s Database 'master' running the upgrade step from version 940 to version 941.
+2026-08-19 09:18:34.050 spid31s Database 'master' running the upgrade step from version 941 to version 942.
+2026-08-19 09:18:34.050 spid31s Database 'master' running the upgrade step from version 942 to version 943.
+2026-08-19 09:18:34.060 spid31s Database 'master' running the upgrade step from version 943 to version 944.
+2026-08-19 09:18:34.060 spid31s Database 'master' running the upgrade step from version 944 to version 945.
+2026-08-19 09:18:34.080 spid31s Database 'master' running the upgrade step from version 945 to version 946.
+2026-08-19 09:18:34.080 spid31s Database 'master' running the upgrade step from version 946 to version 947.
+2026-08-19 09:18:34.080 spid31s Database 'master' running the upgrade step from version 947 to version 948.
+2026-08-19 09:18:34.090 spid31s Database 'master' running the upgrade step from version 948 to version 949.
+2026-08-19 09:18:34.090 spid31s Database 'master' running the upgrade step from version 949 to version 950.
+2026-08-19 09:18:34.090 spid31s Database 'master' running the upgrade step from version 950 to version 951.
+2026-08-19 09:18:34.100 Server External governance manager initialized
+2026-08-19 09:18:34.100 spid31s Database 'master' running the upgrade step from version 951 to version 952.
+2026-08-19 09:18:34.100 spid31s Database 'master' running the upgrade step from version 952 to version 953.
+2026-08-19 09:18:34.110 spid31s Database 'master' running the upgrade step from version 953 to version 954.
+2026-08-19 09:18:34.110 spid31s Database 'master' running the upgrade step from version 954 to version 955.
+2026-08-19 09:18:34.110 spid31s Database 'master' running the upgrade step from version 955 to version 956.
+2026-08-19 09:18:34.130 spid31s Database 'master' running the upgrade step from version 956 to version 957.
+2026-08-19 09:18:34.200 spid34s [32767]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1. ConcurrentGAMUpdate: 1. ConcurrentSGAMUpdate: 1, CleanupUnderUserTransaction: 0. TranLevelPVS: 0
+2026-08-19 09:18:34.210 spid34s Starting up database 'mssqlsystemresource'.
+2026-08-19 09:18:34.210 spid43s Password policy update was successful.
+2026-08-19 09:18:34.220 spid34s The resource database build version is 16.00.4265. This is an informational message only. No user action is required.
+2026-08-19 09:18:34.230 spid31s [32762]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1. ConcurrentGAMUpdate: 1. ConcurrentSGAMUpdate: 1, CleanupUnderUserTransaction: 0. TranLevelPVS: 0
+2026-08-19 09:18:34.230 spid31s Starting up database 'model_replicatedmaster'.
+2026-08-19 09:18:34.240 spid34s [3]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1. ConcurrentGAMUpdate: 1. ConcurrentSGAMUpdate: 1, CleanupUnderUserTransaction: 0. TranLevelPVS: 0
+2026-08-19 09:18:34.240 spid34s Starting up database 'model'.
+2026-08-19 09:18:34.260 spid34s Converting database 'model' from version 927 to the current version 957.
+2026-08-19 09:18:34.260 spid34s Database 'model' running the upgrade step from version 927 to version 928.
+2026-08-19 09:18:34.260 spid34s Database 'model' running the upgrade step from version 928 to version 929.
+2026-08-19 09:18:34.260 spid31s Converting database 'model_replicatedmaster' from version 927 to the current version 957.
+2026-08-19 09:18:34.260 spid31s Database 'model_replicatedmaster' running the upgrade step from version 927 to version 928.
+2026-08-19 09:18:34.270 spid31s Database 'model_replicatedmaster' running the upgrade step from version 928 to version 929.
+2026-08-19 09:18:34.270 spid34s Database 'model' running the upgrade step from version 929 to version 930.
+2026-08-19 09:18:34.280 spid34s Database 'model' running the upgrade step from version 930 to version 931.
+2026-08-19 09:18:34.280 spid31s Database 'model_replicatedmaster' running the upgrade step from version 929 to version 930.
+2026-08-19 09:18:34.280 spid34s Database 'model' running the upgrade step from version 931 to version 932.
+2026-08-19 09:18:34.280 spid34s Database 'model' running the upgrade step from version 932 to version 933.
+2026-08-19 09:18:34.280 spid31s Database 'model_replicatedmaster' running the upgrade step from version 930 to version 931.
+2026-08-19 09:18:34.280 spid34s Database 'model' running the upgrade step from version 933 to version 934.
+2026-08-19 09:18:34.290 spid31s Database 'model_replicatedmaster' running the upgrade step from version 931 to version 932.
+2026-08-19 09:18:34.290 spid34s Database 'model' running the upgrade step from version 934 to version 935.
+2026-08-19 09:18:34.290 spid31s Database 'model_replicatedmaster' running the upgrade step from version 932 to version 933.
+2026-08-19 09:18:34.290 spid34s Database 'model' running the upgrade step from version 935 to version 936.
+2026-08-19 09:18:34.290 spid31s Database 'model_replicatedmaster' running the upgrade step from version 933 to version 934.
+2026-08-19 09:18:34.290 spid34s Database 'model' running the upgrade step from version 936 to version 937.
+2026-08-19 09:18:34.290 spid31s Database 'model_replicatedmaster' running the upgrade step from version 934 to version 935.
+2026-08-19 09:18:34.300 spid34s Database 'model' running the upgrade step from version 937 to version 938.
+2026-08-19 09:18:34.300 spid31s Database 'model_replicatedmaster' running the upgrade step from version 935 to version 936.
+2026-08-19 09:18:34.300 spid34s Database 'model' running the upgrade step from version 938 to version 939.
+2026-08-19 09:18:34.300 spid31s Database 'model_replicatedmaster' running the upgrade step from version 936 to version 937.
+2026-08-19 09:18:34.300 spid34s Database 'model' running the upgrade step from version 939 to version 940.
+2026-08-19 09:18:34.300 spid31s Database 'model_replicatedmaster' running the upgrade step from version 937 to version 938.
+2026-08-19 09:18:34.300 spid34s Database 'model' running the upgrade step from version 940 to version 941.
+2026-08-19 09:18:34.300 spid31s Database 'model_replicatedmaster' running the upgrade step from version 938 to version 939.
+2026-08-19 09:18:34.310 spid34s Database 'model' running the upgrade step from version 941 to version 942.
+2026-08-19 09:18:34.310 spid31s Database 'model_replicatedmaster' running the upgrade step from version 939 to version 940.
+2026-08-19 09:18:34.310 spid34s Database 'model' running the upgrade step from version 942 to version 943.
+2026-08-19 09:18:34.310 spid31s Database 'model_replicatedmaster' running the upgrade step from version 940 to version 941.
+2026-08-19 09:18:34.310 spid31s Database 'model_replicatedmaster' running the upgrade step from version 941 to version 942.
+2026-08-19 09:18:34.310 spid31s Database 'model_replicatedmaster' running the upgrade step from version 942 to version 943.
+2026-08-19 09:18:34.320 spid34s Database 'model' running the upgrade step from version 943 to version 944.
+2026-08-19 09:18:34.320 spid34s Database 'model' running the upgrade step from version 944 to version 945.
+2026-08-19 09:18:34.320 spid34s Database 'model' running the upgrade step from version 945 to version 946.
+2026-08-19 09:18:34.330 Server Common language runtime (CLR) functionality initialized.
+2026-08-19 09:18:34.330 spid31s Database 'model_replicatedmaster' running the upgrade step from version 943 to version 944.
+2026-08-19 09:18:34.330 spid34s Database 'model' running the upgrade step from version 946 to version 947.
+2026-08-19 09:18:34.330 spid31s Database 'model_replicatedmaster' running the upgrade step from version 944 to version 945.
+2026-08-19 09:18:34.330 spid34s Database 'model' running the upgrade step from version 947 to version 948.
+2026-08-19 09:18:34.330 spid34s Database 'model' running the upgrade step from version 948 to version 949.
+2026-08-19 09:18:34.330 spid31s Database 'model_replicatedmaster' running the upgrade step from version 945 to version 946.
+2026-08-19 09:18:34.330 spid34s Database 'model' running the upgrade step from version 949 to version 950.
+2026-08-19 09:18:34.340 spid34s Database 'model' running the upgrade step from version 950 to version 951.
+2026-08-19 09:18:34.340 spid31s Database 'model_replicatedmaster' running the upgrade step from version 946 to version 947.
+2026-08-19 09:18:34.340 spid31s Database 'model_replicatedmaster' running the upgrade step from version 947 to version 948.
+2026-08-19 09:18:34.340 spid31s Database 'model_replicatedmaster' running the upgrade step from version 948 to version 949.
+2026-08-19 09:18:34.340 spid34s Database 'model' running the upgrade step from version 951 to version 952.
+2026-08-19 09:18:34.340 spid34s Database 'model' running the upgrade step from version 952 to version 953.
+2026-08-19 09:18:34.340 spid31s Database 'model_replicatedmaster' running the upgrade step from version 949 to version 950.
+2026-08-19 09:18:34.350 spid31s Database 'model_replicatedmaster' running the upgrade step from version 950 to version 951.
+2026-08-19 09:18:34.350 spid34s Database 'model' running the upgrade step from version 953 to version 954.
+2026-08-19 09:18:34.350 spid34s Database 'model' running the upgrade step from version 954 to version 955.
+2026-08-19 09:18:34.350 spid34s Database 'model' running the upgrade step from version 955 to version 956.
+2026-08-19 09:18:34.350 spid31s Database 'model_replicatedmaster' running the upgrade step from version 951 to version 952.
+2026-08-19 09:18:34.360 spid31s Database 'model_replicatedmaster' running the upgrade step from version 952 to version 953.
+2026-08-19 09:18:34.360 spid34s Database 'model' running the upgrade step from version 956 to version 957.
+2026-08-19 09:18:34.360 spid31s Database 'model_replicatedmaster' running the upgrade step from version 953 to version 954.
+2026-08-19 09:18:34.360 spid31s Database 'model_replicatedmaster' running the upgrade step from version 954 to version 955.
+2026-08-19 09:18:34.370 spid31s Database 'model_replicatedmaster' running the upgrade step from version 955 to version 956.
+2026-08-19 09:18:34.370 spid31s Database 'model_replicatedmaster' running the upgrade step from version 956 to version 957.
+2026-08-19 09:18:34.410 spid31s [32761]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1. ConcurrentGAMUpdate: 1. ConcurrentSGAMUpdate: 1, CleanupUnderUserTransaction: 0. TranLevelPVS: 0
+2026-08-19 09:18:34.410 spid31s Starting up database 'model_msdb'.
+2026-08-19 09:18:34.430 spid31s Converting database 'model_msdb' from version 927 to the current version 957.
+2026-08-19 09:18:34.430 spid31s Database 'model_msdb' running the upgrade step from version 927 to version 928.
+2026-08-19 09:18:34.430 spid31s Database 'model_msdb' running the upgrade step from version 928 to version 929.
+2026-08-19 09:18:34.440 spid31s Database 'model_msdb' running the upgrade step from version 929 to version 930.
+2026-08-19 09:18:34.440 spid31s Database 'model_msdb' running the upgrade step from version 930 to version 931.
+2026-08-19 09:18:34.440 spid31s Database 'model_msdb' running the upgrade step from version 931 to version 932.
+2026-08-19 09:18:34.450 spid31s Database 'model_msdb' running the upgrade step from version 932 to version 933.
+2026-08-19 09:18:34.450 spid31s Database 'model_msdb' running the upgrade step from version 933 to version 934.
+2026-08-19 09:18:34.450 spid31s Database 'model_msdb' running the upgrade step from version 934 to version 935.
+2026-08-19 09:18:34.450 spid31s Database 'model_msdb' running the upgrade step from version 935 to version 936.
+2026-08-19 09:18:34.450 spid31s Database 'model_msdb' running the upgrade step from version 936 to version 937.
+2026-08-19 09:18:34.450 spid31s Database 'model_msdb' running the upgrade step from version 937 to version 938.
+2026-08-19 09:18:34.460 spid31s Database 'model_msdb' running the upgrade step from version 938 to version 939.
+2026-08-19 09:18:34.460 spid31s Database 'model_msdb' running the upgrade step from version 939 to version 940.
+2026-08-19 09:18:34.460 spid31s Database 'model_msdb' running the upgrade step from version 940 to version 941.
+2026-08-19 09:18:34.460 spid31s Database 'model_msdb' running the upgrade step from version 941 to version 942.
+2026-08-19 09:18:34.460 spid31s Database 'model_msdb' running the upgrade step from version 942 to version 943.
+2026-08-19 09:18:34.470 spid31s Database 'model_msdb' running the upgrade step from version 943 to version 944.
+2026-08-19 09:18:34.470 spid31s Database 'model_msdb' running the upgrade step from version 944 to version 945.
+2026-08-19 09:18:34.480 spid31s Database 'model_msdb' running the upgrade step from version 945 to version 946.
+2026-08-19 09:18:34.480 spid31s Database 'model_msdb' running the upgrade step from version 946 to version 947.
+2026-08-19 09:18:34.480 spid31s Database 'model_msdb' running the upgrade step from version 947 to version 948.
+2026-08-19 09:18:34.480 spid31s Database 'model_msdb' running the upgrade step from version 948 to version 949.
+2026-08-19 09:18:34.480 spid31s Database 'model_msdb' running the upgrade step from version 949 to version 950.
+2026-08-19 09:18:34.490 spid31s Database 'model_msdb' running the upgrade step from version 950 to version 951.
+2026-08-19 09:18:34.490 spid31s Database 'model_msdb' running the upgrade step from version 951 to version 952.
+2026-08-19 09:18:34.490 spid31s Database 'model_msdb' running the upgrade step from version 952 to version 953.
+2026-08-19 09:18:34.500 spid31s Database 'model_msdb' running the upgrade step from version 953 to version 954.
+2026-08-19 09:18:34.500 spid31s Database 'model_msdb' running the upgrade step from version 954 to version 955.
+2026-08-19 09:18:34.500 spid31s Database 'model_msdb' running the upgrade step from version 955 to version 956.
+2026-08-19 09:18:34.510 spid31s Database 'model_msdb' running the upgrade step from version 956 to version 957.
+2026-08-19 09:18:34.520 spid31s Resource governor reconfiguration succeeded.
+2026-08-19 09:18:34.520 spid31s SQL Server Audit is starting the audits. This is an informational message. No user action is required.
+2026-08-19 09:18:34.520 spid45s Attribute synchronization initialized
+2026-08-19 09:18:34.520 spid45s Attribute synchronization manager initialized
+2026-08-19 09:18:34.520 spid31s SQL Server Audit has started the audits. This is an informational message. No user action is required.
+2026-08-19 09:18:34.540 spid31s SQL Trace ID 1 was started by login "sa".
+2026-08-19 09:18:34.540 spid31s Server name is '27ee1b19a82a'. This is an informational message only. No user action is required.
+2026-08-19 09:18:34.550 spid34s Clearing tempdb database.
+2026-08-19 09:18:34.550 spid51s Always On: The availability replica manager is starting. This is an informational message only. No user action is required.
+2026-08-19 09:18:34.550 spid54s [4]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1. ConcurrentGAMUpdate: 1. ConcurrentSGAMUpdate: 1, CleanupUnderUserTransaction: 0. TranLevelPVS: 0
+2026-08-19 09:18:34.550 spid51s Always On: The availability replica manager is waiting for the instance of SQL Server to allow client connections. This is an informational message only. No user action is required.
+2026-08-19 09:18:34.550 spid54s Starting up database 'msdb'.
+2026-08-19 09:18:34.580 spid54s Converting database 'msdb' from version 927 to the current version 957.
+2026-08-19 09:18:34.580 spid54s Database 'msdb' running the upgrade step from version 927 to version 928.
+2026-08-19 09:18:34.580 spid54s Database 'msdb' running the upgrade step from version 928 to version 929.
+2026-08-19 09:18:34.590 spid34s [2]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1. ConcurrentGAMUpdate: 1. ConcurrentSGAMUpdate: 1, CleanupUnderUserTransaction: 0. TranLevelPVS: 0
+2026-08-19 09:18:34.590 spid34s Starting up database 'tempdb'.
+2026-08-19 09:18:34.600 spid54s Database 'msdb' running the upgrade step from version 929 to version 930.
+2026-08-19 09:18:34.600 spid54s Database 'msdb' running the upgrade step from version 930 to version 931.
+2026-08-19 09:18:34.610 spid54s Database 'msdb' running the upgrade step from version 931 to version 932.
+2026-08-19 09:18:34.610 spid34s The tempdb database has 1 data file(s).
+2026-08-19 09:18:34.610 spid54s Database 'msdb' running the upgrade step from version 932 to version 933.
+2026-08-19 09:18:34.610 spid55s The Service Broker endpoint is in disabled or stopped state.
+2026-08-19 09:18:34.610 spid55s The Database Mirroring endpoint is in disabled or stopped state.
+2026-08-19 09:18:34.610 spid54s Database 'msdb' running the upgrade step from version 933 to version 934.
+2026-08-19 09:18:34.610 spid54s Database 'msdb' running the upgrade step from version 934 to version 935.
+2026-08-19 09:18:34.610 spid55s Service Broker manager has started.
+2026-08-19 09:18:34.610 spid54s Database 'msdb' running the upgrade step from version 935 to version 936.
+2026-08-19 09:18:34.620 spid54s Database 'msdb' running the upgrade step from version 936 to version 937.
+2026-08-19 09:18:34.630 spid54s Database 'msdb' running the upgrade step from version 937 to version 938.
+2026-08-19 09:18:34.630 spid54s Database 'msdb' running the upgrade step from version 938 to version 939.
+2026-08-19 09:18:34.630 spid54s Database 'msdb' running the upgrade step from version 939 to version 940.
+2026-08-19 09:18:34.630 spid54s Database 'msdb' running the upgrade step from version 940 to version 941.
+2026-08-19 09:18:34.630 spid54s Database 'msdb' running the upgrade step from version 941 to version 942.
+2026-08-19 09:18:34.630 spid54s Database 'msdb' running the upgrade step from version 942 to version 943.
+2026-08-19 09:18:34.640 spid54s Database 'msdb' running the upgrade step from version 943 to version 944.
+2026-08-19 09:18:34.640 spid54s Database 'msdb' running the upgrade step from version 944 to version 945.
+2026-08-19 09:18:34.650 spid54s Database 'msdb' running the upgrade step from version 945 to version 946.
+2026-08-19 09:18:34.650 spid54s Database 'msdb' running the upgrade step from version 946 to version 947.
+2026-08-19 09:18:34.660 spid54s Database 'msdb' running the upgrade step from version 947 to version 948.
+2026-08-19 09:18:34.660 spid54s Database 'msdb' running the upgrade step from version 948 to version 949.
+2026-08-19 09:18:34.660 spid54s Database 'msdb' running the upgrade step from version 949 to version 950.
+2026-08-19 09:18:34.660 spid54s Database 'msdb' running the upgrade step from version 950 to version 951.
+2026-08-19 09:18:34.670 spid54s Database 'msdb' running the upgrade step from version 951 to version 952.
+2026-08-19 09:18:34.670 spid54s Database 'msdb' running the upgrade step from version 952 to version 953.
+2026-08-19 09:18:34.670 spid54s Database 'msdb' running the upgrade step from version 953 to version 954.
+2026-08-19 09:18:34.680 spid54s Database 'msdb' running the upgrade step from version 954 to version 955.
+2026-08-19 09:18:34.680 spid54s Database 'msdb' running the upgrade step from version 955 to version 956.
+2026-08-19 09:18:34.690 spid54s Database 'msdb' running the upgrade step from version 956 to version 957.
+2026-08-19 09:18:34.820 spid43s A self-generated certificate was successfully loaded for encryption.
+2026-08-19 09:18:34.820 spid43s Server is listening on [ 'any' <ipv6> 1433] accept sockets 1.
+2026-08-19 09:18:34.820 spid43s Server is listening on [ 'any' <ipv4> 1433] accept sockets 1.
+2026-08-19 09:18:34.830 Server Server is listening on [ ::1 <ipv6> 1434] accept sockets 1.
+2026-08-19 09:18:34.830 Server Server is listening on [ 127.0.0.1 <ipv4> 1434] accept sockets 1.
+2026-08-19 09:18:34.830 Server Dedicated admin connection support was established for listening locally on port 1434.
+2026-08-19 09:18:34.830 spid43s Server is listening on [ ::1 <ipv6> 1431] accept sockets 1.
+2026-08-19 09:18:34.830 spid43s Server is listening on [ 127.0.0.1 <ipv4> 1431] accept sockets 1.
+2026-08-19 09:18:34.830 spid43s Recovery is complete. This is an informational message only. No user action is required.
+2026-08-19 09:18:34.830 spid43s SQL Server is now ready for client connections. This is an informational message; no user action is required.
+2026-08-19 09:18:34.920 spid41s The default language (LCID 0) has been set for engine and full-text services.
+2026-08-19 09:18:35.000 spid41s The tempdb database has 8 data file(s).
+2026-08-19 09:18:35.640 spid51 [5]. Feature Status: PVS: 0. CTR: 0. ConcurrentPFSUpdate: 1. ConcurrentGAMUpdate: 1. ConcurrentSGAMUpdate: 1, CleanupUnderUserTransaction: 0. TranLevelPVS: 0
+2026-08-19 09:18:35.640 spid51 Starting up database 'DeadlockLab'.
+2026-08-19 09:18:35.640 spid51 RemoveStaleDbEntries: Cleanup of stale DB entries called for database ID: [5]
+2026-08-19 09:18:35.640 spid51 RemoveStaleDbEntries: Cleanup of stale DB entries skipped because master db is not memory optimized. DbId: 5.
+2026-08-19 09:18:35.650 spid51 Parallel redo is started for database 'DeadlockLab' with worker pool size [5].
+2026-08-19 09:18:35.660 spid51 Parallel redo is shutdown for database 'DeadlockLab' with worker pool size [5].
+2026-08-19 09:18:36.130 spid51 DBCC TRACEON 1222, server process ID (SPID) 51. This is an informational message only; no user action is required.
+2026-08-19 09:18:38.640 spid32s Using 'dbghelp.dll' version '4.0.5'
+2026-08-19 09:18:38.710 spid40s deadlock-list
+2026-08-19 09:18:38.710 spid40s  deadlock victim=processf006adc28
+2026-08-19 09:18:38.710 spid40s   process-list
+2026-08-19 09:18:38.710 spid40s    process id=processf006adc28 taskpriority=0 logused=240 waitresource=KEY: 5:72057594045792256 (8194443284a0) waittime=1492 ownerId=6675 transactionname=user_transaction lasttranstarted=2026-08-19T09:18:36.780 XDES=0xf12880470 lockMode=X schedulerid=7 kpid=796 status=suspended spid=54 sbid=0 ecid=0 priority=0 trancount=2 lastbatchstarted=2026-08-19T09:18:37.213 lastbatchcompleted=2026-08-19T09:18:37.213 lastattention=1900-01-01T00:00:00.213 clientapp=SQLCMD hostname=27ee1b19a82a hostpid=338 loginname=sa isolationlevel=read committed (2) xactid=6675 currentdb=5 currentdbname=DeadlockLab lockTimeout=4294967295 clientoption1=536870944 clientoption2=128056
+2026-08-19 09:18:38.710 spid40s     stackFrames
+2026-08-19 09:18:38.710 spid40s       frame id=00 address=0x3FFFA4FA079F pdb=sqlpal.pdb age=1 guid=1ED17224-9585-A998-C9DC-5214806B8CDC module=sqlpal rva=0x3A079F frame id=01 address=0x3FFFA4E536AF pdb=sqlpal.pdb age=1 guid=1ED17224-9585-A998-C9DC-5214806B8CDC module=sqlpal rva=0x2536AF frame id=02 address=0x3FFFA4E5313F pdb=sqlpal.pdb age=1 guid=1ED17224-9585-A998-C9DC-5214806B8CDC module=sqlpal rva=0x25313F frame id=03 address=0x3FFFA4E01F6E pdb=sqlpal.pdb age=1 guid=1ED17224-9585-A998-C9DC-5214806B8CDC module=sqlpal rva=0x201F6E frame id=04 address=0x3FFFA4FA03FB pdb=sqlpal.pdb age=1 guid=1ED17224-9585-A998-C9DC-5214806B8CDC module=sqlpal rva=0x3A03FB frame id=05 address=0xB001361CF pdb=ntdll.pdb age=1 guid=EEBB2268-95A5-C54B-E5E7-7E2BE400EEBE module=ntdll rva=0xF61CF frame id=06 address=0xB01A9D963 pdb=kernelbase.pdb age=1 guid=CE9E3D82-F880-FEFB-1CDB-53DC3618DD86 module=kernelbase rva=0x3D963 frame id=07 address=0xB08DA236E pdb=SqlDK.pdb age=2 guid=24E66D2E-1987-4C39-B6C7-6DE0AC3E7768 module=SqlDK rva=0x236E frame id=08 address=0xB08DA1F37 pdb=SqlDK.pdb age=2 guid=24E66D2E-1987-4C39-B6C7-6DE0AC3E7768 module=SqlDK rva=0x1F37 frame id=09 address=0xB08DA3247 pdb=SqlDK.pdb age=2 guid=24E66D2E-1987-4C39-B6C7-6DE0AC3E7768 module=SqlDK rva=0x3247 frame id=10 address=0xB02295F09 pdb=sqlmin.pdb age=2 guid=E1039014-237E-4DB6-88FD-4A2AB31C651F module=sqlmin rva=0x85F09 frame id=11 address=0xB02295D0C pdb=sqlmin.pdb age=2 guid=E1039014-237E-4DB6-88FD-4A2AB31C651F module=sqlmin rva=0x85D0C frame id=12 address=0xB02221254 pdb=sqlmin.pdb age=2 guid=E1039014-237E-4DB6-88FD-4A2AB31C651F module=sqlmin rva=0x11254 frame id=13 address=0xB02229878 pdb=sqlmin.pdb age=2 guid=E1039014-237E-4DB6-88FD-4A2AB31C651F module=sqlmin rva=0x19878 frame id=14 address=0xB0222E6C8 pdb=sqlmin.pdb age=2 guid=E1039014-237E-4DB6-88FD-4
+2026-08-19 09:18:38.720 spid40s A2AB31C651F module=sqlmin rva=0x1E6C8 frame id=15 address=0xB0222A19A pdb=sqlmin.pdb age=2 guid=E1039014-237E-4DB6-88FD-4A2AB31C651F module=sqlmin rva=0x1A19A frame id=16 address=0xB0222AAEF pdb=sqlmin.pdb age=2 guid=E1039014-237E-4DB6-88FD-4A2AB31C651F module=sqlmin rva=0x1AAEF frame id=17 address=0xB0222ABD3 pdb=sqlmin.pdb age=2 guid=E1039014-237E-4DB6-88FD-4A2AB31C651F module=sqlmin rva=0x1ABD3 frame id=18 address=0xB02242F09 pdb=sqlmin.pdb age=2 guid=E1039014-237E-4DB6-88FD-4A2AB31C651F module=sqlmin rva=0x32F09 frame id=19 address=0xB08351A67 pdb=SqlTsEs.pdb age=2 guid=63425AEF-0D4D-470C-911C-EA7C046E5FCA module=SqlTsEs rva=0x1A67 frame id=20 address=0xB02280AE1 pdb=sqlmin.pdb age=2 guid=E1039014-237E-4DB6-88FD-4A2AB31C651F module=sqlmin rva=0x70AE1 frame id=21 address=0xB0223F079 pdb=sqlmin.pdb age=2 guid=E1039014-237E-4DB6-88FD-4A2AB31C651F module=sqlmin rva=0x2F079 frame id=22 address=0xB0224740F pdb=sqlmin.pdb age=2 guid=E1039014-237E-4DB6-88FD-4A2AB31C651F module=sqlmin rva=0x3740F frame id=23 address=0xB0546DFB8 pdb=sqllang.pdb age=2 guid=BE7FA869-9944-45AF-9445-4B0A1612190E module=sqllang rva=0x1DFB8 frame id=24 address=0xB0548816C pdb=sqllang.pdb age=2 guid=BE7FA869-9944-45AF-9445-4B0A1612190E module=sqllang rva=0x3816C frame id=25 address=0xB0548848A pdb=sqllang.pdb age=2 guid=BE7FA869-9944-45AF-9445-4B0A1612190E module=sqllang rva=0x3848A frame id=26 address=0xB054674DF pdb=sqllang.pdb age=2 guid=BE7FA869-9944-45AF-9445-4B0A1612190E module=sqllang rva=0x174DF frame id=27 address=0xB0573B6E1 pdb=sqllang.pdb age=2 guid=BE7FA869-9944-45AF-9445-4B0A1612190E module=sqllang rva=0x2EB6E1 frame id=28 address=0xB0573B0E7 pdb=sqllang.pdb age=2 guid=BE7FA869-9944-45AF-9445-4B0A1612190E module=sqllang rva=0x2EB0E7 frame id=29 address=0xB054682CC pdb=sqllang.pdb a
+2026-08-19 09:18:38.730 spid40s ge=2 guid=BE7FA869-9944-45AF-9445-4B0A1612190E module=sqllang rva=0x182CC frame id=30 address=0xB0573CAD5 pdb=sqllang.pdb age=2 guid=BE7FA869-9944-45AF-9445-4B0A1612190E module=sqllang rva=0x2ECAD5 frame id=31 address=0xB054674DF pdb=sqllang.pdb age=2 guid=BE7FA869-9944-45AF-9445-4B0A1612190E module=sqllang rva=0x174DF frame id=32 address=0xB0546792C pdb=sqllang.pdb age=2 guid=BE7FA869-9944-45AF-9445-4B0A1612190E module=sqllang rva=0x1792C frame id=33 address=0x1 frame id=34 address=0xF157B82B0 frame id=35 address=0xF157B8620 
+2026-08-19 09:18:38.730 spid40s     executionStack
+2026-08-19 09:18:38.730 spid40s      frame procname=adhoc line=4 stmtstart=58 stmtend=174 sqlhandle=0x02000000f65b8d3b726ac4a0c7cde6a91f303d3b6252078c0000000000000000000000000000000000000000
+2026-08-19 09:18:38.730 spid40s unknown     
+2026-08-19 09:18:38.730 spid40s      frame procname=adhoc line=4 stmtstart=272 stmtend=396 sqlhandle=0x0200000082d8ca0f05890a66a1ab174cd543fa163752f5990000000000000000000000000000000000000000
+2026-08-19 09:18:38.740 spid40s unknown     
+2026-08-19 09:18:38.740 spid40s     inputbuf
+2026-08-19 09:18:38.740 spid40s 
+-- STEP 2: request Orders row Id=1 — Session B holds this lock at this
+-- point, so this blocks until the deadlock monitor intervenes.
+UPDATE dbo.Orders SET OrderStatus = 'Updated-by-A' WHERE Id = 1;
+    
+2026-08-19 09:18:38.740 spid40s    process id=processf15f00108 taskpriority=0 logused=276 waitresource=KEY: 5:72057594045726720 (8194443284a0) waittime=1476 ownerId=6690 transactionname=user_transaction lasttranstarted=2026-08-19T09:18:36.993 XDES=0xf00ea8470 lockMode=X schedulerid=5 kpid=940 status=suspended spid=51 sbid=0 ecid=0 priority=0 trancount=2 lastbatchstarted=2026-08-19T09:18:37.227 lastbatchcompleted=2026-08-19T09:18:37.227 lastattention=1900-01-01T00:00:00.227 clientapp=SQLCMD hostname=27ee1b19a82a hostpid=339 loginname=sa isolationlevel=read committed (2) xactid=6690 currentdb=5 currentdbname=DeadlockLab lockTimeout=4294967295 clientoption1=536870944 clientoption2=128056
+2026-08-19 09:18:38.740 spid40s     stackFrames
+2026-08-19 09:18:38.740 spid40s       frame id=00 address=0x3FFFA4FA079F pdb=sqlpal.pdb age=1 guid=1ED17224-9585-A998-C9DC-5214806B8CDC module=sqlpal rva=0x3A079F frame id=01 address=0x3FFFA4E536AF pdb=sqlpal.pdb age=1 guid=1ED17224-9585-A998-C9DC-5214806B8CDC module=sqlpal rva=0x2536AF frame id=02 address=0x3FFFA4E5313F pdb=sqlpal.pdb age=1 guid=1ED17224-9585-A998-C9DC-5214806B8CDC module=sqlpal rva=0x25313F frame id=03 address=0x3FFFA4E5331F pdb=sqlpal.pdb age=1 guid=1ED17224-9585-A998-C9DC-5214806B8CDC module=sqlpal rva=0x25331F frame id=04 address=0x3FFFA4E01F6E pdb=sqlpal.pdb age=1 guid=1ED17224-9585-A998-C9DC-5214806B8CDC module=sqlpal rva=0x201F6E frame id=05 address=0x3FFFA4FA03FB pdb=sqlpal.pdb age=1 guid=1ED17224-9585-A998-C9DC-5214806B8CDC module=sqlpal rva=0x3A03FB frame id=06 address=0xB0013971F pdb=ntdll.pdb age=1 guid=EEBB2268-95A5-C54B-E5E7-7E2BE400EEBE module=ntdll rva=0xF971F frame id=07 address=0xB01B5B26F pdb=kernelbase.pdb age=1 guid=CE9E3D82-F880-FEFB-1CDB-53DC3618DD86 module=kernelbase rva=0xFB26F frame id=08 address=0xB08DB3417 pdb=SqlDK.pdb age=2 guid=24E66D2E-1987-4C39-B6C7-6DE0AC3E7768 module=SqlDK rva=0x13417 frame id=09 address=0xB08DB3337 pdb=SqlDK.pdb age=2 guid=24E66D2E-1987-4C39-B6C7-6DE0AC3E7768 module=SqlDK rva=0x13337 frame id=10 address=0xB08DA1F37 pdb=SqlDK.pdb age=2 guid=24E66D2E-1987-4C39-B6C7-6DE0AC3E7768 module=SqlDK rva=0x1F37 frame id=11 address=0xB08DA3247 pdb=SqlDK.pdb age=2 guid=24E66D2E-1987-4C39-B6C7-6DE0AC3E7768 module=SqlDK rva=0x3247 frame id=12 address=0xB02295F09 pdb=sqlmin.pdb age=2 guid=E1039014-237E-4DB6-88FD-4A2AB31C651F module=sqlmin rva=0x85F09 frame id=13 address=0xB02295D0C pdb=sqlmin.pdb age=2 guid=E1039014-237E-4DB6-88FD-4A2AB31C651F module=sqlmin rva=0x85D0C frame id=14 address=0xB02221254 pdb=sqlmin.pdb age=2 guid=E1039014-237E-4DB6-88F
+2026-08-19 09:18:38.750 spid40s D-4A2AB31C651F module=sqlmin rva=0x11254 frame id=15 address=0xB02229878 pdb=sqlmin.pdb age=2 guid=E1039014-237E-4DB6-88FD-4A2AB31C651F module=sqlmin rva=0x19878 frame id=16 address=0xB0222E6C8 pdb=sqlmin.pdb age=2 guid=E1039014-237E-4DB6-88FD-4A2AB31C651F module=sqlmin rva=0x1E6C8 frame id=17 address=0xB0222A19A pdb=sqlmin.pdb age=2 guid=E1039014-237E-4DB6-88FD-4A2AB31C651F module=sqlmin rva=0x1A19A frame id=18 address=0xB0222AAEF pdb=sqlmin.pdb age=2 guid=E1039014-237E-4DB6-88FD-4A2AB31C651F module=sqlmin rva=0x1AAEF frame id=19 address=0xB0222ABD3 pdb=sqlmin.pdb age=2 guid=E1039014-237E-4DB6-88FD-4A2AB31C651F module=sqlmin rva=0x1ABD3 frame id=20 address=0xB02242F09 pdb=sqlmin.pdb age=2 guid=E1039014-237E-4DB6-88FD-4A2AB31C651F module=sqlmin rva=0x32F09 frame id=21 address=0xB08351A67 pdb=SqlTsEs.pdb age=2 guid=63425AEF-0D4D-470C-911C-EA7C046E5FCA module=SqlTsEs rva=0x1A67 frame id=22 address=0xB02280AE1 pdb=sqlmin.pdb age=2 guid=E1039014-237E-4DB6-88FD-4A2AB31C651F module=sqlmin rva=0x70AE1 frame id=23 address=0xB0223F079 pdb=sqlmin.pdb age=2 guid=E1039014-237E-4DB6-88FD-4A2AB31C651F module=sqlmin rva=0x2F079 frame id=24 address=0xB0224740F pdb=sqlmin.pdb age=2 guid=E1039014-237E-4DB6-88FD-4A2AB31C651F module=sqlmin rva=0x3740F frame id=25 address=0xB0546DFB8 pdb=sqllang.pdb age=2 guid=BE7FA869-9944-45AF-9445-4B0A1612190E module=sqllang rva=0x1DFB8 frame id=26 address=0xB0548816C pdb=sqllang.pdb age=2 guid=BE7FA869-9944-45AF-9445-4B0A1612190E module=sqllang rva=0x3816C frame id=27 address=0xB0548848A pdb=sqllang.pdb age=2 guid=BE7FA869-9944-45AF-9445-4B0A1612190E module=sqllang rva=0x3848A frame id=28 address=0xB054674DF pdb=sqllang.pdb age=2 guid=BE7FA869-9944-45AF-9445-4B0A1612190E module=sqllang rva=0x174DF frame id=29 address=0xB0573B6E1 pdb=sqllang.pdb age=
+2026-08-19 09:18:38.760 spid40s 2 guid=BE7FA869-9944-45AF-9445-4B0A1612190E module=sqllang rva=0x2EB6E1 frame id=30 address=0xB0573B0E7 pdb=sqllang.pdb age=2 guid=BE7FA869-9944-45AF-9445-4B0A1612190E module=sqllang rva=0x2EB0E7 frame id=31 address=0xB054682CC pdb=sqllang.pdb age=2 guid=BE7FA869-9944-45AF-9445-4B0A1612190E module=sqllang rva=0x182CC frame id=32 address=0xB0573CAD5 pdb=sqllang.pdb age=2 guid=BE7FA869-9944-45AF-9445-4B0A1612190E module=sqllang rva=0x2ECAD5 frame id=33 address=0xB054674DF pdb=sqllang.pdb age=2 guid=BE7FA869-9944-45AF-9445-4B0A1612190E module=sqllang rva=0x174DF frame id=34 address=0xB0546792C pdb=sqllang.pdb age=2 guid=BE7FA869-9944-45AF-9445-4B0A1612190E module=sqllang rva=0x1792C 
+2026-08-19 09:18:38.760 spid40s     executionStack
+2026-08-19 09:18:38.760 spid40s      frame procname=adhoc line=4 stmtstart=56 stmtend=188 sqlhandle=0x02000000173e603b18a3f3d9f6a65b2352bb344cfd1050f10000000000000000000000000000000000000000
+2026-08-19 09:18:38.760 spid40s unknown     
+2026-08-19 09:18:38.760 spid40s      frame procname=adhoc line=4 stmtstart=276 stmtend=398 sqlhandle=0x0200000096173c190dc63de9f41ca7239f4513969d6fa7170000000000000000000000000000000000000000
+2026-08-19 09:18:38.760 spid40s unknown     
+2026-08-19 09:18:38.760 spid40s     inputbuf
+2026-08-19 09:18:38.760 spid40s 
+-- STEP 2: request Accounts row Id=1 — Session A holds this lock at this
+-- point, so this blocks until the deadlock monitor intervenes.
+UPDATE dbo.Accounts SET Balance = Balance + 50.00 WHERE Id = 1;
+    
+2026-08-19 09:18:38.760 spid40s   resource-list
+2026-08-19 09:18:38.760 spid40s    keylock hobtid=72057594045792256 dbid=5 objectname=DeadlockLab.dbo.Orders indexname=PK__Orders__3214EC07C627207E id=lockf19085000 mode=X associatedObjectId=72057594045792256
+2026-08-19 09:18:38.760 spid40s     owner-list
+2026-08-19 09:18:38.760 spid40s      owner id=processf15f00108 mode=X
+2026-08-19 09:18:38.770 spid40s     waiter-list
+2026-08-19 09:18:38.770 spid40s      waiter id=processf006adc28 mode=X requestType=wait
+2026-08-19 09:18:38.770 spid40s    keylock hobtid=72057594045726720 dbid=5 objectname=DeadlockLab.dbo.Accounts indexname=PK__Accounts__3214EC07B79662E3 id=lockf00963d80 mode=X associatedObjectId=72057594045726720
+2026-08-19 09:18:38.770 spid40s     owner-list
+2026-08-19 09:18:38.770 spid40s      owner id=processf006adc28 mode=X
+2026-08-19 09:18:38.770 spid40s     waiter-list
+2026-08-19 09:18:38.770 spid40s      waiter id=processf15f00108 mode=X requestType=wait
+2026-08-19 09:18:39.830 spid74 Attempting to load library 'xpstar.dll' into memory. This is an informational message only. No user action is required.
+2026-08-19 09:18:39.840 spid74 Using 'xpstar.dll' version '2022.160.4265' to execute extended stored procedure 'xp_readerrorlog'. This is an informational message only; no user action is required.
+
+
+(280 rows affected)
