@@ -1,0 +1,13 @@
+SPID:54
+MARK:SPID_B_CAPTURED
+MARK:B_ISOLATION_SET
+MARK:B_STEP2_READ_STARTING
+Msg 1222, Level 16, State 51, Server 15d41acfb058, Line 5
+Lock request time out period exceeded.
+MARK:B_STEP2_READ_DONE
+Id          Balance       
+----------- --------------
+          2        1500.00
+
+(1 rows affected)
+MARK:B_STEP3_READ_DONE

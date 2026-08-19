@@ -1,0 +1,20 @@
+SPID:54
+MARK:SPID_B_CAPTURED
+MARK:B_ISOLATION_SET
+Id          Balance       
+----------- --------------
+          3        2000.00
+          4        2500.00
+          5        3000.00
+
+(3 rows affected)
+MARK:B_STEP2_FIRST_RANGE_DONE
+Id          Balance       
+----------- --------------
+          3        2000.00
+          4        2500.00
+          5        3000.00
+
+(3 rows affected)
+MARK:B_STEP3_SECOND_RANGE_DONE
+MARK:B_STEP4_COMMIT_DONE

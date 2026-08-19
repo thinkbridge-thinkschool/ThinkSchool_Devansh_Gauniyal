@@ -1,0 +1,16 @@
+SPID:51
+MARK:SPID_B_CAPTURED
+MARK:B_ISOLATION_SET
+Id          Balance       
+----------- --------------
+          1        1000.00
+
+(1 rows affected)
+MARK:B_STEP2_FIRST_READ_DONE
+Id          Balance       
+----------- --------------
+          1        1111.11
+
+(1 rows affected)
+MARK:B_STEP3_SECOND_READ_DONE
+MARK:B_STEP4_COMMIT_DONE

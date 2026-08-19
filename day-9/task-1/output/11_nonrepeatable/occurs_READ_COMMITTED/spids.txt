@@ -1,0 +1,3 @@
+Session A SPID: 54
+Session B SPID: 51
+Confirmed: two distinct SQL Server sessions.

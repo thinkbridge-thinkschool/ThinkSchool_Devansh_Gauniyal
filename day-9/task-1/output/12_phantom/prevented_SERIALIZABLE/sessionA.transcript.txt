@@ -1,0 +1,5 @@
+SPID:51
+MARK:SPID_A_CAPTURED
+Msg 1222, Level 16, State 48, Server 15d41acfb058, Line 33
+Lock request time out period exceeded.
+The statement has been terminated.
