@@ -1,0 +1,28 @@
+{
+  "GeneratedAtUtc": "2026-08-20T05:59:36.7056630Z",
+  "EfCoreVersion": "10.0.11",
+  "DotNetVersion": "10.0.10",
+  "RuntimeIdentifier": "osx-arm64",
+  "Architecture": "Arm64",
+  "Before": {
+    "RawSql": "Executed DbCommand (1ms) [Parameters=[@minPrice=\u0027250\u0027], CommandType=\u0027Text\u0027, CommandTimeout=\u002730\u0027]\n      SELECT \u0022p\u0022.\u0022Id\u0022, \u0022p\u0022.\u0022CategoryId\u0022, \u0022p\u0022.\u0022CreatedDate\u0022, \u0022p\u0022.\u0022Description\u0022, \u0022p\u0022.\u0022Name\u0022, \u0022p\u0022.\u0022Price\u0022\n      FROM \u0022Products\u0022 AS \u0022p\u0022\n      WHERE ef_compare(\u0022p\u0022.\u0022Price\u0022, @minPrice) \u003E 0\n      ORDER BY \u0022p\u0022.\u0022Id\u0022",
+    "RowCount": 146
+  },
+  "After": {
+    "RawSql": "Executed DbCommand (0ms) [Parameters=[@minPrice=\u0027250\u0027], CommandType=\u0027Text\u0027, CommandTimeout=\u002730\u0027]\n      SELECT \u0022p\u0022.\u0022Id\u0022, \u0022p\u0022.\u0022Name\u0022, \u0022p\u0022.\u0022Price\u0022, \u0022c\u0022.\u0022Name\u0022 AS \u0022CategoryName\u0022\n      FROM \u0022Products\u0022 AS \u0022p\u0022\n      INNER JOIN \u0022Categories\u0022 AS \u0022c\u0022 ON \u0022p\u0022.\u0022CategoryId\u0022 = \u0022c\u0022.\u0022Id\u0022\n      WHERE ef_compare(\u0022p\u0022.\u0022Price\u0022, @minPrice) \u003E 0\n      ORDER BY \u0022p\u0022.\u0022Id\u0022",
+    "RowCount": 146
+  },
+  "Broken": {
+    "ExceptionType": "System.InvalidOperationException",
+    "ExceptionMessage": "The LINQ expression \u0027DbSet\u003CProduct\u003E()\n    .Where(p =\u003E Queries.IsPremiumName(p.Name))\u0027 could not be translated. Additional information: Translation of method \u0027QueryTranslationDemo.Queries.IsPremiumName\u0027 failed. If this method can be mapped to your custom function, see https://go.microsoft.com/fwlink/?linkid=2132413 for more information. Either rewrite the query in a form that can be translated, or switch to client evaluation explicitly by inserting a call to \u0027AsEnumerable\u0027, \u0027AsAsyncEnumerable\u0027, \u0027ToList\u0027, or \u0027ToListAsync\u0027. See https://go.microsoft.com/fwlink/?linkid=2101038 for more information."
+  },
+  "FixedQuery": {
+    "RawSql": "Executed DbCommand (0ms) [Parameters=[], CommandType=\u0027Text\u0027, CommandTimeout=\u002730\u0027]\n      SELECT \u0022p\u0022.\u0022Id\u0022, \u0022p\u0022.\u0022CategoryId\u0022, \u0022p\u0022.\u0022CreatedDate\u0022, \u0022p\u0022.\u0022Description\u0022, \u0022p\u0022.\u0022Name\u0022, \u0022p\u0022.\u0022Price\u0022\n      FROM \u0022Products\u0022 AS \u0022p\u0022\n      WHERE instr(upper(\u0022p\u0022.\u0022Name\u0022), \u0027PREMIUM\u0027) \u003E 0",
+    "RowCount": 30
+  },
+  "AsEnumerableVariant": {
+    "RawSql": "Executed DbCommand (0ms) [Parameters=[], CommandType=\u0027Text\u0027, CommandTimeout=\u002730\u0027]\n      SELECT \u0022p\u0022.\u0022Id\u0022, \u0022p\u0022.\u0022CategoryId\u0022, \u0022p\u0022.\u0022CreatedDate\u0022, \u0022p\u0022.\u0022Description\u0022, \u0022p\u0022.\u0022Name\u0022, \u0022p\u0022.\u0022Price\u0022\n      FROM \u0022Products\u0022 AS \u0022p\u0022",
+    "RowsPulledIntoMemory": 300,
+    "RowCountAfterFilter": 30
+  }
+}
