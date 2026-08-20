@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="ChangeTrackerDemo/ChangeTrackerDemo.csproj" />
+  <Project Path="ChangeTrackerDemo.Tests/ChangeTrackerDemo.Tests.csproj" />
+</Solution>
