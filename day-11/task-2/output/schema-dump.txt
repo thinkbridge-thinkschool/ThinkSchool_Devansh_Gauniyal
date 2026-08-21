@@ -1,0 +1,11 @@
+CREATE TABLE statement for Quotes:
+CREATE TABLE "Quotes" (
+    "Id" INTEGER NOT NULL CONSTRAINT "PK_Quotes" PRIMARY KEY AUTOINCREMENT,
+    "Text" TEXT NOT NULL,
+    "AuthorId" INTEGER NOT NULL,
+    "CreatedAt" TEXT NOT NULL,
+    CONSTRAINT "FK_Quotes_Authors_AuthorId" FOREIGN KEY ("AuthorId") REFERENCES "Authors" ("Id") ON DELETE CASCADE
+)
+
+Indexes that exist on the Quotes table (name | sql):
+IX_Quotes_AuthorId | CREATE INDEX "IX_Quotes_AuthorId" ON "Quotes" ("AuthorId")

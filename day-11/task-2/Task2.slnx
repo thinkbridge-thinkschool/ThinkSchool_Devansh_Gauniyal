@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="FastApi/FastApi.csproj" />
+  <Project Path="FastApi.Tests/FastApi.Tests.csproj" />
+</Solution>

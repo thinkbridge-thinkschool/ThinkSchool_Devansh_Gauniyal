@@ -1,0 +1,9 @@
+Load-test tool version:
+bombardier version 2.0.2 darwin/arm64
+
+.NET SDK version:
+10.0.302
+
+Runtime identifier: osx-arm64
+
+Note: this is an Apple Silicon (arm64) laptop. The API and the load generator ran on the same machine, competing for the same CPU cores. Absolute latency numbers are therefore not comparable to a production measurement - only the shape and the relative before/after change are the finding.

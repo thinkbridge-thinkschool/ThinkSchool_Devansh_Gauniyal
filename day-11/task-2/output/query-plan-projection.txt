@@ -1,0 +1,15 @@
+EXPLAIN QUERY PLAN for every statement the 'projection' endpoint executed for this request (1 statement(s)):
+
+--- statement 1 of 1 ---
+SELECT "a"."Id", "a"."Name", "a"."Country", (
+          SELECT COUNT(*)
+          FROM "Quotes" AS "q"
+          WHERE "a"."Id" = "q"."AuthorId")
+      FROM "Authors" AS "a"
+      ORDER BY "a"."Id"
+
+Plan output (id | parent | notused | detail):
+3 | 0 | 216 | SCAN a
+9 | 0 | 0 | CORRELATED SCALAR SUBQUERY 1
+14 | 9 | 53 | SEARCH q USING COVERING INDEX IX_Quotes_AuthorId (AuthorId=?)
+

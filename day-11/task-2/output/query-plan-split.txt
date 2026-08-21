@@ -1,0 +1,20 @@
+EXPLAIN QUERY PLAN for every statement the 'split' endpoint executed for this request (2 statement(s)):
+
+--- statement 1 of 2 ---
+SELECT "a"."Id", "a"."Country", "a"."Name"
+      FROM "Authors" AS "a"
+      ORDER BY "a"."Id"
+
+Plan output (id | parent | notused | detail):
+3 | 0 | 216 | SCAN a
+
+--- statement 2 of 2 ---
+SELECT "q"."Id", "q"."AuthorId", "q"."CreatedAt", "q"."Text", "a"."Id"
+      FROM "Authors" AS "a"
+      INNER JOIN "Quotes" AS "q" ON "a"."Id" = "q"."AuthorId"
+      ORDER BY "a"."Id"
+
+Plan output (id | parent | notused | detail):
+5 | 0 | 216 | SCAN a
+7 | 0 | 61 | SEARCH q USING INDEX IX_Quotes_AuthorId (AuthorId=?)
+
