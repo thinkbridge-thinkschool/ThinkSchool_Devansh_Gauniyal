@@ -1,0 +1,7 @@
+EXPLAIN QUERY PLAN against the exact per-author SQL EF Core generated for this request:
+SELECT "q"."Id", "q"."AuthorId", "q"."CreatedAt", "q"."Text"
+      FROM "Quotes" AS "q"
+      WHERE "q"."AuthorId" = @p
+
+Plan output (id | parent | notused | detail):
+2 | 0 | 216 | SCAN q
