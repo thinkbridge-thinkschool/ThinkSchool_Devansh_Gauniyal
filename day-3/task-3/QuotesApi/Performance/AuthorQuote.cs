@@ -1,6 +1,8 @@
-namespace SlowApi;
+namespace QuotesApi.Performance;
 
-public class Quote
+// Named AuthorQuote (not Quote) specifically to avoid colliding with the existing
+// QuotesApi.Quotes.Quote record used by the auth/CRUD endpoints.
+public class AuthorQuote
 {
     public int Id { get; set; }
     public string Text { get; set; } = string.Empty;

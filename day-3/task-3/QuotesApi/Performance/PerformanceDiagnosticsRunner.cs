@@ -2,29 +2,30 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.Data.Sqlite;
 
-namespace SlowApi;
+namespace QuotesApi.Performance;
 
 // Captures real evidence for one representative request: the full SQL log for a single
 // call to the slow endpoint's data-access path, the EXPLAIN QUERY PLAN for its per-author
 // query, and a dump of the indexes that actually exist on the Quotes table. Runs as a
-// standalone pass (no HTTP involved) so sensitive-data SQL logging is never turned on
-// against traffic from the load test itself.
-public static class DiagnosticsRunner
+// standalone pass (triggered via a "performance-diagnostics" CLI argument, before any web
+// host is built) so sensitive-data SQL logging is never turned on against traffic from the
+// load test itself.
+public static class PerformanceDiagnosticsRunner
 {
     public static void Run(string dbPath, string outputDir)
     {
         Directory.CreateDirectory(outputDir);
 
-        using (var seedContext = new QuotesDbContext(dbPath))
+        using (var seedContext = new PerformanceDbContext(dbPath))
         {
             seedContext.Database.EnsureCreated();
             seedContext.EnableWriteAheadLogging();
-            Seeder.SeedIfNeeded(seedContext);
+            PerformanceSeeder.SeedIfNeeded(seedContext);
         }
 
         var collector = new SqlLogCollector();
         List<AuthorQuoteSummary> summary;
-        using (var context = new QuotesDbContext(dbPath, collector))
+        using (var context = new PerformanceDbContext(dbPath, collector))
         {
             summary = AuthorQuoteSummaryQuery.Run(context);
         }
@@ -38,7 +39,7 @@ public static class DiagnosticsRunner
     {
         var entries = collector.ExecutedCommandEntries;
         var sb = new StringBuilder();
-        sb.AppendLine("Single representative request: the in-process call to GET /authors/quote-summary's data-access path.");
+        sb.AppendLine("Single representative request: the in-process call to GET /api/authors/quote-summary's data-access path.");
         sb.AppendLine($"Authors returned: {authorCount}");
         sb.AppendLine($"Total executed SQL statements captured for this ONE request: {entries.Count}");
         sb.AppendLine($"Expected shape: 1 (load authors) + {authorCount} (one per author) = {authorCount + 1}");

@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace SlowApi.Tests;
+namespace QuotesApi.Performance.Tests;
 
 // These tests parse the REAL files captured by scripts/run-profile.sh. They will fail
 // (correctly) until that script has been run at least once, since there is nothing to
@@ -47,8 +47,8 @@ public class ArtefactTests
         var text = File.ReadAllText(path);
         var statementCount = Regex.Matches(text, "Executed DbCommand").Count;
 
-        Assert.True(statementCount > Seeder.AuthorCount,
-            $"Expected more than {Seeder.AuthorCount} executed statements (1 + N), found {statementCount}.");
+        Assert.True(statementCount > PerformanceSeeder.AuthorCount,
+            $"Expected more than {PerformanceSeeder.AuthorCount} executed statements (1 + N), found {statementCount}.");
     }
 
     [Fact]

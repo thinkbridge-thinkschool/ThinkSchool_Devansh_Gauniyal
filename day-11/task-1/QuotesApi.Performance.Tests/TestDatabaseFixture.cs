@@ -1,4 +1,4 @@
-namespace SlowApi.Tests;
+namespace QuotesApi.Performance.Tests;
 
 // Each test gets its own fresh, uniquely-named SQLite file so tests never share state and
 // can run in parallel. Cleans up the main file plus any WAL sidecar files it created.
@@ -8,12 +8,12 @@ public sealed class TestDatabaseFixture : IDisposable
 
     public TestDatabaseFixture()
     {
-        DbPath = Path.Combine(Path.GetTempPath(), $"slowapi-test-{Guid.NewGuid():N}.db");
+        DbPath = Path.Combine(Path.GetTempPath(), $"quotesapi-performance-test-{Guid.NewGuid():N}.db");
 
-        using var context = new QuotesDbContext(DbPath);
+        using var context = new PerformanceDbContext(DbPath);
         context.Database.EnsureCreated();
         context.EnableWriteAheadLogging();
-        Seeder.SeedIfNeeded(context);
+        PerformanceSeeder.SeedIfNeeded(context);
     }
 
     public void Dispose()

@@ -1,16 +1,16 @@
 using Microsoft.Data.Sqlite;
 
-namespace SlowApi.Tests;
+namespace QuotesApi.Performance.Tests;
 
 // EF Core creates an index on a required FK column by convention. This is the core proof
-// that QuotesDbContext really suppressed it - queried directly from the SQLite schema,
-// never assumed from the model configuration alone.
+// that PerformanceDbContext really suppressed it - queried directly from the SQLite
+// schema, never assumed from the model configuration alone.
 public class MissingIndexTests : IDisposable
 {
     private readonly TestDatabaseFixture _fixture = new();
 
     [Fact]
-    public void No_index_covers_Quote_AuthorId()
+    public void No_index_covers_AuthorQuote_AuthorId()
     {
         using var connection = new SqliteConnection($"Data Source={_fixture.DbPath}");
         connection.Open();

@@ -2,21 +2,21 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.Extensions.Logging;
 
-namespace SlowApi;
+namespace QuotesApi.Performance;
 
-public class QuotesDbContext : DbContext
+public class PerformanceDbContext : DbContext
 {
     private readonly string _dataSource;
     private readonly SqlLogCollector? _logCollector;
 
-    public QuotesDbContext(string dataSource, SqlLogCollector? logCollector = null)
+    public PerformanceDbContext(string dataSource, SqlLogCollector? logCollector = null)
     {
         _dataSource = dataSource;
         _logCollector = logCollector;
     }
 
     public DbSet<Author> Authors => Set<Author>();
-    public DbSet<Quote> Quotes => Set<Quote>();
+    public DbSet<AuthorQuote> Quotes => Set<AuthorQuote>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -40,7 +40,7 @@ public class QuotesDbContext : DbContext
     // by the time OnModelCreating's HasForeignKey(...) call returns, the convention has
     // already run and the index already exists, so removing the resulting index there is
     // a no-op (model finalization just recreates it). Confirmed against the created
-    // schema in SlowApi.Tests.
+    // schema in QuotesApi.Performance.Tests.
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
         configurationBuilder.Conventions.Remove(typeof(ForeignKeyIndexConvention));
@@ -48,7 +48,7 @@ public class QuotesDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Quote>(entity =>
+        modelBuilder.Entity<AuthorQuote>(entity =>
         {
             entity.HasOne(q => q.Author)
                 .WithMany(a => a.Quotes)

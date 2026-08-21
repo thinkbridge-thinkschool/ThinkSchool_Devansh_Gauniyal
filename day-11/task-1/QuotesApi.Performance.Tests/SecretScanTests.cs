@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace SlowApi.Tests;
+namespace QuotesApi.Performance.Tests;
 
 public class SecretScanTests
 {

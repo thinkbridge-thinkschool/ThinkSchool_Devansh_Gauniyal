@@ -1,8 +1,7 @@
-namespace SlowApi;
+namespace QuotesApi.Performance.Tests;
 
-// Locates day-11/task-1 on disk by walking up from wherever the assembly is actually
-// running, so the same logic works whether invoked from this project's own bin output or
-// from the test project's.
+// Locates day-11/task-1 on disk by walking up from wherever this test assembly is
+// actually running.
 public static class TaskPaths
 {
     public static string FindTaskRoot()
@@ -23,8 +22,6 @@ public static class TaskPaths
     }
 
     public static string OutputDirectory() => Path.Combine(FindTaskRoot(), "output");
-
-    public static string DefaultDatabasePath() => Path.Combine(OutputDirectory(), "slowapi.db");
 
     public static string SubmissionFilePath() => Path.Combine(FindTaskRoot(), "submission.md");
 }

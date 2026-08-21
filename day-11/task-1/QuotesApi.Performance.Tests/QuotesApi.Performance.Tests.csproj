@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SlowApi\SlowApi.csproj" />
+    <ProjectReference Include="..\..\..\day-3\task-3\QuotesApi\QuotesApi.csproj" />
   </ItemGroup>
 
 </Project>

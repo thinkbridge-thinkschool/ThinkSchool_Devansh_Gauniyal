@@ -1,9 +1,9 @@
-namespace SlowApi;
+namespace QuotesApi.Performance;
 
-// A plain collector for QuotesDbContext's .LogTo(...) delegate. Each captured string is
-// one complete EF Core log entry; the ones that matter here are the "Executed DbCommand"
-// entries, which - with EnableSensitiveDataLogging() on - carry real parameter VALUES
-// followed by the SQL text.
+// A plain collector for PerformanceDbContext's .LogTo(...) delegate. Each captured string
+// is one complete EF Core log entry; the ones that matter here are the "Executed
+// DbCommand" entries, which - with EnableSensitiveDataLogging() on - carry real parameter
+// VALUES followed by the SQL text.
 public sealed class SqlLogCollector
 {
     private readonly List<string> _entries = new();

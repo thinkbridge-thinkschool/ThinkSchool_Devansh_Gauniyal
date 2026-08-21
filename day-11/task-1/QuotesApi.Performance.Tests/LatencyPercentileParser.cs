@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace SlowApi.Tests;
+namespace QuotesApi.Performance.Tests;
 
 // Parses a line like "  50%    28.00ms" from bombardier's -l "Latency Distribution"
 // block and normalizes to milliseconds, regardless of which unit bombardier chose to

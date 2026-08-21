@@ -1,6 +1,6 @@
-namespace SlowApi;
+namespace QuotesApi.Performance;
 
-public static class Seeder
+public static class PerformanceSeeder
 {
     public const int AuthorCount = 50;
     public const int QuotesPerAuthor = 100;
@@ -14,7 +14,7 @@ public static class Seeder
     // Deterministic (no wall-clock, no randomness) and safely re-runnable: if the tables
     // don't already hold exactly AuthorCount / QuoteCount rows, they are cleared and
     // reseeded from scratch. Every name, country and quote text below is synthetic.
-    public static void SeedIfNeeded(QuotesDbContext context)
+    public static void SeedIfNeeded(PerformanceDbContext context)
     {
         context.Database.EnsureCreated();
 
@@ -42,13 +42,13 @@ public static class Seeder
         context.SaveChanges();
 
         var baseDate = new DateTime(2026, 1, 1);
-        var quotes = new List<Quote>(QuoteCount);
+        var quotes = new List<AuthorQuote>(QuoteCount);
         int quoteSequence = 1;
         foreach (var author in authors)
         {
             for (int j = 1; j <= QuotesPerAuthor; j++)
             {
-                quotes.Add(new Quote
+                quotes.Add(new AuthorQuote
                 {
                     Id = quoteSequence,
                     Text = $"Synthetic quote text {quoteSequence:D5}",
