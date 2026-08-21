@@ -1,0 +1,14 @@
+Single representative request: the in-process call to the 'projection' endpoint's data-access path.
+Authors returned: 50
+Total executed SQL statements captured for this ONE request: 1
+
+--- statement 1 of 1 ---
+info: 08/21/2026 12:23:19.257 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."Name", "a"."Country", (
+          SELECT COUNT(*)
+          FROM "Quotes" AS "q"
+          WHERE "a"."Id" = "q"."AuthorId")
+      FROM "Authors" AS "a"
+      ORDER BY "a"."Id"
+

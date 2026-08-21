@@ -1,0 +1,19 @@
+Single representative request: the in-process call to the 'split' endpoint's data-access path.
+Authors returned: 50
+Total executed SQL statements captured for this ONE request: 2
+
+--- statement 1 of 2 ---
+info: 08/21/2026 12:23:19.569 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."Country", "a"."Name"
+      FROM "Authors" AS "a"
+      ORDER BY "a"."Id"
+
+--- statement 2 of 2 ---
+info: 08/21/2026 12:23:19.571 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."AuthorId", "q"."CreatedAt", "q"."Text", "a"."Id"
+      FROM "Authors" AS "a"
+      INNER JOIN "Quotes" AS "q" ON "a"."Id" = "q"."AuthorId"
+      ORDER BY "a"."Id"
+
