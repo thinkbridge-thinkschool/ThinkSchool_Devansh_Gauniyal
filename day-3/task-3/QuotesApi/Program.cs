@@ -14,10 +14,27 @@ using QuotesApi;
 using QuotesApi.Authentication;
 using QuotesApi.Authorization;
 using QuotesApi.Configuration;
+using QuotesApi.Performance;
 using QuotesApi.Quotes;
 using QuotesApi.Tokens;
 using Serilog;
 using Serilog.Context;
+
+// Day 11 Task 1: a standalone diagnostics pass (build no web host at all) that captures
+// the SQL log, EXPLAIN QUERY PLAN and schema dump for the deliberately slow performance
+// endpoint below. Kept entirely separate from app startup so it never runs unless
+// explicitly invoked this way.
+if (args.Length > 0 && args[0] == "performance-diagnostics")
+{
+    var diagnosticsDbPath = args.Length > 1
+        ? args[1]
+        : Path.Combine(AppContext.BaseDirectory, "performance.db");
+    var diagnosticsOutputDir = args.Length > 2
+        ? args[2]
+        : Path.Combine(AppContext.BaseDirectory, "performance-output");
+    PerformanceDiagnosticsRunner.Run(diagnosticsDbPath, diagnosticsOutputDir);
+    return;
+}
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -394,6 +411,38 @@ app.MapDelete("/api/quotes/{id:int}", async (
     quotes.Delete(id);
     return Results.Ok(new { deleted = id });
 }).RequireAuthorization();
+
+// Day 11 Task 1: a deliberately slow endpoint reproducing an N+1 query over a missing FK
+// index (see QuotesApi.Performance). Additive only - nothing above this point changed.
+// Scope is measure-only: this stays unfixed. Seeding is lazy (first request only) so
+// every other test that boots this app via WebApplicationFactory is completely
+// unaffected unless it actually calls this endpoint.
+var performanceDbPath = Environment.GetEnvironmentVariable("PERFORMANCE_DB_PATH")
+    ?? Path.Combine(AppContext.BaseDirectory, "performance.db");
+var performanceSeeded = false;
+var performanceSeedLock = new object();
+
+app.MapGet("/api/authors/quote-summary", () =>
+{
+    if (!performanceSeeded)
+    {
+        lock (performanceSeedLock)
+        {
+            if (!performanceSeeded)
+            {
+                using var seedContext = new PerformanceDbContext(performanceDbPath);
+                seedContext.Database.EnsureCreated();
+                seedContext.EnableWriteAheadLogging();
+                PerformanceSeeder.SeedIfNeeded(seedContext);
+                performanceSeeded = true;
+            }
+        }
+    }
+
+    using var context = new PerformanceDbContext(performanceDbPath);
+    var summary = AuthorQuoteSummaryQuery.Run(context);
+    return Results.Ok(summary);
+});
 
 app.Run();
 

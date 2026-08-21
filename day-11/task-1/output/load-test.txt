@@ -1,0 +1,18 @@
+Command: bombardier -c 20 -d 10s -l http://127.0.0.1:5187/api/authors/quote-summary
+
+Bombarding http://127.0.0.1:5187/api/authors/quote-summary for 10s using 20 connection(s)
+ 00m09s 00m08s 00m08s 00m08s 00m08s 00m08s 00m07s 00m07s 00m07s 00m07s 00m07s 00m06s 00m06s 00m06s 00m06s 00m06s 00m05s 00m05s 00m05s 00m05s 00m05s 00m04s 00m04s 00m04s 00m04s 00m04s 00m03s 00m03s 00m03s 00m03s 00m03s 00m02s 00m02s 00m02s 00m02s 00m02s 00m01s 00m01s 00m01s 00m01s 00m01s 10s
+Done!
+Statistics        Avg      Stdev        Max
+  Reqs/sec       410.84     225.26    1387.18
+  Latency       49.04ms    37.97ms   349.00ms
+  Latency Distribution
+     50%    42.24ms
+     75%    49.41ms
+     90%    64.71ms
+     95%   132.73ms
+     99%   215.81ms
+  HTTP codes:
+    1xx - 0, 2xx - 4083, 3xx - 0, 4xx - 0, 5xx - 0
+    others - 0
+  Throughput:     1.54MB/s
