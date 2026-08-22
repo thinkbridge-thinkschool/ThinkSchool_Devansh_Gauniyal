@@ -1,14 +1,12 @@
 using System.Collections.Concurrent;
 
-namespace CqrsLite.Data;
+namespace DapperComparison;
 
 public sealed class SqlLogCollector
 {
     private readonly ConcurrentQueue<string> _entries = new();
 
     public void Add(string message) => _entries.Enqueue(message);
-
-    public IReadOnlyList<string> Entries => _entries.ToArray();
 
     public List<string> ExecutedCommandEntries =>
         _entries.Where(e => e.Contains("Executed DbCommand")).ToList();

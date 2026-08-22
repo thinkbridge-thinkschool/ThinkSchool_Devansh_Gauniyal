@@ -3,9 +3,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CqrsLite.Features.Quotes.Queries;
 
-// The read path: AsNoTracking, and the Select projects straight into QuoteWallItem - no
-// Quote or Author entity is ever materialized. Ordered newest-first by CreatedAt, tie-broken
-// by Id, so the screen contract (row order) is stable across runs.
 public sealed class QuoteWallHandler
 {
     private readonly QuotesDbContext _context;

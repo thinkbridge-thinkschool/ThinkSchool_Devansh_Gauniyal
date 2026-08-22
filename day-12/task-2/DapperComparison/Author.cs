@@ -1,4 +1,4 @@
-namespace CqrsLite.Domain;
+namespace DapperComparison;
 
 public class Author
 {

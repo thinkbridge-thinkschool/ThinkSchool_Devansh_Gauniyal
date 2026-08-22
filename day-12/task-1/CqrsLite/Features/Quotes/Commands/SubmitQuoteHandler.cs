@@ -3,10 +3,6 @@ using CqrsLite.Domain;
 
 namespace CqrsLite.Features.Quotes.Commands;
 
-// The write path: tracked entities, because saving needs change tracking. Every expected
-// failure - empty text, oversized text, an unknown author, a duplicate - returns a result
-// instead of throwing. Throwing here would turn ordinary validation outcomes into
-// exception-driven control flow, which is exactly what a command handler should not do.
 public sealed class SubmitQuoteHandler
 {
     public const int MaxTextLength = 280;

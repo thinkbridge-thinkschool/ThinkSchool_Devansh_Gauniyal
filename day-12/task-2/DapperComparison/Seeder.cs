@@ -1,16 +1,14 @@
-using CqrsLite.Domain;
-
-namespace CqrsLite.Data;
+namespace DapperComparison;
 
 public static class Seeder
 {
-    public const int AuthorCount = 10;
-    public const int QuotesPerAuthor = 6;
+    public const int AuthorCount = 100;
+    public const int QuotesPerAuthor = 100;
     public const int QuoteCount = AuthorCount * QuotesPerAuthor;
 
     private static readonly string[] Countries =
     {
-        "Placeholderia", "Exemplaria", "Sampletown", "Testopia", "Demoland"
+        "Fictionville", "Paperland", "Mockstead", "Dummyshire", "Sampleburg"
     };
 
     public static void SeedIfNeeded(QuotesDbContext context)

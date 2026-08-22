@@ -1,0 +1,12 @@
+EfQueries.RunProjection - AsNoTracking projection straight into QuoteWallItem (the fair baseline)
+Total executed SQL statements captured: 1
+
+--- statement 1 of 1 ---
+info: 08/22/2026 12:22:08.716 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (1ms) [Parameters=[@submittedSinceUtc='2000-01-01T00:00:00.0000000Z' (DbType = DateTime)], CommandType='Text', CommandTimeout='30']
+      SELECT "q"."Id", "q"."Text", "a"."Name", "a"."Country", "q"."CreatedAt"
+      FROM "Quotes" AS "q"
+      INNER JOIN "Authors" AS "a" ON "q"."AuthorId" = "a"."Id"
+      WHERE "q"."CreatedAt" >= @submittedSinceUtc
+      ORDER BY "q"."CreatedAt" DESC, "q"."Id" DESC
+

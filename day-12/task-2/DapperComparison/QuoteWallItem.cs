@@ -1,4 +1,4 @@
-namespace CqrsLite.Features.Quotes.Queries;
+namespace DapperComparison;
 
 public sealed record QuoteWallItem
 {

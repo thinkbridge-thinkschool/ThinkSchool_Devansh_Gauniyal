@@ -1,8 +1,7 @@
-using CqrsLite.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace CqrsLite.Data;
+namespace DapperComparison;
 
 public class QuotesDbContext : DbContext
 {

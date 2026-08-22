@@ -5,9 +5,6 @@ using CqrsLite.Features.Quotes.Queries;
 
 namespace CqrsLite;
 
-// Runs both paths once against a freshly seeded database and writes the REAL SQL each path
-// emitted, plus the real row counts and validation outcomes, to disk. Nothing here is
-// fabricated - every figure quoted in submission.md traces back to a file this method wrote.
 public static class SqlCaptureRunner
 {
     public static void Run(string dbPath, string outputDir)
