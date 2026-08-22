@@ -1,0 +1,176 @@
+{
+  "Variants": {
+    "EfTracked": {
+      "Iterations": [
+        {
+          "ElapsedMs": 49.5374,
+          "AllocatedBytes": 15786536,
+          "RowCount": 10000
+        },
+        {
+          "ElapsedMs": 48.2228,
+          "AllocatedBytes": 15786496,
+          "RowCount": 10000
+        },
+        {
+          "ElapsedMs": 48.0141,
+          "AllocatedBytes": 15786456,
+          "RowCount": 10000
+        },
+        {
+          "ElapsedMs": 68.6197,
+          "AllocatedBytes": 15786496,
+          "RowCount": 10000
+        },
+        {
+          "ElapsedMs": 50.3702,
+          "AllocatedBytes": 15786496,
+          "RowCount": 10000
+        },
+        {
+          "ElapsedMs": 38.4382,
+          "AllocatedBytes": 15786456,
+          "RowCount": 10000
+        },
+        {
+          "ElapsedMs": 37.5903,
+          "AllocatedBytes": 15786496,
+          "RowCount": 10000
+        }
+      ],
+      "MedianElapsedMs": 48.2228,
+      "MedianAllocatedBytes": 15786496,
+      "RowCount": 10000,
+      "AllocatedBytesPerRow": 1578.6496
+    },
+    "EfProjection": {
+      "Iterations": [
+        {
+          "ElapsedMs": 10.8703,
+          "AllocatedBytes": 5671696,
+          "RowCount": 10000
+        },
+        {
+          "ElapsedMs": 10.6471,
+          "AllocatedBytes": 5671696,
+          "RowCount": 10000
+        },
+        {
+          "ElapsedMs": 10.4992,
+          "AllocatedBytes": 5671656,
+          "RowCount": 10000
+        },
+        {
+          "ElapsedMs": 11.5661,
+          "AllocatedBytes": 5671656,
+          "RowCount": 10000
+        },
+        {
+          "ElapsedMs": 10.8536,
+          "AllocatedBytes": 5671696,
+          "RowCount": 10000
+        },
+        {
+          "ElapsedMs": 9.1785,
+          "AllocatedBytes": 5671656,
+          "RowCount": 10000
+        },
+        {
+          "ElapsedMs": 9.2585,
+          "AllocatedBytes": 5671656,
+          "RowCount": 10000
+        }
+      ],
+      "MedianElapsedMs": 10.6471,
+      "MedianAllocatedBytes": 5671656,
+      "RowCount": 10000,
+      "AllocatedBytesPerRow": 567.1656
+    },
+    "Dapper": {
+      "Iterations": [
+        {
+          "ElapsedMs": 11.3816,
+          "AllocatedBytes": 4793360,
+          "RowCount": 10000
+        },
+        {
+          "ElapsedMs": 11.264,
+          "AllocatedBytes": 4793360,
+          "RowCount": 10000
+        },
+        {
+          "ElapsedMs": 11.286,
+          "AllocatedBytes": 4793360,
+          "RowCount": 10000
+        },
+        {
+          "ElapsedMs": 11.2855,
+          "AllocatedBytes": 4793360,
+          "RowCount": 10000
+        },
+        {
+          "ElapsedMs": 10.419,
+          "AllocatedBytes": 4793360,
+          "RowCount": 10000
+        },
+        {
+          "ElapsedMs": 9.5403,
+          "AllocatedBytes": 4793360,
+          "RowCount": 10000
+        },
+        {
+          "ElapsedMs": 9.395,
+          "AllocatedBytes": 4793360,
+          "RowCount": 10000
+        }
+      ],
+      "MedianElapsedMs": 11.264,
+      "MedianAllocatedBytes": 4793360,
+      "RowCount": 10000,
+      "AllocatedBytesPerRow": 479.336
+    }
+  },
+  "IterationOrders": [
+    [
+      "EfTracked",
+      "EfProjection",
+      "Dapper"
+    ],
+    [
+      "EfProjection",
+      "Dapper",
+      "EfTracked"
+    ],
+    [
+      "Dapper",
+      "EfTracked",
+      "EfProjection"
+    ],
+    [
+      "EfTracked",
+      "EfProjection",
+      "Dapper"
+    ],
+    [
+      "EfProjection",
+      "Dapper",
+      "EfTracked"
+    ],
+    [
+      "Dapper",
+      "EfTracked",
+      "EfProjection"
+    ],
+    [
+      "EfTracked",
+      "EfProjection",
+      "Dapper"
+    ]
+  ],
+  "WarmupIterationsPerVariant": 1,
+  "DotNetVersion": "10.0.10",
+  "RuntimeIdentifier": "osx-arm64",
+  "DapperVersion": "2.1.79",
+  "EfCoreVersion": "10.0.11",
+  "Notes": "Measured on an Apple Silicon (arm64) laptop, single process, System.Diagnostics.Stopwatch and GC.GetAllocatedBytesForCurrentThread() only - no BenchmarkDotNet, no statistical rigour beyond reporting every individual run and the median."
+}
