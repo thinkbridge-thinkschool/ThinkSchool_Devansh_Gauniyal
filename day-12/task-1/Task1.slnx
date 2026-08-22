@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="CqrsLite/CqrsLite.csproj" />
+  <Project Path="CqrsLite.Tests/CqrsLite.Tests.csproj" />
+</Solution>

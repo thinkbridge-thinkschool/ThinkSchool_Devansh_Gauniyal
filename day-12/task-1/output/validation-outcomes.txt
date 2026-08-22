@@ -1,0 +1,23 @@
+Row counts and validation outcomes captured from a real execution against a freshly seeded, synthetic database.
+
+Authors seeded: 10
+Quotes seeded: 60
+
+Command case: valid submission for Author 007
+  Success=True, QuoteId=61, FailureReason=None
+
+Command case: Empty text
+  Success=False, QuoteId=, FailureReason=TextEmpty
+
+Command case: Text over max length
+  Success=False, QuoteId=, FailureReason=TextTooLong
+
+Command case: Unknown author
+  Success=False, QuoteId=, FailureReason=AuthorNotFound
+
+Command case: Duplicate for same author
+  Success=False, QuoteId=, FailureReason=DuplicateQuote
+
+Query case: quote wall read after the successful submission above
+  Rows returned: 61 (seeded 60 plus the 1 quote just submitted = 61)
+  First row author: Author 007 (Sampletown)
