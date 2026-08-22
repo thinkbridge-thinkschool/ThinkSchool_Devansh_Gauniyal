@@ -24,11 +24,6 @@ public class QuotesDbContext : DbContext
 
         if (_logCollector is not null)
         {
-            // EnableSensitiveDataLogging is a development-only switch: it writes real
-            // parameter VALUES into the log instead of masking them. Only ever turned on
-            // here, per-context, when a collector is actually observing - and every value
-            // in this database is synthetic seed data or synthetic test input, never real
-            // personal data.
             optionsBuilder
                 .LogTo(_logCollector.Add, LogLevel.Information)
                 .EnableSensitiveDataLogging();

@@ -4,23 +4,6 @@ https://github.com/thinkbridge-thinkschool/ThinkSchool_Devansh_Gauniyal/tree/day
 
 ## Notes for mentor
 
-### Feature and interpretation
-
-The Academy exercise names no feature, so I picked a quote-submission / quote-wall feature
-in the same authors-and-quotes domain Day 11 used (for a familiar shape), built entirely
-fresh in `day-12/task-1` with no reference to or dependency on any earlier day's code.
-
-- **Write side** — `SubmitQuoteCommand`: normalized across `Author` and `Quote`, with real
-  validation (text not empty, text within a max length, author must exist, no exact
-  duplicate for that author). Returns only an identifier plus success/failure — not an
-  entity.
-- **Read side** — `QuoteWallQuery`: a flat, denormalized "quote wall" row per quote, with
-  the author's name and country folded onto it and a pre-formatted date. No nested objects,
-  no navigation properties.
-
-No MediatR, no event sourcing — see the dedicated sections below. One SQLite database, one
-set of tables (`Authors`, `Quotes`), two code paths.
-
 ### The command handler
 
 `Features/Quotes/Commands/SubmitQuoteCommand.cs`:
@@ -241,61 +224,6 @@ change-tracker cost at all: `AsNoTracking()` plus a `Select` projection means no
 `Author` entity is ever materialized, which is exactly what the captured SQL proves by naming
 only 5 columns instead of the 7 a tracked entity fetch (`Quote`'s 4 plus `Author`'s 3) would
 have required.
-
-### The MediatR decision
-
-The "what this builds" tag names MediatR, but the exercise body only asks for a command
-handler, a query with its read model, and separate command/query paths — none of which
-require a mediator library. I implemented the split with plain handler classes, constructed
-directly in `Program.cs`, for two reasons:
-
-1. **Licence.** MediatR moved to a commercial licence in 2025 (a free tier below a revenue
-   threshold, a paid licence above it). A student project falls in the free tier, but adding
-   a licensed package to a graded repository felt like a decision to make deliberately
-   rather than by default — so I didn't add it without asking first.
-2. **What the exercise actually asks for.** The separation is a type/folder/namespace
-   structure, not a dispatch mechanism, so a mediator library isn't required to demonstrate
-   it. Constructing `SubmitQuoteHandler` and `QuoteWallHandler` directly in `Program.cs`
-   keeps the dispatch visible instead of hidden inside a library's pipeline.
-
-**Where MediatR would slot in**: `SubmitQuoteCommand` would implement
-`IRequest<SubmitQuoteResult>` instead of being a bare record, `SubmitQuoteHandler` would
-implement `IRequestHandler<SubmitQuoteCommand, SubmitQuoteResult>` instead of exposing a
-plain `Handle` method, and `Program.cs`'s direct `new SubmitQuoteHandler(context).Handle(command)`
-would become `await mediator.Send(command)`, with the concrete handler resolved from DI by
-convention instead of constructed by hand. The same substitution applies to the query side.
-Nothing else about the design would need to change.
-
-### No event sourcing — the boundary
-
-The exercise body explicitly rules this out, so this project deliberately does **not** have:
-an event store, persisted domain events, any mechanism that rebuilds state by replaying
-anything, or a separate read database / projection-sync process. One database, one set of
-tables (`Authors`, `Quotes`), two code paths — nothing more.
-
-### SQLite
-
-EF Core with the SQLite provider, matching Days 5, 10, and 11 — no container, runs natively
-on Apple Silicon, keeps the suite runnable in CI (no Docker, no network there). The EF Core
-InMemory provider was deliberately not used, since the read path's real SQL — the actual
-proof this is a projection, not an entity fetch — is the whole point of the evidence capture
-above.
-
-### Synthetic data confirmation
-
-Every value in every file under `output/` is synthetic: author names are `"Author 0NN"`,
-quote text is `"Synthetic quote text 0NNNN"` or an evidence-run label like `"Synthetic quote
-text 90001, captured for evidence"`, and countries are invented placeholders (`Placeholderia`,
-`Sampletown`, etc.). `EnableSensitiveDataLogging()` is what makes the captured SQL show real
-parameter values instead of masked placeholders — it is a development-only switch that should
-never ship in production code, and it's safe here only because nothing it logs is real.
-
-### Connection to Day 10 Task 1 and Day 11 Task 2
-
-Projecting straight into a DTO with `Select` avoids change-tracking cost entirely and
-produces SQL that names only the columns actually needed — the same lesson both of those
-tasks demonstrated, here shown again by the query path's 5-column select list versus the
-7 columns a tracked `Quote` + `Author` fetch would pull.
 
 ## What did you learn this session?
 

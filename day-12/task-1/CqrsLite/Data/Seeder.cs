@@ -2,9 +2,6 @@ using CqrsLite.Domain;
 
 namespace CqrsLite.Data;
 
-// Deterministic, obviously-synthetic seed data. No real people, no real quotations
-// attributed to real figures. Author names are "Author 0NN" and quote text is
-// "Synthetic quote text 0NNNN" - fixtures, not fiction dressed up as fact.
 public static class Seeder
 {
     public const int AuthorCount = 10;
