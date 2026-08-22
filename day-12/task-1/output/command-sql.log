@@ -1,0 +1,26 @@
+SubmitQuoteHandler - one successful submission (author lookup, duplicate check, insert)
+Total executed SQL statements captured: 3
+
+--- statement 1 of 3 ---
+info: 08/22/2026 10:34:56.041 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (0ms) [Parameters=[@command_AuthorId='7'], CommandType='Text', CommandTimeout='30']
+      SELECT "a"."Id", "a"."Country", "a"."Name"
+      FROM "Authors" AS "a"
+      WHERE "a"."Id" = @command_AuthorId
+      LIMIT 2
+
+--- statement 2 of 3 ---
+info: 08/22/2026 10:34:56.046 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (0ms) [Parameters=[@command_AuthorId='7', @text='Synthetic quote text 90001, captured for evidence' (Size = 49)], CommandType='Text', CommandTimeout='30']
+      SELECT EXISTS (
+          SELECT 1
+          FROM "Quotes" AS "q"
+          WHERE "q"."AuthorId" = @command_AuthorId AND "q"."Text" = @text)
+
+--- statement 3 of 3 ---
+info: 08/22/2026 10:34:56.049 RelationalEventId.CommandExecuted[20101] (Microsoft.EntityFrameworkCore.Database.Command) 
+      Executed DbCommand (0ms) [Parameters=[@p0='7', @p1='2026-08-22T05:04:56.0463030Z' (DbType = DateTime), @p2='Synthetic quote text 90001, captured for evidence' (Nullable = false) (Size = 49)], CommandType='Text', CommandTimeout='30']
+      INSERT INTO "Quotes" ("AuthorId", "CreatedAt", "Text")
+      VALUES (@p0, @p1, @p2)
+      RETURNING "Id";
+
