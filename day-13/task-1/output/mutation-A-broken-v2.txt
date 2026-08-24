@@ -1,0 +1,8 @@
+PASS: no NgModule anywhere in app source
+PASS: no constructor-parameter injection in non-spec source files
+FAIL: every @for block tracks by the real identifier field (quote.id)
+      @for (quote of filteredQuotes(); track quote.text) {
+PASS: no Zone.js reference in package.json
+PASS: no Zone.js reference in angular.json
+
+1 structural check(s) failed.

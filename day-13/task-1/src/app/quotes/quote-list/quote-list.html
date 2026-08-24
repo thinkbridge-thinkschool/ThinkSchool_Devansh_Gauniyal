@@ -1,0 +1,89 @@
+<section class="quote-list">
+  <header class="quote-list__header">
+    <h1>Quotes</h1>
+    <p class="quote-list__subtitle">Live from the real QuotesApi contract.</p>
+  </header>
+
+  <div class="quote-list__controls">
+    <label class="quote-list__filter">
+      <span class="quote-list__filter-label">Filter</span>
+      <input
+        type="text"
+        data-testid="filter-input"
+        [value]="filterText()"
+        (input)="setFilterText($any($event.target).value)"
+        placeholder="Search quote text…"
+      />
+    </label>
+
+    <div class="quote-list__view-mode" role="group" aria-label="View mode">
+      <button
+        type="button"
+        data-testid="view-list"
+        class="quote-list__view-btn"
+        [class.quote-list__view-btn--active]="viewMode() === 'list'"
+        (click)="setViewMode('list')"
+      >
+        List
+      </button>
+      <button
+        type="button"
+        data-testid="view-compact"
+        class="quote-list__view-btn"
+        [class.quote-list__view-btn--active]="viewMode() === 'compact'"
+        (click)="setViewMode('compact')"
+      >
+        Compact
+      </button>
+      <button
+        type="button"
+        data-testid="view-ids-only"
+        class="quote-list__view-btn"
+        [class.quote-list__view-btn--active]="viewMode() === 'ids-only'"
+        (click)="setViewMode('ids-only')"
+      >
+        IDs only
+      </button>
+    </div>
+  </div>
+
+  @if (loading()) {
+    <p class="quote-list__status" data-testid="status-loading">Loading quotes…</p>
+  } @else if (error()) {
+    <p class="quote-list__status" data-testid="status-error">{{ error() }}</p>
+  } @else if (filteredQuotes().length === 0) {
+    <p class="quote-list__status" data-testid="status-empty">No quotes match this filter.</p>
+  } @else {
+    <p class="quote-list__count" data-testid="status-count">{{ filteredCount() }} quote(s)</p>
+
+    @switch (viewMode()) {
+      @case ('list') {
+        <ul class="quote-list__items" data-testid="view-mode-list">
+          @for (quote of filteredQuotes(); track quote.id) {
+            <li>
+              <span class="quote-list__text">“{{ quote.text }}”</span>
+              <span class="quote-list__owner">{{ quote.ownerId }}</span>
+            </li>
+          }
+        </ul>
+      }
+      @case ('compact') {
+        <ul class="quote-list__items quote-list__items--compact" data-testid="view-mode-compact">
+          @for (quote of filteredQuotes(); track quote.id) {
+            <li>{{ quote.text }}</li>
+          }
+        </ul>
+      }
+      @case ('ids-only') {
+        <ul class="quote-list__items quote-list__items--ids-only" data-testid="view-mode-ids-only">
+          @for (quote of filteredQuotes(); track quote.id) {
+            <li><span class="quote-list__id-badge">#{{ quote.id }}</span></li>
+          }
+        </ul>
+      }
+      @default {
+        <p>Unknown view mode.</p>
+      }
+    }
+  }
+</section>

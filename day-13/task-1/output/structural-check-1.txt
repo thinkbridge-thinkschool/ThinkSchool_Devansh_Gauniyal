@@ -1,0 +1,7 @@
+PASS: no NgModule anywhere in app source
+PASS: no constructor-parameter injection in non-spec source files
+FAIL: the @for block has a track expression
+PASS: no Zone.js reference in package.json
+PASS: no Zone.js reference in angular.json
+
+1 structural check(s) failed.

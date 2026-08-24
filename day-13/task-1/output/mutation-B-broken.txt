@@ -1,0 +1,50 @@
+❯ Building...
+✔ Building...
+Initial chunk files                      | Names                                 |  Raw size
+chunk-TPTUIJQ6.js                        | -                                     |  11.26 kB | 
+chunk-CGZBV6BD.js                        | -                                     |   4.07 kB | 
+spec-app-quotes-quote-list-quote-list.js | spec-app-quotes-quote-list-quote-list |   3.55 kB | 
+spec-app-app.js                          | spec-app-app                          |   2.05 kB | 
+spec-app-quotes-quote-api.js             | spec-app-quotes-quote-api             |   2.02 kB | 
+init-testbed.js                          | init-testbed                          |   1.21 kB | 
+vitest-mock-patch.js                     | vitest-mock-patch                     | 974 bytes | 
+chunk-JDBHIZ2R.js                        | -                                     | 863 bytes | 
+styles.css                               | styles                                |  56 bytes | 
+
+                                         | Initial total                         |  26.05 kB
+
+Application bundle generation complete. [0.404 seconds] - 2026-08-24T04:52:22.997Z
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.11 [39m[90m/Users/devansh/thinkschool/day-13/task-1[39m
+
+ [31m❯[39m [30m[43m app [49m[39m src/app/quotes/quote-list/quote-list.spec.ts [2m([22m[2m8 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 32[2mms[22m[39m
+[31m     [31m×[31m computed updates when the SECOND signal (filterText) changes, quotes held constant[39m[32m 4[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/quote-list/quote-list.spec.ts[2m > [22mQuoteList[2m > [22mcomputed updates when the SECOND signal (filterText) changes, quotes held constant
+[31m[1mAssertionError[22m: expected 2 to be 1 // Object.is equality[39m
+
+- Expected
++ Received
+
+- 1
++ 2
+
+[36m [2m❯[22m src/app/quotes/quote-list/quote-list.spec.ts:[2m73:56[22m[39m
+    [90m 71|[39m
+    [90m 72|[39m     (component [35mas[39m any)[33m.[39mfilterText[33m.[39m[35mset[39m([32m'policies'[39m)[33m;[39m
+    [90m 73|[39m     [34mexpect[39m((component [35mas[39m any)[33m.[39m[34mfilteredQuotes[39m()[33m.[39mlength)[33m.[39m[34mtoBe[39m([34m1[39m)[33m;[39m
+    [90m   |[39m                                                        [31m^[39m
+    [90m 74|[39m     expect((component as any).filteredQuotes()[0].ownerId).toBe('user-…
+    [90m 75|[39m   })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m12 passed[39m[22m[90m (13)[39m
+[2m   Start at [22m 10:22:23
+[2m   Duration [22m 366ms[2m (transform 61ms, setup 252ms, import 65ms, tests 57ms, environment 521ms)[22m
+
