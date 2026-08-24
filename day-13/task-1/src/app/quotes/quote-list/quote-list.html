@@ -1,0 +1,55 @@
+<section class="quote-list">
+  <label class="quote-list__filter">
+    Filter
+    <input
+      type="text"
+      data-testid="filter-input"
+      [value]="filterText()"
+      (input)="setFilterText($any($event.target).value)"
+      placeholder="Filter quotes by text…"
+    />
+  </label>
+
+  <div class="quote-list__view-mode">
+    <button type="button" data-testid="view-list" (click)="setViewMode('list')">List</button>
+    <button type="button" data-testid="view-compact" (click)="setViewMode('compact')">Compact</button>
+    <button type="button" data-testid="view-ids-only" (click)="setViewMode('ids-only')">IDs only</button>
+  </div>
+
+  @if (loading()) {
+    <p class="quote-list__status" data-testid="status-loading">Loading quotes…</p>
+  } @else if (error()) {
+    <p class="quote-list__status" data-testid="status-error">{{ error() }}</p>
+  } @else if (filteredQuotes().length === 0) {
+    <p class="quote-list__status" data-testid="status-empty">No quotes match this filter.</p>
+  } @else {
+    <p class="quote-list__count" data-testid="status-count">{{ filteredCount() }} quote(s)</p>
+
+    @switch (viewMode()) {
+      @case ('list') {
+        <ul class="quote-list__items" data-testid="view-mode-list">
+          @for (quote of filteredQuotes(); track quote.id) {
+            <li>{{ quote.text }} — {{ quote.ownerId }}</li>
+          }
+        </ul>
+      }
+      @case ('compact') {
+        <ul class="quote-list__items" data-testid="view-mode-compact">
+          @for (quote of filteredQuotes(); track quote.id) {
+            <li>{{ quote.text }}</li>
+          }
+        </ul>
+      }
+      @case ('ids-only') {
+        <ul class="quote-list__items" data-testid="view-mode-ids-only">
+          @for (quote of filteredQuotes(); track quote.id) {
+            <li>#{{ quote.id }}</li>
+          }
+        </ul>
+      }
+      @default {
+        <p>Unknown view mode.</p>
+      }
+    }
+  }
+</section>

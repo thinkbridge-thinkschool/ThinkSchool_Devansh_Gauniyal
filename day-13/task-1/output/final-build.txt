@@ -1,0 +1,12 @@
+❯ Building...
+✔ Building...
+Initial chunk files | Names         |  Raw size | Estimated transfer size
+main-4VBFLTGL.js    | main          | 138.36 kB |                40.26 kB
+styles-5INURTSO.css | styles        |   0 bytes |                 0 bytes
+
+                    | Initial total | 138.36 kB |                40.26 kB
+
+Application bundle generation complete. [0.584 seconds] - 2026-08-24T04:54:09.899Z
+
+Output location: /Users/devansh/thinkschool/day-13/task-1/dist/app
+

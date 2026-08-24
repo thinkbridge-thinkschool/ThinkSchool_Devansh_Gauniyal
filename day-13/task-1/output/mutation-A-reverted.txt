@@ -1,0 +1,7 @@
+PASS: no NgModule anywhere in app source
+PASS: no constructor-parameter injection in non-spec source files
+PASS: every @for block tracks by the real identifier field (quote.id)
+PASS: no Zone.js reference in package.json
+PASS: no Zone.js reference in angular.json
+
+All structural checks passed.

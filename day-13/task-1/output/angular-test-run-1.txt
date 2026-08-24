@@ -1,0 +1,41 @@
+❯ Building...
+✔ Building...
+Application bundle generation failed. [0.405 seconds] - 2026-08-24T04:48:44.284Z
+
+✘ [ERROR] TS2349: This expression is not callable.
+  Type 'TestContext' has no call signatures. [plugin angular-compiler]
+
+    src/app/quotes/quote-api.spec.ts:47:6:
+      47 │       done();
+         ╵       ~~~~
+
+
+✘ [ERROR] TS2349: This expression is not callable.
+  Type 'TestContext' has no call signatures. [plugin angular-compiler]
+
+    src/app/quotes/quote-api.spec.ts:64:6:
+      64 │       done();
+         ╵       ~~~~
+
+
+✘ [ERROR] TS2307: Cannot find module 'node:fs' or its corresponding type declarations. [plugin angular-compiler]
+
+    src/app/structural.spec.ts:1:52:
+      1 │ import { readFileSync, readdirSync, statSync } from 'node:fs';
+        ╵                                                     ~~~~~~~~~
+
+
+✘ [ERROR] TS2307: Cannot find module 'node:path' or its corresponding type declarations. [plugin angular-compiler]
+
+    src/app/structural.spec.ts:2:21:
+      2 │ import { join } from 'node:path';
+        ╵                      ~~~~~~~~~~~
+
+
+✘ [ERROR] TS2339: Property 'dirname' does not exist on type 'ImportMeta'. [plugin angular-compiler]
+
+    src/app/structural.spec.ts:5:33:
+      5 │ const SRC_DIR = join(import.meta.dirname, '..');
+        ╵                                  ~~~~~~~
+
+
