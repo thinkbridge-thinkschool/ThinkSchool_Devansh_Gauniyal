@@ -1,0 +1,26 @@
+❯ Building...
+✔ Building...
+Initial chunk files                            | Names                                       |  Raw size
+chunk-FCWUD5CR.js                              | -                                           |  12.40 kB | 
+spec-app-quotes-quote-browser-quote-browser.js | spec-app-quotes-quote-browser-quote-browser |   4.39 kB | 
+chunk-CGZBV6BD.js                              | -                                           |   4.07 kB | 
+spec-app-quotes-quote-api.js                   | spec-app-quotes-quote-api                   |   2.62 kB | 
+spec-app-app.js                                | spec-app-app                                |   2.07 kB | 
+init-testbed.js                                | init-testbed                                |   1.21 kB | 
+chunk-XUI5VS2W.js                              | -                                           |   1.02 kB | 
+vitest-mock-patch.js                           | vitest-mock-patch                           | 974 bytes | 
+styles.css                                     | styles                                      |  56 bytes | 
+
+                                               | Initial total                               |  28.81 kB
+
+Application bundle generation complete. [0.412 seconds] - 2026-08-24T07:22:19.938Z
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.11 [39m[90m/Users/devansh/thinkschool/day-13/task-2[39m
+
+
+[2m Test Files [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[32m15 passed[39m[22m[90m (15)[39m
+[2m   Start at [22m 12:52:20
+[2m   Duration [22m 380ms[2m (transform 53ms, setup 252ms, import 51ms, tests 88ms, environment 527ms)[22m
+

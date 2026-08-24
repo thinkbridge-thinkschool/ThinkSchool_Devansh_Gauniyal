@@ -1,0 +1,47 @@
+<section class="quote-browser">
+  <div class="quote-browser__list" data-testid="list-pane">
+    <h2>Quotes</h2>
+
+    @if (listLoading()) {
+      <p data-testid="list-status-loading">Loading quotes…</p>
+    } @else if (listError()) {
+      <p data-testid="list-status-error">{{ listError() }}</p>
+    } @else if (listData() && listData()!.length === 0) {
+      <p data-testid="list-status-empty">No quotes yet.</p>
+    } @else {
+      <ul data-testid="quote-list">
+        @for (quote of listData(); track quote.id) {
+          <li>
+            <button
+              type="button"
+              [attr.data-testid]="'select-' + quote.id"
+              [class.selected]="selectedId() === quote.id"
+              (click)="selectQuote(quote.id)"
+            >
+              {{ quote.text }}
+            </button>
+          </li>
+        }
+      </ul>
+    }
+  </div>
+
+  <div class="quote-browser__detail" data-testid="detail-pane">
+    <h2>Detail</h2>
+
+    @if (selectedId() === null) {
+      <p data-testid="detail-status-unselected">Select a quote to see its detail.</p>
+    } @else if (detailLoading()) {
+      <p data-testid="detail-status-loading">Loading detail…</p>
+    } @else if (detailError()) {
+      <p data-testid="detail-status-error">{{ detailError() }}</p>
+    } @else if (detailData()) {
+      <article data-testid="detail-content">
+        <p class="quote-browser__detail-text">“{{ detailData()!.text }}”</p>
+        <p class="quote-browser__detail-owner">{{ detailData()!.ownerId }}</p>
+      </article>
+    } @else {
+      <p data-testid="detail-status-not-found">That quote is no longer available.</p>
+    }
+  </div>
+</section>
