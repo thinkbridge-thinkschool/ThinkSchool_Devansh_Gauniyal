@@ -1,0 +1,50 @@
+❯ Building...
+✔ Building...
+Initial chunk files                            | Names                                       |  Raw size
+chunk-E5QVUGM7.js                              | -                                           |  12.26 kB | 
+spec-app-quotes-quote-browser-quote-browser.js | spec-app-quotes-quote-browser-quote-browser |   4.39 kB | 
+chunk-CGZBV6BD.js                              | -                                           |   4.07 kB | 
+spec-app-quotes-quote-api.js                   | spec-app-quotes-quote-api                   |   2.62 kB | 
+spec-app-app.js                                | spec-app-app                                |   2.07 kB | 
+init-testbed.js                                | init-testbed                                |   1.21 kB | 
+chunk-XUI5VS2W.js                              | -                                           |   1.02 kB | 
+vitest-mock-patch.js                           | vitest-mock-patch                           | 974 bytes | 
+styles.css                                     | styles                                      |  56 bytes | 
+
+                                               | Initial total                               |  28.68 kB
+
+Application bundle generation complete. [0.407 seconds] - 2026-08-24T07:22:03.954Z
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.11 [39m[90m/Users/devansh/thinkschool/day-13/task-2[39m
+
+ [31m❯[39m [30m[43m app [49m[39m src/app/quotes/quote-browser/quote-browser.spec.ts [2m([22m[2m8 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 49[2mms[22m[39m
+[31m     [31m×[31m RACE: discards a stale detail response when it arrives out of order (select A, select B, flush A last -> pane shows B)[39m[32m 3[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/quote-browser/quote-browser.spec.ts[2m > [22mQuoteBrowser[2m > [22mRACE: discards a stale detail response when it arrives out of order (select A, select B, flush A last -> pane shows B)
+[31m[1mAssertionError[22m: expected 1 to be 2 // Object.is equality[39m
+
+- Expected
++ Received
+
+- 2
++ 1
+
+[36m [2m❯[22m src/app/quotes/quote-browser/quote-browser.spec.ts:[2m131:40[22m[39m
+    [90m129|[39m
+    [90m130|[39m     [34mexpect[39m(component[33m.[39m[34mselectedId[39m())[33m.[39m[34mtoBe[39m([34m2[39m)[33m;[39m
+    [90m131|[39m     [34mexpect[39m(component[33m.[39m[34mdetailData[39m()[33m?.[39mid)[33m.[39m[34mtoBe[39m([34m2[39m)[33m;[39m
+    [90m   |[39m                                        [31m^[39m
+    [90m132|[39m   })[33m;[39m
+    [90m133|[39m })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m2 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m14 passed[39m[22m[90m (15)[39m
+[2m   Start at [22m 12:52:04
+[2m   Duration [22m 390ms[2m (transform 61ms, setup 266ms, import 66ms, tests 91ms, environment 523ms)[22m
+
