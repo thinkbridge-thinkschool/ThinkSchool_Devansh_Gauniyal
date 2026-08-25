@@ -1,0 +1,81 @@
+❯ Building...
+✔ Building...
+Initial chunk files                                                    | Names                                                               |  Raw size
+spec-app-app.js                                                        | spec-app-app                                                        |  23.06 kB | 
+chunk-6Z7XYEKZ.js                                                      | -                                                                   |  15.87 kB | 
+chunk-CR64WJEH.js                                                      | -                                                                   |  14.75 kB | 
+chunk-V2N6XPBX.js                                                      | -                                                                   |  13.80 kB | 
+spec-app-quotes-create-quote-form-create-quote-form.js                 | spec-app-quotes-create-quote-form-create-quote-form                 |  10.59 kB | 
+spec-app-quotes-create-quote-form-signals-create-quote-form-signals.js | spec-app-quotes-create-quote-form-signals-create-quote-form-signals |   8.13 kB | 
+spec-app-quotes-quote-browser-quote-browser.js                         | spec-app-quotes-quote-browser-quote-browser                         |   6.38 kB | 
+spec-app-quotes-create-quote-form-parity.js                            | spec-app-quotes-create-quote-form-parity                            |   4.79 kB | 
+chunk-CGZBV6BD.js                                                      | -                                                                   |   4.07 kB | 
+spec-app-quotes-quote-api.js                                           | spec-app-quotes-quote-api                                           |   3.94 kB | 
+init-testbed.js                                                        | init-testbed                                                        |   1.21 kB | 
+chunk-UWYWKKHB.js                                                      | -                                                                   |   1.11 kB | 
+vitest-mock-patch.js                                                   | vitest-mock-patch                                                   | 974 bytes | 
+styles.css                                                             | styles                                                              | 155 bytes | 
+
+                                                                       | Initial total                                                       | 108.85 kB
+
+Application bundle generation complete. [0.524 seconds] - 2026-08-25T11:41:56.195Z
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.11 [39m[90m/Users/devansh/thinkschool/day-14/task-2[39m
+
+ [31m❯[39m [30m[43m app [49m[39m src/app/quotes/create-quote-form-signals/create-quote-form-signals.spec.ts [2m([22m[2m13 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[32m 89[2mms[22m[39m
+[31m     [31m×[31m PRISTINE: a freshly rendered form reports pristine (not dirty) on both fields and shows no error[39m[32m 46[2mms[22m[39m
+[31m     [31m×[31m ERROR DISPLAY: the error message renders only after touched, never on a pristine form[39m[32m 3[2mms[22m[39m
+[31m     [31m×[31m A11Y: aria-describedby resolves to an element present in the DOM in both the valid and invalid state[39m[32m 3[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 3 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form-signals/create-quote-form-signals.spec.ts[2m > [22mCreateQuoteFormSignals[2m > [22mPRISTINE: a freshly rendered form reports pristine (not dirty) on both fields and shows no error
+[31m[1mTypeError[22m: Cannot read properties of null (reading 'textContent')[39m
+[36m [2m❯[22m src/app/quotes/create-quote-form-signals/create-quote-form-signals.spec.ts:[2m70:22[22m[39m
+    [90m 68|[39m     [34mexpect[39m(author[33m.[39m[34mgetAttribute[39m([32m'aria-invalid'[39m))[33m.[39m[34mtoBeNull[39m()[33m;[39m
+    [90m 69|[39m     const textError = fixture.nativeElement.querySelector('#quote-text…
+    [90m 70|[39m     [34mexpect[39m(textError[33m.[39mtextContent[33m?.[39m[34mtrim[39m())[33m.[39m[34mtoBe[39m([32m''[39m)[33m;[39m
+    [90m   |[39m                      [31m^[39m
+    [90m 71|[39m   })[33m;[39m
+    [90m 72|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form-signals/create-quote-form-signals.spec.ts[2m > [22mCreateQuoteFormSignals[2m > [22mERROR DISPLAY: the error message renders only after touched, never on a pristine form
+[31m[1mTypeError[22m: Cannot read properties of null (reading 'textContent')[39m
+[36m [2m❯[22m src/app/quotes/create-quote-form-signals/create-quote-form-signals.spec.ts:[2m98:30[22m[39m
+    [90m 96|[39m   it('ERROR DISPLAY: the error message renders only after touched, nev…
+    [90m 97|[39m     const textErrorPristine = fixture.nativeElement.querySelector('#qu…
+    [90m 98|[39m     [34mexpect[39m(textErrorPristine[33m.[39mtextContent[33m?.[39m[34mtrim[39m())[33m.[39m[34mtoBe[39m([32m''[39m)[33m;[39m
+    [90m   |[39m                              [31m^[39m
+    [90m 99|[39m
+    [90m100|[39m     [34mblur[39m(fixture[33m,[39m [32m'#quote-text-signals'[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form-signals/create-quote-form-signals.spec.ts[2m > [22mCreateQuoteFormSignals[2m > [22mA11Y: aria-describedby resolves to an element present in the DOM in both the valid and invalid state
+[31m[1mAssertionError[22m: expected null to be truthy[39m
+
+- Expected:
+true
+
++ Received:
+null
+
+[36m [2m❯[22m src/app/quotes/create-quote-form-signals/create-quote-form-signals.spec.ts:[2m189:67[22m[39m
+    [90m187|[39m     [35mconst[39m validRef [33m=[39m textareaValid[33m.[39m[34mgetAttribute[39m([32m'aria-describedby'[39m)[33m;[39m
+    [90m188|[39m     [35mif[39m (validRef) {
+    [90m189|[39m       expect(fixture.nativeElement.querySelector(`#${validRef}`)).toBe…
+    [90m   |[39m                                                                   [31m^[39m
+    [90m190|[39m     }
+    [90m191|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m5 passed[39m[22m[90m (6)[39m
+[2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m53 passed[39m[22m[90m (56)[39m
+[2m   Start at [22m 17:11:56
+[2m   Duration [22m 560ms[2m (transform 104ms, setup 595ms, import 295ms, tests 435ms, environment 1.34s)[22m
+
