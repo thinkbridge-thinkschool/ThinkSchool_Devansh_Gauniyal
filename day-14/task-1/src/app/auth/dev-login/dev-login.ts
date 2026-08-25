@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, output, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 // LOCAL DEV CONVENIENCE ONLY -- not part of the graded exercise, not
@@ -9,6 +9,10 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 // POST /api/auth/login and stores the resulting token under the same
 // localStorage key dev-token.interceptor.ts reads. No credential is
 // hardcoded here -- it is typed into the form at runtime.
+//
+// Renders as a full sign-in card when logged out, and a slim status bar
+// with a log-out action when logged in; App gates the rest of the page on
+// (loginSucceeded)/(loggedOut).
 interface LoginResponse {
   access_token: string;
   expires_in: number;
@@ -23,7 +27,11 @@ interface LoginResponse {
 export class DevLogin {
   private readonly http = inject(HttpClient);
 
+  readonly loginSucceeded = output<void>();
+  readonly loggedOut = output<void>();
+
   protected readonly status = signal<string | null>(null);
+  protected readonly loggingIn = signal(false);
   protected readonly loggedIn = signal(!!localStorage.getItem('devAuthToken'));
 
   protected readonly form = new FormGroup({
@@ -32,7 +40,8 @@ export class DevLogin {
   });
 
   protected login(): void {
-    this.status.set('Logging in…');
+    this.loggingIn.set(true);
+    this.status.set(null);
     this.http
       .post<LoginResponse>('/api/auth/login', {
         email: this.form.controls.email.value,
@@ -41,12 +50,15 @@ export class DevLogin {
       .subscribe({
         next: (result) => {
           localStorage.setItem('devAuthToken', result.access_token);
+          this.loggingIn.set(false);
           this.loggedIn.set(true);
-          this.status.set(`Logged in — token expires in ${result.expires_in} seconds.`);
+          this.status.set(`Signed in — session expires in ${Math.round(result.expires_in / 60)} minutes.`);
+          this.loginSucceeded.emit();
         },
         error: () => {
+          this.loggingIn.set(false);
           this.loggedIn.set(false);
-          this.status.set('Login failed — check the email and password.');
+          this.status.set('Sign-in failed — check the email and password.');
         },
       });
   }
@@ -54,6 +66,7 @@ export class DevLogin {
   protected logOut(): void {
     localStorage.removeItem('devAuthToken');
     this.loggedIn.set(false);
-    this.status.set('Token cleared.');
+    this.status.set(null);
+    this.loggedOut.emit();
   }
 }

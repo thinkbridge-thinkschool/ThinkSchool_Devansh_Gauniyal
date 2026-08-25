@@ -210,7 +210,34 @@ The visual redesign (`app.css`, `quote-browser.css`, `create-quote-form.css`,
 `dev-login.css`, `styles.css`) touched only CSS/template classes, no
 component logic — verified with the same 39/39 test run before and after.
 
-## 9. What breaks if the quote contract changes
+## 9. Post-submission: sign-in gate, reorder, professional palette
+
+Three more requests: Create-a-quote above the quotes list; the whole page
+gated behind sign-in (sign-in card only until authenticated, then the app);
+a more professional color scheme (one blue accent, neutral grays, muted
+error/success colors, replacing an earlier indigo).
+
+The gating change broke two existing tests, reproduced for real rather than
+assumed: reverted `app.spec.ts` to its pre-fix form against the new gated
+`app.ts`/`app.html` and ran the suite. Actual result: `1 failed | 3 passed (4)`
+test files, `2 failed | 37 passed (39)` tests, with this real error on both:
+
+```
+Error: Expected one matching request for criteria "Match URL: /api/quotes", found none.
+ ❯ HttpClientTestingBackend.expectOne .../backend.ts:112:12
+ ❯ src/app/app.spec.ts:25:14
+```
+
+Not quite the failure mode first guessed (a `null` from `querySelector`) —
+the real cause is that `QuoteBrowser` never mounts behind the gate, so it
+never calls `getQuotes()`, so `httpMock.expectOne('/api/quotes')` itself
+throws before the test even reaches its `querySelector` assertion. Fixed by
+seeding `localStorage.setItem('devAuthToken', ...)` before creating the
+fixture in those two tests, and adding a third test proving the gate itself
+renders when no token is present. Reverted the spec back to the fix,
+re-ran: **40 passed (40)**, structural checks 8/8.
+
+## 10. What breaks if the quote contract changes
 
 - If `CreateQuoteRequest.Text` were renamed (e.g. to `Content`), `quote-api.ts`
   and `create-quote-form.ts` would keep sending `{ text: ... }` — the server

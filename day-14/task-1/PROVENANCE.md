@@ -206,6 +206,36 @@ left inconsistent with the new behavior.
 No `.ts` logic changed as part of the redesign; verified with the full test
 suite (39/39) and structural checks (8/8) both before and after.
 
+## Sixth commit: sign-in gate, reordered layout, professional palette
+
+Three more requests: put "Create a quote" above the quotes list; gate the
+whole page behind sign-in (show only the sign-in card until authenticated,
+then show the app); and a more professional color scheme.
+
+- `src/app/auth/dev-login/dev-login.ts/.html/.css` — now renders two
+  distinct states: a centered sign-in card when signed out, a slim status
+  bar with a sign-out action when signed in. Added `(loginSucceeded)` and
+  `(loggedOut)` outputs so `App` can gate on them.
+- `src/app/app.ts` — added `isAuthenticated`, seeded from the same
+  `localStorage` key the interceptor already reads, so a page refresh with
+  a still-valid token stays signed in.
+- `src/app/app.html` — `@if (!isAuthenticated())` shows only
+  `<app-dev-login>`, centered, full-page; `@else` shows the reordered main
+  content (Create a quote first, Quotes browser below) plus a compact
+  sign-in status bar next to the page heading.
+- `src/app/app.spec.ts` — the two existing tests now seed
+  `localStorage.setItem('devAuthToken', ...)` before creating the fixture
+  (previously they relied on the content always being mounted); one new
+  test proves the sign-in gate renders instead of the app when there is no
+  token.
+- Color palette unified across `app.css`, `quote-browser.css`,
+  `create-quote-form.css`, `dev-login.css`: blue `#1d4ed8` as the one accent
+  (replacing an earlier indigo `#4f46e5`), neutral grays for secondary text
+  and borders, a muted red/green for error/success states.
+
+Verified: full suite **40 passed (40)**, structural checks 8/8, both before
+and after.
+
 ## Not carried
 
 `day-13/task-2/README.md`, `brief.md`, `submission.md`, `verification-log.md`,

@@ -1,9 +1,9 @@
 ❯ Building...
 ✔ Building...
 Initial chunk files                                    | Names                                               |  Raw size
-chunk-LM3MQTBA.js                                      | -                                                   |  15.87 kB | 
-spec-app-app.js                                        | spec-app-app                                        |  14.23 kB | 
-chunk-CVCNB33B.js                                      | -                                                   |  13.80 kB | 
+spec-app-app.js                                        | spec-app-app                                        |  22.07 kB | 
+chunk-6Z7XYEKZ.js                                      | -                                                   |  15.87 kB | 
+chunk-V2N6XPBX.js                                      | -                                                   |  13.80 kB | 
 spec-app-quotes-create-quote-form-create-quote-form.js | spec-app-quotes-create-quote-form-create-quote-form |  10.59 kB | 
 spec-app-quotes-quote-browser-quote-browser.js         | spec-app-quotes-quote-browser-quote-browser         |   6.38 kB | 
 chunk-CGZBV6BD.js                                      | -                                                   |   4.07 kB | 
@@ -13,16 +13,16 @@ chunk-UWYWKKHB.js                                      | -                      
 vitest-mock-patch.js                                   | vitest-mock-patch                                   | 974 bytes | 
 styles.css                                             | styles                                              | 155 bytes | 
 
-                                                       | Initial total                                       |  72.34 kB
+                                                       | Initial total                                       |  80.18 kB
 
-Application bundle generation complete. [0.476 seconds] - 2026-08-25T09:56:03.784Z
+Application bundle generation complete. [0.476 seconds] - 2026-08-25T10:05:36.042Z
 
 
 [1m[30m[46m RUN [49m[39m[22m [36mv4.1.11 [39m[90m/Users/devansh/thinkschool/day-14/task-1[39m
 
 
 [2m Test Files [22m [1m[32m4 passed[39m[22m[90m (4)[39m
-[2m      Tests [22m [1m[32m39 passed[39m[22m[90m (39)[39m
-[2m   Start at [22m 15:26:03
-[2m   Duration [22m 473ms[2m (transform 91ms, setup 368ms, import 145ms, tests 236ms, environment 743ms)[22m
+[2m      Tests [22m [1m[32m40 passed[39m[22m[90m (40)[39m
+[2m   Start at [22m 15:35:36
+[2m   Duration [22m 472ms[2m (transform 100ms, setup 371ms, import 152ms, tests 230ms, environment 742ms)[22m
 

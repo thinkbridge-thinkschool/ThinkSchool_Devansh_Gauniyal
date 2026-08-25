@@ -1,24 +1,29 @@
-<section class="dev-login">
-  <h2>Local dev login</h2>
-  <p class="hint">For manually testing a real save against the local API. Not part of the graded exercise.</p>
+@if (loggedIn()) {
+  <div class="session-bar">
+    <span class="session-bar__text">{{ status() || 'Signed in' }}</span>
+    <button type="button" class="link-button" (click)="logOut()">Sign out</button>
+  </div>
+} @else {
+  <div class="signin-card">
+    <h1 class="signin-card__title">Sign in</h1>
+    <p class="signin-card__hint">Local development sign-in — not part of the graded exercise.</p>
 
-  <form [formGroup]="form" (ngSubmit)="login()">
-    <label>
-      Email
-      <input type="text" formControlName="email" autocomplete="username" />
-    </label>
-    <label>
-      Password
-      <input type="password" formControlName="password" autocomplete="current-password" />
-    </label>
-    <div class="buttons">
-      <button type="submit">Log in</button>
-      <button type="button" (click)="logOut()">Log out</button>
-    </div>
-  </form>
+    <form [formGroup]="form" (ngSubmit)="login()">
+      <label>
+        Email
+        <input type="text" formControlName="email" autocomplete="username" />
+      </label>
+      <label>
+        Password
+        <input type="password" formControlName="password" autocomplete="current-password" />
+      </label>
+      <button type="submit" [disabled]="loggingIn()">
+        {{ loggingIn() ? 'Signing in…' : 'Sign in' }}
+      </button>
+    </form>
 
-  @if (status(); as message) {
-    <p class="status">{{ message }}</p>
-  }
-  <p class="state">Token status: {{ loggedIn() ? 'stored' : 'none' }}</p>
-</section>
+    @if (status(); as message) {
+      <p class="signin-card__status" role="alert">{{ message }}</p>
+    }
+  </div>
+}

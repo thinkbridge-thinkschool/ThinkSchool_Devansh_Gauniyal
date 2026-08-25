@@ -1,12 +1,12 @@
 ❯ Building...
 ✔ Building...
 Initial chunk files | Names         |  Raw size | Estimated transfer size
-main-72QC2WFJ.js    | main          | 202.87 kB |                55.99 kB
-styles-4JS7RVTG.css | styles        |  75 bytes |                75 bytes
+main-PAY7QQYR.js    | main          | 205.48 kB |                56.41 kB
+styles-2CXFVZI3.css | styles        |  75 bytes |                75 bytes
 
-                    | Initial total | 202.94 kB |                56.06 kB
+                    | Initial total | 205.55 kB |                56.49 kB
 
-Application bundle generation complete. [0.696 seconds] - 2026-08-25T09:56:03.014Z
+Application bundle generation complete. [0.712 seconds] - 2026-08-25T10:05:35.270Z
 
 Output location: /Users/devansh/thinkschool/day-14/task-1/dist/app
 

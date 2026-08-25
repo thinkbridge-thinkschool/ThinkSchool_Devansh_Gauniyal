@@ -13,69 +13,69 @@ form {
 
 label {
   font-weight: 600;
-  font-size: 0.9rem;
-  color: #374151;
+  font-size: 0.85rem;
+  color: #344054;
 }
 
 textarea,
 input[type='text'] {
   font: inherit;
   padding: 0.6rem 0.75rem;
-  border: 1px solid #d1d5db;
+  border: 1px solid #d0d5dd;
   border-radius: 8px;
   background: #fff;
-  color: #1f2430;
+  color: #12151c;
   transition: border-color 0.12s ease, box-shadow 0.12s ease;
 }
 
 textarea:hover,
 input[type='text']:hover {
-  border-color: #9ca3af;
+  border-color: #98a2b3;
 }
 
 textarea[aria-invalid='true'],
 input[aria-invalid='true'] {
-  border-color: #dc2626;
+  border-color: #b42318;
 }
 
 textarea:focus-visible,
 input:focus-visible,
 button:focus-visible {
-  outline: 3px solid #4f46e5;
+  outline: 3px solid #1d4ed8;
   outline-offset: 2px;
 }
 
 .error {
-  color: #dc2626;
+  color: #b42318;
   min-height: 1.1rem;
   margin: 0;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
 }
 
 .server-error {
-  color: #dc2626;
+  color: #b42318;
   margin: 0;
   font-size: 0.9rem;
 }
 
 .status {
   margin: 0;
-  color: #6b7280;
+  color: #667085;
   font-size: 0.9rem;
 }
 
 .success {
-  color: #16a34a;
+  color: #067647;
   margin: 0;
   font-size: 0.9rem;
 }
 
 button {
   align-self: flex-start;
-  padding: 0.6rem 1.4rem;
+  padding: 0.6rem 1.5rem;
   border: none;
   border-radius: 8px;
-  background: #4f46e5;
+  background: #1d4ed8;
   color: #fff;
   font: inherit;
   font-weight: 600;
@@ -84,10 +84,10 @@ button {
 }
 
 button:hover:not(:disabled) {
-  background: #4338ca;
+  background: #1e40af;
 }
 
 button:disabled {
-  background: #9ca3af;
+  background: #98a2b3;
   cursor: not-allowed;
 }

@@ -12,4 +12,10 @@ import type { Quote } from './quotes/quote';
 })
 export class App {
   protected readonly justCreated = signal<Quote | null>(null);
+
+  // Gates the whole page behind DevLogin -- local dev convenience only, see
+  // dev-login.ts. Initialized from the same localStorage key the auth
+  // interceptor reads, so a page refresh with a still-valid token stays
+  // signed in.
+  protected readonly isAuthenticated = signal(!!localStorage.getItem('devAuthToken'));
 }
