@@ -1,0 +1,125 @@
+❯ Building...
+✔ Building...
+Initial chunk files                                                    | Names                                                               |  Raw size
+spec-app-app.js                                                        | spec-app-app                                                        |  23.06 kB | 
+chunk-6Z7XYEKZ.js                                                      | -                                                                   |  15.87 kB | 
+chunk-JWG26KHP.js                                                      | -                                                                   |  14.73 kB | 
+chunk-V2N6XPBX.js                                                      | -                                                                   |  13.80 kB | 
+spec-app-quotes-create-quote-form-create-quote-form.js                 | spec-app-quotes-create-quote-form-create-quote-form                 |  10.59 kB | 
+spec-app-quotes-create-quote-form-signals-create-quote-form-signals.js | spec-app-quotes-create-quote-form-signals-create-quote-form-signals |   8.13 kB | 
+spec-app-quotes-quote-browser-quote-browser.js                         | spec-app-quotes-quote-browser-quote-browser                         |   6.38 kB | 
+spec-app-quotes-create-quote-form-parity.js                            | spec-app-quotes-create-quote-form-parity                            |   4.79 kB | 
+chunk-CGZBV6BD.js                                                      | -                                                                   |   4.07 kB | 
+spec-app-quotes-quote-api.js                                           | spec-app-quotes-quote-api                                           |   3.94 kB | 
+init-testbed.js                                                        | init-testbed                                                        |   1.21 kB | 
+chunk-UWYWKKHB.js                                                      | -                                                                   |   1.11 kB | 
+vitest-mock-patch.js                                                   | vitest-mock-patch                                                   | 974 bytes | 
+styles.css                                                             | styles                                                              | 155 bytes | 
+
+                                                                       | Initial total                                                       | 108.83 kB
+
+Application bundle generation complete. [0.541 seconds] - 2026-08-25T11:41:23.308Z
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.11 [39m[90m/Users/devansh/thinkschool/day-14/task-2[39m
+
+ [31m❯[39m [30m[43m app [49m[39m src/app/quotes/create-quote-form-signals/create-quote-form-signals.spec.ts [2m([22m[2m13 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[32m 95[2mms[22m[39m
+[31m     [31m×[31m VALIDATORS FIRING: an empty text field reports the real required error, matching day-3/task-3/QuotesApi's CreateQuoteRequest.Text having no default[39m[32m 5[2mms[22m[39m
+[31m     [31m×[31m ERROR DISPLAY: the error message renders only after touched, never on a pristine form[39m[32m 3[2mms[22m[39m
+[31m     [31m×[31m SUBMITTED (invalid): submitting a completely empty form marks both fields touched, does not call the API, and moves focus to the first invalid field[39m[32m 5[2mms[22m[39m
+[31m     [31m×[31m A11Y: aria-describedby resolves to an element present in the DOM in both the valid and invalid state[39m[32m 2[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 4 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form-signals/create-quote-form-signals.spec.ts[2m > [22mCreateQuoteFormSignals[2m > [22mVALIDATORS FIRING: an empty text field reports the real required error, matching day-3/task-3/QuotesApi's CreateQuoteRequest.Text having no default
+[31m[1mAssertionError[22m: expected +0 to be 1 // Object.is equality[39m
+
+- Expected
++ Received
+
+- 1
++ 0
+
+[36m [2m❯[22m src/app/quotes/create-quote-form-signals/create-quote-form-signals.spec.ts:[2m92:27[22m[39m
+    [90m 90|[39m     [34mblur[39m(fixture[33m,[39m [32m'#quote-text-signals'[39m)[33m;[39m
+    [90m 91|[39m     [35mconst[39m errors [33m=[39m component[33m.[39mquoteForm[33m.[39m[34mtext[39m()[33m.[39m[34merrors[39m()[33m;[39m
+    [90m 92|[39m     [34mexpect[39m(errors[33m.[39mlength)[33m.[39m[34mtoBe[39m([34m1[39m)[33m;[39m
+    [90m   |[39m                           [31m^[39m
+    [90m 93|[39m     [34mexpect[39m(errors[[34m0[39m][33m.[39mkind)[33m.[39m[34mtoBe[39m([32m'required'[39m)[33m;[39m
+    [90m 94|[39m   })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form-signals/create-quote-form-signals.spec.ts[2m > [22mCreateQuoteFormSignals[2m > [22mERROR DISPLAY: the error message renders only after touched, never on a pristine form
+[31m[1mAssertionError[22m: expected '' to be 'Quote text is required.' // Object.is equality[39m
+
+- Expected
++ Received
+
+- Quote text is required.
+
+[36m [2m❯[22m src/app/quotes/create-quote-form-signals/create-quote-form-signals.spec.ts:[2m102:50[22m[39m
+    [90m100|[39m     [34mblur[39m(fixture[33m,[39m [32m'#quote-text-signals'[39m)[33m;[39m
+    [90m101|[39m     const textErrorTouched = fixture.nativeElement.querySelector('#quo…
+    [90m102|[39m     expect(textErrorTouched.textContent?.trim()).toBe('Quote text is r…
+    [90m   |[39m                                                  [31m^[39m
+    [90m103|[39m   })[33m;[39m
+    [90m104|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form-signals/create-quote-form-signals.spec.ts[2m > [22mCreateQuoteFormSignals[2m > [22mSUBMITTED (invalid): submitting a completely empty form marks both fields touched, does not call the API, and moves focus to the first invalid field
+[31m[1mAssertionError[22m: expected <input …(7)></input> to be <textarea …(4)></textarea> // Object.is equality[39m
+
+- Expected
++ Received
+
+- <textarea
++ <input
+    _ngcontent-a-c1636879950=""
+-   id="quote-text-signals"
+-   name="a.form6.text"
+-   rows="4"
++   aria-describedby="quote-author-signals-error"
++   aria-invalid="true"
++   id="quote-author-signals"
++   name="a.form6.author"
++   required=""
++   type="text"
+  />
+
+[36m [2m❯[22m src/app/quotes/create-quote-form-signals/create-quote-form-signals.spec.ts:[2m126:36[22m[39m
+    [90m124|[39m
+    [90m125|[39m     const textarea = fixture.nativeElement.querySelector('#quote-text-…
+    [90m126|[39m     [34mexpect[39m(document[33m.[39mactiveElement)[33m.[39m[34mtoBe[39m(textarea)[33m;[39m
+    [90m   |[39m                                    [31m^[39m
+    [90m127|[39m     fixture[33m.[39mnativeElement[33m.[39m[34mremove[39m()[33m;[39m
+    [90m128|[39m   })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form-signals/create-quote-form-signals.spec.ts[2m > [22mCreateQuoteFormSignals[2m > [22mA11Y: aria-describedby resolves to an element present in the DOM in both the valid and invalid state
+[31m[1mAssertionError[22m: expected null to be 'quote-text-signals-error' // Object.is equality[39m
+
+- Expected:
+"quote-text-signals-error"
+
++ Received:
+null
+
+[36m [2m❯[22m src/app/quotes/create-quote-form-signals/create-quote-form-signals.spec.ts:[2m194:62[22m[39m
+    [90m192|[39m     [34mblur[39m(fixture[33m,[39m [32m'#quote-text-signals'[39m)[33m;[39m
+    [90m193|[39m     const textareaInvalid = fixture.nativeElement.querySelector('#quot…
+    [90m194|[39m     expect(textareaInvalid.getAttribute('aria-describedby')).toBe('quo…
+    [90m   |[39m                                                              [31m^[39m
+    [90m195|[39m     expect(fixture.nativeElement.querySelector('#quote-text-signals-er…
+    [90m196|[39m   })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m5 passed[39m[22m[90m (6)[39m
+[2m      Tests [22m [1m[31m4 failed[39m[22m[2m | [22m[1m[32m52 passed[39m[22m[90m (56)[39m
+[2m   Start at [22m 17:11:23
+[2m   Duration [22m 571ms[2m (transform 136ms, setup 665ms, import 299ms, tests 457ms, environment 1.35s)[22m
+
