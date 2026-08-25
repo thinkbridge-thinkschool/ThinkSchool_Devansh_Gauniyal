@@ -1,7 +1,8 @@
 # Manual accessibility check — for Devansh
 
-This agent cannot operate a screen reader or drive a real browser, so none of
-this has been performed yet. Status: **PENDING**.
+This agent cannot operate a screen reader or drive a real browser. Status:
+**DONE — performed by Devansh**, see "Recording the result" below for his
+own observation.
 
 The graded a11y wiring is entirely in the "Create a quote" form (steps 3-8
 below). Steps 1-2 just get you past the local-only sign-in gate, which is
@@ -58,4 +59,6 @@ VoiceOver toggles with `Cmd+F5` on macOS.
 
 ## Recording the result
 
-> PENDING — not yet performed.
+**Devansh's own observation**, given verbatim: the VoiceOver pass "is also
+making sense nothing idiotic" — he ran VoiceOver over the form and found the
+announcements made sense, with nothing broken or confusing.

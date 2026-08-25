@@ -219,8 +219,9 @@ npx ng test --watch=false       # Vitest suite, no network/Docker/credentials re
 node scripts/verify-structural.mjs
 ```
 
-Manual screen-reader verification is Devansh's responsibility — see
-`output/manual-a11y-script.md`.
+Manual screen-reader verification was Devansh's responsibility, and is done
+— see `output/manual-a11y-script.md` for the script and his own recorded
+observation.
 
 ## Testing a real save locally
 

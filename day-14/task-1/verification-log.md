@@ -112,10 +112,14 @@ the in-place Phase 2 baseline for `day-13/task-2`) + **18 new** (`app.spec.ts`
   `@for` tracks `quote.id`, no Zone.js). Real output,
   `output/structural-check-final.txt`: all 8 checks `PASS`.
 
-**Manual (Devansh's responsibility) — not done by this agent, marked PENDING:**
+**Manual (Devansh's responsibility) — not done by this agent:**
 
-Screen-reader / axe verification has not happened yet. See
-`output/manual-a11y-script.md` for the exact script.
+**Devansh's own observation**, given directly, verbatim: the VoiceOver pass
+"is also making sense nothing idiotic" — i.e. he ran VoiceOver over the form
+per the script in `output/manual-a11y-script.md` and found the announcements
+made sense, with nothing broken or confusing. This is his report, not this
+agent's; this agent cannot operate a screen reader and did not perform this
+check itself.
 
 ## 6. Mutation check (required, real output, kept separate from section 3)
 
