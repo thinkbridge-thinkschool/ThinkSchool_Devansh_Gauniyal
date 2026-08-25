@@ -2,20 +2,20 @@
 ✔ Building...
 Initial chunk files                                    | Names                                               |  Raw size
 chunk-OTB5HKRC.js                                      | -                                                   |  14.14 kB | 
+spec-app-app.js                                        | spec-app-app                                        |  11.77 kB | 
 chunk-G4VXV4QZ.js                                      | -                                                   |  11.70 kB | 
 spec-app-quotes-create-quote-form-create-quote-form.js | spec-app-quotes-create-quote-form-create-quote-form |   8.50 kB | 
 spec-app-quotes-quote-browser-quote-browser.js         | spec-app-quotes-quote-browser-quote-browser         |   6.38 kB | 
 chunk-SHTMZ5XJ.js                                      | -                                                   |   4.57 kB | 
-spec-app-app.js                                        | spec-app-app                                        |   4.01 kB | 
 spec-app-quotes-quote-api.js                           | spec-app-quotes-quote-api                           |   3.94 kB | 
 init-testbed.js                                        | init-testbed                                        |   1.21 kB | 
 chunk-UWYWKKHB.js                                      | -                                                   |   1.11 kB | 
 vitest-mock-patch.js                                   | vitest-mock-patch                                   | 974 bytes | 
 styles.css                                             | styles                                              |  56 bytes | 
 
-                                                       | Initial total                                       |  56.58 kB
+                                                       | Initial total                                       |  64.34 kB
 
-Application bundle generation complete. [0.456 seconds] - 2026-08-25T09:20:11.552Z
+Application bundle generation complete. [0.459 seconds] - 2026-08-25T09:36:41.218Z
 
 
 [1m[30m[46m RUN [49m[39m[22m [36mv4.1.11 [39m[90m/Users/devansh/thinkschool/day-14/task-1[39m
@@ -23,6 +23,6 @@ Application bundle generation complete. [0.456 seconds] - 2026-08-25T09:20:11.55
 
 [2m Test Files [22m [1m[32m4 passed[39m[22m[90m (4)[39m
 [2m      Tests [22m [1m[32m38 passed[39m[22m[90m (38)[39m
-[2m   Start at [22m 14:50:11
-[2m   Duration [22m 470ms[2m (transform 83ms, setup 377ms, import 136ms, tests 213ms, environment 762ms)[22m
+[2m   Start at [22m 15:06:41
+[2m   Duration [22m 456ms[2m (transform 92ms, setup 362ms, import 150ms, tests 206ms, environment 731ms)[22m
 

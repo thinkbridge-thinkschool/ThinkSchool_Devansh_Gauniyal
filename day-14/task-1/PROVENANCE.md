@@ -155,6 +155,25 @@ ref and is untouched by it.
   `selectQuote()`, the stale-response guard) was NOT touched again.
 - `src/app/quotes/quote-browser/quote-browser.spec.ts` — 2 tests appended.
 
+## Fourth commit: an in-page dev login (Safari devtools friction)
+
+Getting a token via the browser console proved to be more friction than it
+was worth (Safari's devtools setup, VS Code's embedded preview browser not
+behaving like a real one). Added a small, clearly-marked local-only
+component instead:
+
+- `src/app/auth/dev-login/dev-login.ts/.html/.css` — new. A form with
+  email/password fields that calls the real `POST /api/auth/login` and
+  stores the resulting token under the same `localStorage` key
+  `dev-token.interceptor.ts` reads. No credential is hardcoded in it — it's
+  typed in at runtime. Mounted in `app.html` above the existing content.
+- `src/app/app.ts`/`app.html` — modified again to import and host it.
+
+Not part of the graded exercise; not exercised by any automated test (no
+spec file renders it, and `App`'s own tests don't touch the DOM area it's
+in). Removing it later is a one-line revert of `app.ts`/`app.html` plus
+deleting the `dev-login` folder — it does not entangle with anything graded.
+
 ## Not carried
 
 `day-13/task-2/README.md`, `brief.md`, `submission.md`, `verification-log.md`,
