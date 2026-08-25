@@ -112,6 +112,33 @@ describe('QuoteBrowser', () => {
     expect(component.detailData()?.id).toBe(1);
   });
 
+  // --- Author (optional field, added 2026-08-25) ------------------------------
+
+  it('AUTHOR: renders the author line in the detail pane when the quote has one', () => {
+    const withAuthor: Quote[] = [{ id: 3, ownerId: 'user-3', text: 'A quote', author: 'Marcus Aurelius' }];
+    loadList(withAuthor);
+    fixture.detectChanges();
+
+    component.selectQuote(3);
+    httpMock.expectOne('/api/quotes').flush(withAuthor);
+    fixture.detectChanges();
+
+    const el = fixture.nativeElement as HTMLElement;
+    expect(el.querySelector('[data-testid="detail-author"]')?.textContent).toContain('Marcus Aurelius');
+  });
+
+  it('AUTHOR: omits the author line entirely when the quote has none', () => {
+    loadList();
+    fixture.detectChanges();
+
+    component.selectQuote(1);
+    httpMock.expectOne('/api/quotes').flush(sample);
+    fixture.detectChanges();
+
+    const el = fixture.nativeElement as HTMLElement;
+    expect(el.querySelector('[data-testid="detail-author"]')).toBeFalsy();
+  });
+
   // --- RACE: the core proof ---
 
   it('RACE: discards a stale detail response when it arrives out of order (select A, select B, flush A last -> pane shows B)', () => {

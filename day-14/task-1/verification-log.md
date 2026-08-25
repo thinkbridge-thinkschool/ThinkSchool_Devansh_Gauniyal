@@ -153,7 +153,43 @@ The second failure is the accessibility resolution test genuinely catching a
 genuinely dangling reference. Reverted; re-ran; back to `33 passed (33)` and
 all 8 structural checks `PASS`.
 
-## 7. What breaks if the quote contract changes
+## 7. Post-submission: a real Author field, added to the actual API
+
+Devansh tried to save a quote via the running app and hit
+"You are not authorized to create quotes." — the correct SERVER-ERROR
+behavior for a genuinely unauthenticated request, not a bug. That led to
+setting up a local dev credential and a proxy so the save could actually be
+exercised (see section 6 in `README.md`, "Testing a real save locally"). He
+then asked, twice and explicitly, for a real author field — not a cosmetic
+one that would silently do nothing.
+
+This meant extending `day-3/task-3/QuotesApi`, which every document in this
+task up to that point had treated as frozen. Before making the change, every
+project that references that project directly (`day-4/task-2`, `task-4`,
+`task-5`, `task-6`, `task-7`, `day-11/task-1`) was checked for any code that
+constructs `CreateQuoteRequest`/`Quote` — none does, so an additive, optional
+`Author` field (default `null`, no validation attribute) could not break
+them. Real verification, not assumption: `day-3/task-3`'s own 19 tests still
+pass, and the full 39-solution repo-wide .NET sweep shows byte-identical
+pass/fail/skip counts to the pre-change baseline
+(`output/dotnet-baseline-phase2.txt` vs. `output/dotnet-post-author-change.txt`).
+
+This is reported here as a genuine, real change made mid-session at explicit
+direction — not a mistake, and not something to hide. It does mean the
+"the DTO has exactly one field, don't invent a second one" framing that
+drove sections 1-6 above is now a historical fact about the *original*
+contract, not the current one. Both are true and both are recorded: the
+form was built honestly against the contract as it existed, and it was
+honestly extended, on the record, when asked.
+
+Angular-side tests added for the new field, all real, all passing:
+`AUTHOR: an unfilled author is omitted from the payload entirely...`,
+`AUTHOR: a filled author is included in the payload under the real field
+name`, `AUTHOR: is never required...` (`create-quote-form.spec.ts`), and
+`AUTHOR: renders the author line...` / `AUTHOR: omits the author line...`
+(`quote-browser.spec.ts`). Full suite after this change: **38 passed (38)**.
+
+## 8. What breaks if the quote contract changes
 
 - If `CreateQuoteRequest.Text` were renamed (e.g. to `Content`), `quote-api.ts`
   and `create-quote-form.ts` would keep sending `{ text: ... }` — the server

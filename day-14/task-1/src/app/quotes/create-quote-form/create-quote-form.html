@@ -16,6 +16,11 @@
     </p>
   </div>
 
+  <div class="field">
+    <label for="quote-author">Author (optional)</label>
+    <input id="quote-author" type="text" formControlName="author" />
+  </div>
+
   <button type="submit" [disabled]="submitting()">
     {{ submitting() ? 'Saving…' : 'Save quote' }}
   </button>

@@ -8,8 +8,9 @@
  *   -> wire shape { id, ownerId, text } (camelCase; no JSON naming-policy override
  *      exists in Program.cs, and this was confirmed live in Day 13 Task 1).
  * Request DTO, read from day-3/task-3/QuotesApi/Quotes/QuoteRequests.cs:
- *   public sealed record CreateQuoteRequest(string Text);
- *   -> no validation attributes at all; see create-quote-request.ts.
+ *   public sealed record CreateQuoteRequest(string Text, string? Author = null);
+ *   -> no validation attributes at all on either field; see create-quote-request.ts.
+ *   Author was added 2026-08-25 at Devansh's explicit request.
  *
  * There is no per-item GET route on this API (day-3/task-3/QuotesApi/Program.cs has
  * no `MapGet` with a route parameter — only PUT/DELETE `/api/quotes/{id:int}`, both

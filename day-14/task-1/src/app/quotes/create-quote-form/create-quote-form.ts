@@ -26,15 +26,20 @@ export class CreateQuoteForm {
   private submitAttempted = false;
 
   // The real CreateQuoteRequest DTO (day-3/task-3/QuotesApi/Quotes/QuoteRequests.cs)
-  // carries no validation attributes at all, so Validators.required below is NOT
-  // mirroring a server-side constraint -- there isn't one to mirror. It is a
-  // client-only safety net against submitting a blank quote. See README.md,
-  // "Why there is exactly one field and one validator".
+  // carries no validation attributes on `Text` at all, so Validators.required
+  // below is NOT mirroring a server-side constraint -- there isn't one to
+  // mirror. It is a client-only safety net against submitting a blank quote.
+  // See README.md, "Why there is exactly one required validator".
+  //
+  // `author` mirrors CreateQuoteRequest.Author (added 2026-08-25): optional,
+  // nullable, no validation attribute on the server either, so no validator
+  // here -- an unattributed quote is a genuinely valid submission.
   protected readonly form = new FormGroup({
     text: new FormControl('', {
       nonNullable: true,
       validators: [Validators.required],
     }),
+    author: new FormControl('', { nonNullable: true }),
   });
 
   protected get textControl() {
@@ -61,22 +66,28 @@ export class CreateQuoteForm {
 
     this.submitting.set(true);
 
-    this.quoteApi.createQuote({ text: this.textControl.value }).subscribe({
-      next: (quote) => {
-        this.submitting.set(false);
-        this.submittedQuote.set(quote.text);
-        this.form.reset();
-        this.submitAttempted = false;
-        this.quoteCreated.emit(quote);
-      },
-      error: (error: HttpErrorResponse) => {
-        this.submitting.set(false);
-        this.serverError.set(
-          error.status === 401 || error.status === 403
-            ? 'You are not authorized to create quotes.'
-            : 'The quote could not be saved. Please try again.',
-        );
-      },
-    });
+    const author = this.form.controls.author.value.trim();
+    this.quoteApi
+      .createQuote({
+        text: this.textControl.value,
+        ...(author ? { author } : {}),
+      })
+      .subscribe({
+        next: (quote) => {
+          this.submitting.set(false);
+          this.submittedQuote.set(quote.text);
+          this.form.reset();
+          this.submitAttempted = false;
+          this.quoteCreated.emit(quote);
+        },
+        error: (error: HttpErrorResponse) => {
+          this.submitting.set(false);
+          this.serverError.set(
+            error.status === 401 || error.status === 403
+              ? 'You are not authorized to create quotes.'
+              : 'The quote could not be saved. Please try again.',
+          );
+        },
+      });
   }
 }

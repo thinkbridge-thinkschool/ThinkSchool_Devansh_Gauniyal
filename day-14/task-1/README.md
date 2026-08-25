@@ -48,23 +48,31 @@ Read from `day-3/task-3/QuotesApi`, without modifying anything there:
 - Route: `POST /api/quotes`, at `day-3/task-3/QuotesApi/Program.cs:364-376`,
   gated by the `CanEditQuotes` policy (scope claim `quotes.write`).
 - Request DTO: `day-3/task-3/QuotesApi/Quotes/QuoteRequests.cs` —
-  `public sealed record CreateQuoteRequest(string Text);`
+  `public sealed record CreateQuoteRequest(string Text, string? Author = null);`
 - Response DTO: `day-3/task-3/QuotesApi/Quotes/Quote.cs` —
-  `public sealed record Quote(int Id, string OwnerId, string Text);`
-  (already modeled by the carried `quote.ts`, unchanged).
+  `public sealed record Quote(int Id, string OwnerId, string Text, string? Author = null);`
+  (modeled by the carried-then-modified `quote.ts`).
 
-### The DTO has no validation attributes — this is the load-bearing fact
+**`Author` was added to the real DTO on 2026-08-25, at Devansh's explicit,
+repeated request**, as a genuine extension to the API — not a cosmetic
+form-only field. See "Extending the real API: the Author field" below for
+the full reasoning and the blast-radius check performed before touching
+`day-3/task-3` at all.
+
+### The DTO carries no validation attributes — this is the load-bearing fact
 
 `grep -n "Required|MaxLength|StringLength|RegularExpression|Range(" ` across
-every `.cs` file in `day-3/task-3/QuotesApi` returns **zero matches**.
-`CreateQuoteRequest` has exactly one field and no attributes on it at all.
+every `.cs` file in `day-3/task-3/QuotesApi` returns **zero matches**, on
+either field.
 
 This directly shapes the form:
 
-- **No client-side maxLength was added** — the API has none to mirror.
-- **`Validators.required` was kept anyway, documented in-code as a
+- **No client-side maxLength was added on either field** — the API has none
+  to mirror.
+- **`Validators.required` was kept on `text` anyway, documented in-code as a
   client-only UX safety net**, not a mirrored server constraint.
-- **Exactly one field, `text`.** No invented `author` or `title` field.
+- **`author` has no validator at all** — it mirrors the DTO's optional,
+  nullable field exactly: no constraint on the server, none on the client.
 
 ## Reuse over duplication
 
@@ -87,6 +95,41 @@ are byte-identical to `day-13/task-2`. The existing `RACE` test in
 `quote-browser.spec.ts` proves the guard still works, unmodified; two new
 tests were appended proving `justCreated` behaves correctly and does not
 interfere with an in-flight detail selection.
+
+## Extending the real API: the Author field
+
+Devansh asked, explicitly and more than once, for a real author field he
+could actually save — not one that looks like it works but silently drops
+on the server. The real DTO had no such field, and `day-3/task-3` had been
+treated as frozen throughout this task up to that point. This is a
+deliberate, one-time, directed exception to that rule, not a reinterpretation
+of it — everything else under `day-3` through `day-13` remains exactly as
+frozen as it was.
+
+Before touching anything, every project depending on
+`day-3/task-3/QuotesApi/QuotesApi.csproj` via a direct `ProjectReference` was
+enumerated and checked: `day-4/task-2`, `task-4`, `task-5`, `task-6`,
+`task-7`, and `day-11/task-1`. None of them construct `CreateQuoteRequest`
+or `Quote` directly in C#; the one that POSTs to `/api/quotes`
+(`day-4/task-2`'s `AuthCoverageGapTests.cs`) sends `{ text }` and asserts
+only on HTTP status codes, never on response shape. Every other
+`CreateQuoteRequest`/`Quote` in the repo (`day-2/task-4`, `task-6`, `task-7`,
+`day-3/task-5`, `task-6`, `task-7`) is a same-named but entirely separate
+type in an unrelated project.
+
+Given that, the change made to `day-3/task-3/QuotesApi` is purely additive:
+`Author` is an optional, nullable, trailing parameter with a `null` default
+on both `CreateQuoteRequest` and `Quote`, so every existing caller — C# or
+JSON — that never mentions `author` keeps compiling and keeps working
+identically. Verified for real: `day-3/task-3`'s own 19 tests still pass,
+and a full repo-wide sweep of all 39 .NET solutions shows byte-identical
+pass/fail/skip counts to the pre-change baseline (`output/dotnet-baseline-phase2.txt`
+vs. `output/dotnet-post-author-change.txt`) — zero regressions anywhere.
+
+This change exists only in `day-14/task-1`'s branch history. The
+already-pushed, already-graded `day-3/task-3` branch is a separate git ref
+and is untouched by it — see `PROVENANCE.md` for the full file-by-file
+accounting.
 
 ## What each ARIA attribute does, and what breaks without it
 
@@ -136,9 +179,11 @@ enforce nothing beyond the one honestly-labeled UX safety net.
    `88efd46d4b0bc6f7ad13c47a5de0d3e2ac6a7bd9`; `QuoteApi` extended with
    `createQuote()`, `QuoteBrowser` extended with `justCreated`, rather than
    either being duplicated.
-2. **Which API and contract.** `day-3/task-3/QuotesApi`, read only, never
-   modified. Every field name and file path above is quoted directly from
-   source. The DTO has zero validation attributes; reported plainly.
+2. **Which API and contract.** `day-3/task-3/QuotesApi`, read only until
+   Devansh explicitly asked for a real `Author` field — see "Extending the
+   real API" above for that one, directed exception. Every field name and
+   file path above is quoted directly from source. The DTO has zero
+   validation attributes on either field; reported plainly.
 3. **Live calls.** None. `quote-api.spec.ts` and `create-quote-form.spec.ts`
    use `HttpTestingController` exclusively.
 4. **Signal Forms vs. reactive forms.** `ReactiveFormsModule` used (stable);

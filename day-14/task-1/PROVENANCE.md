@@ -104,6 +104,57 @@ mocked tests. Added, all clearly separated from the graded exercise:
   use it — full credential details are in this session's reply, not
   committed anywhere.
 
+## Third commit: real Author field, added to the actual API (Devansh's explicit request)
+
+Devansh asked, twice and explicitly, for a real author field he could
+actually save -- not a cosmetic one. This required extending the real API's
+DTOs, which is a deliberate, one-time exception to the "day-3 is frozen"
+rule that governed everything above, made only because he directed it.
+
+**Blast-radius check performed before touching anything:** every project
+that references `day-3/task-3/QuotesApi/QuotesApi.csproj` directly via
+`ProjectReference` was enumerated (`day-4/task-2`, `task-4`, `task-5`,
+`task-6`, `task-7`, `day-11/task-1`) and checked for any direct construction
+of `CreateQuoteRequest`/`Quote` — none exists; the one project that POSTs to
+`/api/quotes` (`day-4/task-2`'s `AuthCoverageGapTests.cs`) sends `{ text }`
+only and asserts on HTTP status, not response shape. Everywhere else,
+`CreateQuoteRequest`/`Quote` are separate, independent types with the same
+names in unrelated projects (`day-2/task-4`, `task-6`, `task-7`,
+`day-3/task-5`, `task-6`, `task-7`) that don't reference `day-3/task-3` at
+all.
+
+**day-3/task-3/QuotesApi changes (additive, backward-compatible):**
+- `Quotes/QuoteRequests.cs` — `CreateQuoteRequest(string Text, string? Author = null)`.
+- `Quotes/Quote.cs` — `Quote(int Id, string OwnerId, string Text, string? Author = null)`.
+- `Quotes/IQuoteRepository.cs` — `Create(string ownerId, string text, string? author = null)`.
+- `Quotes/InMemoryQuoteRepository.cs` — `Create()` passes `author` through.
+- `Program.cs` — the POST handler passes `request.Author` through to `Create()`.
+
+Verified: `day-3/task-3`'s own 19 tests still pass; the full repo-wide .NET
+sweep (39 solutions) shows byte-identical pass/fail/skip counts to the
+pre-change baseline in `output/dotnet-baseline-phase2.txt`
+(`output/dotnet-post-author-change.txt`) — zero regressions anywhere.
+
+This change lives only on the `day-14/task-1` branch's history. The
+separately-pushed, already-graded `day-3/task-3` branch is a different git
+ref and is untouched by it.
+
+**Day 14 app changes for the new field:**
+- `src/app/quotes/create-quote-request.ts`, `quote.ts` — added optional
+  `author`, matching the DTO's optional nullable field exactly (no validator
+  invented, since the server has none).
+- `src/app/quotes/quote-api.ts` — doc comment updated.
+- `src/app/quotes/create-quote-form/create-quote-form.ts/.html/.css` —
+  added an optional "Author" input and control; included in the POST body
+  only when non-blank.
+- `src/app/quotes/create-quote-form/create-quote-form.spec.ts` — 3 tests
+  appended for the new field; the label/tab-order A11Y tests were updated
+  (not just appended to) since they now need to cover two inputs, not one.
+- `src/app/quotes/quote-browser/quote-browser.html` — added an author line
+  in the detail pane, template-only; `quote-browser.ts` (including
+  `selectQuote()`, the stale-response guard) was NOT touched again.
+- `src/app/quotes/quote-browser/quote-browser.spec.ts` — 2 tests appended.
+
 ## Not carried
 
 `day-13/task-2/README.md`, `brief.md`, `submission.md`, `verification-log.md`,

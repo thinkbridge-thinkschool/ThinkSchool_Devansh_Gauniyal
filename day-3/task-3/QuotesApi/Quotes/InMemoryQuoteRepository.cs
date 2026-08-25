@@ -26,11 +26,11 @@ public sealed class InMemoryQuoteRepository : IQuoteRepository
         }
     }
 
-    public Quote Create(string ownerId, string text)
+    public Quote Create(string ownerId, string text, string? author = null)
     {
         lock (_gate)
         {
-            var quote = new Quote(_nextId++, ownerId, text);
+            var quote = new Quote(_nextId++, ownerId, text, author);
             _quotes.Add(quote.Id, quote);
             return quote;
         }

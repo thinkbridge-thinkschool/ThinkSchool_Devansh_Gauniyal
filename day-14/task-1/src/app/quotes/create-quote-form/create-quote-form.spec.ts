@@ -16,6 +16,13 @@ function submit(fixture: ComponentFixture<CreateQuoteForm>): void {
   fixture.detectChanges();
 }
 
+function setAuthor(fixture: ComponentFixture<CreateQuoteForm>, value: string): void {
+  const input = fixture.nativeElement.querySelector('#quote-author') as HTMLInputElement;
+  input.value = value;
+  input.dispatchEvent(new Event('input'));
+  fixture.detectChanges();
+}
+
 describe('CreateQuoteForm', () => {
   let fixture: ComponentFixture<CreateQuoteForm>;
   let httpMock: HttpTestingController;
@@ -105,6 +112,36 @@ describe('CreateQuoteForm', () => {
     expect(emitted).toEqual({ id: 7, ownerId: 'user-1', text: 'A quote the host list should receive' });
   });
 
+  // --- Author (optional field, added 2026-08-25) ------------------------------
+
+  it('AUTHOR: an unfilled author is omitted from the payload entirely, not sent as an empty string', () => {
+    setText(fixture, 'A quote with no author');
+    submit(fixture);
+
+    const req = httpMock.expectOne('/api/quotes');
+    expect(Object.keys(req.request.body)).toEqual(['text']);
+    req.flush({ id: 1, ownerId: 'user-1', text: 'A quote with no author' });
+  });
+
+  it('AUTHOR: a filled author is included in the payload under the real field name', () => {
+    setText(fixture, 'A quote with an author');
+    setAuthor(fixture, 'Marcus Aurelius');
+    submit(fixture);
+
+    const req = httpMock.expectOne('/api/quotes');
+    expect(req.request.body).toEqual({ text: 'A quote with an author', author: 'Marcus Aurelius' });
+    req.flush({ id: 2, ownerId: 'user-1', text: 'A quote with an author', author: 'Marcus Aurelius' });
+  });
+
+  it('AUTHOR: is never required -- submitting text with a blank author still succeeds', () => {
+    setText(fixture, 'Only text, no author');
+    submit(fixture);
+
+    const authorInput = fixture.nativeElement.querySelector('#quote-author') as HTMLInputElement;
+    expect(authorInput.getAttribute('aria-invalid')).toBeNull();
+    httpMock.expectOne('/api/quotes').flush({ id: 3, ownerId: 'user-1', text: 'Only text, no author' });
+  });
+
   // --- Contract tests --------------------------------------------------------
 
   it('CONTRACT: submits only the real "text" field, with the real field name and casing', () => {
@@ -129,10 +166,14 @@ describe('CreateQuoteForm', () => {
 
   // --- Accessibility ----------------------------------------------------------
 
-  it('A11Y: the input has a label whose for matches its id', () => {
-    const label = fixture.nativeElement.querySelector('label') as HTMLLabelElement;
-    const textarea = fixture.nativeElement.querySelector('#quote-text') as HTMLTextAreaElement;
-    expect(label.getAttribute('for')).toBe(textarea.id);
+  it('A11Y: every input (text and author) has a label whose for matches its id', () => {
+    const labels = fixture.nativeElement.querySelectorAll('label') as NodeListOf<HTMLLabelElement>;
+    expect(labels.length).toBe(2);
+    labels.forEach((label) => {
+      const targetId = label.getAttribute('for');
+      expect(targetId).toBeTruthy();
+      expect(fixture.nativeElement.querySelector(`#${targetId}`)).toBeTruthy();
+    });
   });
 
   it('A11Y: aria-describedby resolves to an element present in the DOM in both the valid and invalid state', () => {
@@ -165,12 +206,15 @@ describe('CreateQuoteForm', () => {
     });
   });
 
-  it('A11Y: the textarea and submit button are reachable in the tab order in the initial state', () => {
+  it('A11Y: the textarea, author input, and submit button are reachable in the tab order in the initial state', () => {
     const textarea = fixture.nativeElement.querySelector('#quote-text') as HTMLTextAreaElement;
+    const author = fixture.nativeElement.querySelector('#quote-author') as HTMLInputElement;
     const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
     expect(textarea.disabled).toBe(false);
+    expect(author.disabled).toBe(false);
     expect(button.disabled).toBe(false);
     expect(textarea.hasAttribute('tabindex')).toBe(false);
+    expect(author.hasAttribute('tabindex')).toBe(false);
     expect(button.hasAttribute('tabindex')).toBe(false);
   });
 });

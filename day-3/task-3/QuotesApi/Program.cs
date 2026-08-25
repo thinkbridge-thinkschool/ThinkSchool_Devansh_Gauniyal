@@ -372,7 +372,7 @@ app.MapPost("/api/quotes", (
         return Results.Forbid();
     }
 
-    return Results.Ok(quotes.Create(userId, request.Text));
+    return Results.Ok(quotes.Create(userId, request.Text, request.Author));
 }).RequireAuthorization(AuthorizationPolicies.CanEditQuotes);
 
 app.MapPut("/api/quotes/{id:int}", (

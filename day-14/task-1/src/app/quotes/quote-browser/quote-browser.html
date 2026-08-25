@@ -38,6 +38,9 @@
     } @else if (detailData()) {
       <article data-testid="detail-content">
         <p class="quote-browser__detail-text">“{{ detailData()!.text }}”</p>
+        @if (detailData()!.author) {
+          <p class="quote-browser__detail-author" data-testid="detail-author">— {{ detailData()!.author }}</p>
+        }
         <p class="quote-browser__detail-owner">{{ detailData()!.ownerId }}</p>
       </article>
     } @else {

@@ -1,28 +1,28 @@
 ❯ Building...
 ✔ Building...
 Initial chunk files                                    | Names                                               |  Raw size
-chunk-MBALD542.js                                      | -                                                   |  13.32 kB | 
-chunk-VOTEF6UQ.js                                      | -                                                   |  10.63 kB | 
-spec-app-quotes-create-quote-form-create-quote-form.js | spec-app-quotes-create-quote-form-create-quote-form |   6.72 kB | 
-spec-app-quotes-quote-browser-quote-browser.js         | spec-app-quotes-quote-browser-quote-browser         |   5.51 kB | 
-chunk-CGZBV6BD.js                                      | -                                                   |   4.07 kB | 
+chunk-OTB5HKRC.js                                      | -                                                   |  14.14 kB | 
+chunk-G4VXV4QZ.js                                      | -                                                   |  11.70 kB | 
+spec-app-quotes-create-quote-form-create-quote-form.js | spec-app-quotes-create-quote-form-create-quote-form |   8.50 kB | 
+spec-app-quotes-quote-browser-quote-browser.js         | spec-app-quotes-quote-browser-quote-browser         |   6.38 kB | 
+chunk-SHTMZ5XJ.js                                      | -                                                   |   4.57 kB | 
 spec-app-app.js                                        | spec-app-app                                        |   4.01 kB | 
 spec-app-quotes-quote-api.js                           | spec-app-quotes-quote-api                           |   3.94 kB | 
 init-testbed.js                                        | init-testbed                                        |   1.21 kB | 
-chunk-MPSK6LXJ.js                                      | -                                                   |   1.11 kB | 
+chunk-UWYWKKHB.js                                      | -                                                   |   1.11 kB | 
 vitest-mock-patch.js                                   | vitest-mock-patch                                   | 974 bytes | 
 styles.css                                             | styles                                              |  56 bytes | 
 
-                                                       | Initial total                                       |  51.55 kB
+                                                       | Initial total                                       |  56.58 kB
 
-Application bundle generation complete. [0.451 seconds] - 2026-08-25T07:01:11.845Z
+Application bundle generation complete. [0.456 seconds] - 2026-08-25T09:20:11.552Z
 
 
 [1m[30m[46m RUN [49m[39m[22m [36mv4.1.11 [39m[90m/Users/devansh/thinkschool/day-14/task-1[39m
 
 
 [2m Test Files [22m [1m[32m4 passed[39m[22m[90m (4)[39m
-[2m      Tests [22m [1m[32m33 passed[39m[22m[90m (33)[39m
-[2m   Start at [22m 12:31:11
-[2m   Duration [22m 444ms[2m (transform 88ms, setup 360ms, import 140ms, tests 184ms, environment 743ms)[22m
+[2m      Tests [22m [1m[32m38 passed[39m[22m[90m (38)[39m
+[2m   Start at [22m 14:50:11
+[2m   Duration [22m 470ms[2m (transform 83ms, setup 377ms, import 136ms, tests 213ms, environment 762ms)[22m
 
