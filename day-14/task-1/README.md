@@ -174,3 +174,40 @@ node scripts/verify-structural.mjs
 
 Manual screen-reader verification is Devansh's responsibility — see
 `output/manual-a11y-script.md`.
+
+## Testing a real save locally
+
+The graded exercise deliberately never makes a live authenticated call (see
+interpretation 3) — all tests use `HttpTestingController`. This section is
+for manually seeing a real save succeed against the real
+`day-3/task-3/QuotesApi`, which is separate from that.
+
+`POST /api/quotes` requires a JWT with a `quotes.write` scope. No such
+credential existed on this machine before this session — `dotnet user-secrets`
+for that project was empty. A fresh, throwaway, local-only credential was
+generated and stored there (never in the repo, never in git):
+
+1. Start the real API (already running for you in this session, port 5080):
+   ```bash
+   cd day-3/task-3/QuotesApi
+   ASPNETCORE_ENVIRONMENT=Development dotnet run --no-launch-profile --urls http://localhost:5080
+   ```
+2. Restart your `ng serve` **with the proxy**, otherwise `/api/*` has nowhere
+   real to go:
+   ```bash
+   cd day-14/task-1
+   npx ng serve --proxy-config proxy.conf.json
+   ```
+3. Log in yourself to get a token (this repo's chat session will give you
+   the exact email/password to use once, since it generated them for you) —
+   either via the browser or a terminal `curl` to
+   `http://localhost:4200/api/auth/login`.
+4. In the browser devtools console on `http://localhost:4200/`, run:
+   ```js
+   localStorage.setItem('devAuthToken', 'PASTE_THE_ACCESS_TOKEN_HERE');
+   ```
+5. Submit the form. It will now actually save to the real API and the quote
+   will appear in the list above.
+
+This credential is local-only and expires quickly (`InternalJwt:AccessTokenLifetime`
+is 15 minutes); repeat step 3-4 to get a fresh token when it does.

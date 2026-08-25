@@ -33,6 +33,9 @@ new top-level docs) — the list below is exactly what that diff reported.
 - `src/app/quotes/quote-browser/quote-browser.html`
 - `src/app/quotes/quote-browser/quote-browser.css`
 
+(`src/app/app.config.ts` was carried unchanged at first commit `6d9c69c`; a
+later commit modified it — see below.)
+
 ## Modified (carried, then changed for Day 14)
 
 - `src/app/app.ts` — now hosts `<app-create-quote-form>` alongside
@@ -73,6 +76,33 @@ new top-level docs) — the list below is exactly what that diff reported.
 - `output/*` — fresh captured evidence for this task; day-13/task-2's own
   `output/*` was likewise removed rather than carried, since it documents
   Day 13's own test/mutation runs.
+
+## Second commit: local manual-verification wiring (post-submission, at Devansh's request)
+
+Devansh asked to actually see a save succeed against the real API, not just
+mocked tests. Added, all clearly separated from the graded exercise:
+
+- `proxy.conf.json` — new. Routes `/api/*` from `ng serve` to
+  `http://localhost:5080`, where the real `day-3/task-3/QuotesApi` runs
+  locally. Contains no secret, just a loopback URL.
+- `src/app/auth/dev-token.interceptor.ts` — new. A functional
+  `HttpInterceptorFn` that attaches `Authorization: Bearer <token>` only if
+  a token has been manually placed in `localStorage` via the browser
+  console. No token is hardcoded or committed; it is a no-op in every
+  automated test (`localStorage` is empty there, and no spec file imports
+  `appConfig` — each configures its own `HttpTestingController` providers
+  directly).
+- `src/app/app.config.ts` — modified (was carried unchanged) to register
+  `devTokenInterceptor` via `withInterceptors([...])`.
+- The real `day-3/task-3/QuotesApi` project itself was NOT modified — only
+  its local, untracked `dotnet user-secrets` store (which lives outside the
+  repo entirely, at `~/.microsoft/usersecrets/<UserSecretsId>/secrets.json`
+  on this machine, never in git) was populated with a freshly generated,
+  throwaway local-only `InternalCaller` credential and `InternalJwt`
+  signing key, since neither existed on this machine before. See
+  `README.md`, "Testing a real save locally", for what this is and how to
+  use it — full credential details are in this session's reply, not
+  committed anywhere.
 
 ## Not carried
 
