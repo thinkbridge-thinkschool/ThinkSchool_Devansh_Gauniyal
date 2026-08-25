@@ -1,0 +1,10 @@
+PASS: no NgModule anywhere in app source
+PASS: no constructor-parameter injection in non-spec source files
+PASS: no `any` anywhere (`: any`, `as any`, `<any>`, `any[]`)
+PASS: tsconfig has strict and noImplicitAny enabled
+PASS: every @for block tracks by the real identifier field (quote.id)
+PASS: no Zone.js reference in package.json
+PASS: no Zone.js reference in angular.json
+PASS: every aria-describedby target in create-quote-form.html has a matching id in the same template
+
+All structural checks passed.

@@ -1,0 +1,12 @@
+❯ Building...
+✔ Building...
+Initial chunk files | Names         |  Raw size | Estimated transfer size
+main-PAY7QQYR.js    | main          | 205.48 kB |                56.41 kB
+styles-2CXFVZI3.css | styles        |  75 bytes |                75 bytes
+
+                    | Initial total | 205.55 kB |                56.49 kB
+
+Application bundle generation complete. [0.712 seconds] - 2026-08-25T10:05:35.270Z
+
+Output location: /Users/devansh/thinkschool/day-14/task-1/dist/app
+

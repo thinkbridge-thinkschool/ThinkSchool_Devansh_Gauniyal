@@ -1,0 +1,132 @@
+--- day-1/task-4 (exit 0) ---
+Passed!  - Failed:     0, Passed:     4, Skipped:     0, Total:     4, Duration: 369 ms - OrderApi.Tests.dll (net10.0)
+
+--- day-10/task-1 (exit 0) ---
+Passed!  - Failed:     0, Passed:    16, Skipped:     0, Total:    16, Duration: 578 ms - ChangeTrackerDemo.Tests.dll (net10.0)
+
+--- day-10/task-2 (exit 0) ---
+Passed!  - Failed:     0, Passed:    15, Skipped:     0, Total:    15, Duration: 21 ms - QueryTranslationDemo.Tests.dll (net10.0)
+
+--- day-11/task-1 (exit 0) ---
+Passed!  - Failed:     0, Passed:    16, Skipped:     0, Total:    16, Duration: 1 s - QuotesApi.Performance.Tests.dll (net10.0)
+
+--- day-11/task-2 (exit 0) ---
+Passed!  - Failed:     0, Passed:    18, Skipped:     0, Total:    18, Duration: 1 s - FastApi.Tests.dll (net10.0)
+
+--- day-12/task-1 (exit 0) ---
+Passed!  - Failed:     0, Passed:    25, Skipped:     0, Total:    25, Duration: 399 ms - CqrsLite.Tests.dll (net10.0)
+
+--- day-12/task-2 (exit 0) ---
+Passed!  - Failed:     0, Passed:    15, Skipped:     0, Total:    15, Duration: 1 s - DapperComparison.Tests.dll (net10.0)
+
+--- day-2/task-1 (exit 0) ---
+Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 277 ms - QuotesApi.Tests.dll (net10.0)
+
+--- day-2/task-2 (exit 0) ---
+Passed!  - Failed:     0, Passed:     7, Skipped:     0, Total:     7, Duration: 337 ms - CollectionApi.Tests.dll (net10.0)
+
+--- day-2/task-3 (exit 0) ---
+Passed!  - Failed:     0, Passed:     6, Skipped:     0, Total:     6, Duration: 11 ms - Tests.Domain.dll (net10.0)
+
+--- day-2/task-4 (exit 0) ---
+Passed!  - Failed:     0, Passed:    13, Skipped:     0, Total:    13, Duration: 18 ms - Tests.Domain.Quotes.dll (net10.0)
+
+--- day-2/task-6 (exit 0) ---
+Passed!  - Failed:     0, Passed:    16, Skipped:     0, Total:    16, Duration: 1 s - QuotesApi.Auth.Tests.dll (net10.0)
+
+--- day-2/task-7 (exit 0) ---
+Passed!  - Failed:     0, Passed:    29, Skipped:     0, Total:    29, Duration: 2 s - QuotesApi.Auth.Tests.dll (net10.0)
+
+--- day-3/task-1 (exit 0) ---
+Passed!  - Failed:     0, Passed:     6, Skipped:     0, Total:     6, Duration: 134 ms - EntraAuthApi.Tests.dll (net10.0)
+
+--- day-3/task-2 (exit 0) ---
+Passed!  - Failed:     0, Passed:     7, Skipped:     0, Total:     7, Duration: 124 ms - EntraAuthApi.Tests.dll (net10.0)
+
+--- day-3/task-3 (exit 0) ---
+Passed!  - Failed:     0, Passed:    19, Skipped:     0, Total:    19, Duration: 1 s - QuotesApi.Tests.dll (net10.0)
+
+--- day-3/task-5 (exit 0) ---
+Passed!  - Failed:     0, Passed:    44, Skipped:     0, Total:    44, Duration: 30 ms - Quotes.Tests.Unit.dll (net10.0)
+
+--- day-3/task-6 (exit 0) ---
+Passed!  - Failed:     0, Passed:    22, Skipped:     0, Total:    22, Duration: 1 s - Quotes.Tests.Integration.dll (net10.0)
+
+--- day-3/task-7 (exit 1) ---
+Failed!  - Failed:    15, Passed:     0, Skipped:     0, Total:    15, Duration: 33 ms - Quotes.Tests.Integration.dll (net10.0)
+
+--- day-4/task-1 (exit 0) ---
+Passed!  - Failed:     0, Passed:    12, Skipped:     0, Total:    12, Duration: 14 ms - CiDemo.Tests.dll (net10.0)
+
+--- day-4/task-2 (exit 0) ---
+Passed!  - Failed:     0, Passed:    19, Skipped:     0, Total:    19, Duration: 1 s - QuotesApi.Tests.dll (net10.0)
+Passed!  - Failed:     0, Passed:    37, Skipped:     0, Total:    37, Duration: 1 s - QuotesApi.Auth.Tests.dll (net10.0)
+
+--- day-4/task-4 (exit 0) ---
+Passed!  - Failed:     0, Passed:     2, Skipped:     0, Total:     2, Duration: 325 ms - QuotesApi.Logging.Tests.dll (net10.0)
+Passed!  - Failed:     0, Passed:    19, Skipped:     0, Total:    19, Duration: 1 s - QuotesApi.Tests.dll (net10.0)
+Passed!  - Failed:     0, Passed:    37, Skipped:     0, Total:    37, Duration: 1 s - QuotesApi.Auth.Tests.dll (net10.0)
+
+--- day-4/task-5 (exit 0) ---
+Passed!  - Failed:     0, Passed:     2, Skipped:     0, Total:     2, Duration: 365 ms - QuotesApi.Logging.Tests.dll (net10.0)
+Passed!  - Failed:     0, Passed:     2, Skipped:     0, Total:     2, Duration: 446 ms - QuotesApi.Tracing.Tests.dll (net10.0)
+Passed!  - Failed:     0, Passed:    19, Skipped:     0, Total:    19, Duration: 1 s - QuotesApi.Tests.dll (net10.0)
+Passed!  - Failed:     0, Passed:    37, Skipped:     0, Total:    37, Duration: 1 s - QuotesApi.Auth.Tests.dll (net10.0)
+
+--- day-4/task-6 (exit 0) ---
+Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 235 ms - QuotesApi.Telemetry.Tests.dll (net10.0)
+Passed!  - Failed:     0, Passed:     2, Skipped:     0, Total:     2, Duration: 332 ms - QuotesApi.Tracing.Tests.dll (net10.0)
+Passed!  - Failed:     0, Passed:     2, Skipped:     0, Total:     2, Duration: 467 ms - QuotesApi.Logging.Tests.dll (net10.0)
+Passed!  - Failed:     0, Passed:    19, Skipped:     0, Total:    19, Duration: 1 s - QuotesApi.Tests.dll (net10.0)
+Passed!  - Failed:     0, Passed:    37, Skipped:     0, Total:    37, Duration: 1 s - QuotesApi.Auth.Tests.dll (net10.0)
+
+--- day-4/task-7 (exit 0) ---
+Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 311 ms - QuotesApi.Telemetry.Tests.dll (net10.0)
+Passed!  - Failed:     0, Passed:     2, Skipped:     0, Total:     2, Duration: 368 ms - QuotesApi.Tracing.Tests.dll (net10.0)
+Passed!  - Failed:     0, Passed:     2, Skipped:     0, Total:     2, Duration: 431 ms - QuotesApi.Logging.Tests.dll (net10.0)
+Passed!  - Failed:     0, Passed:    12, Skipped:     0, Total:    12, Duration: 435 ms - QuotesApi.Options.Tests.dll (net10.0)
+Passed!  - Failed:     0, Passed:    19, Skipped:     0, Total:    19, Duration: 1 s - QuotesApi.Tests.dll (net10.0)
+Passed!  - Failed:     0, Passed:    37, Skipped:     0, Total:    37, Duration: 1 s - QuotesApi.Auth.Tests.dll (net10.0)
+
+--- day-5/task-1 (exit 0) ---
+Passed!  - Failed:     0, Passed:    10, Skipped:     0, Total:    10, Duration: 377 ms - TraceDemo.Tests.dll (net10.0)
+
+--- day-5/task-2 (exit 0) ---
+Passed!  - Failed:     0, Passed:    10, Skipped:     0, Total:    10, Duration: 379 ms - QuotesApi.Tests.dll (net10.0)
+
+--- day-5/task-4 (exit 0) ---
+Passed!  - Failed:     0, Passed:    10, Skipped:     0, Total:    10, Duration: 384 ms - QuotesApi.Tests.dll (net10.0)
+
+--- day-5/task-5 (exit 0) ---
+Passed!  - Failed:     0, Passed:    10, Skipped:     0, Total:    10, Duration: 383 ms - QuotesApi.Tests.dll (net10.0)
+
+--- day-5/task-6 (exit 0) ---
+Passed!  - Failed:     0, Passed:     6, Skipped:     0, Total:     6, Duration: 14 s - ResilienceDemo.Tests.dll (net10.0)
+
+--- day-7/task-1 (exit 0) ---
+Passed!  - Failed:     0, Passed:    11, Skipped:     0, Total:    11, Duration: 35 ms - Task1.Tests.dll (net10.0)
+
+--- day-7/task-2 (exit 0) ---
+Passed!  - Failed:     0, Passed:     8, Skipped:     0, Total:     8, Duration: 31 ms - Task2.Tests.dll (net10.0)
+
+--- day-7/task-3 (exit 0) ---
+Passed!  - Failed:     0, Passed:    13, Skipped:     0, Total:    13, Duration: 38 ms - Task3.Tests.dll (net10.0)
+
+--- day-8/task-1 (exit 0) ---
+Passed!  - Failed:     0, Passed:    96, Skipped:     0, Total:    96, Duration: 24 ms - Day8Task1.Verification.dll (net10.0)
+
+--- day-8/task-2 (exit 0) ---
+Passed!  - Failed:     0, Passed:    36, Skipped:     0, Total:    36, Duration: 20 ms - Day8Task2.Verification.dll (net10.0)
+
+--- day-9/task-1 (exit 0) ---
+Passed!  - Failed:     0, Passed:    86, Skipped:     0, Total:    86, Duration: 21 ms - Day9Task1.Verification.dll (net10.0)
+
+--- day-9/task-2 (exit 0) ---
+Passed!  - Failed:     0, Passed:    71, Skipped:     0, Total:    71, Duration: 21 ms - Day9Task2.Verification.dll (net10.0)
+
+--- day-1/task-5 (exit 0) ---
+Passed!  - Failed:     0, Passed:     3, Skipped:     0, Total:     3, Duration: 7 ms - OrderProcessing.Tests.dll (net10.0)
+
+--- day-1/task-7 (exit 0) ---
+Passed!  - Failed:     0, Passed:     6, Skipped:     0, Total:     6, Duration: 7 ms - CollectionApi.Tests.dll (net10.0)
+
