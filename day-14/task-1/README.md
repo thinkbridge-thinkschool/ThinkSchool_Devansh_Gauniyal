@@ -71,8 +71,10 @@ This directly shapes the form:
   to mirror.
 - **`Validators.required` was kept on `text` anyway, documented in-code as a
   client-only UX safety net**, not a mirrored server constraint.
-- **`author` has no validator at all** — it mirrors the DTO's optional,
-  nullable field exactly: no constraint on the server, none on the client.
+- **`author` was later made required too, at Devansh's explicit request**,
+  documented the same way — the server DTO's `Author` stays optional and
+  nullable; the client is deliberately stricter. See "Extending the real
+  API" below for why the server side was left alone.
 
 ## Reuse over duplication
 
