@@ -6,19 +6,31 @@
       formControlName="text"
       #textInput
       rows="4"
-      [attr.aria-invalid]="showError() ? 'true' : null"
-      [attr.aria-describedby]="showError() ? 'quote-text-error' : null"
+      [attr.aria-invalid]="showError('text') ? 'true' : null"
+      [attr.aria-describedby]="showError('text') ? 'quote-text-error' : null"
     ></textarea>
     <p id="quote-text-error" class="error" role="alert">
-      @if (showError()) {
+      @if (showError('text')) {
         Quote text is required.
       }
     </p>
   </div>
 
   <div class="field">
-    <label for="quote-author">Author (optional)</label>
-    <input id="quote-author" type="text" formControlName="author" />
+    <label for="quote-author">Author</label>
+    <input
+      id="quote-author"
+      type="text"
+      formControlName="author"
+      #authorInput
+      [attr.aria-invalid]="showError('author') ? 'true' : null"
+      [attr.aria-describedby]="showError('author') ? 'quote-author-error' : null"
+    />
+    <p id="quote-author-error" class="error" role="alert">
+      @if (showError('author')) {
+        Author is required.
+      }
+    </p>
   </div>
 
   <button type="submit" [disabled]="submitting()">

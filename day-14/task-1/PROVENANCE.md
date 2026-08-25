@@ -174,6 +174,38 @@ spec file renders it, and `App`'s own tests don't touch the DOM area it's
 in). Removing it later is a one-line revert of `app.ts`/`app.html` plus
 deleting the `dev-login` folder — it does not entangle with anything graded.
 
+## Fifth commit: Author made compulsory on the form, visual redesign
+
+Devansh asked for `author` to be compulsory (not optional) on the form, and
+for the page to look cleaner.
+
+**Author required — client-side only, not the server.** Making it required
+in `day-3/task-3/QuotesApi` too would have broken an existing, currently-
+passing test — `AuthIntegrationTests.cs`'s
+`CreateQuote_WithWritePolicy_ReturnsOk` (line 211) posts
+`{ text = "A new quote" }` with no author and asserts `200 OK` — checked
+before deciding, not assumed. So `author` is required the same way `text`
+already was: a documented, client-only rule, not a mirrored server
+constraint (the server DTO stays optional/nullable, unchanged from the
+fourth commit). `create-quote-form.ts`/`.html`/`.spec.ts` updated: both
+fields now use the same `showError(field)` pattern, focus-to-first-invalid
+now checks text before author (DOM order), and the "author is optional"
+tests were replaced with "author is required" tests — nothing silently
+left inconsistent with the new behavior.
+
+**Visual redesign** — one consistent design system across every component:
+- `app.html`/`app.css` — restructured into `<h1>` + `.card` sections;
+  `app.config.ts`/`app.ts` logic unchanged, layout only.
+- `quote-browser.css`/`.html` — removed its own page-level centering (now
+  nested in a card instead of being the page root); added a shared
+  `.quote-browser__status` class to the existing status paragraphs
+  (`data-testid` attributes, which tests key off, are untouched).
+- `create-quote-form.css`, `dev-login.css` — same accent color (`#4f46e5`),
+  radii, and spacing scale as the rest of the page.
+- `styles.css` — a global `box-sizing: border-box` reset and page background.
+No `.ts` logic changed as part of the redesign; verified with the full test
+suite (39/39) and structural checks (8/8) both before and after.
+
 ## Not carried
 
 `day-13/task-2/README.md`, `brief.md`, `submission.md`, `verification-log.md`,

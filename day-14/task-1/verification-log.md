@@ -189,7 +189,28 @@ name`, `AUTHOR: is never required...` (`create-quote-form.spec.ts`), and
 `AUTHOR: renders the author line...` / `AUTHOR: omits the author line...`
 (`quote-browser.spec.ts`). Full suite after this change: **38 passed (38)**.
 
-## 8. What breaks if the quote contract changes
+## 8. Post-submission: Author made compulsory, and a visual pass
+
+Devansh asked for `author` to be required rather than optional, and for the
+page to look cleaner. Before making `author` required, checked whether doing
+so server-side would break anything real: `day-3/task-3/QuotesApi.Tests`'
+`AuthIntegrationTests.CreateQuote_WithWritePolicy_ReturnsOk` posts
+`{ text = "A new quote" }` with no author and asserts `200 OK` — making the
+server require it would have broken that already-passing, already-graded
+test. So `author` was made required the same way `text` already was: a
+documented client-only rule (`Validators.required`), not a mirrored server
+constraint — the server DTO stays optional, unchanged. Updated the
+`showError()` logic to take a field name, added focus-to-first-invalid
+across two required fields (text first, then author, matching DOM order),
+and replaced the now-obsolete "author is optional" tests with "author is
+required" ones rather than leaving them contradicting the new behavior.
+Full suite after this change: **39 passed (39)**, structural checks 8/8.
+
+The visual redesign (`app.css`, `quote-browser.css`, `create-quote-form.css`,
+`dev-login.css`, `styles.css`) touched only CSS/template classes, no
+component logic — verified with the same 39/39 test run before and after.
+
+## 9. What breaks if the quote contract changes
 
 - If `CreateQuoteRequest.Text` were renamed (e.g. to `Content`), `quote-api.ts`
   and `create-quote-form.ts` would keep sending `{ text: ... }` — the server

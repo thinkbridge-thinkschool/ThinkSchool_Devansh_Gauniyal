@@ -1,15 +1,28 @@
 .quote-browser {
   display: flex;
   gap: 2rem;
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 0 1.5rem;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  font-family: inherit;
 }
 
 .quote-browser__list,
 .quote-browser__detail {
   flex: 1;
+  min-width: 0;
+}
+
+.quote-browser h2 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7280;
+  margin: 0 0 0.75rem;
+}
+
+.quote-browser__status {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin: 0;
 }
 
 .quote-browser__list ul {
@@ -24,23 +37,45 @@
 .quote-browser__list button {
   width: 100%;
   text-align: left;
-  padding: 0.6rem 0.8rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background: #fff;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid #e4e7ee;
+  border-radius: 10px;
+  background: #fafbfc;
+  font: inherit;
+  color: #1f2430;
   cursor: pointer;
+  transition: border-color 0.12s ease, background-color 0.12s ease;
+}
+
+.quote-browser__list button:hover {
+  border-color: #c7cbd6;
+  background: #f3f4f7;
+}
+
+.quote-browser__list button:focus-visible {
+  outline: 3px solid #4f46e5;
+  outline-offset: 2px;
 }
 
 .quote-browser__list button.selected {
-  border-color: #7c5cff;
-  background: rgba(124, 92, 255, 0.08);
+  border-color: #4f46e5;
+  background: rgba(79, 70, 229, 0.07);
 }
 
 .quote-browser__detail-text {
   font-size: 1.05rem;
+  margin: 0 0 0.4rem;
+}
+
+.quote-browser__detail-author {
+  color: #4b5563;
+  font-size: 0.9rem;
+  font-style: italic;
+  margin: 0 0 0.4rem;
 }
 
 .quote-browser__detail-owner {
-  color: #666;
-  font-size: 0.85rem;
+  color: #9ca3af;
+  font-size: 0.8rem;
+  margin: 0;
 }

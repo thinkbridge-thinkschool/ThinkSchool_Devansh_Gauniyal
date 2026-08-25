@@ -1,8 +1,14 @@
 <main>
+  <h1 class="page-title">Quotes</h1>
+
+  <section class="card">
+    <app-quote-browser [justCreated]="justCreated()" />
+  </section>
+
+  <section class="card">
+    <h2 class="section-heading">Create a quote</h2>
+    <app-create-quote-form (quoteCreated)="justCreated.set($event)" />
+  </section>
+
   <app-dev-login />
-
-  <app-quote-browser [justCreated]="justCreated()" />
-
-  <h2 class="create-quote-heading">Create a quote</h2>
-  <app-create-quote-form (quoteCreated)="justCreated.set($event)" />
 </main>

@@ -1,40 +1,55 @@
 .dev-login {
-  border: 1px dashed #999;
-  border-radius: 6px;
-  padding: 1rem;
-  font-family: system-ui, sans-serif;
-  max-width: 32rem;
+  border: 1px dashed #c7cbd6;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  background: #fafbfc;
+  color: #4b5563;
 }
 
 .dev-login h2 {
   margin: 0 0 0.25rem;
-  font-size: 1rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7280;
 }
 
 .hint {
   margin: 0 0 0.75rem;
-  color: #555;
-  font-size: 0.85rem;
+  color: #9ca3af;
+  font-size: 0.8rem;
 }
 
 form {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.6rem;
 }
 
 label {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+  color: #6b7280;
 }
 
 input {
   font: inherit;
-  padding: 0.4rem;
-  border: 1px solid #767676;
-  border-radius: 4px;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #fff;
+  min-width: 12rem;
+}
+
+input:focus-visible,
+button:focus-visible {
+  outline: 3px solid #4f46e5;
+  outline-offset: 2px;
 }
 
 .buttons {
@@ -43,17 +58,24 @@ input {
 }
 
 button {
-  padding: 0.4rem 1rem;
-  border: 1px solid #767676;
-  border-radius: 4px;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
   background: #fff;
+  color: #374151;
   font: inherit;
+  font-size: 0.85rem;
   cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+button:hover {
+  background: #f3f4f6;
 }
 
 .status,
 .state {
-  margin: 0.5rem 0 0;
-  font-size: 0.85rem;
-  color: #555;
+  margin: 0.6rem 0 0;
+  font-size: 0.8rem;
+  color: #6b7280;
 }

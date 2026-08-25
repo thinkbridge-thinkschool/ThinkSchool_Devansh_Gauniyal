@@ -1,28 +1,28 @@
 ❯ Building...
 ✔ Building...
 Initial chunk files                                    | Names                                               |  Raw size
-chunk-OTB5HKRC.js                                      | -                                                   |  14.14 kB | 
-spec-app-app.js                                        | spec-app-app                                        |  11.77 kB | 
-chunk-G4VXV4QZ.js                                      | -                                                   |  11.70 kB | 
-spec-app-quotes-create-quote-form-create-quote-form.js | spec-app-quotes-create-quote-form-create-quote-form |   8.50 kB | 
+chunk-LM3MQTBA.js                                      | -                                                   |  15.87 kB | 
+spec-app-app.js                                        | spec-app-app                                        |  14.23 kB | 
+chunk-CVCNB33B.js                                      | -                                                   |  13.80 kB | 
+spec-app-quotes-create-quote-form-create-quote-form.js | spec-app-quotes-create-quote-form-create-quote-form |  10.59 kB | 
 spec-app-quotes-quote-browser-quote-browser.js         | spec-app-quotes-quote-browser-quote-browser         |   6.38 kB | 
-chunk-SHTMZ5XJ.js                                      | -                                                   |   4.57 kB | 
+chunk-CGZBV6BD.js                                      | -                                                   |   4.07 kB | 
 spec-app-quotes-quote-api.js                           | spec-app-quotes-quote-api                           |   3.94 kB | 
 init-testbed.js                                        | init-testbed                                        |   1.21 kB | 
 chunk-UWYWKKHB.js                                      | -                                                   |   1.11 kB | 
 vitest-mock-patch.js                                   | vitest-mock-patch                                   | 974 bytes | 
-styles.css                                             | styles                                              |  56 bytes | 
+styles.css                                             | styles                                              | 155 bytes | 
 
-                                                       | Initial total                                       |  64.34 kB
+                                                       | Initial total                                       |  72.34 kB
 
-Application bundle generation complete. [0.459 seconds] - 2026-08-25T09:36:41.218Z
+Application bundle generation complete. [0.476 seconds] - 2026-08-25T09:56:03.784Z
 
 
 [1m[30m[46m RUN [49m[39m[22m [36mv4.1.11 [39m[90m/Users/devansh/thinkschool/day-14/task-1[39m
 
 
 [2m Test Files [22m [1m[32m4 passed[39m[22m[90m (4)[39m
-[2m      Tests [22m [1m[32m38 passed[39m[22m[90m (38)[39m
-[2m   Start at [22m 15:06:41
-[2m   Duration [22m 456ms[2m (transform 92ms, setup 362ms, import 150ms, tests 206ms, environment 731ms)[22m
+[2m      Tests [22m [1m[32m39 passed[39m[22m[90m (39)[39m
+[2m   Start at [22m 15:26:03
+[2m   Duration [22m 473ms[2m (transform 91ms, setup 368ms, import 145ms, tests 236ms, environment 743ms)[22m
 
