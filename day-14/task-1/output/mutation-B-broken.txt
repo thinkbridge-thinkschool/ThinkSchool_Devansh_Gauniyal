@@ -1,0 +1,72 @@
+❯ Building...
+✔ Building...
+Initial chunk files                                    | Names                                               |  Raw size
+chunk-MBALD542.js                                      | -                                                   |  13.32 kB | 
+chunk-Y24D6WGV.js                                      | -                                                   |  10.59 kB | 
+spec-app-quotes-create-quote-form-create-quote-form.js | spec-app-quotes-create-quote-form-create-quote-form |   6.72 kB | 
+spec-app-quotes-quote-browser-quote-browser.js         | spec-app-quotes-quote-browser-quote-browser         |   5.51 kB | 
+chunk-CGZBV6BD.js                                      | -                                                   |   4.07 kB | 
+spec-app-app.js                                        | spec-app-app                                        |   4.01 kB | 
+spec-app-quotes-quote-api.js                           | spec-app-quotes-quote-api                           |   3.94 kB | 
+init-testbed.js                                        | init-testbed                                        |   1.21 kB | 
+chunk-MPSK6LXJ.js                                      | -                                                   |   1.11 kB | 
+vitest-mock-patch.js                                   | vitest-mock-patch                                   | 974 bytes | 
+styles.css                                             | styles                                              |  56 bytes | 
+
+                                                       | Initial total                                       |  51.51 kB
+
+Application bundle generation complete. [0.443 seconds] - 2026-08-25T07:00:49.695Z
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.11 [39m[90m/Users/devansh/thinkschool/day-14/task-1[39m
+
+ [31m❯[39m [30m[43m app [49m[39m src/app/quotes/create-quote-form/create-quote-form.spec.ts [2m([22m[2m12 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 69[2mms[22m[39m
+[31m     [31m×[31m EMPTY: a freshly rendered form shows no error message and no aria-invalid[39m[32m 34[2mms[22m[39m
+[31m     [31m×[31m A11Y: aria-describedby resolves to an element present in the DOM in both the valid and invalid state[39m[32m 2[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form/create-quote-form.spec.ts[2m > [22mCreateQuoteForm[2m > [22mEMPTY: a freshly rendered form shows no error message and no aria-invalid
+[31m[1mAssertionError[22m: expected 'quote-text-error' to be null[39m
+
+- Expected:
+null
+
++ Received:
+"quote-text-error"
+
+[36m [2m❯[22m src/app/quotes/create-quote-form/create-quote-form.spec.ts:[2m44:55[22m[39m
+    [90m 42|[39m
+    [90m 43|[39m     [34mexpect[39m(textarea[33m.[39m[34mgetAttribute[39m([32m'aria-invalid'[39m))[33m.[39m[34mtoBeNull[39m()[33m;[39m
+    [90m 44|[39m     [34mexpect[39m(textarea[33m.[39m[34mgetAttribute[39m([32m'aria-describedby'[39m))[33m.[39m[34mtoBeNull[39m()[33m;[39m
+    [90m   |[39m                                                       [31m^[39m
+    [90m 45|[39m     [34mexpect[39m(error[33m.[39mtextContent[33m?.[39m[34mtrim[39m())[33m.[39m[34mtoBe[39m([32m''[39m)[33m;[39m
+    [90m 46|[39m   })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form/create-quote-form.spec.ts[2m > [22mCreateQuoteForm[2m > [22mA11Y: aria-describedby resolves to an element present in the DOM in both the valid and invalid state
+[31m[1mAssertionError[22m: expected null to be truthy[39m
+
+- Expected:
+true
+
++ Received:
+null
+
+[36m [2m❯[22m src/app/quotes/create-quote-form/create-quote-form.spec.ts:[2m142:67[22m[39m
+    [90m140|[39m     [35mconst[39m validRef [33m=[39m textareaValid[33m.[39m[34mgetAttribute[39m([32m'aria-describedby'[39m)[33m;[39m
+    [90m141|[39m     [35mif[39m (validRef) {
+    [90m142|[39m       expect(fixture.nativeElement.querySelector(`#${validRef}`)).toBe…
+    [90m   |[39m                                                                   [31m^[39m
+    [90m143|[39m     }
+    [90m144|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m3 passed[39m[22m[90m (4)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m31 passed[39m[22m[90m (33)[39m
+[2m   Start at [22m 12:30:49
+[2m   Duration [22m 446ms[2m (transform 82ms, setup 376ms, import 135ms, tests 187ms, environment 728ms)[22m
+

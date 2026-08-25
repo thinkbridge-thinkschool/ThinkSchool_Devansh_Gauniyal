@@ -1,0 +1,109 @@
+❯ Building...
+✔ Building...
+Initial chunk files                                    | Names                                               |  Raw size
+chunk-MBALD542.js                                      | -                                                   |  13.32 kB | 
+chunk-R4VDRACM.js                                      | -                                                   |  10.60 kB | 
+spec-app-quotes-create-quote-form-create-quote-form.js | spec-app-quotes-create-quote-form-create-quote-form |   6.72 kB | 
+spec-app-quotes-quote-browser-quote-browser.js         | spec-app-quotes-quote-browser-quote-browser         |   5.51 kB | 
+chunk-CGZBV6BD.js                                      | -                                                   |   4.07 kB | 
+spec-app-app.js                                        | spec-app-app                                        |   4.01 kB | 
+spec-app-quotes-quote-api.js                           | spec-app-quotes-quote-api                           |   3.94 kB | 
+init-testbed.js                                        | init-testbed                                        |   1.21 kB | 
+chunk-MPSK6LXJ.js                                      | -                                                   |   1.11 kB | 
+vitest-mock-patch.js                                   | vitest-mock-patch                                   | 974 bytes | 
+styles.css                                             | styles                                              |  56 bytes | 
+
+                                                       | Initial total                                       |  51.52 kB
+
+Application bundle generation complete. [0.494 seconds] - 2026-08-25T07:00:23.204Z
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.11 [39m[90m/Users/devansh/thinkschool/day-14/task-1[39m
+
+ [31m❯[39m [30m[43m app [49m[39m src/app/quotes/create-quote-form/create-quote-form.spec.ts [2m([22m[2m12 tests[22m[2m | [22m[31m11 failed[39m[2m)[22m[32m 58[2mms[22m[39m
+[31m     [31m×[31m INVALID: submitting empty marks the field invalid, renders the error, sets aria-invalid, and does not call the API[39m[32m 11[2mms[22m[39m
+[31m     [31m×[31m SUBMITTING: the busy state is active in flight and the form cannot be double-submitted[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m SERVER-ERROR: a failing POST surfaces a visible, announced error and leaves the form usable again[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m emits quoteCreated with the real created quote on success, for the host page to add to the list[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m CONTRACT: submits only the real "text" field, with the real field name and casing[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m CONTRACT: does not invent a maxLength the real DTO does not have[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m A11Y: the input has a label whose for matches its id[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m A11Y: aria-describedby resolves to an element present in the DOM in both the valid and invalid state[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m A11Y: focus moves to the invalid field after a failed submit[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m A11Y: no element has a positive tabindex[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m A11Y: the textarea and submit button are reachable in the tab order in the initial state[39m[32m 0[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 11 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form/create-quote-form.spec.ts[2m > [22mCreateQuoteForm[2m > [22mINVALID: submitting empty marks the field invalid, renders the error, sets aria-invalid, and does not call the API
+[31m[1mAssertionError[22m: expected null to be 'true' // Object.is equality[39m
+
+- Expected:
+"true"
+
++ Received:
+null
+
+[36m [2m❯[22m src/app/quotes/create-quote-form/create-quote-form.spec.ts:[2m54:51[22m[39m
+    [90m 52|[39m     const error = fixture.nativeElement.querySelector('#quote-text-err…
+    [90m 53|[39m
+    [90m 54|[39m     [34mexpect[39m(textarea[33m.[39m[34mgetAttribute[39m([32m'aria-invalid'[39m))[33m.[39m[34mtoBe[39m([32m'true'[39m)[33m;[39m
+    [90m   |[39m                                                   [31m^[39m
+    [90m 55|[39m     [34mexpect[39m(error[33m.[39mtextContent[33m?.[39m[34mtrim[39m())[33m.[39m[34mtoBe[39m([32m'Quote text is required.'[39m)[33m;[39m
+    [90m 56|[39m     httpMock[33m.[39m[34mexpectNone[39m([32m'/api/quotes'[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/22]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form/create-quote-form.spec.ts[2m > [22mCreateQuoteForm[2m > [22mINVALID: submitting empty marks the field invalid, renders the error, sets aria-invalid, and does not call the API
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form/create-quote-form.spec.ts[2m > [22mCreateQuoteForm[2m > [22mSUBMITTING: the busy state is active in flight and the form cannot be double-submitted
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form/create-quote-form.spec.ts[2m > [22mCreateQuoteForm[2m > [22mSERVER-ERROR: a failing POST surfaces a visible, announced error and leaves the form usable again
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form/create-quote-form.spec.ts[2m > [22mCreateQuoteForm[2m > [22memits quoteCreated with the real created quote on success, for the host page to add to the list
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form/create-quote-form.spec.ts[2m > [22mCreateQuoteForm[2m > [22mCONTRACT: submits only the real "text" field, with the real field name and casing
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form/create-quote-form.spec.ts[2m > [22mCreateQuoteForm[2m > [22mCONTRACT: does not invent a maxLength the real DTO does not have
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form/create-quote-form.spec.ts[2m > [22mCreateQuoteForm[2m > [22mA11Y: the input has a label whose for matches its id
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form/create-quote-form.spec.ts[2m > [22mCreateQuoteForm[2m > [22mA11Y: aria-describedby resolves to an element present in the DOM in both the valid and invalid state
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form/create-quote-form.spec.ts[2m > [22mCreateQuoteForm[2m > [22mA11Y: focus moves to the invalid field after a failed submit
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form/create-quote-form.spec.ts[2m > [22mCreateQuoteForm[2m > [22mA11Y: no element has a positive tabindex
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form/create-quote-form.spec.ts[2m > [22mCreateQuoteForm[2m > [22mA11Y: the textarea and submit button are reachable in the tab order in the initial state
+[31m[1mError[22m: Expected no open requests, found 1: POST /api/quotes[39m
+[90m [2m❯[22m HttpClientTestingBackend.verify ../k8-fastbuild-ST-fdfa778d11ba/bin/packages/common/http/testing/src/backend.ts:[2m147:12[22m[39m
+[36m [2m❯[22m src/app/quotes/create-quote-form/create-quote-form.spec.ts:[2m34:14[22m[39m
+    [90m 32|[39m
+    [90m 33|[39m   [34mafterEach[39m(() [33m=>[39m {
+    [90m 34|[39m     httpMock[33m.[39m[34mverify[39m()[33m;[39m
+    [90m   |[39m              [31m^[39m
+    [90m 35|[39m   })[33m;[39m
+    [90m 36|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/22]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form/create-quote-form.spec.ts[2m > [22mCreateQuoteForm[2m > [22mSUBMITTING: the busy state is active in flight and the form cannot be double-submitted
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form/create-quote-form.spec.ts[2m > [22mCreateQuoteForm[2m > [22mSERVER-ERROR: a failing POST surfaces a visible, announced error and leaves the form usable again
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form/create-quote-form.spec.ts[2m > [22mCreateQuoteForm[2m > [22memits quoteCreated with the real created quote on success, for the host page to add to the list
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form/create-quote-form.spec.ts[2m > [22mCreateQuoteForm[2m > [22mCONTRACT: submits only the real "text" field, with the real field name and casing
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form/create-quote-form.spec.ts[2m > [22mCreateQuoteForm[2m > [22mCONTRACT: does not invent a maxLength the real DTO does not have
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form/create-quote-form.spec.ts[2m > [22mCreateQuoteForm[2m > [22mA11Y: the input has a label whose for matches its id
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form/create-quote-form.spec.ts[2m > [22mCreateQuoteForm[2m > [22mA11Y: aria-describedby resolves to an element present in the DOM in both the valid and invalid state
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form/create-quote-form.spec.ts[2m > [22mCreateQuoteForm[2m > [22mA11Y: focus moves to the invalid field after a failed submit
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form/create-quote-form.spec.ts[2m > [22mCreateQuoteForm[2m > [22mA11Y: no element has a positive tabindex
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/create-quote-form/create-quote-form.spec.ts[2m > [22mCreateQuoteForm[2m > [22mA11Y: the textarea and submit button are reachable in the tab order in the initial state
+[31m[1mError[22m: Cannot configure the test module when the test module has already been instantiated. Make sure you are not using `inject` before `TestBed.configureTestingModule`.[39m
+[90m [2m❯[22m TestBedImpl.assertNotInstantiated ../k8-fastbuild-ST-fdfa778d11ba/bin/packages/core/testing/src/test_bed.ts:[2m736:12[22m[39m
+[90m [2m❯[22m assertNotInstantiated ../k8-fastbuild-ST-fdfa778d11ba/bin/packages/core/testing/src/test_bed.ts:[2m562:9[22m[39m
+[90m [2m❯[22m configureTestingModule ../k8-fastbuild-ST-fdfa778d11ba/bin/packages/core/testing/src/test_bed.ts:[2m319:32[22m[39m
+[36m [2m❯[22m src/app/quotes/create-quote-form/create-quote-form.spec.ts:[2m24:13[22m[39m
+    [90m 22|[39m
+    [90m 23|[39m   [34mbeforeEach[39m(() [33m=>[39m {
+    [90m 24|[39m     [33mTestBed[39m[33m.[39m[34mconfigureTestingModule[39m({
+    [90m   |[39m             [31m^[39m
+    [90m 25|[39m       imports[33m:[39m [[33mCreateQuoteForm[39m][33m,[39m
+    [90m 26|[39m       providers[33m:[39m [[34mprovideHttpClient[39m()[33m,[39m [34mprovideHttpClientTesting[39m()][33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/22]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m3 passed[39m[22m[90m (4)[39m
+[2m      Tests [22m [1m[31m11 failed[39m[22m[2m | [22m[1m[32m22 passed[39m[22m[90m (33)[39m
+[2m   Start at [22m 12:30:23
+[2m   Duration [22m 544ms[2m (transform 73ms, setup 372ms, import 171ms, tests 246ms, environment 787ms)[22m
+

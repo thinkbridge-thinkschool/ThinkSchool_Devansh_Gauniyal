@@ -1,0 +1,40 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+  <div class="field">
+    <label for="quote-text">Quote text</label>
+    <textarea
+      id="quote-text"
+      formControlName="text"
+      #textInput
+      rows="4"
+      [attr.aria-invalid]="showError() ? 'true' : null"
+      [attr.aria-describedby]="showError() ? 'quote-text-error' : null"
+    ></textarea>
+    <p id="quote-text-error" class="error" role="alert">
+      @if (showError()) {
+        Quote text is required.
+      }
+    </p>
+  </div>
+
+  <button type="submit" [disabled]="submitting()">
+    {{ submitting() ? 'Saving…' : 'Save quote' }}
+  </button>
+
+  <p class="status" role="status">
+    @if (submitting()) {
+      Submitting…
+    }
+  </p>
+
+  <p class="server-error" role="alert">
+    @if (serverError(); as message) {
+      {{ message }}
+    }
+  </p>
+
+  <p class="success" role="status">
+    @if (submittedQuote(); as quote) {
+      Quote saved: "{{ quote }}"
+    }
+  </p>
+</form>

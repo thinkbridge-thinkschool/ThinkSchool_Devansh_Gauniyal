@@ -1,0 +1,12 @@
+❯ Building...
+✔ Building...
+Initial chunk files | Names         |  Raw size | Estimated transfer size
+main-4CP52ZG5.js    | main          | 196.35 kB |                54.64 kB
+styles-5INURTSO.css | styles        |   0 bytes |                 0 bytes
+
+                    | Initial total | 196.35 kB |                54.64 kB
+
+Application bundle generation complete. [0.699 seconds] - 2026-08-25T07:01:11.086Z
+
+Output location: /Users/devansh/thinkschool/day-14/task-1/dist/app
+

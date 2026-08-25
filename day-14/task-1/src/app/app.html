@@ -1,0 +1,6 @@
+<main>
+  <app-quote-browser [justCreated]="justCreated()" />
+
+  <h2 class="create-quote-heading">Create a quote</h2>
+  <app-create-quote-form (quoteCreated)="justCreated.set($event)" />
+</main>

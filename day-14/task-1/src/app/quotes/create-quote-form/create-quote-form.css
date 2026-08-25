@@ -1,0 +1,73 @@
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 32rem;
+  font-family: system-ui, sans-serif;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+label {
+  font-weight: 600;
+}
+
+textarea {
+  font: inherit;
+  padding: 0.5rem;
+  border: 1px solid #767676;
+  border-radius: 4px;
+}
+
+textarea[aria-invalid='true'] {
+  border-color: #b00020;
+}
+
+textarea:focus-visible,
+button:focus-visible {
+  outline: 3px solid #1a0dab;
+  outline-offset: 2px;
+}
+
+.error {
+  color: #b00020;
+  min-height: 1.25rem;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.server-error {
+  color: #b00020;
+  margin: 0;
+}
+
+.status {
+  margin: 0;
+  color: #555;
+}
+
+.success {
+  color: #0a7a2f;
+  margin: 0;
+}
+
+button {
+  align-self: flex-start;
+  padding: 0.5rem 1.25rem;
+  border: 1px solid #1a0dab;
+  border-radius: 4px;
+  background: #1a0dab;
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+button:disabled {
+  background: #767676;
+  border-color: #767676;
+  cursor: not-allowed;
+}

@@ -1,0 +1,14 @@
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 48rem;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  font-family: system-ui, sans-serif;
+}
+
+.create-quote-heading {
+  font-size: 1.1rem;
+  margin: 0;
+}
