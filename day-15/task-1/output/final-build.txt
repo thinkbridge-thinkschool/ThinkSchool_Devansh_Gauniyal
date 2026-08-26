@@ -1,0 +1,12 @@
+❯ Building...
+✔ Building...
+Initial chunk files | Names         |  Raw size | Estimated transfer size
+main-AZFFKNXT.js    | main          | 255.50 kB |                68.00 kB
+styles-2CXFVZI3.css | styles        |  75 bytes |                75 bytes
+
+                    | Initial total | 255.57 kB |                68.07 kB
+
+Application bundle generation complete. [0.831 seconds] - 2026-08-26T03:44:56.527Z
+
+Output location: /Users/devansh/thinkschool/day-15/task-1/dist/app
+

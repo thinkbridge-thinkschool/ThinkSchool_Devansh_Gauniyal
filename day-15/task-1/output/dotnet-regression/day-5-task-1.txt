@@ -1,0 +1,13 @@
+  Determining projects to restore...
+/Users/devansh/thinkschool/day-5/task-1/TraceDemo/TraceDemo.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q [/Users/devansh/thinkschool/day-5/task-1/Task1.slnx]
+/Users/devansh/thinkschool/day-5/task-1/TraceDemo.Tests/TraceDemo.Tests.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q [/Users/devansh/thinkschool/day-5/task-1/Task1.slnx]
+  All projects are up-to-date for restore.
+/Users/devansh/thinkschool/day-5/task-1/TraceDemo.Tests/TraceDemo.Tests.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+/Users/devansh/thinkschool/day-5/task-1/TraceDemo/TraceDemo.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+  TraceDemo -> /Users/devansh/thinkschool/day-5/task-1/TraceDemo/bin/Debug/net10.0/TraceDemo.dll
+  TraceDemo.Tests -> /Users/devansh/thinkschool/day-5/task-1/TraceDemo.Tests/bin/Debug/net10.0/TraceDemo.Tests.dll
+Test run for /Users/devansh/thinkschool/day-5/task-1/TraceDemo.Tests/bin/Debug/net10.0/TraceDemo.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:    10, Skipped:     0, Total:    10, Duration: 400 ms - TraceDemo.Tests.dll (net10.0)
+EXIT=0

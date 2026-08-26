@@ -1,0 +1,9 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  CollectionApi -> /Users/devansh/thinkschool/day-2/task-2/CollectionApi/bin/Debug/net10.0/CollectionApi.dll
+  CollectionApi.Tests -> /Users/devansh/thinkschool/day-2/task-2/Tests/bin/Debug/net10.0/CollectionApi.Tests.dll
+Test run for /Users/devansh/thinkschool/day-2/task-2/Tests/bin/Debug/net10.0/CollectionApi.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:     7, Skipped:     0, Total:     7, Duration: 377 ms - CollectionApi.Tests.dll (net10.0)
+EXIT=0

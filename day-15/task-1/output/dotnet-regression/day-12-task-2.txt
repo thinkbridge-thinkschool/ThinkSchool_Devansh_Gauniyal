@@ -1,0 +1,9 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  DapperComparison -> /Users/devansh/thinkschool/day-12/task-2/DapperComparison/bin/Debug/net10.0/DapperComparison.dll
+  DapperComparison.Tests -> /Users/devansh/thinkschool/day-12/task-2/DapperComparison.Tests/bin/Debug/net10.0/DapperComparison.Tests.dll
+Test run for /Users/devansh/thinkschool/day-12/task-2/DapperComparison.Tests/bin/Debug/net10.0/DapperComparison.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:    15, Skipped:     0, Total:    15, Duration: 963 ms - DapperComparison.Tests.dll (net10.0)
+EXIT=0
