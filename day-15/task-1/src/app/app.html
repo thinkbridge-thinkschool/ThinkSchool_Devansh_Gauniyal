@@ -9,6 +9,10 @@
       <app-dev-login (loggedOut)="isAuthenticated.set(false)" />
     </div>
 
+    <section class="card">
+      <app-http-demo-panel />
+    </section>
+
     <section class="card card--primary">
       <h2 class="section-heading">Create a quote — reactive forms</h2>
       <app-create-quote-form (quoteCreated)="justCreated.set($event)" />

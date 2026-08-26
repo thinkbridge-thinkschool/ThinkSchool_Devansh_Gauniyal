@@ -1,6 +1,7 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { devTokenInterceptor } from './auth/dev-token.interceptor';
+import { requestCounterInterceptor } from './demo/request-counter.interceptor';
 import { API_INTERCEPTORS } from './http/api-interceptors';
 
 // Order (request flows left to right, responses flow back right to left):
@@ -19,9 +20,15 @@ import { API_INTERCEPTORS } from './http/api-interceptors';
 //                                went on to fix.
 //     retryTransientGetInterceptor -- innermost/last, closest to the network, so its
 //                                own retries stay invisible to both interceptors above.
+//   requestCounterInterceptor -- DEMO ONLY, not part of the graded work (see
+//                                demo/request-counter.interceptor.ts). Registered last
+//                                of all so it counts every real attempt, including
+//                                retries.
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideHttpClient(withInterceptors([devTokenInterceptor, ...API_INTERCEPTORS])),
+    provideHttpClient(
+      withInterceptors([devTokenInterceptor, ...API_INTERCEPTORS, requestCounterInterceptor]),
+    ),
   ],
 };

@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { DevLogin } from './auth/dev-login/dev-login';
+import { HttpDemoPanel } from './demo/http-demo-panel/http-demo-panel';
 import { CreateQuoteForm } from './quotes/create-quote-form/create-quote-form';
 import { CreateQuoteFormSignals } from './quotes/create-quote-form-signals/create-quote-form-signals';
 import { QuoteBrowser } from './quotes/quote-browser/quote-browser';
@@ -7,7 +8,7 @@ import type { Quote } from './quotes/quote';
 
 @Component({
   selector: 'app-root',
-  imports: [QuoteBrowser, CreateQuoteForm, CreateQuoteFormSignals, DevLogin],
+  imports: [QuoteBrowser, CreateQuoteForm, CreateQuoteFormSignals, DevLogin, HttpDemoPanel],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

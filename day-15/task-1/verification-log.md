@@ -171,3 +171,29 @@ test to find.
 Reverted; re-run (`output/mutation-B-reverted.txt`): 12 files / 79 tests, all passed
 again. Structural checks (`node scripts/verify-structural.mjs`) also re-confirmed green
 after the revert.
+
+## Addendum — post-submission demo panel (not part of the graded work above)
+
+Everything above this line was written and verified before the original commit. This
+section documents a follow-up addition Devansh explicitly asked for afterward, so it is
+kept clearly separate rather than folded into the log as if it had been part of the
+original sequence.
+
+Devansh wanted a way to demonstrate the three interceptors live to a mentor without
+relying on DevTools throttling (fiddly to do reliably in real time). Added
+`src/app/demo/http-demo-panel/` (a small component with two buttons — a real success
+call and a real 4xx call — plus a request counter) and a demo-only
+`requestCounterInterceptor`, registered last in `app.config.ts` so it counts every real
+network attempt including retries without altering the order or behaviour of the three
+graded interceptors in front of it. Full detail and justification in `PROVENANCE.md`.
+
+Ran the full suite and structural checks after adding it: 12 files / 79 tests, all
+passing — identical counts to before, since the demo panel has no tests of its own and
+touches no existing test path. Then drove it live with Playwright against the real,
+already-running QuotesApi: the success button showed the real list with "1 request
+made."; the 4xx button (`GET /api/quotes/999`) showed "1 request made — a 405 is never
+retried." with the friendly message and `status=405 · retryable=false` — confirming the
+graded interceptor chain works exactly the same when driven this way as it does in the
+automated tests. Zero unmodified files outside `src/app/demo/` and the four
+already-documented touch points (`app.ts`, `app.html`, `app.config.ts`,
+`submission.md`).
