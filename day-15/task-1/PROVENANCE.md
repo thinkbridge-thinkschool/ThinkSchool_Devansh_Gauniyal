@@ -36,7 +36,7 @@ reported.
 - `tsconfig.json`, `tsconfig.app.json`, `tsconfig.spec.json`
 - `public/favicon.ico`, `proxy.conf.json`
 - `src/index.html`, `src/main.ts`, `src/styles.css`
-- `src/app/app.css`, `src/app/app.html`, `src/app/app.spec.ts`, `src/app/app.ts`
+- `src/app/app.css`, `src/app/app.spec.ts`
 - `src/app/auth/dev-login/*`, `src/app/auth/dev-token.interceptor.ts` (kept exactly
   as-is; see "Why dev-token.interceptor.ts was left alone" below)
 - `src/app/quotes/quote.ts`, `src/app/quotes/create-quote-request.ts`,
@@ -56,7 +56,16 @@ reported.
   `provideHttpClient(withInterceptors([devTokenInterceptor, ...API_INTERCEPTORS]))`.
   `devTokenInterceptor` is kept in its original (now first) position, untouched. The
   full order and its justification are in a header comment; see also README.md and
-  submission.md.
+  submission.md. A fourth entry, `requestCounterInterceptor`, was added after the graded
+  three at Devansh's explicit request, for the demo panel described below — it is
+  clearly commented as demo-only and registered last so it doesn't change the behaviour
+  or order of the three graded interceptors in front of it.
+- **`src/app/app.ts`** and **`src/app/app.html`** — added at Devansh's explicit request,
+  after the original submission, so the interceptor work could be demonstrated live to a
+  mentor: one new import/entry in `app.ts`'s `imports` array, and one new `<section>` in
+  `app.html` hosting `<app-http-demo-panel />`, placed above the existing sections.
+  Nothing else in either file changed; no existing section was reordered, removed, or
+  restyled.
 - **`src/app/quotes/quote-browser/quote-browser.ts`** — both `error:` callbacks
   (`loadList()` and `selectQuote()`) now check `err instanceof AppHttpError` and use
   `err.friendlyMessage` when so, falling back to the exact original hardcoded string
@@ -123,6 +132,17 @@ honestly here rather than hidden.
 - `output/*` — fresh captured evidence for this task (live capture, baseline/regression
   test runs, mutation-check runs, structural checks). `day-14/task-2`'s own `output/*`
   was excluded from the copy entirely.
+- `src/app/demo/*` — added after the original submission, at Devansh's explicit request,
+  purely so the graded interceptor work could be driven live for a mentor demo instead
+  of relying on DevTools throttling. Not part of the graded exercise, not covered by any
+  automated test, and clearly labelled "demo only" in its own UI. Two buttons hit the
+  real API through the real, unmodified interceptor chain: one calls the real
+  `GET /api/quotes` (success), the other calls `GET /api/quotes/999` — a route this API
+  genuinely does not expose for GET (only PUT/DELETE define that `{id:int}` segment; see
+  `quotes-api-contract.spec.ts`), so it is a real, live 405, not a simulated one. A small
+  `requestCounterInterceptor` (also demo-only) counts real network attempts so the panel
+  can show "N requests made" without needing DevTools open. See `verification-log.md`'s
+  addendum for the timeline of this addition relative to the original submission.
 
 ## Not carried
 

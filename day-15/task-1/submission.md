@@ -507,8 +507,8 @@ would then be pinning stale behaviour.
 
 ## What did you learn this session?
 
-Reading Program.cs instead of trusting the Academy's example mattered: no pagination exists and the API never returns ProblemDetails, both confirmed live. Interceptor order bugs fail silently, not loudly — only a dedicated order-swap mutation test caught the reversed case.
+The real API turned out nothing like the example in the brief — no pagination, and it never sends back a proper error message — so I couldn't just build against the description, I had to check the actual code and a live request first. I also learned that the order you plug interceptors in really matters: get it backwards and retries just quietly stop working, with nothing telling you why.
 
 ## What would break this?
 
-Retrying a non-GET would silently duplicate a write, which is why it's excluded structurally, not just by convention. The error mapper's ProblemDetails-parsing path has never been exercised against a live response from this API, only fixtures, since this API never actually returns one.
+If a save request ever got retried by mistake, it could quietly create the same quote twice — that's why only read requests are allowed to retry. And since this API never actually sends a proper error message, I added a fallback so the app still shows something sensible instead of choking on a response it doesn't recognize.
