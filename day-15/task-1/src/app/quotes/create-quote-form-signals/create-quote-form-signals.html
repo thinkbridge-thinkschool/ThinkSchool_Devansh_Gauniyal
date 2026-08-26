@@ -1,0 +1,57 @@
+<form [formRoot]="quoteForm">
+  <div class="field">
+    <label for="quote-text-signals">Quote text</label>
+    <textarea
+      id="quote-text-signals"
+      #textInput
+      rows="4"
+      [formField]="quoteForm.text"
+      [attr.aria-invalid]="showError(quoteForm.text) ? 'true' : null"
+      [attr.aria-describedby]="showError(quoteForm.text) ? 'quote-text-signals-error' : null"
+    ></textarea>
+    <p id="quote-text-signals-error" class="error" role="alert">
+      @if (showError(quoteForm.text)) {
+        {{ quoteForm.text().errors()[0]?.message }}
+      }
+    </p>
+  </div>
+
+  <div class="field">
+    <label for="quote-author-signals">Author</label>
+    <input
+      id="quote-author-signals"
+      type="text"
+      #authorInput
+      [formField]="quoteForm.author"
+      [attr.aria-invalid]="showError(quoteForm.author) ? 'true' : null"
+      [attr.aria-describedby]="showError(quoteForm.author) ? 'quote-author-signals-error' : null"
+    />
+    <p id="quote-author-signals-error" class="error" role="alert">
+      @if (showError(quoteForm.author)) {
+        {{ quoteForm.author().errors()[0]?.message }}
+      }
+    </p>
+  </div>
+
+  <button type="submit" [disabled]="quoteForm().submitting()">
+    {{ quoteForm().submitting() ? 'Saving…' : 'Save quote' }}
+  </button>
+
+  <p class="status" role="status">
+    @if (quoteForm().submitting()) {
+      Submitting…
+    }
+  </p>
+
+  <p class="server-error" role="alert">
+    @if (serverError(); as message) {
+      {{ message }}
+    }
+  </p>
+
+  <p class="success" role="status">
+    @if (submittedQuote(); as quote) {
+      Quote saved: "{{ quote }}"
+    }
+  </p>
+</form>

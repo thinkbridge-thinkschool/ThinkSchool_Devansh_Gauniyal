@@ -1,0 +1,81 @@
+❯ Building...
+✔ Building...
+Initial chunk files                                                    | Names                                                               |  Raw size
+spec-app-app.js                                                        | spec-app-app                                                        |  23.09 kB | 
+chunk-OUMJGD3I.js                                                      | -                                                                   |  16.04 kB | 
+chunk-I5CZDWLJ.js                                                      | -                                                                   |  14.70 kB | 
+chunk-V2N6XPBX.js                                                      | -                                                                   |  13.80 kB | 
+spec-app-quotes-create-quote-form-create-quote-form.js                 | spec-app-quotes-create-quote-form-create-quote-form                 |  10.59 kB | 
+spec-app-quotes-create-quote-form-signals-create-quote-form-signals.js | spec-app-quotes-create-quote-form-signals-create-quote-form-signals |   8.13 kB | 
+spec-app-quotes-quote-browser-quote-browser.js                         | spec-app-quotes-quote-browser-quote-browser                         |   6.41 kB | 
+spec-app-quotes-create-quote-form-parity.js                            | spec-app-quotes-create-quote-form-parity                            |   4.79 kB | 
+chunk-CGZBV6BD.js                                                      | -                                                                   |   4.07 kB | 
+spec-app-quotes-quote-api.js                                           | spec-app-quotes-quote-api                                           |   3.94 kB | 
+spec-app-http-retry.interceptor.js                                     | spec-app-http-retry.interceptor                                     |   3.70 kB | 
+spec-app-http-error-mapping.interceptor.js                             | spec-app-http-error-mapping.interceptor                             |   3.66 kB | 
+spec-app-http-interceptor-order.js                                     | spec-app-http-interceptor-order                                     |   3.23 kB | 
+spec-app-quotes-quotes-api-contract.js                                 | spec-app-quotes-quotes-api-contract                                 |   2.95 kB | 
+spec-app-http-auth-header.interceptor.js                               | spec-app-http-auth-header.interceptor                               |   2.38 kB | 
+chunk-LISPYPH7.js                                                      | -                                                                   |   2.06 kB | 
+spec-app-quotes-quote-browser-quote-browser-friendly-error.js          | spec-app-quotes-quote-browser-quote-browser-friendly-error          |   1.77 kB | 
+chunk-XJSXTE7I.js                                                      | -                                                                   |   1.42 kB | 
+init-testbed.js                                                        | init-testbed                                                        |   1.21 kB | 
+chunk-UWYWKKHB.js                                                      | -                                                                   |   1.11 kB | 
+vitest-mock-patch.js                                                   | vitest-mock-patch                                                   | 974 bytes | 
+chunk-OHIKFAD2.js                                                      | -                                                                   | 891 bytes | 
+chunk-JC34PNQV.js                                                      | -                                                                   | 520 bytes | 
+chunk-BCFAAX3M.js                                                      | -                                                                   | 421 bytes | 
+styles.css                                                             | styles                                                              | 155 bytes | 
+
+                                                                       | Initial total                                                       | 132.02 kB
+
+Application bundle generation complete. [0.555 seconds] - 2026-08-26T03:37:47.285Z
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.11 [39m[90m/Users/devansh/thinkschool/day-15/task-1[39m
+
+ [31m❯[39m [30m[43m app [49m[39m src/app/http/retry.interceptor.spec.ts [2m([22m[2m6 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 36[2mms[22m[39m
+[31m     [31m×[31m a GET failing with a 4xx is NOT retried -- exactly one attempt[39m[32m 4[2mms[22m[39m
+ [31m❯[39m [30m[43m app [49m[39m src/app/quotes/quote-browser/quote-browser-friendly-error.spec.ts [2m([22m[2m1 test[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 44[2mms[22m[39m
+[31m     [31m×[31m a 4xx with the real API's empty body renders as a readable message, not a raw HTTP failure[39m[32m 44[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 2 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/http/retry.interceptor.spec.ts[2m > [22mretryTransientGetInterceptor[2m > [22ma GET failing with a 4xx is NOT retried -- exactly one attempt
+[31m[1mError[22m: Expected zero matching requests for criteria "Match URL: /api/quotes", found 1.[39m
+[90m [2m❯[22m HttpClientTestingBackend.expectNone ../k8-fastbuild-ST-fdfa778d11ba/bin/packages/common/http/testing/src/backend.ts:[2m128:12[22m[39m
+[36m [2m❯[22m src/app/http/retry.interceptor.spec.ts:[2m70:14[22m[39m
+    [90m 68|[39m     [35mawait[39m vi[33m.[39m[34madvanceTimersByTimeAsync[39m([34m1000[39m)[33m;[39m
+    [90m 69|[39m
+    [90m 70|[39m     httpMock[33m.[39m[34mexpectNone[39m([32m'/api/quotes'[39m)[33m;[39m
+    [90m   |[39m              [31m^[39m
+    [90m 71|[39m     [34mexpect[39m((error [35mas[39m [33mHttpErrorResponse[39m)[33m.[39mstatus)[33m.[39m[34mtoBe[39m([34m404[39m)[33m;[39m
+    [90m 72|[39m   })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/quote-browser/quote-browser-friendly-error.spec.ts[2m > [22mQuoteBrowser friendly error surfacing (real interceptor chain)[2m > [22ma 4xx with the real API's empty body renders as a readable message, not a raw HTTP failure
+[31m[1mAssertionError[22m: expected null to be truthy[39m
+
+- Expected:
+true
+
++ Received:
+null
+
+[36m [2m❯[22m src/app/quotes/quote-browser/quote-browser-friendly-error.spec.ts:[2m43:21[22m[39m
+    [90m 41|[39m     [35mconst[39m el [33m=[39m fixture[33m.[39mnativeElement [35mas[39m [33mHTMLElement[39m[33m;[39m
+    [90m 42|[39m     const errorEl = el.querySelector('[data-testid="list-status-error"…
+    [90m 43|[39m     [34mexpect[39m(errorEl)[33m.[39m[34mtoBeTruthy[39m()[33m;[39m
+    [90m   |[39m                     [31m^[39m
+    [90m 44|[39m     expect(errorEl!.textContent).toBe('You need to sign in to do that.…
+    [90m 45|[39m     // Never the raw, unfriendly failure text a bare HttpErrorResponse…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m10 passed[39m[22m[90m (12)[39m
+[2m      Tests [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m77 passed[39m[22m[90m (79)[39m
+[2m   Start at [22m 09:07:47
+[2m   Duration [22m 710ms[2m (transform 291ms, setup 1.22s, import 552ms, tests 619ms, environment 3.63s)[22m
+

@@ -1,0 +1,17 @@
+  Determining projects to restore...
+/Users/devansh/thinkschool/day-1/task-4/OrderApi/OrderApi.csproj : warning NU1903: Package 'Microsoft.OpenApi' 2.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-v5pm-xwqc-g5wc [/Users/devansh/thinkschool/day-1/task-4/Task4.slnx]
+/Users/devansh/thinkschool/day-1/task-4/OrderApi.Tests/OrderApi.Tests.csproj : warning NU1903: Package 'Microsoft.OpenApi' 2.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-v5pm-xwqc-g5wc [/Users/devansh/thinkschool/day-1/task-4/Task4.slnx]
+/Users/devansh/thinkschool/day-1/task-4/OrderApi/OrderApi.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q [/Users/devansh/thinkschool/day-1/task-4/Task4.slnx]
+/Users/devansh/thinkschool/day-1/task-4/OrderApi.Tests/OrderApi.Tests.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q [/Users/devansh/thinkschool/day-1/task-4/Task4.slnx]
+  All projects are up-to-date for restore.
+/Users/devansh/thinkschool/day-1/task-4/OrderApi.Tests/OrderApi.Tests.csproj : warning NU1903: Package 'Microsoft.OpenApi' 2.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-v5pm-xwqc-g5wc
+/Users/devansh/thinkschool/day-1/task-4/OrderApi.Tests/OrderApi.Tests.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+/Users/devansh/thinkschool/day-1/task-4/OrderApi/OrderApi.csproj : warning NU1903: Package 'Microsoft.OpenApi' 2.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-v5pm-xwqc-g5wc
+/Users/devansh/thinkschool/day-1/task-4/OrderApi/OrderApi.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+  OrderApi -> /Users/devansh/thinkschool/day-1/task-4/OrderApi/bin/Debug/net10.0/OrderApi.dll
+  OrderApi.Tests -> /Users/devansh/thinkschool/day-1/task-4/OrderApi.Tests/bin/Debug/net10.0/OrderApi.Tests.dll
+Test run for /Users/devansh/thinkschool/day-1/task-4/OrderApi.Tests/bin/Debug/net10.0/OrderApi.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:     4, Skipped:     0, Total:     4, Duration: 389 ms - OrderApi.Tests.dll (net10.0)
+EXIT:0

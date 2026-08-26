@@ -1,0 +1,9 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  CqrsLite -> /Users/devansh/thinkschool/day-12/task-1/CqrsLite/bin/Debug/net10.0/CqrsLite.dll
+  CqrsLite.Tests -> /Users/devansh/thinkschool/day-12/task-1/CqrsLite.Tests/bin/Debug/net10.0/CqrsLite.Tests.dll
+Test run for /Users/devansh/thinkschool/day-12/task-1/CqrsLite.Tests/bin/Debug/net10.0/CqrsLite.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:    25, Skipped:     0, Total:    25, Duration: 640 ms - CqrsLite.Tests.dll (net10.0)
+EXIT:0

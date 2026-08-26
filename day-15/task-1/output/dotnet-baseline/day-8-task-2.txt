@@ -1,0 +1,8 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Day8Task2.Verification -> /Users/devansh/thinkschool/day-8/task-2/tests/Day8Task2.Verification/bin/Debug/net10.0/Day8Task2.Verification.dll
+Test run for /Users/devansh/thinkschool/day-8/task-2/tests/Day8Task2.Verification/bin/Debug/net10.0/Day8Task2.Verification.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:    36, Skipped:     0, Total:    36, Duration: 19 ms - Day8Task2.Verification.dll (net10.0)
+EXIT:0

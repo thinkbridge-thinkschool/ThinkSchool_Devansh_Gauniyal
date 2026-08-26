@@ -1,0 +1,29 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  QuotesApi -> /Users/devansh/thinkschool/day-3/task-3/QuotesApi/bin/Debug/net10.0/QuotesApi.dll
+  QuotesApi.Tests -> /Users/devansh/thinkschool/day-3/task-3/QuotesApi.Tests/bin/Debug/net10.0/QuotesApi.Tests.dll
+  QuotesApi.Auth.Tests -> /Users/devansh/thinkschool/day-4/task-2/QuotesApi.Auth.Tests/bin/Debug/net10.0/QuotesApi.Auth.Tests.dll
+  QuotesApi.Logging.Tests -> /Users/devansh/thinkschool/day-4/task-4/QuotesApi.Logging.Tests/bin/Debug/net10.0/QuotesApi.Logging.Tests.dll
+  QuotesApi.Tracing.Tests -> /Users/devansh/thinkschool/day-4/task-5/QuotesApi.Tracing.Tests/bin/Debug/net10.0/QuotesApi.Tracing.Tests.dll
+  QuotesApi.Telemetry.Tests -> /Users/devansh/thinkschool/day-4/task-6/QuotesApi.Telemetry.Tests/bin/Debug/net10.0/QuotesApi.Telemetry.Tests.dll
+Test run for /Users/devansh/thinkschool/day-3/task-3/QuotesApi.Tests/bin/Debug/net10.0/QuotesApi.Tests.dll (.NETCoreApp,Version=v10.0)
+Test run for /Users/devansh/thinkschool/day-4/task-2/QuotesApi.Auth.Tests/bin/Debug/net10.0/QuotesApi.Auth.Tests.dll (.NETCoreApp,Version=v10.0)
+Test run for /Users/devansh/thinkschool/day-4/task-4/QuotesApi.Logging.Tests/bin/Debug/net10.0/QuotesApi.Logging.Tests.dll (.NETCoreApp,Version=v10.0)
+Test run for /Users/devansh/thinkschool/day-4/task-5/QuotesApi.Tracing.Tests/bin/Debug/net10.0/QuotesApi.Tracing.Tests.dll (.NETCoreApp,Version=v10.0)
+Test run for /Users/devansh/thinkschool/day-4/task-6/QuotesApi.Telemetry.Tests/bin/Debug/net10.0/QuotesApi.Telemetry.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1, Duration: 264 ms - QuotesApi.Telemetry.Tests.dll (net10.0)
+
+Passed!  - Failed:     0, Passed:     2, Skipped:     0, Total:     2, Duration: 328 ms - QuotesApi.Tracing.Tests.dll (net10.0)
+
+Passed!  - Failed:     0, Passed:     2, Skipped:     0, Total:     2, Duration: 410 ms - QuotesApi.Logging.Tests.dll (net10.0)
+
+Passed!  - Failed:     0, Passed:    37, Skipped:     0, Total:    37, Duration: 1 s - QuotesApi.Auth.Tests.dll (net10.0)
+
+Passed!  - Failed:     0, Passed:    19, Skipped:     0, Total:    19, Duration: 1 s - QuotesApi.Tests.dll (net10.0)
+EXIT:0

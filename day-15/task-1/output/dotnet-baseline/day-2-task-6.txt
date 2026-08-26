@@ -1,0 +1,9 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  QuotesApi -> /Users/devansh/thinkschool/day-2/task-6/QuotesApi/bin/Debug/net10.0/QuotesApi.dll
+  QuotesApi.Auth.Tests -> /Users/devansh/thinkschool/day-2/task-6/QuotesApi.Auth.Tests/bin/Debug/net10.0/QuotesApi.Auth.Tests.dll
+Test run for /Users/devansh/thinkschool/day-2/task-6/QuotesApi.Auth.Tests/bin/Debug/net10.0/QuotesApi.Auth.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:    16, Skipped:     0, Total:    16, Duration: 1 s - QuotesApi.Auth.Tests.dll (net10.0)
+EXIT:0
