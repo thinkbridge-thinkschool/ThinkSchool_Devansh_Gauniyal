@@ -1,0 +1,65 @@
+
+> app@0.0.0 test
+> ng test
+
+❯ Building...
+✔ Building...
+Initial chunk files                                                    | Names                                                               |  Raw size
+chunk-5CDNK2J6.js                                                      | -                                                                   |  22.12 kB | 
+chunk-3YRTGUIW.js                                                      | -                                                                   |  14.82 kB | 
+chunk-4JDN5H55.js                                                      | -                                                                   |  14.14 kB | 
+chunk-IXQU5PBH.js                                                      | -                                                                   |  13.07 kB | 
+spec-app-quotes-create-quote-form-create-quote-form.js                 | spec-app-quotes-create-quote-form-create-quote-form                 |  10.65 kB | 
+chunk-2I3GKSIE.js                                                      | -                                                                   |  10.37 kB | 
+spec-app-quotes-create-quote-form-signals-create-quote-form-signals.js | spec-app-quotes-create-quote-form-signals-create-quote-form-signals |   8.19 kB | 
+chunk-WILN2ZGN.js                                                      | -                                                                   |   7.21 kB | 
+spec-app-quotes-quote-detail-page-quote-detail-page.js                 | spec-app-quotes-quote-detail-page-quote-detail-page                 |   6.37 kB | 
+spec-app-quotes-quotes-store.js                                        | spec-app-quotes-quotes-store                                        |   6.11 kB | 
+chunk-MUIMYQ6O.js                                                      | -                                                                   |   5.27 kB | 
+spec-app-quotes-create-quote-form-parity.js                            | spec-app-quotes-create-quote-form-parity                            |   4.86 kB | 
+spec-app-quotes-quote-browser-quote-browser.js                         | spec-app-quotes-quote-browser-quote-browser                         |   4.33 kB | 
+chunk-CGZBV6BD.js                                                      | -                                                                   |   4.07 kB | 
+spec-app-quotes-quote-api.js                                           | spec-app-quotes-quote-api                                           |   3.94 kB | 
+spec-app-http-retry.interceptor.js                                     | spec-app-http-retry.interceptor                                     |   3.70 kB | 
+spec-app-http-error-mapping.interceptor.js                             | spec-app-http-error-mapping.interceptor                             |   3.66 kB | 
+spec-app-http-interceptor-order.js                                     | spec-app-http-interceptor-order                                     |   3.26 kB | 
+spec-app-app.routes.js                                                 | spec-app-app.routes                                                 |   3.21 kB | 
+spec-app-quotes-quotes-api-contract.js                                 | spec-app-quotes-quotes-api-contract                                 |   2.95 kB | 
+spec-app-home-page-home-page.js                                        | spec-app-home-page-home-page                                        |   2.61 kB | 
+spec-app-http-auth-header.interceptor.js                               | spec-app-http-auth-header.interceptor                               |   2.41 kB | 
+chunk-LISPYPH7.js                                                      | -                                                                   |   2.06 kB | 
+spec-app-quotes-quote-browser-quote-browser-friendly-error.js          | spec-app-quotes-quote-browser-quote-browser-friendly-error          |   2.02 kB | 
+chunk-C23FVET7.js                                                      | -                                                                   |   1.99 kB | 
+spec-app-app.js                                                        | spec-app-app                                                        |   1.95 kB | 
+spec-app-auth-auth.guard.js                                            | spec-app-auth-auth.guard                                            |   1.60 kB | 
+spec-app-auth-login-page-login-page.js                                 | spec-app-auth-login-page-login-page                                 |   1.48 kB | 
+chunk-C4POLEST.js                                                      | -                                                                   |   1.44 kB | 
+spec-app-auth-guest-only.guard.js                                      | spec-app-auth-guest-only.guard                                      |   1.32 kB | 
+init-testbed.js                                                        | init-testbed                                                        |   1.21 kB | 
+chunk-UWYWKKHB.js                                                      | -                                                                   |   1.11 kB | 
+vitest-mock-patch.js                                                   | vitest-mock-patch                                                   | 974 bytes | 
+chunk-6TGQUMMP.js                                                      | -                                                                   | 891 bytes | 
+chunk-WLDGAR5P.js                                                      | -                                                                   | 849 bytes | 
+chunk-JNMJ6YIH.js                                                      | -                                                                   | 681 bytes | 
+chunk-JC34PNQV.js                                                      | -                                                                   | 520 bytes | 
+chunk-SOP4DTWC.js                                                      | -                                                                   | 421 bytes | 
+styles.css                                                             | styles                                                              | 155 bytes | 
+
+                                                                       | Initial total                                                       | 177.99 kB
+
+Lazy chunk files                                                       | Names                                                               |  Raw size
+chunk-XQGVMVAD.js                                                      | home-page                                                           | 356 bytes | 
+chunk-UQMKNLPE.js                                                      | quote-detail-page                                                   | 250 bytes | 
+chunk-VCAOC6WK.js                                                      | login-page                                                          | 178 bytes | 
+
+Application bundle generation complete. [0.726 seconds] - 2026-08-27T09:08:30.054Z
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.11 [39m[90m/Users/devansh/thinkschool/day-16/task-2[39m
+
+
+[2m Test Files [22m [1m[32m19 passed[39m[22m[90m (19)[39m
+[2m      Tests [22m [1m[32m107 passed[39m[22m[90m (107)[39m
+[2m   Start at [22m 14:38:30
+[2m   Duration [22m 1.10s[2m (transform 429ms, setup 1.66s, import 1.11s, tests 1.91s, environment 7.29s)[22m
+

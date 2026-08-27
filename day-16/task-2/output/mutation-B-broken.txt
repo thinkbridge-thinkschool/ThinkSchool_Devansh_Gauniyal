@@ -1,0 +1,130 @@
+
+> app@0.0.0 test
+> ng test
+
+❯ Building...
+✔ Building...
+Initial chunk files                                                    | Names                                                               |  Raw size
+chunk-SWPTYQRL.js                                                      | -                                                                   |  22.12 kB | 
+chunk-TAOSTLIF.js                                                      | -                                                                   |  14.82 kB | 
+chunk-YF6574A4.js                                                      | -                                                                   |  14.14 kB | 
+chunk-IXQU5PBH.js                                                      | -                                                                   |  13.07 kB | 
+spec-app-quotes-create-quote-form-create-quote-form.js                 | spec-app-quotes-create-quote-form-create-quote-form                 |  10.65 kB | 
+chunk-OKO7OEZE.js                                                      | -                                                                   |  10.37 kB | 
+spec-app-quotes-create-quote-form-signals-create-quote-form-signals.js | spec-app-quotes-create-quote-form-signals-create-quote-form-signals |   8.19 kB | 
+chunk-ENVI4CPM.js                                                      | -                                                                   |   7.21 kB | 
+spec-app-quotes-quote-detail-page-quote-detail-page.js                 | spec-app-quotes-quote-detail-page-quote-detail-page                 |   6.37 kB | 
+spec-app-quotes-quotes-store.js                                        | spec-app-quotes-quotes-store                                        |   6.11 kB | 
+chunk-XVKM67Y5.js                                                      | -                                                                   |   5.25 kB | 
+spec-app-quotes-create-quote-form-parity.js                            | spec-app-quotes-create-quote-form-parity                            |   4.86 kB | 
+spec-app-quotes-quote-browser-quote-browser.js                         | spec-app-quotes-quote-browser-quote-browser                         |   4.33 kB | 
+chunk-CGZBV6BD.js                                                      | -                                                                   |   4.07 kB | 
+spec-app-quotes-quote-api.js                                           | spec-app-quotes-quote-api                                           |   3.94 kB | 
+spec-app-http-retry.interceptor.js                                     | spec-app-http-retry.interceptor                                     |   3.70 kB | 
+spec-app-http-error-mapping.interceptor.js                             | spec-app-http-error-mapping.interceptor                             |   3.66 kB | 
+spec-app-http-interceptor-order.js                                     | spec-app-http-interceptor-order                                     |   3.26 kB | 
+spec-app-app.routes.js                                                 | spec-app-app.routes                                                 |   3.21 kB | 
+spec-app-quotes-quotes-api-contract.js                                 | spec-app-quotes-quotes-api-contract                                 |   2.95 kB | 
+spec-app-home-page-home-page.js                                        | spec-app-home-page-home-page                                        |   2.61 kB | 
+spec-app-http-auth-header.interceptor.js                               | spec-app-http-auth-header.interceptor                               |   2.41 kB | 
+chunk-LISPYPH7.js                                                      | -                                                                   |   2.06 kB | 
+spec-app-quotes-quote-browser-quote-browser-friendly-error.js          | spec-app-quotes-quote-browser-quote-browser-friendly-error          |   2.02 kB | 
+chunk-C23FVET7.js                                                      | -                                                                   |   1.99 kB | 
+spec-app-app.js                                                        | spec-app-app                                                        |   1.95 kB | 
+spec-app-auth-auth.guard.js                                            | spec-app-auth-auth.guard                                            |   1.60 kB | 
+spec-app-auth-login-page-login-page.js                                 | spec-app-auth-login-page-login-page                                 |   1.48 kB | 
+chunk-64RVBBBM.js                                                      | -                                                                   |   1.44 kB | 
+spec-app-auth-guest-only.guard.js                                      | spec-app-auth-guest-only.guard                                      |   1.32 kB | 
+init-testbed.js                                                        | init-testbed                                                        |   1.21 kB | 
+chunk-UWYWKKHB.js                                                      | -                                                                   |   1.11 kB | 
+vitest-mock-patch.js                                                   | vitest-mock-patch                                                   | 974 bytes | 
+chunk-6TGQUMMP.js                                                      | -                                                                   | 891 bytes | 
+chunk-WLDGAR5P.js                                                      | -                                                                   | 849 bytes | 
+chunk-JNMJ6YIH.js                                                      | -                                                                   | 681 bytes | 
+chunk-JC34PNQV.js                                                      | -                                                                   | 520 bytes | 
+chunk-SOP4DTWC.js                                                      | -                                                                   | 421 bytes | 
+styles.css                                                             | styles                                                              | 155 bytes | 
+
+                                                                       | Initial total                                                       | 177.97 kB
+
+Lazy chunk files                                                       | Names                                                               |  Raw size
+chunk-ZNVXWKAK.js                                                      | home-page                                                           | 356 bytes | 
+chunk-4E6H3KRE.js                                                      | quote-detail-page                                                   | 250 bytes | 
+chunk-VCAOC6WK.js                                                      | login-page                                                          | 178 bytes | 
+
+Application bundle generation complete. [0.711 seconds] - 2026-08-27T09:08:19.398Z
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.11 [39m[90m/Users/devansh/thinkschool/day-16/task-2[39m
+
+ [31m❯[39m [30m[43m app [49m[39m src/app/quotes/quotes-store.spec.ts [2m([22m[2m13 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 37[2mms[22m[39m
+[31m     [31m×[31m STRUCTURAL: quoteCount is a computed derived from quotes -- changing the source changes the derived value[39m[32m 3[2mms[22m[39m
+[31m     [31m×[31m STRUCTURAL: adding an item through the store notifies a computed derived from the collection, proving the array was replaced[39m[32m 2[2mms[22m[39m
+ [31m❯[39m [30m[43m app [49m[39m src/app/quotes/quote-browser/quote-browser.spec.ts [2m([22m[2m6 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 148[2mms[22m[39m
+[31m     [31m×[31m STORE-BACKED: a quote added through the store (as the create flow does on success) appears in the rendered list with no second HTTP call[39m[32m 13[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 3 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/quotes-store.spec.ts[2m > [22mQuotesStore[2m > [22mSTRUCTURAL: quoteCount is a computed derived from quotes -- changing the source changes the derived value
+[31m[1mAssertionError[22m: expected 2 to be 4 // Object.is equality[39m
+
+- Expected
++ Received
+
+- 4
++ 2
+
+[36m [2m❯[22m src/app/quotes/quotes-store.spec.ts:[2m149:32[22m[39m
+    [90m147|[39m
+    [90m148|[39m     store.addQuote({ id: 3, ownerId: 'user-3', text: 'A third quote.' …
+    [90m149|[39m     [34mexpect[39m(store[33m.[39m[34mquoteCount[39m())[33m.[39m[34mtoBe[39m(sample[33m.[39mlength [33m+[39m [34m1[39m)[33m;[39m
+    [90m   |[39m                                [31m^[39m
+    [90m150|[39m   })[33m;[39m
+    [90m151|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/quotes-store.spec.ts[2m > [22mQuotesStore[2m > [22mSTRUCTURAL: adding an item through the store notifies a computed derived from the collection, proving the array was replaced
+[31m[1mAssertionError[22m: expected [ 3, 3 ] to deeply equal [ 4, 5 ][39m
+
+- Expected
++ Received
+
+  [
+-   4,
+-   5,
++   3,
++   3,
+  ]
+
+[36m [2m❯[22m src/app/quotes/quotes-store.spec.ts:[2m169:24[22m[39m
+    [90m167|[39m     countsSeen[33m.[39m[34mpush[39m([34mderivedCount[39m())[33m;[39m
+    [90m168|[39m
+    [90m169|[39m     [34mexpect[39m(countsSeen)[33m.[39m[34mtoEqual[39m([sample[33m.[39mlength[33m,[39m sample[33m.[39mlength [33m+[39m [34m1[39m])[33m;[39m
+    [90m   |[39m                        [31m^[39m
+    [90m170|[39m   })[33m;[39m
+    [90m171|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/quote-browser/quote-browser.spec.ts[2m > [22mQuoteBrowser[2m > [22mSTORE-BACKED: a quote added through the store (as the create flow does on success) appears in the rendered list with no second HTTP call
+[31m[1mError[22m: NG0100: ExpressionChangedAfterItHasBeenCheckedError: Expression has changed after it was checked. Previous value for 'view-transition-name': 'undefined'. Current value: 'quote-detail-3'. Expression location: _QuoteBrowser component It seems like the view has been created after its parent and its children have been dirty checked. Has it been created in a change detection hook? Find more at https://v21.angular.dev/errors/NG0100[39m
+[90m [2m❯[22m throwErrorIfNoChangesMode ../k8-fastbuild-ST-fdfa778d11ba/bin/packages/core/src/render3/errors.ts:[2m85:8[22m[39m
+[90m [2m❯[22m throwErrorIfNoChangesMode ../k8-fastbuild-ST-fdfa778d11ba/bin/packages/core/src/render3/bindings.ts:[2m68:8[22m[39m
+[90m [2m❯[22m bindingUpdated ../k8-fastbuild-ST-fdfa778d11ba/bin/packages/core/src/render3/instructions/styling.ts:[2m215:29[22m[39m
+[90m [2m❯[22m checkStylingProperty ../k8-fastbuild-ST-fdfa778d11ba/bin/packages/core/src/render3/instructions/styling.ts:[2m82:2[22m[39m
+[90m [2m❯[22m QuoteBrowser_Conditional_6_For_2_Template src/app/quotes/quote-browser/quote-browser.html:[2m17:13[22m[39m
+[90m [2m❯[22m templateFn ../k8-fastbuild-ST-fdfa778d11ba/bin/packages/core/src/render3/instructions/shared.ts:[2m107:4[22m[39m
+[90m [2m❯[22m executeTemplate ../k8-fastbuild-ST-fdfa778d11ba/bin/packages/core/src/render3/instructions/change_detection.ts:[2m232:6[22m[39m
+[90m [2m❯[22m refreshView ../k8-fastbuild-ST-fdfa778d11ba/bin/packages/core/src/render3/instructions/change_detection.ts:[2m497:4[22m[39m
+[90m [2m❯[22m detectChangesInView ../k8-fastbuild-ST-fdfa778d11ba/bin/packages/core/src/render3/instructions/change_detection.ts:[2m445:2[22m[39m
+[90m [2m❯[22m detectChangesInViewIfAttached ../k8-fastbuild-ST-fdfa778d11ba/bin/packages/core/src/render3/instructions/change_detection.ts:[2m387:6[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m17 passed[39m[22m[90m (19)[39m
+[2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m104 passed[39m[22m[90m (107)[39m
+[2m   Start at [22m 14:38:19
+[2m   Duration [22m 1.16s[2m (transform 415ms, setup 1.50s, import 1.18s, tests 2.06s, environment 6.98s)[22m
+
