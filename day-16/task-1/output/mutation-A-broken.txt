@@ -1,0 +1,2974 @@
+
+> app@0.0.0 test
+> ng test
+
+❯ Building...
+✔ Building...
+Initial chunk files                                                    | Names                                                               |  Raw size
+spec-app-app.js                                                        | spec-app-app                                                        |  40.44 kB | 
+chunk-AVPYF7GK.js                                                      | -                                                                   |  17.27 kB | 
+chunk-I5CZDWLJ.js                                                      | -                                                                   |  14.70 kB | 
+chunk-V2N6XPBX.js                                                      | -                                                                   |  13.80 kB | 
+chunk-EGL5ZHFA.js                                                      | -                                                                   |  11.02 kB | 
+spec-app-quotes-create-quote-form-create-quote-form.js                 | spec-app-quotes-create-quote-form-create-quote-form                 |  10.59 kB | 
+spec-app-quotes-create-quote-form-signals-create-quote-form-signals.js | spec-app-quotes-create-quote-form-signals-create-quote-form-signals |   8.13 kB | 
+spec-app-quotes-quote-browser-quote-browser.js                         | spec-app-quotes-quote-browser-quote-browser                         |   6.77 kB | 
+spec-app-quotes-quote-detail-page-quote-detail-page.js                 | spec-app-quotes-quote-detail-page-quote-detail-page                 |   5.04 kB | 
+spec-app-quotes-create-quote-form-parity.js                            | spec-app-quotes-create-quote-form-parity                            |   4.79 kB | 
+chunk-CGZBV6BD.js                                                      | -                                                                   |   4.07 kB | 
+spec-app-quotes-quote-api.js                                           | spec-app-quotes-quote-api                                           |   3.94 kB | 
+spec-app-http-retry.interceptor.js                                     | spec-app-http-retry.interceptor                                     |   3.70 kB | 
+spec-app-http-error-mapping.interceptor.js                             | spec-app-http-error-mapping.interceptor                             |   3.66 kB | 
+spec-app-http-interceptor-order.js                                     | spec-app-http-interceptor-order                                     |   3.23 kB | 
+spec-app-quotes-quotes-api-contract.js                                 | spec-app-quotes-quotes-api-contract                                 |   2.95 kB | 
+spec-app-http-auth-header.interceptor.js                               | spec-app-http-auth-header.interceptor                               |   2.38 kB | 
+chunk-LISPYPH7.js                                                      | -                                                                   |   2.06 kB | 
+spec-app-quotes-quote-browser-quote-browser-friendly-error.js          | spec-app-quotes-quote-browser-quote-browser-friendly-error          |   1.96 kB | 
+chunk-XJSXTE7I.js                                                      | -                                                                   |   1.42 kB | 
+spec-app-auth-auth.guard.js                                            | spec-app-auth-auth.guard                                            |   1.40 kB | 
+init-testbed.js                                                        | init-testbed                                                        |   1.21 kB | 
+chunk-UWYWKKHB.js                                                      | -                                                                   |   1.11 kB | 
+vitest-mock-patch.js                                                   | vitest-mock-patch                                                   | 974 bytes | 
+chunk-6TGQUMMP.js                                                      | -                                                                   | 891 bytes | 
+spec-app-app.routes.js                                                 | spec-app-app.routes                                                 | 685 bytes | 
+chunk-JC34PNQV.js                                                      | -                                                                   | 520 bytes | 
+chunk-BNO2D4SH.js                                                      | -                                                                   | 487 bytes | 
+chunk-K6C7M5EG.js                                                      | -                                                                   | 421 bytes | 
+styles.css                                                             | styles                                                              | 155 bytes | 
+
+                                                                       | Initial total                                                       | 169.78 kB
+
+Lazy chunk files                                                       | Names                                                               |  Raw size
+chunk-BXTLNYIY.js                                                      | quote-detail-page                                                   | 220 bytes | 
+
+Application bundle generation complete. [0.596 seconds] - 2026-08-27T05:17:51.340Z
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.11 [39m[90m/Users/devansh/thinkschool/day-16/task-1[39m
+
+ [31m❯[39m [30m[43m app [49m[39m src/app/auth/auth.guard.spec.ts [2m([22m[2m3 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 3[2mms[22m[39m
+[31m     [31m×[31m UNAUTHENTICATED: returns a UrlTree redirecting to "/" (not a boolean) when no token is present[39m[32m 2[2mms[22m[39m
+ [31m❯[39m [30m[43m app [49m[39m src/app/quotes/quote-detail-page/quote-detail-page.spec.ts [2m([22m[2m6 tests[22m[2m | [22m[31m5 failed[39m[2m)[22m[32m 116[2mms[22m[39m
+[31m     [31m×[31m GUARD REDIRECT: an unauthenticated navigation to /quotes/:id is redirected to "/", not left on a blank detail route[39m[32m 50[2mms[22m[39m
+[31m     [31m×[31m PARAM MISSING: navigating to the paramless /quotes route renders the missing-id state, not a crash[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m PARAM MALFORMED: a non-numeric id renders the malformed state, distinct from missing or not-found[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m PARAM WELL-FORMED BUT NOT FOUND: a numeric id with no matching quote renders not-found, distinct from malformed[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m VIEW TRANSITION FALLBACK: navigation completes and renders normally when the browser has no View Transitions API[39m[32m 0[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 6 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/auth/auth.guard.spec.ts[2m > [22mauthGuard[2m > [22mUNAUTHENTICATED: returns a UrlTree redirecting to "/" (not a boolean) when no token is present
+[31m[1mAssertionError[22m: expected false to be true // Object.is equality[39m
+
+- Expected
++ Received
+
+- true
++ false
+
+[36m [2m❯[22m src/app/auth/auth.guard.spec.ts:[2m31:39[22m[39m
+    [90m 29|[39m     const result = TestBed.runInInjectionContext(() => authGuard(route…
+    [90m 30|[39m
+    [90m 31|[39m     [34mexpect[39m(result [35minstanceof[39m [33mUrlTree[39m)[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m   |[39m                                       [31m^[39m
+    [90m 32|[39m     [34mexpect[39m((result [35mas[39m [33mUrlTree[39m)[33m.[39m[34mtoString[39m())[33m.[39m[34mtoBe[39m([32m'/'[39m)[33m;[39m
+    [90m 33|[39m   })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/quote-detail-page/quote-detail-page.spec.ts[2m > [22mQuoteDetailPage (routed, guarded, lazy)[2m > [22mGUARD REDIRECT: an unauthenticated navigation to /quotes/:id is redirected to "/", not left on a blank detail route
+[31m[1mAssertionError[22m: expected _QuoteDetailPage{ …(9) } to be null[39m
+
+- Expected:
+null
+
++ Received:
+_QuoteDetailPage {
+  "__ngContext__": 8,
+  "api": _QuoteApi {
+    "http": HttpClient {
+      "handler": HttpInterceptorHandler {
+        "backend": HttpClientTestingBackend {
+          "isTestingBackend": true,
+          "open": [
+            TestRequest {
+              "_cancelled": false,
+              "observer": OperatorSubscriber {
+                "_complete": [Function anonymous],
+                "_error": [Function anonymous],
+                "_finalizers": [Array],
+                "_next": [Function anonymous],
+                "_parentage": [OperatorSubscriber],
+                "closed": false,
+                "destination": [OperatorSubscriber],
+                "initialTeardown": undefined,
+                "isStopped": false,
+                "onFinalize": [Function anonymous],
+                "shouldUnsubscribe": undefined,
+              },
+              "request": HttpRequest {
+                "body": null,
+                "cache": undefined,
+                "context": [HttpContext],
+                "credentials": undefined,
+                "headers": [HttpHeaders],
+                "integrity": undefined,
+                "keepalive": false,
+                "method": "GET",
+                "mode": undefined,
+                "params": [HttpParams],
+                "priority": undefined,
+                "redirect": undefined,
+                "referrer": undefined,
+                "referrerPolicy": undefined,
+                "reportProgress": false,
+                "responseType": "json",
+                "timeout": undefined,
+                "transferCache": undefined,
+                "url": "/api/quotes",
+                "urlWithParams": "/api/quotes",
+                "withCredentials": false,
+              },
+            },
+          ],
+        },
+        "chain": [Function anonymous],
+        "contributeToStability": false,
+        "injector": R3Injector {
+          "_destroyed": false,
+          "_ngOnDestroyHooks": Set {
+            PendingTasksInternal {
+              "debugTaskTracker": null,
+              "destroyed": false,
+              "pendingTask": BehaviorSubject {
+                "_value": false,
+                "closed": false,
+                "currentObservers": [Array],
+                "hasError": false,
+                "isStopped": false,
+                "observers": [Array],
+                "thrownError": null,
+              },
+              "pendingTasks": Set {},
+              "taskId": 5,
+            },
+            ApplicationRef {
+              "_destroyListeners": [],
+              "_destroyed": false,
+              "_injector": R3Injector {
+                "_destroyed": false,
+                "_ngOnDestroyHooks": [Circular],
+                "_onDestroyHooks": [Array],
+                "injectorDefTypes": [Set],
+                "parent": [R3Injector],
+                "records": [Map],
+                "scopes": [Set],
+                "source": "DynamicTestModule",
+              },
+              "_rendererFactory": DomRendererFactory2 {
+                "appId": "a",
+                "defaultRenderer": [DefaultDomRenderer2],
+                "doc": [Document],
+                "eventManager": [EventManager],
+                "ngZone": [NoopNgZone],
+                "nonce": null,
+                "removeStylesOnCompDestroy": true,
+                "rendererByCompId": [Map],
+                "sharedStylesHost": [SharedStylesHost],
+                "tracingService": null,
+              },
+              "_runningTick": false,
+              "_views": [],
+              "afterRenderManager": AfterRenderManager {
+                "impl": null,
+              },
+              "afterTick": Subject {
+                "closed": false,
+                "currentObservers": [Array],
+                "hasError": false,
+                "isStopped": false,
+                "observers": [Array],
+                "thrownError": null,
+              },
+              "allTestViews": Set {
+                [ViewRef],
+              },
+              "autoDetectTestViews": Set {
+                [ViewRef],
+              },
+              "componentTypes": [],
+              "components": [],
+              "dirtyFlags": 0,
+              "includeAllTestViews": false,
+              "internalErrorHandler": [Function anonymous],
+              "internalPendingTask": PendingTasksInternal {
+                "debugTaskTracker": null,
+                "destroyed": false,
+                "pendingTask": [BehaviorSubject],
+                "pendingTasks": [Set],
+                "taskId": 5,
+              },
+              "rootEffectScheduler": ZoneAwareEffectScheduler {
+                "dirtyEffectCount": 0,
+                "queues": [Map],
+              },
+              "tickImpl": [Function tickImpl],
+              "tracingSnapshot": null,
+              "zonelessEnabled": true,
+            },
+            StandaloneService {
+              "_injector": R3Injector {
+                "_destroyed": false,
+                "_ngOnDestroyHooks": [Circular],
+                "_onDestroyHooks": [Array],
+                "injectorDefTypes": [Set],
+                "parent": [R3Injector],
+                "records": [Map],
+                "scopes": [Set],
+                "source": "DynamicTestModule",
+              },
+              "cachedInjectors": Map {
+                [Object] => null,
+                [Object] => null,
+              },
+            },
+            SharedStylesHost {
+              "appId": "a",
+              "doc": Document {
+                "defaultView": [Object],
+                "location": [Location],
+              },
+              "external": Map {},
+              "hosts": Set {
+                <head … />,
+              },
+              "inline": Map {
+                "
+.quote-detail-page[_ngcontent-a-c713529441] {
+  font-family: inherit;
+  max-width: 40rem;
+}
+.quote-detail-page[_ngcontent-a-c713529441]   h2[_ngcontent-a-c713529441] {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #667085;
+  margin: 0 0 0.75rem;
+}
+.quote-detail-page__status[_ngcontent-a-c713529441] {
+  color: #667085;
+  font-size: 0.9rem;
+  margin: 0 0 0.75rem;
+}
+.quote-detail-page__text[_ngcontent-a-c713529441] {
+  font-size: 1.05rem;
+  margin: 0 0 0.4rem;
+}
+.quote-detail-page__author[_ngcontent-a-c713529441] {
+  color: #344054;
+  font-size: 0.9rem;
+  font-style: italic;
+  margin: 0 0 0.4rem;
+}
+.quote-detail-page__owner[_ngcontent-a-c713529441] {
+  color: #98a2b3;
+  font-size: 0.8rem;
+  margin: 0 0 0.75rem;
+}" => [Object],
+              },
+              "nonce": null,
+            },
+            DomRendererFactory2 {
+              "appId": "a",
+              "defaultRenderer": DefaultDomRenderer2 {
+                "data": [Object],
+                "destroyNode": null,
+                "doc": [Document],
+                "eventManager": [EventManager],
+                "ngZone": [NoopNgZone],
+                "throwOnSyntheticProps": true,
+                "tracingService": null,
+              },
+              "doc": Document {
+                "defaultView": [Object],
+                "location": [Location],
+              },
+              "eventManager": EventManager {
+                "_eventNameToPlugin": [Map],
+                "_plugins": [Array],
+                "_zone": [NoopNgZone],
+              },
+              "ngZone": NoopNgZone {
+                "hasPendingMacrotasks": false,
+                "hasPendingMicrotasks": false,
+                "isStable": true,
+                "onError": [EventEmitter_],
+                "onMicrotaskEmpty": [EventEmitter_],
+                "onStable": [EventEmitter_],
+                "onUnstable": [EventEmitter_],
+              },
+              "nonce": null,
+              "removeStylesOnCompDestroy": true,
+              "rendererByCompId": Map {
+                "c2667104858" => [NoneEncapsulationDomRenderer],
+                "c713529441" => [EmulatedEncapsulationDomRenderer2],
+              },
+              "sharedStylesHost": SharedStylesHost {
+                "appId": "a",
+                "doc": [Document],
+                "external": [Map],
+                "hosts": [Set],
+                "inline": [Map],
+                "nonce": null,
+              },
+              "tracingService": null,
+            },
+            ChangeDetectionSchedulerImpl {
+              "angularZoneId": null,
+              "appRef": ApplicationRef {
+                "_destroyListeners": [Array],
+                "_destroyed": false,
+                "_injector": [R3Injector],
+                "_rendererFactory": [DomRendererFactory2],
+                "_runningTick": false,
+                "_views": [Array],
+                "afterRenderManager": [AfterRenderManager],
+                "afterTick": [Subject],
+                "allTestViews": [Set],
+                "autoDetectTestViews": [Set],
+                "componentTypes": [Array],
+                "components": [Array],
+                "dirtyFlags": 0,
+                "includeAllTestViews": false,
+                "internalErrorHandler": [Function anonymous],
+                "internalPendingTask": [PendingTasksInternal],
+                "rootEffectScheduler": [ZoneAwareEffectScheduler],
+                "tickImpl": [Function tickImpl],
+                "tracingSnapshot": null,
+                "zonelessEnabled": true,
+              },
+              "applicationErrorHandler": [Function anonymous],
+              "cancelScheduledCallback": null,
+              "ngZone": NoopNgZone {
+                "hasPendingMacrotasks": false,
+                "hasPendingMicrotasks": false,
+                "isStable": true,
+                "onError": [EventEmitter_],
+                "onMicrotaskEmpty": [EventEmitter_],
+                "onStable": [EventEmitter_],
+                "onUnstable": [EventEmitter_],
+              },
+              "pendingRenderTaskId": null,
+              "runningTick": false,
+              "scheduleInRootZone": false,
+              "schedulerTickApplyArgs": [
+                [Object],
+              ],
+              "subscriptions": Subscription {
+                "_finalizers": [Array],
+                "_parentage": null,
+                "closed": false,
+                "initialTeardown": undefined,
+              },
+              "taskService": PendingTasksInternal {
+                "debugTaskTracker": null,
+                "destroyed": false,
+                "pendingTask": [BehaviorSubject],
+                "pendingTasks": [Set],
+                "taskId": 5,
+              },
+              "tracing": null,
+              "useMicrotaskScheduler": false,
+              "zoneIsDefined": false,
+              "zonelessEnabled": true,
+            },
+            PathLocationStrategy {
+              "_baseHref": "",
+              "_platformLocation": FakeNavigationPlatformLocation {
+                "_platformNavigation": [FakeNavigation],
+                "config": null,
+              },
+              "_removeListenerFns": [
+                [Function anonymous],
+                [Function anonymous],
+              ],
+            },
+            Location {
+              "_basePath": "",
+              "_locationStrategy": PathLocationStrategy {
+                "_baseHref": "",
+                "_platformLocation": [FakeNavigationPlatformLocation],
+                "_removeListenerFns": [Array],
+              },
+              "_subject": Subject {
+                "closed": false,
+                "currentObservers": null,
+                "hasError": false,
+                "isStopped": false,
+                "observers": [Array],
+                "thrownError": null,
+              },
+              "_urlChangeListeners": [],
+              "_urlChangeSubscription": null,
+            },
+            Router {
+              "_events": Subject {
+                "closed": false,
+                "currentObservers": null,
+                "hasError": false,
+                "isStopped": false,
+                "observers": [Array],
+                "thrownError": null,
+              },
+              "componentInputBindingEnabled": true,
+              "config": [
+                [Object],
+                [Object],
+              ],
+              "console": Console {},
+              "currentNavigation": [Function readonlyFn],
+              "disposed": false,
+              "eventsSubscription": Subscription {
+                "_finalizers": [Array],
+                "_parentage": null,
+                "closed": false,
+                "initialTeardown": undefined,
+              },
+              "injector": R3Injector {
+                "_destroyed": false,
+                "_ngOnDestroyHooks": [Circular],
+                "_onDestroyHooks": [Array],
+                "injectorDefTypes": [Set],
+                "parent": [R3Injector],
+                "records": [Map],
+                "scopes": [Set],
+                "source": "DynamicTestModule",
+              },
+              "injectorCleanup": null,
+              "location": Location {
+                "_basePath": "",
+                "_locationStrategy": [PathLocationStrategy],
+                "_subject": [Subject],
+                "_urlChangeListeners": [Array],
+                "_urlChangeSubscription": null,
+              },
+              "navigated": true,
+              "navigationTransitions": NavigationTransitions {
+                "afterPreactivation": [Function afterPreactivation],
+                "configLoader": [RouterConfigLoader],
+                "createViewTransition": null,
+                "currentNavigation": [Function getter],
+                "currentTransition": null,
+                "destroyRef": [R3Injector],
+                "destroyed": false,
+                "environmentInjector": [R3Injector],
+                "events": [Subject],
+                "inputBindingEnabled": true,
+                "lastSuccessfulNavigation": [Function getter],
+                "location": [Location],
+                "navigationErrorHandler": null,
+                "navigationId": 1,
+                "options": [Object],
+                "paramsInheritanceStrategy": "emptyOnly",
+                "rootComponentType": null,
+                "rootContexts": [ChildrenOutletContexts],
+                "titleStrategy": [DefaultTitleStrategy],
+                "transitionAbortWithErrorSubject": [Subject],
+                "transitions": [BehaviorSubject],
+                "urlHandlingStrategy": [DefaultUrlHandlingStrategy],
+                "urlSerializer": [DefaultUrlSerializer],
+              },
+              "nonRouterCurrentEntryChangeSubscription": undefined,
+              "onSameUrlNavigation": "ignore",
+              "options": {},
+              "pendingTasks": PendingTasksInternal {
+                "debugTaskTracker": null,
+                "destroyed": false,
+                "pendingTask": [BehaviorSubject],
+                "pendingTasks": [Set],
+                "taskId": 5,
+              },
+              "routeReuseStrategy": DefaultRouteReuseStrategy {},
+              "stateManager": HistoryStateManager {
+                "_stateMemento": [Object],
+                "canceledNavigationResolution": "replace",
+                "currentPageId": 0,
+                "currentUrlTree": [UrlTree],
+                "lastSuccessfulId": 1,
+                "location": [Location],
+                "options": [Object],
+                "rawUrlTree": [UrlTree],
+                "routerState": [RouterState],
+                "urlHandlingStrategy": [DefaultUrlHandlingStrategy],
+                "urlSerializer": [DefaultUrlSerializer],
+                "urlUpdateStrategy": "deferred",
+              },
+              "urlHandlingStrategy": DefaultUrlHandlingStrategy {},
+              "urlSerializer": DefaultUrlSerializer {},
+              "urlUpdateStrategy": "deferred",
+            },
+          },
+          "_onDestroyHooks": [
+            [Function anonymous],
+          ],
+          "injectorDefTypes": Set {
+            [Function RootScopeModule],
+            [Function CommonModule],
+            [Function ApplicationModule],
+            [Function BrowserModule],
+            [Function BrowserTestingModule],
+            [Function TestModule],
+            [Function DynamicTestModule],
+          },
+          "parent": R3Injector {
+            "_destroyed": false,
+            "_ngOnDestroyHooks": Set {},
+            "_onDestroyHooks": [],
+            "injectorDefTypes": Set {},
+            "parent": NullInjector {},
+            "records": Map {
+              InjectionToken {
+                "_desc": "Set Injector scope.",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              } => {
+                "factory": undefined,
+                "multi": undefined,
+                "value": "platform",
+              },
+              InjectionToken {
+                "_desc": "PlatformDestroyListeners",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              } => {
+                "factory": undefined,
+                "multi": undefined,
+                "value": [Set],
+              },
+              InjectionToken {
+                "_desc": "Platform ID",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": [Object],
+              } => {
+                "factory": undefined,
+                "multi": undefined,
+                "value": "browser",
+              },
+              InjectionToken {
+                "_desc": "Platform Initializer",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              } => {
+                "factory": [Function anonymous],
+                "multi": [Array],
+                "value": [Array],
+              },
+              {
+                "multi": true,
+                "provide": [InjectionToken],
+                "useValue": [Function initDomAdapter],
+              } => {
+                "factory": undefined,
+                "multi": undefined,
+                "value": [Function initDomAdapter],
+              },
+              InjectionToken {
+                "_desc": "DocumentToken",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              } => {
+                "factory": [Function factory],
+                "multi": undefined,
+                "value": [Document],
+              },
+              InjectionToken {
+                "_desc": "Platform: browserTesting",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              } => {
+                "factory": undefined,
+                "multi": undefined,
+                "value": true,
+              },
+              InjectionToken {
+                "_desc": "Platform: browser",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              } => {
+                "factory": undefined,
+                "multi": undefined,
+                "value": true,
+              },
+              InjectionToken {
+                "_desc": "Platform: core",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              } => {
+                "factory": undefined,
+                "multi": undefined,
+                "value": true,
+              },
+              InjectionToken {
+                "__NG_ELEMENT_ID__": -1,
+                "_desc": "INJECTOR",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              } => {
+                "factory": undefined,
+                "multi": undefined,
+                "value": [R3Injector],
+              },
+              InjectionToken {
+                "_desc": "INJECTOR_DEF_TYPES",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              } => null,
+              InjectionToken {
+                "_desc": "ENVIRONMENT_INITIALIZER",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              } => null,
+              [Function PlatformRef] => {
+                "factory": [Function PlatformRef_Factory],
+                "multi": undefined,
+                "value": [PlatformRef],
+              },
+              [Function Injector] => {
+                "factory": [Function factory],
+                "multi": undefined,
+                "value": [R3Injector],
+              },
+              InjectionToken {
+                "_desc": "DEBUG_TASK_TRACKER",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              } => null,
+              InjectionToken {
+                "_desc": "TracingService",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              } => null,
+              InjectionToken {
+                "_desc": "BrowserModule Providers Marker",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              } => null,
+              InjectionToken {
+                "_desc": "Application Initializer",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              } => null,
+              InjectionToken {
+                "_desc": "LocaleId",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": [Object],
+              } => null,
+              InjectionToken {
+                "_desc": "ComponentFixtureNoNgZone",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              } => null,
+              InjectionToken {
+                "_desc": "compilerOptions",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              } => null,
+              InjectionToken {
+                "_desc": "ComponentFixtureAutoDetect",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              } => null,
+              InjectionToken {
+                "_desc": "exhaustive checkNoChanges",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              } => null,
+              [Function Console] => {
+                "factory": [Function Console_Factory],
+                "multi": undefined,
+                "value": [Console],
+              },
+              InjectionToken {
+                "_desc": "MOCK_PLATFORM_LOCATION_CONFIG",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              } => null,
+              InjectionToken {
+                "_desc": "appBaseHref",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              } => null,
+              InjectionToken {
+                "_desc": "view transition helper",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              } => null,
+              InjectionToken {
+                "_desc": "navigation error handler",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              } => null,
+              InjectionToken {
+                "_desc": "RouteInjectorCleanup",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              } => null,
+              [Function authGuard] => null,
+              [Function HttpHandler] => null,
+              InjectionToken {
+                "_desc": "HTTP_ROOT_INTERCEPTOR_FNS",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              } => null,
+            },
+            "scopes": Set {
+              "platform",
+            },
+            "source": "Platform: core",
+          },
+          "records": Map {
+            [Function NgModuleRef] => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": NgModuleRef {
+                "_bootstrapComponents": [Array],
+                "_parent": [R3Injector],
+                "_r3Injector": [R3Injector],
+                "componentFactoryResolver": [ComponentFactoryResolver],
+                "destroyCbs": [Array],
+                "instance": [DynamicTestModule],
+                "ngModuleType": [Function DynamicTestModule],
+              },
+            },
+            [Function ComponentFactoryResolver] => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": ComponentFactoryResolver {
+                "ngModule": [NgModuleRef],
+              },
+            },
+            [Function RootScopeModule] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": RootScopeModule {},
+            },
+            InjectionToken {
+              "_desc": "INJECTOR_DEF_TYPES",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": undefined,
+            } => {
+              "factory": [Function anonymous],
+              "multi": [
+                [Object],
+                [Object],
+                [Object],
+                [Object],
+                [Object],
+                [Object],
+                [Object],
+              ],
+              "value": [
+                [Function RootScopeModule],
+                [Function CommonModule],
+                [Function ApplicationModule],
+                [Function BrowserModule],
+                [Function BrowserTestingModule],
+                [Function TestModule],
+                [Function DynamicTestModule],
+              ],
+            },
+            {
+              "multi": true,
+              "provide": InjectionToken {
+                "_desc": "INJECTOR_DEF_TYPES",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              },
+              "useValue": [Function RootScopeModule],
+            } => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": [Function RootScopeModule],
+            },
+            InjectionToken {
+              "_desc": "ENVIRONMENT_INITIALIZER",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": undefined,
+            } => {
+              "factory": [Function anonymous],
+              "multi": [
+                [Object],
+                [Object],
+                [Object],
+                [Object],
+                [Object],
+                [Object],
+                [Object],
+                [Object],
+              ],
+              "value": [
+                [Function useValue],
+                [Function useValue],
+                [Function useValue],
+                [Function useValue],
+                [Function useValue],
+                [Function useValue],
+                [Function useValue],
+                [Function useValue],
+              ],
+            },
+            {
+              "multi": true,
+              "provide": InjectionToken {
+                "_desc": "ENVIRONMENT_INITIALIZER",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              },
+              "useValue": [Function useValue],
+            } => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": [Function useValue],
+            },
+            [Function ChangeDetectionScheduler] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": ChangeDetectionSchedulerImpl {
+                "angularZoneId": null,
+                "appRef": [ApplicationRef],
+                "applicationErrorHandler": [Function anonymous],
+                "cancelScheduledCallback": null,
+                "ngZone": [NoopNgZone],
+                "pendingRenderTaskId": null,
+                "runningTick": false,
+                "scheduleInRootZone": false,
+                "schedulerTickApplyArgs": [Array],
+                "subscriptions": [Subscription],
+                "taskService": [PendingTasksInternal],
+                "tracing": null,
+                "useMicrotaskScheduler": false,
+                "zoneIsDefined": false,
+                "zonelessEnabled": true,
+              },
+            },
+            [Function NgZone] => {
+              "factory": [Function anonymous],
+              "multi": undefined,
+              "value": NoopNgZone {
+                "hasPendingMacrotasks": false,
+                "hasPendingMicrotasks": false,
+                "isStable": true,
+                "onError": [EventEmitter_],
+                "onMicrotaskEmpty": [EventEmitter_],
+                "onStable": [EventEmitter_],
+                "onUnstable": [EventEmitter_],
+              },
+            },
+            InjectionToken {
+              "_desc": "Zoneless enabled",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": {
+                "factory": [Function factory],
+                "providedIn": "root",
+                "token": [Circular],
+                "value": undefined,
+              },
+            } => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": true,
+            },
+            [Function TestBedApplicationErrorHandler] => {
+              "factory": [Function TestBedApplicationErrorHandler_Factory],
+              "multi": undefined,
+              "value": TestBedApplicationErrorHandler {
+                "injector": [R3Injector],
+                "userErrorHandler": undefined,
+                "whenStableRejectFunctions": [Set],
+                "zone": [NoopNgZone],
+              },
+            },
+            {
+              "multi": true,
+              "provide": InjectionToken {
+                "_desc": "ENVIRONMENT_INITIALIZER",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              },
+              "useValue": [Function useValue],
+            } => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": [Function useValue],
+            },
+            [Function CommonModule] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": CommonModule {},
+            },
+            {
+              "multi": true,
+              "provide": InjectionToken {
+                "_desc": "INJECTOR_DEF_TYPES",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              },
+              "useValue": [Function CommonModule],
+            } => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": [Function CommonModule],
+            },
+            {
+              "multi": true,
+              "provide": InjectionToken {
+                "_desc": "ENVIRONMENT_INITIALIZER",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              },
+              "useValue": [Function useValue],
+            } => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": [Function useValue],
+            },
+            [Function ApplicationModule] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": ApplicationModule {},
+            },
+            {
+              "multi": true,
+              "provide": InjectionToken {
+                "_desc": "INJECTOR_DEF_TYPES",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              },
+              "useValue": [Function ApplicationModule],
+            } => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": [Function ApplicationModule],
+            },
+            {
+              "multi": true,
+              "provide": InjectionToken {
+                "_desc": "ENVIRONMENT_INITIALIZER",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              },
+              "useValue": [Function useValue],
+            } => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": [Function useValue],
+            },
+            [Function BrowserModule] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": BrowserModule {},
+            },
+            {
+              "multi": true,
+              "provide": InjectionToken {
+                "_desc": "INJECTOR_DEF_TYPES",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              },
+              "useValue": [Function BrowserModule],
+            } => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": [Function BrowserModule],
+            },
+            {
+              "multi": true,
+              "provide": InjectionToken {
+                "_desc": "ENVIRONMENT_INITIALIZER",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              },
+              "useValue": [Function useValue],
+            } => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": [Function useValue],
+            },
+            InjectionToken {
+              "_desc": "Set Injector scope.",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": undefined,
+            } => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": "root",
+            },
+            [Function ErrorHandler] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": ErrorHandler {
+                "_console": [Console],
+              },
+            },
+            InjectionToken {
+              "_desc": "EventManagerPlugins",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": undefined,
+            } => {
+              "factory": [Function anonymous],
+              "multi": [
+                [Object],
+                [Object],
+              ],
+              "value": [
+                [DomEventsPlugin],
+                [KeyEventsPlugin],
+              ],
+            },
+            {
+              "multi": true,
+              "provide": InjectionToken {
+                "_desc": "EventManagerPlugins",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              },
+              "useClass": [Function DomEventsPlugin],
+            } => {
+              "factory": [Function DomEventsPlugin_Factory],
+              "multi": undefined,
+              "value": DomEventsPlugin {
+                "_doc": [Document],
+                "manager": [EventManager],
+              },
+            },
+            {
+              "multi": true,
+              "provide": InjectionToken {
+                "_desc": "EventManagerPlugins",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              },
+              "useClass": [Function KeyEventsPlugin],
+            } => {
+              "factory": [Function KeyEventsPlugin_Factory],
+              "multi": undefined,
+              "value": KeyEventsPlugin {
+                "_doc": [Document],
+                "manager": [EventManager],
+              },
+            },
+            [Function DomRendererFactory2] => {
+              "factory": [Function DomRendererFactory2_Factory],
+              "multi": undefined,
+              "value": DomRendererFactory2 {
+                "appId": "a",
+                "defaultRenderer": [DefaultDomRenderer2],
+                "doc": [Document],
+                "eventManager": [EventManager],
+                "ngZone": [NoopNgZone],
+                "nonce": null,
+                "removeStylesOnCompDestroy": true,
+                "rendererByCompId": [Map],
+                "sharedStylesHost": [SharedStylesHost],
+                "tracingService": null,
+              },
+            },
+            [Function SharedStylesHost] => {
+              "factory": [Function SharedStylesHost_Factory],
+              "multi": undefined,
+              "value": SharedStylesHost {
+                "appId": "a",
+                "doc": [Document],
+                "external": [Map],
+                "hosts": [Set],
+                "inline": [Map],
+                "nonce": null,
+              },
+            },
+            [Function EventManager] => {
+              "factory": [Function EventManager_Factory],
+              "multi": undefined,
+              "value": EventManager {
+                "_eventNameToPlugin": [Map],
+                "_plugins": [Array],
+                "_zone": [NoopNgZone],
+              },
+            },
+            [Function RendererFactory2] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": DomRendererFactory2 {
+                "appId": "a",
+                "defaultRenderer": [DefaultDomRenderer2],
+                "doc": [Document],
+                "eventManager": [EventManager],
+                "ngZone": [NoopNgZone],
+                "nonce": null,
+                "removeStylesOnCompDestroy": true,
+                "rendererByCompId": [Map],
+                "sharedStylesHost": [SharedStylesHost],
+                "tracingService": null,
+              },
+            },
+            [Function XhrFactory] => {
+              "factory": [Function BrowserXhr_Factory],
+              "multi": undefined,
+              "value": {},
+            },
+            InjectionToken {
+              "_desc": "BrowserModule Providers Marker",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": undefined,
+            } => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": true,
+            },
+            InjectionToken {
+              "_desc": "",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": undefined,
+            } => {
+              "factory": [Function anonymous],
+              "multi": undefined,
+              "value": {},
+            },
+            InjectionToken {
+              "_desc": "",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": undefined,
+            } => {
+              "factory": [Function Testability_Factory],
+              "multi": undefined,
+              "value": {},
+            },
+            [Function Testability] => {
+              "factory": [Function Testability_Factory],
+              "multi": undefined,
+              "value": {},
+            },
+            [Function BrowserTestingModule] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": BrowserTestingModule {},
+            },
+            {
+              "multi": true,
+              "provide": InjectionToken {
+                "_desc": "INJECTOR_DEF_TYPES",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              },
+              "useValue": [Function BrowserTestingModule],
+            } => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": [Function BrowserTestingModule],
+            },
+            {
+              "multi": true,
+              "provide": InjectionToken {
+                "_desc": "ENVIRONMENT_INITIALIZER",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              },
+              "useValue": [Function useValue],
+            } => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": [Function useValue],
+            },
+            InjectionToken {
+              "_desc": "AppId",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": {
+                "factory": [Function factory],
+                "providedIn": "root",
+                "token": [Circular],
+                "value": undefined,
+              },
+            } => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": "a",
+            },
+            [Function PlatformNavigation] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": FakeNavigation {
+                "_transition": null,
+                "_window": [Object],
+                "canSetInitialEntry": false,
+                "createEventTarget": [Function anonymous],
+                "currentEntryIndex": 1,
+                "disposed": false,
+                "entriesArr": [Array],
+                "eventTarget": <div … />,
+                "navigateEvent": null,
+                "nextId": 2,
+                "nextKey": 2,
+                "nextTraversal": [Promise],
+                "propsectiveTraversalDestinations": [Array],
+                "synchronousTraversals": true,
+                "traversalQueue": [Map],
+              },
+            },
+            [Function PlatformLocation] => {
+              "factory": [Function FakeNavigationPlatformLocation_Factory],
+              "multi": undefined,
+              "value": FakeNavigationPlatformLocation {
+                "_platformNavigation": [FakeNavigation],
+                "config": null,
+              },
+            },
+            InjectionToken {
+              "_desc": "",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": {
+                "factory": [Function factory],
+                "providedIn": "root",
+                "token": [Circular],
+                "value": undefined,
+              },
+            } => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": true,
+            },
+            [Function TestComponentRenderer] => {
+              "factory": [Function DOMTestComponentRenderer_Factory],
+              "multi": undefined,
+              "value": DOMTestComponentRenderer {
+                "_doc": [Document],
+              },
+            },
+            [Function TestModule] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": TestModule {},
+            },
+            {
+              "multi": true,
+              "provide": InjectionToken {
+                "_desc": "INJECTOR_DEF_TYPES",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              },
+              "useValue": [Function TestModule],
+            } => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": [Function TestModule],
+            },
+            {
+              "multi": true,
+              "provide": InjectionToken {
+                "_desc": "ENVIRONMENT_INITIALIZER",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              },
+              "useValue": [Function useValue],
+            } => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": [Function useValue],
+            },
+            [Function DynamicTestModule] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": DynamicTestModule {},
+            },
+            {
+              "multi": true,
+              "provide": InjectionToken {
+                "_desc": "INJECTOR_DEF_TYPES",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              },
+              "useValue": [Function DynamicTestModule],
+            } => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": [Function DynamicTestModule],
+            },
+            {
+              "multi": true,
+              "provide": InjectionToken {
+                "_desc": "ENVIRONMENT_INITIALIZER",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              },
+              "useValue": [Function useValue],
+            } => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": [Function useValue],
+            },
+            [Function Compiler] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": R3TestCompiler {
+                "testBed": [TestBedCompiler],
+              },
+            },
+            InjectionToken {
+              "_desc": "DEFER_BLOCK_CONFIG",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": undefined,
+            } => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": {
+                "behavior": 1,
+              },
+            },
+            InjectionToken {
+              "_desc": "AnimationsDisabled",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": {
+                "factory": [Function factory],
+                "providedIn": "root",
+                "token": [Circular],
+                "value": undefined,
+              },
+            } => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": true,
+            },
+            InjectionToken {
+              "_desc": "internal error handler",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": {
+                "factory": [Function factory],
+                "providedIn": "root",
+                "token": [Circular],
+                "value": undefined,
+              },
+            } => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": [Function anonymous],
+            },
+            [Function HttpClient] => {
+              "factory": [Function HttpClient_Factory],
+              "multi": undefined,
+              "value": HttpClient {
+                "handler": [HttpInterceptorHandler],
+              },
+            },
+            [Function HttpInterceptorHandler] => {
+              "factory": [Function HttpInterceptorHandler_Factory],
+              "multi": undefined,
+              "value": HttpInterceptorHandler {
+                "backend": [HttpClientTestingBackend],
+                "chain": [Function anonymous],
+                "contributeToStability": false,
+                "injector": [R3Injector],
+                "pendingTasks": [PendingTasks],
+              },
+            },
+            [Function HttpHandler] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": HttpInterceptorHandler {
+                "backend": [HttpClientTestingBackend],
+                "chain": [Function anonymous],
+                "contributeToStability": false,
+                "injector": [R3Injector],
+                "pendingTasks": [PendingTasks],
+              },
+            },
+            [Function HttpBackend] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": HttpClientTestingBackend {
+                "isTestingBackend": true,
+                "open": [Array],
+              },
+            },
+            InjectionToken {
+              "_desc": "HTTP_INTERCEPTOR_FNS",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": {
+                "factory": [Function factory],
+                "providedIn": "root",
+                "token": [Circular],
+                "value": undefined,
+              },
+            } => {
+              "factory": [Function anonymous],
+              "multi": [
+                [Object],
+              ],
+              "value": [
+                [Function xsrfInterceptorFn],
+              ],
+            },
+            {
+              "multi": true,
+              "provide": InjectionToken {
+                "_desc": "HTTP_INTERCEPTOR_FNS",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": [Object],
+              },
+              "useValue": [Function xsrfInterceptorFn],
+            } => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": [Function xsrfInterceptorFn],
+            },
+            [Function HttpClientTestingBackend] => {
+              "factory": [Function HttpClientTestingBackend_Factory],
+              "multi": undefined,
+              "value": HttpClientTestingBackend {
+                "isTestingBackend": true,
+                "open": [Array],
+              },
+            },
+            [Function HttpTestingController] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": HttpClientTestingBackend {
+                "isTestingBackend": true,
+                "open": [Array],
+              },
+            },
+            InjectionToken {
+              "_desc": "REQUESTS_CONTRIBUTE_TO_STABILITY",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": {
+                "factory": [Function factory],
+                "providedIn": "root",
+                "token": [Circular],
+                "value": undefined,
+              },
+            } => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": false,
+            },
+            InjectionToken {
+              "_desc": "ROUTES",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": undefined,
+            } => {
+              "factory": [Function anonymous],
+              "multi": [
+                [Object],
+              ],
+              "value": [
+                [Array],
+              ],
+            },
+            {
+              "multi": true,
+              "provide": InjectionToken {
+                "_desc": "ROUTES",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              },
+              "useValue": [
+                [Object],
+                [Object],
+              ],
+            } => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": [
+                [Object],
+                [Object],
+              ],
+            },
+            InjectionToken {
+              "_desc": "Router is provided",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": {
+                "factory": [Function factory],
+                "providedIn": "root",
+                "token": [Circular],
+                "value": undefined,
+              },
+            } => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": true,
+            },
+            [Function ActivatedRoute] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": {},
+            },
+            InjectionToken {
+              "_desc": "appBootstrapListener",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": undefined,
+            } => {
+              "factory": [Function anonymous],
+              "multi": [
+                [Object],
+              ],
+              "value": {},
+            },
+            {
+              "multi": true,
+              "provide": InjectionToken {
+                "_desc": "appBootstrapListener",
+                "ngMetadataName": "InjectionToken",
+                "ɵprov": undefined,
+              },
+              "useFactory": [Function getBootstrapListener],
+            } => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": {},
+            },
+            [Function RoutedComponentInputBinder] => {
+              "factory": [Function RoutedComponentInputBinder_Factory],
+              "multi": undefined,
+              "value": RoutedComponentInputBinder {
+                "outletDataSubscriptions": [Map],
+              },
+            },
+            InjectionToken {
+              "_desc": "Router Input Binder",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": undefined,
+            } => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": RoutedComponentInputBinder {
+                "outletDataSubscriptions": [Map],
+              },
+            },
+            InjectionToken {
+              "__NG_ELEMENT_ID__": -1,
+              "_desc": "INJECTOR",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": undefined,
+            } => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": R3Injector {
+                "_destroyed": false,
+                "_ngOnDestroyHooks": [Set],
+                "_onDestroyHooks": [Array],
+                "injectorDefTypes": [Set],
+                "parent": [R3Injector],
+                "records": [Circular],
+                "scopes": [Set],
+                "source": "DynamicTestModule",
+              },
+            },
+            [Function EnvironmentInjector] => {
+              "factory": undefined,
+              "multi": undefined,
+              "value": R3Injector {
+                "_destroyed": false,
+                "_ngOnDestroyHooks": [Set],
+                "_onDestroyHooks": [Array],
+                "injectorDefTypes": [Set],
+                "parent": [R3Injector],
+                "records": [Circular],
+                "scopes": [Set],
+                "source": "DynamicTestModule",
+              },
+            },
+            [Function ApplicationRef] => {
+              "factory": [Function ApplicationRef_Factory],
+              "multi": undefined,
+              "value": ApplicationRef {
+                "_destroyListeners": [Array],
+                "_destroyed": false,
+                "_injector": [R3Injector],
+                "_rendererFactory": [DomRendererFactory2],
+                "_runningTick": false,
+                "_views": [Array],
+                "afterRenderManager": [AfterRenderManager],
+                "afterTick": [Subject],
+                "allTestViews": [Set],
+                "autoDetectTestViews": [Set],
+                "componentTypes": [Array],
+                "components": [Array],
+                "dirtyFlags": 0,
+                "includeAllTestViews": false,
+                "internalErrorHandler": [Function anonymous],
+                "internalPendingTask": [PendingTasksInternal],
+                "rootEffectScheduler": [ZoneAwareEffectScheduler],
+                "tickImpl": [Function tickImpl],
+                "tracingSnapshot": null,
+                "zonelessEnabled": true,
+              },
+            },
+            [Function PendingTasksInternal] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": PendingTasksInternal {
+                "debugTaskTracker": null,
+                "destroyed": false,
+                "pendingTask": [BehaviorSubject],
+                "pendingTasks": [Set],
+                "taskId": 5,
+              },
+            },
+            InjectionToken {
+              "_desc": "DEBUG_TASK_TRACKER",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": undefined,
+            } => null,
+            [Function AfterRenderManager] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": AfterRenderManager {
+                "impl": null,
+              },
+            },
+            [Function EffectScheduler] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": ZoneAwareEffectScheduler {
+                "dirtyEffectCount": 0,
+                "queues": [Map],
+              },
+            },
+            InjectionToken {
+              "_desc": "TracingService",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": undefined,
+            } => null,
+            [Function ApplicationInitStatus] => {
+              "factory": [Function ApplicationInitStatus_Factory],
+              "multi": undefined,
+              "value": ApplicationInitStatus {
+                "appInits": [Array],
+                "done": true,
+                "donePromise": [Promise],
+                "initialized": true,
+                "injector": [R3Injector],
+                "reject": [Function anonymous],
+                "resolve": [Function anonymous],
+              },
+            },
+            InjectionToken {
+              "_desc": "Application Initializer",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": undefined,
+            } => null,
+            [Function Injector] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": R3Injector {
+                "_destroyed": false,
+                "_ngOnDestroyHooks": [Set],
+                "_onDestroyHooks": [Array],
+                "injectorDefTypes": [Set],
+                "parent": [R3Injector],
+                "records": [Circular],
+                "scopes": [Set],
+                "source": "DynamicTestModule",
+              },
+            },
+            InjectionToken {
+              "_desc": "LocaleId",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": {
+                "factory": [Function factory],
+                "providedIn": "root",
+                "token": [Circular],
+                "value": undefined,
+              },
+            } => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": "en-US",
+            },
+            [Function RootFixtureService] => {
+              "factory": [Function RootFixtureService_Factory],
+              "multi": undefined,
+              "value": RootFixtureService {
+                "fixture": [ComponentFixture],
+                "harness": [RouterTestingHarness],
+              },
+            },
+            InjectionToken {
+              "_desc": "DocumentToken",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": undefined,
+            } => null,
+            InjectionToken {
+              "_desc": "ComponentFixtureNoNgZone",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": undefined,
+            } => null,
+            [Function StandaloneService] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": StandaloneService {
+                "_injector": [R3Injector],
+                "cachedInjectors": [Map],
+              },
+            },
+            InjectionToken {
+              "_desc": "CSP nonce",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": {
+                "factory": [Function factory],
+                "providedIn": "root",
+                "token": [Circular],
+                "value": undefined,
+              },
+            } => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": null,
+            },
+            InjectionToken {
+              "_desc": "Platform ID",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": {
+                "factory": [Function factory],
+                "providedIn": "platform",
+                "token": [Circular],
+                "value": undefined,
+              },
+            } => null,
+            InjectionToken {
+              "_desc": "RemoveStylesOnCompDestroy",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": {
+                "factory": [Function factory],
+                "providedIn": "root",
+                "token": [Circular],
+                "value": undefined,
+              },
+            } => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": true,
+            },
+            [Function Sanitizer] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": null,
+            },
+            [Function ChangeDetectionSchedulerImpl] => {
+              "factory": [Function ChangeDetectionSchedulerImpl_Factory],
+              "multi": undefined,
+              "value": ChangeDetectionSchedulerImpl {
+                "angularZoneId": null,
+                "appRef": [ApplicationRef],
+                "applicationErrorHandler": [Function anonymous],
+                "cancelScheduledCallback": null,
+                "ngZone": [NoopNgZone],
+                "pendingRenderTaskId": null,
+                "runningTick": false,
+                "scheduleInRootZone": false,
+                "schedulerTickApplyArgs": [Array],
+                "subscriptions": [Subscription],
+                "taskService": [PendingTasksInternal],
+                "tracing": null,
+                "useMicrotaskScheduler": false,
+                "zoneIsDefined": false,
+                "zonelessEnabled": true,
+              },
+            },
+            InjectionToken {
+              "_desc": "NG_REFLECT_FLAG",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": {
+                "factory": [Function factory],
+                "providedIn": "root",
+                "token": [Circular],
+                "value": undefined,
+              },
+            } => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": false,
+            },
+            InjectionToken {
+              "_desc": "PRESERVE_HOST_CONTENT",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": {
+                "factory": [Function factory],
+                "providedIn": "root",
+                "token": [Circular],
+                "value": undefined,
+              },
+            } => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": false,
+            },
+            [Function ChildrenOutletContexts] => {
+              "factory": [Function ChildrenOutletContexts_Factory],
+              "multi": undefined,
+              "value": ChildrenOutletContexts {
+                "contexts": [Map],
+                "rootInjector": [R3Injector],
+              },
+            },
+            InjectionToken {
+              "_desc": "ComponentFixtureAutoDetect",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": undefined,
+            } => null,
+            InjectionToken {
+              "_desc": "exhaustive checkNoChanges",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": undefined,
+            } => null,
+            [Function Router] => {
+              "factory": [Function Router_Factory],
+              "multi": undefined,
+              "value": Router {
+                "_events": [Subject],
+                "componentInputBindingEnabled": true,
+                "config": [Array],
+                "console": [Console],
+                "currentNavigation": [Function readonlyFn],
+                "disposed": false,
+                "eventsSubscription": [Subscription],
+                "injector": [R3Injector],
+                "injectorCleanup": null,
+                "location": [Location],
+                "navigated": true,
+                "navigationTransitions": [NavigationTransitions],
+                "nonRouterCurrentEntryChangeSubscription": undefined,
+                "onSameUrlNavigation": "ignore",
+                "options": [Object],
+                "pendingTasks": [PendingTasksInternal],
+                "routeReuseStrategy": [DefaultRouteReuseStrategy],
+                "stateManager": [HistoryStateManager],
+                "urlHandlingStrategy": [DefaultUrlHandlingStrategy],
+                "urlSerializer": [DefaultUrlSerializer],
+                "urlUpdateStrategy": "deferred",
+              },
+            },
+            [Function Console] => null,
+            [Function StateManager] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": HistoryStateManager {
+                "_stateMemento": [Object],
+                "canceledNavigationResolution": "replace",
+                "currentPageId": 0,
+                "currentUrlTree": [UrlTree],
+                "lastSuccessfulId": 1,
+                "location": [Location],
+                "options": [Object],
+                "rawUrlTree": [UrlTree],
+                "routerState": [RouterState],
+                "urlHandlingStrategy": [DefaultUrlHandlingStrategy],
+                "urlSerializer": [DefaultUrlSerializer],
+                "urlUpdateStrategy": "deferred",
+              },
+            },
+            [Function HistoryStateManager] => {
+              "factory": [Function HistoryStateManager_Factory],
+              "multi": undefined,
+              "value": HistoryStateManager {
+                "_stateMemento": [Object],
+                "canceledNavigationResolution": "replace",
+                "currentPageId": 0,
+                "currentUrlTree": [UrlTree],
+                "lastSuccessfulId": 1,
+                "location": [Location],
+                "options": [Object],
+                "rawUrlTree": [UrlTree],
+                "routerState": [RouterState],
+                "urlHandlingStrategy": [DefaultUrlHandlingStrategy],
+                "urlSerializer": [DefaultUrlSerializer],
+                "urlUpdateStrategy": "deferred",
+              },
+            },
+            [Function UrlSerializer] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": DefaultUrlSerializer {},
+            },
+            InjectionToken {
+              "_desc": "router config",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": {
+                "factory": [Function factory],
+                "providedIn": "root",
+                "token": [Circular],
+                "value": undefined,
+              },
+            } => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": {},
+            },
+            [Function Location] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": Location {
+                "_basePath": "",
+                "_locationStrategy": [PathLocationStrategy],
+                "_subject": [Subject],
+                "_urlChangeListeners": [Array],
+                "_urlChangeSubscription": null,
+              },
+            },
+            [Function LocationStrategy] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": PathLocationStrategy {
+                "_baseHref": "",
+                "_platformLocation": [FakeNavigationPlatformLocation],
+                "_removeListenerFns": [Array],
+              },
+            },
+            [Function PathLocationStrategy] => {
+              "factory": [Function PathLocationStrategy_Factory],
+              "multi": undefined,
+              "value": PathLocationStrategy {
+                "_baseHref": "",
+                "_platformLocation": [FakeNavigationPlatformLocation],
+                "_removeListenerFns": [Array],
+              },
+            },
+            InjectionToken {
+              "_desc": "MOCK_PLATFORM_LOCATION_CONFIG",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": undefined,
+            } => null,
+            InjectionToken {
+              "_desc": "fakeNavigation",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": {
+                "factory": [Function factory],
+                "providedIn": "root",
+                "token": [Circular],
+                "value": undefined,
+              },
+            } => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": FakeNavigation {
+                "_transition": null,
+                "_window": [Object],
+                "canSetInitialEntry": false,
+                "createEventTarget": [Function anonymous],
+                "currentEntryIndex": 1,
+                "disposed": false,
+                "entriesArr": [Array],
+                "eventTarget": <div … />,
+                "navigateEvent": null,
+                "nextId": 2,
+                "nextKey": 2,
+                "nextTraversal": [Promise],
+                "propsectiveTraversalDestinations": [Array],
+                "synchronousTraversals": true,
+                "traversalQueue": [Map],
+              },
+            },
+            InjectionToken {
+              "_desc": "appBaseHref",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": undefined,
+            } => null,
+            [Function UrlHandlingStrategy] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": DefaultUrlHandlingStrategy {},
+            },
+            [Function DefaultUrlHandlingStrategy] => {
+              "factory": [Function DefaultUrlHandlingStrategy_Factory],
+              "multi": undefined,
+              "value": DefaultUrlHandlingStrategy {},
+            },
+            [Function NavigationTransitions] => {
+              "factory": [Function NavigationTransitions_Factory],
+              "multi": undefined,
+              "value": NavigationTransitions {
+                "afterPreactivation": [Function afterPreactivation],
+                "configLoader": [RouterConfigLoader],
+                "createViewTransition": null,
+                "currentNavigation": [Function getter],
+                "currentTransition": null,
+                "destroyRef": [R3Injector],
+                "destroyed": false,
+                "environmentInjector": [R3Injector],
+                "events": [Subject],
+                "inputBindingEnabled": true,
+                "lastSuccessfulNavigation": [Function getter],
+                "location": [Location],
+                "navigationErrorHandler": null,
+                "navigationId": 1,
+                "options": [Object],
+                "paramsInheritanceStrategy": "emptyOnly",
+                "rootComponentType": null,
+                "rootContexts": [ChildrenOutletContexts],
+                "titleStrategy": [DefaultTitleStrategy],
+                "transitionAbortWithErrorSubject": [Subject],
+                "transitions": [BehaviorSubject],
+                "urlHandlingStrategy": [DefaultUrlHandlingStrategy],
+                "urlSerializer": [DefaultUrlSerializer],
+              },
+            },
+            [Function RouterConfigLoader] => {
+              "factory": [Function RouterConfigLoader_Factory],
+              "multi": undefined,
+              "value": RouterConfigLoader {
+                "childrenLoaders": WeakMap {},
+                "compiler": [R3TestCompiler],
+                "componentLoaders": WeakMap {},
+                "onLoadEndListener": [Function onLoadEnd],
+                "onLoadStartListener": [Function onLoadStart],
+              },
+            },
+            [Function TitleStrategy] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": DefaultTitleStrategy {
+                "title": [Title],
+              },
+            },
+            [Function DefaultTitleStrategy] => {
+              "factory": [Function DefaultTitleStrategy_Factory],
+              "multi": undefined,
+              "value": DefaultTitleStrategy {
+                "title": [Title],
+              },
+            },
+            [Function Title] => {
+              "factory": [Function Title_Factory],
+              "multi": undefined,
+              "value": Title {
+                "_doc": [Document],
+              },
+            },
+            InjectionToken {
+              "_desc": "view transition helper",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": undefined,
+            } => null,
+            InjectionToken {
+              "_desc": "navigation error handler",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": undefined,
+            } => null,
+            [Function RouteReuseStrategy] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": DefaultRouteReuseStrategy {},
+            },
+            [Function DefaultRouteReuseStrategy] => {
+              "factory": [Function DefaultRouteReuseStrategy_Factory],
+              "multi": undefined,
+              "value": DefaultRouteReuseStrategy {},
+            },
+            InjectionToken {
+              "_desc": "RouteInjectorCleanup",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": undefined,
+            } => null,
+            [Function authGuard] => null,
+            [Function _QuoteApi] => {
+              "factory": [Function QuoteApi_Factory],
+              "multi": undefined,
+              "value": _QuoteApi {
+                "http": [HttpClient],
+              },
+            },
+            [Function PendingTasks] => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": PendingTasks {
+                "errorHandler": [Function anonymous],
+                "internalPendingTasks": [PendingTasksInternal],
+                "scheduler": [ChangeDetectionSchedulerImpl],
+              },
+            },
+            [Function ReactiveRouterState] => {
+              "factory": [Function ReactiveRouterState_Factory],
+              "multi": undefined,
+              "value": ReactiveRouterState {
+                "fragment": [Function getter],
+                "path": [Function getter],
+                "queryParams": [Function getter],
+                "router": [Router],
+                "serializer": [DefaultUrlSerializer],
+                "stateManager": [HistoryStateManager],
+              },
+            },
+            InjectionToken {
+              "_desc": "HTTP_ROOT_INTERCEPTOR_FNS",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": undefined,
+            } => null,
+            InjectionToken {
+              "_desc": "XSRF_ENABLED",
+              "ngMetadataName": "InjectionToken",
+              "ɵprov": {
+                "factory": [Function factory],
+                "providedIn": "root",
+                "token": [Circular],
+                "value": undefined,
+              },
+            } => {
+              "factory": [Function factory],
+              "multi": undefined,
+              "value": true,
+            },
+          },
+          "scopes": Set {
+            "environment",
+            "root",
+          },
+          "source": "DynamicTestModule",
+        },
+        "pendingTasks": PendingTasks {
+          "errorHandler": [Function anonymous],
+          "internalPendingTasks": PendingTasksInternal {
+            "debugTaskTracker": null,
+            "destroyed": false,
+            "pendingTask": BehaviorSubject {
+              "_value": false,
+              "closed": false,
+              "currentObservers": [],
+              "hasError": false,
+              "isStopped": false,
+              "observers": [],
+              "thrownError": null,
+            },
+            "pendingTasks": Set {},
+            "taskId": 5,
+          },
+          "scheduler": ChangeDetectionSchedulerImpl {
+            "angularZoneId": null,
+            "appRef": ApplicationRef {
+              "_destroyListeners": [],
+              "_destroyed": false,
+              "_injector": R3Injector {
+                "_destroyed": false,
+                "_ngOnDestroyHooks": [Set],
+                "_onDestroyHooks": [Array],
+                "injectorDefTypes": [Set],
+                "parent": [R3Injector],
+                "records": [Map],
+                "scopes": [Set],
+                "source": "DynamicTestModule",
+              },
+              "_rendererFactory": DomRendererFactory2 {
+                "appId": "a",
+                "defaultRenderer": [DefaultDomRenderer2],
+                "doc": [Document],
+                "eventManager": [EventManager],
+                "ngZone": [NoopNgZone],
+                "nonce": null,
+                "removeStylesOnCompDestroy": true,
+                "rendererByCompId": [Map],
+                "sharedStylesHost": [SharedStylesHost],
+                "tracingService": null,
+              },
+              "_runningTick": false,
+              "_views": [],
+              "afterRenderManager": AfterRenderManager {
+                "impl": null,
+              },
+              "afterTick": Subject {
+                "closed": false,
+                "currentObservers": [Array],
+                "hasError": false,
+                "isStopped": false,
+                "observers": [Array],
+                "thrownError": null,
+              },
+              "allTestViews": Set {
+                [ViewRef],
+              },
+              "autoDetectTestViews": Set {
+                [ViewRef],
+              },
+              "componentTypes": [],
+              "components": [],
+              "dirtyFlags": 0,
+              "includeAllTestViews": false,
+              "internalErrorHandler": [Function anonymous],
+              "internalPendingTask": PendingTasksInternal {
+                "debugTaskTracker": null,
+                "destroyed": false,
+                "pendingTask": [BehaviorSubject],
+                "pendingTasks": [Set],
+                "taskId": 5,
+              },
+              "rootEffectScheduler": ZoneAwareEffectScheduler {
+                "dirtyEffectCount": 0,
+                "queues": [Map],
+              },
+              "tickImpl": [Function tickImpl],
+              "tracingSnapshot": null,
+              "zonelessEnabled": true,
+            },
+            "applicationErrorHandler": [Function anonymous],
+            "cancelScheduledCallback": null,
+            "ngZone": NoopNgZone {
+              "hasPendingMacrotasks": false,
+              "hasPendingMicrotasks": false,
+              "isStable": true,
+              "onError": EventEmitter_ {
+                "__isAsync": false,
+                "closed": false,
+                "currentObservers": null,
+                "destroyRef": [R3Injector],
+                "hasError": false,
+                "isStopped": false,
+                "observers": [Array],
+                "pendingTasks": [PendingTasksInternal],
+                "thrownError": null,
+              },
+              "onMicrotaskEmpty": EventEmitter_ {
+                "__isAsync": false,
+                "closed": false,
+                "currentObservers": null,
+                "destroyRef": [R3Injector],
+                "hasError": false,
+                "isStopped": false,
+                "observers": [Array],
+                "pendingTasks": [PendingTasksInternal],
+                "thrownError": null,
+              },
+              "onStable": EventEmitter_ {
+                "__isAsync": false,
+                "closed": false,
+                "currentObservers": null,
+                "destroyRef": [R3Injector],
+                "hasError": false,
+                "isStopped": false,
+                "observers": [Array],
+                "pendingTasks": [PendingTasksInternal],
+                "thrownError": null,
+              },
+              "onUnstable": EventEmitter_ {
+                "__isAsync": false,
+                "closed": false,
+                "currentObservers": null,
+                "destroyRef": [R3Injector],
+                "hasError": false,
+                "isStopped": false,
+                "observers": [Array],
+                "pendingTasks": [PendingTasksInternal],
+                "thrownError": null,
+              },
+            },
+            "pendingRenderTaskId": null,
+            "runningTick": false,
+            "scheduleInRootZone": false,
+            "schedulerTickApplyArgs": [
+              {
+                "data": [Object],
+              },
+            ],
+            "subscriptions": Subscription {
+              "_finalizers": [
+                [SafeSubscriber],
+                [SafeSubscriber],
+              ],
+              "_parentage": null,
+              "closed": false,
+              "initialTeardown": undefined,
+            },
+            "taskService": PendingTasksInternal {
+              "debugTaskTracker": null,
+              "destroyed": false,
+              "pendingTask": BehaviorSubject {
+                "_value": false,
+                "closed": false,
+                "currentObservers": [Array],
+                "hasError": false,
+                "isStopped": false,
+                "observers": [Array],
+                "thrownError": null,
+              },
+              "pendingTasks": Set {},
+              "taskId": 5,
+            },
+            "tracing": null,
+            "useMicrotaskScheduler": false,
+            "zoneIsDefined": false,
+            "zonelessEnabled": true,
+          },
+        },
+      },
+    },
+  },
+  "errorMessage": [Function getter],
+  "id": [Function inputValueFn],
+  "loadOnIdChange": EffectRefImpl {
+    Symbol(SIGNAL): {
+      "debugName": "loadOnIdChange",
+      "dirty": false,
+      "fn": [Function anonymous],
+      "injector": NodeInjector {
+        "_lView": [
+          <div
+            id="root1"
+            ng-version="21.2.21"
+          >
+            <router-outlet />
+            <app-quote-detail-page
+              _nghost-a-c713529441=""
+            >
+              <section
+                _ngcontent-a-c713529441=""
+                class="quote-detail-page"
+                data-testid="quote-detail-page"
+                style="view-transition-name: quote-detail-1;"
+              >
+                <h2 … />
+                <!--container-->
+                <!--container-->
+                <p … />
+                <!--container-->
+                <!--container-->
+                <!--container-->
+                <!--container-->
+                <a … />
+              </section>
+            </app-quote-detail-page>
+            <!--container-->
+          </div>,
+          {
+            "bindingStartIndex": 28,
+            "blueprint": [
+              null,
+              [Circular],
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              null,
+              NodeInjectorFactory {
+                "canSeeViewProviders": true,
+                "componentProviders": undefined,
+                "factory": [Function QuoteDetailPage_Factory],
+                "index": undefined,
+                "injectImpl": [Function ɵɵdirectiveInject],
+                "multi": undefined,
+                "name": "_QuoteDetailPage",
+                "providerFactory": undefined,
+                "resolving": false,
+              },
+            ],
+            "cleanup": null,
+            "components": [
+              27,
+            ],
+            "consts": [
+              [],
+            ],
+            "contentCheckHooks": null,
+            "contentHooks": null,
+            "contentQueries": null,
+            "data": [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              {
+                "attrs": [Array],
+                "child": null,
+                "classBindings": 0,
+                "classes": null,
+                "classesWithoutHost": null,
+                "componentOffset": 0,
+                "controlDirectiveIndex": -1,
+                "customControlIndex": -1,
+                "directiveEnd": 38,
+                "directiveStart": 37,
+                "directiveStylingLast": -1,
+                "directiveToIndex": [Map],
+                "flags": 1,
+                "hostDirectiveInputs": null,
+                "hostDirectiveOutputs": null,
+                "index": 27,
+                "initialInputs": [Array],
+                "injectorIndex": 28,
+                "inputs": [Object],
+                "insertBeforeIndex": null,
+                "localNames": null,
+                "mergedAttrs": null,
+                "namespace": null,
+                "next": null,
+                "outputs": null,
+                "parent": null,
+                "prev": null,
+                "projection": null,
+                "projectionNext": null,
+                "propertyBindings": null,
+                "providerIndexes": 37,
+                "residualClasses": undefined,
+                "residualStyles": undefined,
+                "styleBindings": 0,
+                "styles": null,
+                "stylesWithoutHost": null,
+                "tView": null,
+                "type": 2,
+                "value": "#host",
+              },
+              4,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              {
+                "attrs": [Array],
+                "child": null,
+                "classBindings": 0,
+                "classes": null,
+                "classesWithoutHost": null,
+                "componentOffset": 0,
+                "controlDirectiveIndex": -1,
+                "customControlIndex": -1,
+                "directiveEnd": 38,
+                "directiveStart": 37,
+                "directiveStylingLast": -1,
+                "directiveToIndex": [Map],
+                "flags": 1,
+                "hostDirectiveInputs": null,
+                "hostDirectiveOutputs": null,
+                "index": 27,
+                "initialInputs": [Array],
+                "injectorIndex": 28,
+                "inputs": [Object],
+                "insertBeforeIndex": null,
+                "localNames": null,
+                "mergedAttrs": null,
+                "namespace": null,
+                "next": null,
+                "outputs": null,
+                "parent": null,
+                "prev": null,
+                "projection": null,
+                "projectionNext": null,
+                "propertyBindings": null,
+                "providerIndexes": 37,
+                "residualClasses": undefined,
+                "residualStyles": undefined,
+                "styleBindings": 0,
+                "styles": null,
+                "stylesWithoutHost": null,
+                "tView": null,
+                "type": 2,
+                "value": "#host",
+              },
+              {
+                "_": null,
+                "consts": [Array],
+                "contentQueries": null,
+                "controlDef": null,
+                "data": [Object],
+                "debugInfo": [Object],
+                "declaredInputs": [Object],
+                "decls": 11,
+                "dependencies": [Array],
+                "directiveDefs": [Function anonymous],
+                "encapsulation": 0,
+                "exportAs": null,
+                "factory": [Function QuoteDetailPage_Factory],
+                "features": null,
+                "getExternalStyles": null,
+                "getStandaloneInjector": [Function anonymous],
+                "hostAttrs": null,
+                "hostBindings": null,
+                "hostDirectives": null,
+                "hostVars": 0,
+                "id": "c713529441",
+                "inputConfig": [Object],
+                "inputs": [Object],
+                "ngContentSelectors": undefined,
+                "onPush": false,
+                "outputs": [Object],
+                "pipeDefs": [Function anonymous],
+                "providersResolver": null,
+                "resolveHostDirectives": null,
+                "schemas": null,
+                "selectors": [Array],
+                "setInput": null,
+                "signals": false,
+                "standalone": true,
+                "styles": [Array],
+                "tView": [Object],
+                "template": [Function QuoteDetailPage_Template],
+                "type": [Function _QuoteDetailPage],
+                "vars": 3,
+                "viewProvidersResolver": null,
+                "viewQuery": null,
+              },
+            ],
+            "declTNode": null,
+            "destroyHooks": null,
+            "directiveRegistry": [
+              {
+                "_": null,
+                "consts": [Array],
+                "contentQueries": null,
+                "controlDef": null,
+                "data": [Object],
+                "debugInfo": [Object],
+                "declaredInputs": [Object],
+                "decls": 11,
+                "dependencies": [Array],
+                "directiveDefs": [Function anonymous],
+                "encapsulation": 0,
+                "exportAs": null,
+                "factory": [Function QuoteDetailPage_Factory],
+                "features": null,
+                "getExternalStyles": null,
+                "getStandaloneInjector": [Function anonymous],
+                "hostAttrs": null,
+                "hostBindings": null,
+                "hostDirectives": null,
+                "hostVars": 0,
+                "id": "c713529441",
+                "inputConfig": [Object],
+                "inputs": [Object],
+                "ngContentSelectors": undefined,
+                "onPush": false,
+                "outputs": [Object],
+                "pipeDefs": [Function anonymous],
+                "providersResolver": null,
+                "resolveHostDirectives": null,
+                "schemas": null,
+                "selectors": [Array],
+                "setInput": null,
+                "signals": false,
+                "standalone": true,
+                "styles": [Array],
+                "tView": [Object],
+                "template": [Function QuoteDetailPage_Template],
+                "type": [Function _QuoteDetailPage],
+                "vars": 3,
+                "viewProvidersResolver": null,
+                "viewQuery": null,
+              },
+            ],
+            "expandoStartIndex": 28,
+            "firstChild": {
+              "attrs": [],
+              "child": null,
+              "classBindings": 0,
+              "classes": null,
+              "classesWithoutHost": null,
+              "componentOffset": 0,
+              "controlDirectiveIndex": -1,
+              "customControlIndex": -1,
+              "directiveEnd": 38,
+              "directiveStart": 37,
+              "directiveStylingLast": -1,
+              "directiveToIndex": Map {
+                [Function _QuoteDetailPage] => 37,
+              },
+              "flags": 1,
+              "hostDirectiveInputs": null,
+              "hostDirectiveOutputs": null,
+              "index": 27,
+              "initialInputs": [
+                null,
+              ],
+              "injectorIndex": 28,
+              "inputs": {
+                "id": [Array],
+              },
+              "insertBeforeIndex": null,
+              "localNames": null,
+              "mergedAttrs": null,
+              "namespace": null,
+              "next": null,
+              "outputs": null,
+              "parent": null,
+              "prev": null,
+              "projection": null,
+              "projectionNext": null,
+              "propertyBindings": null,
+              "providerIndexes": 37,
+              "residualClasses": undefined,
+              "residualStyles": undefined,
+              "styleBindings": 0,
+              "styles": null,
+              "stylesWithoutHost": null,
+              "tView": null,
+              "type": 2,
+              "value": "#host",
+            },
+            "firstCreatePass": false,
+            "firstUpdatePass": false,
+            "hostBindingOpCodes": null,
+            "incompleteFirstPass": false,
+            "pipeRegistry": null,
+            "preOrderCheckHooks": null,
+            "preOrderHooks": null,
+            "queries": null,
+            "schemas": null,
+            "ssrId": null,
+            "staticContentQueries": false,
+            "staticViewQueries": false,
+            "template": null,
+            "type": 0,
+            "viewCheckHooks": null,
+            "viewHooks": null,
+            "viewQuery": null,
+          },
+          659,
+          [
+            <router-outlet />,
+            true,
+            0,
+            [
+              <div
+                id="root1"
+                ng-version="21.2.21"
+              >
+                <router-outlet … />
+                <app-quote-detail-page … />
+                <!--container-->
+              </div>,
+              {
+                "bindingStartIndex": 28,
+                "blueprint": [Array],
+                "cleanup": [Array],
+                "components": null,
+                "consts": [Array],
+                "contentCheckHooks": null,
+                "contentHooks": null,
+                "contentQueries": null,
+                "data": [Array],
+                "declTNode": null,
+                "destroyHooks": [Array],
+                "directiveRegistry": [Array],
+                "expandoStartIndex": 29,
+                "firstChild": [Object],
+                "firstCreatePass": false,
+                "firstUpdatePass": false,
+                "hostBindingOpCodes": null,
+                "incompleteFirstPass": false,
+                "pipeRegistry": [Array],
+                "preOrderCheckHooks": [Array],
+                "preOrderHooks": [Array],
+                "queries": [TQueries_],
+                "schemas": null,
+                "ssrId": "c2667104858",
+                "staticContentQueries": false,
+                "staticViewQueries": false,
+                "template": [Function RootCmp_Template],
+                "type": 1,
+                "viewCheckHooks": null,
+                "viewHooks": null,
+                "viewQuery": [Function RootCmp_Query],
+              },
+              147,
+              [
+                null,
+                [Object],
+                659,
+                null,
+                null,
+                null,
+                null,
+                null,
+                [RootCmp],
+                [ChainedInjector],
+                [Object],
+                [DefaultDomRenderer2],
+                [Circular],
+                [Circular],
+                null,
+                [Circular],
+                null,
+                0,
+                null,
+                6,
+                null,
+                [Array],
+                null,
+                null,
+                null,
+                null,
+                null,
+                [Circular],
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                -1,
+                [RootCmp],
+              ],
+              null,
+              {
+                "attrs": [Array],
+                "child": null,
+                "classBindings": 0,
+                "classes": null,
+                "classesWithoutHost": null,
+                "componentOffset": 0,
+                "controlDirectiveIndex": -1,
+                "customControlIndex": -1,
+                "directiveEnd": 38,
+                "directiveStart": 37,
+                "directiveStylingLast": -1,
+                "directiveToIndex": [Map],
+                "flags": 1,
+                "hostDirectiveInputs": null,
+                "hostDirectiveOutputs": null,
+                "index": 27,
+                "initialInputs": [Array],
+                "injectorIndex": 28,
+                "inputs": null,
+                "insertBeforeIndex": null,
+                "localNames": null,
+                "mergedAttrs": [Array],
+                "namespace": null,
+                "next": null,
+                "outputs": null,
+                "parent": null,
+                "prev": null,
+                "projection": [Array],
+                "projectionNext": null,
+                "propertyBindings": null,
+                "providerIndexes": 37,
+                "residualClasses": undefined,
+                "residualStyles": undefined,
+                "styleBindings": 0,
+                "styles": null,
+                "stylesWithoutHost": null,
+                "tView": null,
+                "type": 2,
+                "value": "#host",
+              },
+              null,
+              [
+                [QueryList],
+              ],
+              RootCmp {
+                "__ngContext__": 6,
+                "outlet": [RouterOutlet],
+                "routerOutletData": [Function getter],
+              },
+              ChainedInjector {
+                "injector": [NullInjector],
+                "parentInjector": [R3Injector],
+              },
+              {
+                "changeDetectionScheduler": [ChangeDetectionSchedulerImpl],
+                "ngReflect": false,
+                "rendererFactory": [DomRendererFactory2],
+                "sanitizer": null,
+                "tracingService": null,
+              },
+              NoneEncapsulationDomRenderer {
+                "data": [Object],
+                "destroyNode": null,
+                "doc": [Document],
+                "eventManager": [EventManager],
+                "ngZone": [NoopNgZone],
+                "removeStylesOnCompDestroy": true,
+                "sharedStylesHost": [SharedStylesHost],
+                "styleUrls": undefined,
+                "styles": [Array],
+                "throwOnSyntheticProps": true,
+                "tracingService": null,
+              },
+              [Circular],
+              [Circular],
+              [
+                null,
+                [Object],
+                659,
+                null,
+                null,
+                null,
+                null,
+                null,
+                [RootCmp],
+                [ChainedInjector],
+                [Object],
+                [DefaultDomRenderer2],
+                [Circular],
+                [Circular],
+                null,
+                [Circular],
+                null,
+                0,
+                null,
+                6,
+                null,
+                [Array],
+                null,
+                null,
+                null,
+                null,
+                null,
+                [Circular],
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                -1,
+                [RootCmp],
+              ],
+              [Circular],
+              null,
+              0,
+              LQueries_ {
+                "queries": [Array],
+              },
+              7,
+              null,
+              null,
+              null,
+              null,
+              {
+                "dirty": false,
+                "lView": [Circular],
+                "producers": [Object],
+                "producersTail": [Object],
+                "recomputing": false,
+              },
+              null,
+              null,
+              [Circular],
+              undefined,
+              1,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              65564,
+              RouterOutlet {
+                "__ngContext__": 7,
+                "__ngSimpleChanges__": [Object],
+                "_activatedRoute": [ActivatedRoute],
+                "activateEvents": [EventEmitter_],
+                "activated": [ComponentRef],
+                "attachEvents": [EventEmitter_],
+                "changeDetector": [ViewRef],
+                "deactivateEvents": [EventEmitter_],
+                "detachEvents": [EventEmitter_],
+                "inputBinder": [RoutedComponentInputBinder],
+                "location": [R3ViewContainerRef],
+                "name": "primary",
+                "pare...
+
+[36m [2m❯[22m src/app/quotes/quote-detail-page/quote-detail-page.spec.ts:[2m59:23[22m[39m
+    [90m 57|[39m     [35mconst[39m activated [33m=[39m [35mawait[39m harness[33m.[39m[34mnavigateByUrl[39m([32m'/quotes/1'[39m)[33m;[39m
+    [90m 58|[39m
+    [90m 59|[39m     [34mexpect[39m(activated)[33m.[39m[34mtoBeNull[39m()[33m;[39m
+    [90m   |[39m                       [31m^[39m
+    [90m 60|[39m     [34mexpect[39m(router[33m.[39murl)[33m.[39m[34mtoBe[39m([32m'/'[39m)[33m;[39m
+    [90m 61|[39m   })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/quote-detail-page/quote-detail-page.spec.ts[2m > [22mQuoteDetailPage (routed, guarded, lazy)[2m > [22mGUARD REDIRECT: an unauthenticated navigation to /quotes/:id is redirected to "/", not left on a blank detail route
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/quote-detail-page/quote-detail-page.spec.ts[2m > [22mQuoteDetailPage (routed, guarded, lazy)[2m > [22mPARAM MISSING: navigating to the paramless /quotes route renders the missing-id state, not a crash
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/quote-detail-page/quote-detail-page.spec.ts[2m > [22mQuoteDetailPage (routed, guarded, lazy)[2m > [22mPARAM MALFORMED: a non-numeric id renders the malformed state, distinct from missing or not-found
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/quote-detail-page/quote-detail-page.spec.ts[2m > [22mQuoteDetailPage (routed, guarded, lazy)[2m > [22mPARAM WELL-FORMED BUT NOT FOUND: a numeric id with no matching quote renders not-found, distinct from malformed
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/quote-detail-page/quote-detail-page.spec.ts[2m > [22mQuoteDetailPage (routed, guarded, lazy)[2m > [22mVIEW TRANSITION FALLBACK: navigation completes and renders normally when the browser has no View Transitions API
+[31m[1mError[22m: Expected no open requests, found 1: GET /api/quotes[39m
+[90m [2m❯[22m HttpClientTestingBackend.verify ../k8-fastbuild-ST-fdfa778d11ba/bin/packages/common/http/testing/src/backend.ts:[2m147:12[22m[39m
+[36m [2m❯[22m src/app/quotes/quote-detail-page/quote-detail-page.spec.ts:[2m35:14[22m[39m
+    [90m 33|[39m   [34mafterEach[39m(() [33m=>[39m {
+    [90m 34|[39m     localStorage[33m.[39m[34mclear[39m()[33m;[39m
+    [90m 35|[39m     httpMock[33m.[39m[34mverify[39m()[33m;[39m
+    [90m   |[39m              [31m^[39m
+    [90m 36|[39m   })[33m;[39m
+    [90m 37|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/11]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/quote-detail-page/quote-detail-page.spec.ts[2m > [22mQuoteDetailPage (routed, guarded, lazy)[2m > [22mPARAM MISSING: navigating to the paramless /quotes route renders the missing-id state, not a crash
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/quote-detail-page/quote-detail-page.spec.ts[2m > [22mQuoteDetailPage (routed, guarded, lazy)[2m > [22mPARAM MALFORMED: a non-numeric id renders the malformed state, distinct from missing or not-found
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/quote-detail-page/quote-detail-page.spec.ts[2m > [22mQuoteDetailPage (routed, guarded, lazy)[2m > [22mPARAM WELL-FORMED BUT NOT FOUND: a numeric id with no matching quote renders not-found, distinct from malformed
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/quote-detail-page/quote-detail-page.spec.ts[2m > [22mQuoteDetailPage (routed, guarded, lazy)[2m > [22mVIEW TRANSITION FALLBACK: navigation completes and renders normally when the browser has no View Transitions API
+[31m[1mError[22m: Cannot configure the test module when the test module has already been instantiated. Make sure you are not using `inject` before `TestBed.configureTestingModule`.[39m
+[90m [2m❯[22m TestBedImpl.assertNotInstantiated ../k8-fastbuild-ST-fdfa778d11ba/bin/packages/core/testing/src/test_bed.ts:[2m736:12[22m[39m
+[90m [2m❯[22m assertNotInstantiated ../k8-fastbuild-ST-fdfa778d11ba/bin/packages/core/testing/src/test_bed.ts:[2m562:9[22m[39m
+[90m [2m❯[22m configureTestingModule ../k8-fastbuild-ST-fdfa778d11ba/bin/packages/core/testing/src/test_bed.ts:[2m319:32[22m[39m
+[36m [2m❯[22m src/app/quotes/quote-detail-page/quote-detail-page.spec.ts:[2m20:19[22m[39m
+    [90m 18|[39m   [34mbeforeEach[39m([35masync[39m () [33m=>[39m {
+    [90m 19|[39m     localStorage[33m.[39m[34mclear[39m()[33m;[39m
+    [90m 20|[39m     [35mawait[39m [33mTestBed[39m[33m.[39m[34mconfigureTestingModule[39m({
+    [90m   |[39m                   [31m^[39m
+    [90m 21|[39m       providers[33m:[39m [
+    [90m 22|[39m         [34mprovideHttpClient[39m()[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/11]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m13 passed[39m[22m[90m (15)[39m
+[2m      Tests [22m [1m[31m6 failed[39m[22m[2m | [22m[1m[32m83 passed[39m[22m[90m (89)[39m
+[2m   Start at [22m 10:47:51
+[2m   Duration [22m 757ms[2m (transform 315ms, setup 1.28s, import 734ms, tests 848ms, environment 4.42s)[22m
+

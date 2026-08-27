@@ -1,0 +1,10 @@
+  Determining projects to restore...
+/Users/devansh/thinkschool/day-1/task-5/OrderProcessing.Tests/OrderProcessing.Tests.csproj : warning NU1900: Error occurred while getting package vulnerability data: Unable to load the service index for source https://api.nuget.org/v3/index.json. [/Users/devansh/thinkschool/day-1/task-5/Task5.sln]
+  All projects are up-to-date for restore.
+/Users/devansh/thinkschool/day-1/task-5/OrderProcessing.Tests/OrderProcessing.Tests.csproj : warning NU1900: Error occurred while getting package vulnerability data: Unable to load the service index for source https://api.nuget.org/v3/index.json.
+  OrderProcessing -> /Users/devansh/thinkschool/day-1/task-5/OrderProcessing/bin/Debug/net10.0/OrderProcessing.dll
+  OrderProcessing.Tests -> /Users/devansh/thinkschool/day-1/task-5/OrderProcessing.Tests/bin/Debug/net10.0/OrderProcessing.Tests.dll
+Test run for /Users/devansh/thinkschool/day-1/task-5/OrderProcessing.Tests/bin/Debug/net10.0/OrderProcessing.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:     3, Skipped:     0, Total:     3, Duration: 6 ms - OrderProcessing.Tests.dll (net10.0)

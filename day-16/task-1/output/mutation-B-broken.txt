@@ -1,0 +1,16 @@
+PASS: no NgModule anywhere in app source
+PASS: no component, interceptor or guard uses constructor-parameter injection
+FAIL: quote-detail-page is never statically imported outside its own directory
+      /Users/devansh/thinkschool/day-16/task-1/src/app/quotes/quote-browser/quote-browser.ts
+PASS: app.routes.ts uses loadComponent for the detail routes, not component
+PASS: no `any` anywhere (`: any`, `as any`, `<any>`, `any[]`)
+PASS: tsconfig has strict and noImplicitAny enabled
+PASS: every @for block tracks by the real identifier field (quote.id)
+PASS: no Zone.js reference in package.json
+PASS: no Zone.js reference in angular.json
+PASS: every aria-describedby target in create-quote-form.html has a matching id in the same template
+PASS: every aria-describedby target in create-quote-form-signals.html has a matching id in the same template
+PASS: Signal Forms component imports from the real '@angular/forms/signals' path
+PASS: no JWT-shaped bearer token anywhere in source or captured output
+
+1 structural check(s) failed.

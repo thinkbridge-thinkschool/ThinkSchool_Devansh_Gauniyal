@@ -1,0 +1,8 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Quotes -> /Users/devansh/thinkschool/day-3/task-5/Quotes/bin/Debug/net10.0/Quotes.dll
+  Quotes.Tests.Unit -> /Users/devansh/thinkschool/day-3/task-5/Quotes.Tests.Unit/bin/Debug/net10.0/Quotes.Tests.Unit.dll
+Test run for /Users/devansh/thinkschool/day-3/task-5/Quotes.Tests.Unit/bin/Debug/net10.0/Quotes.Tests.Unit.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:    44, Skipped:     0, Total:    44, Duration: 32 ms - Quotes.Tests.Unit.dll (net10.0)
