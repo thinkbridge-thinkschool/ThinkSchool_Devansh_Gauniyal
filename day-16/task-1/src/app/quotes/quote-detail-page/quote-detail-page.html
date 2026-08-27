@@ -1,0 +1,35 @@
+<section
+  class="quote-detail-page"
+  data-testid="quote-detail-page"
+  [style.view-transition-name]="'quote-detail-' + (id() ?? 'none')"
+>
+  <h2>Quote detail — routed page</h2>
+
+  @if (paramProblem() === 'missing') {
+    <p class="quote-detail-page__status" data-testid="detail-page-status-missing">
+      No quote id was given.
+    </p>
+  } @else if (paramProblem() === 'malformed') {
+    <p class="quote-detail-page__status" data-testid="detail-page-status-malformed">
+      "{{ id() }}" is not a valid quote id.
+    </p>
+  } @else if (loading()) {
+    <p class="quote-detail-page__status" data-testid="detail-page-status-loading">Loading quote…</p>
+  } @else if (errorMessage()) {
+    <p class="quote-detail-page__status" data-testid="detail-page-status-error">{{ errorMessage() }}</p>
+  } @else if (quote()) {
+    <article data-testid="detail-page-content">
+      <p class="quote-detail-page__text">“{{ quote()!.text }}”</p>
+      @if (quote()!.author) {
+        <p class="quote-detail-page__author" data-testid="detail-page-author">— {{ quote()!.author }}</p>
+      }
+      <p class="quote-detail-page__owner">{{ quote()!.ownerId }}</p>
+    </article>
+  } @else {
+    <p class="quote-detail-page__status" data-testid="detail-page-status-not-found">
+      Quote {{ id() }} was not found.
+    </p>
+  }
+
+  <a routerLink="/" data-testid="detail-page-back">← Back to quotes</a>
+</section>

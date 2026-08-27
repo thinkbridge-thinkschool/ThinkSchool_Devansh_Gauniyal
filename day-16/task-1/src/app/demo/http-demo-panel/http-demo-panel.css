@@ -1,0 +1,119 @@
+.demo-panel {
+  font-family: inherit;
+}
+
+.demo-panel__title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #667085;
+  margin: 0 0 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.demo-panel__badge {
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 500;
+  font-size: 0.75rem;
+  color: #b54708;
+  background: rgba(181, 71, 8, 0.1);
+  border-radius: 999px;
+  padding: 0.1rem 0.55rem;
+}
+
+.demo-panel__subtitle {
+  color: #667085;
+  font-size: 0.9rem;
+  margin: 0 0 1rem;
+}
+
+.demo-panel__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.demo-panel__actions button {
+  padding: 0.5rem 0.9rem;
+  border: 1px solid #e1e4ea;
+  border-radius: 10px;
+  background: #fafbfc;
+  font: inherit;
+  font-size: 0.85rem;
+  color: #12151c;
+  cursor: pointer;
+  transition: border-color 0.12s ease, background-color 0.12s ease;
+}
+
+.demo-panel__actions button:hover {
+  border-color: #1d4ed8;
+  background: rgba(29, 78, 216, 0.06);
+}
+
+.demo-panel__reset {
+  color: #667085;
+}
+
+.demo-panel__url {
+  font-size: 0.8rem;
+  color: #98a2b3;
+}
+
+.demo-panel__status {
+  color: #667085;
+  font-size: 0.9rem;
+}
+
+.demo-panel__count {
+  font-size: 0.85rem;
+  color: #344054;
+  margin: 0 0 0.6rem;
+}
+
+.demo-panel__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.demo-panel__list li {
+  padding: 0.6rem 0.85rem;
+  border: 1px solid #e1e4ea;
+  border-radius: 10px;
+  background: #fafbfc;
+  font-size: 0.9rem;
+}
+
+.demo-panel__quote-author {
+  color: #667085;
+  margin-left: 0.4rem;
+}
+
+.demo-panel__error-card {
+  border: 1px solid #fda29b;
+  background: rgba(253, 162, 155, 0.08);
+  border-radius: 10px;
+  padding: 0.75rem 0.9rem;
+}
+
+.demo-panel__error-message {
+  color: #b42318;
+  font-weight: 500;
+  margin: 0 0 0.3rem;
+}
+
+.demo-panel__error-meta {
+  color: #98a2b3;
+  font-size: 0.78rem;
+  font-family: ui-monospace, monospace;
+  margin: 0;
+}

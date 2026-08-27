@@ -1,0 +1,43 @@
+<section class="demo-panel">
+  <h2 class="demo-panel__title">HttpClient + interceptors <span class="demo-panel__badge">demo only</span></h2>
+  <p class="demo-panel__subtitle">
+    Live against the real QuotesApi. Auth header, retry-with-backoff on idempotent
+    GETs, and every failure mapped to a typed error before it reaches this component.
+  </p>
+
+  <div class="demo-panel__actions">
+    <button type="button" (click)="runSuccess()">GET /api/quotes</button>
+    <button type="button" (click)="run4xx()">GET /api/quotes/999 (4xx)</button>
+    <button type="button" class="demo-panel__reset" (click)="reset()">Reset</button>
+    @if (lastUrl()) {
+      <code class="demo-panel__url">{{ lastUrl() }}</code>
+    }
+  </div>
+
+  @if (loading()) {
+    <p class="demo-panel__status">Requesting…</p>
+  } @else if (result(); as r) {
+    @if (r.kind === 'success') {
+      <p class="demo-panel__count">{{ requestCount() }} request{{ requestCount() === 1 ? '' : 's' }} made.</p>
+      <ul class="demo-panel__list">
+        @for (quote of r.quotes; track quote.id) {
+          <li>
+            <span class="demo-panel__quote-text">{{ quote.text }}</span>
+            @if (quote.author) {
+              <span class="demo-panel__quote-author">— {{ quote.author }}</span>
+            }
+          </li>
+        }
+      </ul>
+    } @else {
+      <p class="demo-panel__count">
+        {{ requestCount() }} request{{ requestCount() === 1 ? '' : 's' }} made —
+        {{ r.retryable ? 'this status is retryable' : 'a ' + r.status + ' is never retried' }}.
+      </p>
+      <div class="demo-panel__error-card">
+        <p class="demo-panel__error-message">{{ r.message }}</p>
+        <p class="demo-panel__error-meta">status={{ r.status }} · retryable={{ r.retryable }}</p>
+      </div>
+    }
+  }
+</section>

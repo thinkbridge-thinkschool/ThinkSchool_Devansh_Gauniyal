@@ -1,0 +1,8 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  EntraAuthApi -> /Users/devansh/thinkschool/day-3/task-2/EntraAuthApi/bin/Debug/net10.0/EntraAuthApi.dll
+  EntraAuthApi.Tests -> /Users/devansh/thinkschool/day-3/task-2/EntraAuthApi.Tests/bin/Debug/net10.0/EntraAuthApi.Tests.dll
+Test run for /Users/devansh/thinkschool/day-3/task-2/EntraAuthApi.Tests/bin/Debug/net10.0/EntraAuthApi.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:     7, Skipped:     0, Total:     7, Duration: 128 ms - EntraAuthApi.Tests.dll (net10.0)
