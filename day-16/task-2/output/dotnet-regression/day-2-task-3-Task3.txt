@@ -1,0 +1,8 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  CollectionApi -> /Users/devansh/thinkschool/day-2/task-3/CollectionApi/bin/Debug/net10.0/CollectionApi.dll
+  Tests.Domain -> /Users/devansh/thinkschool/day-2/task-3/Tests.Domain/bin/Debug/net10.0/Tests.Domain.dll
+Test run for /Users/devansh/thinkschool/day-2/task-3/Tests.Domain/bin/Debug/net10.0/Tests.Domain.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:     6, Skipped:     0, Total:     6, Duration: 14 ms - Tests.Domain.dll (net10.0)

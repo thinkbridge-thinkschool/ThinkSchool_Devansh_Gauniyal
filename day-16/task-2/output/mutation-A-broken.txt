@@ -1,0 +1,131 @@
+
+> app@0.0.0 test
+> ng test
+
+❯ Building...
+✔ Building...
+Initial chunk files                                                    | Names                                                               |  Raw size
+chunk-7SILG4PR.js                                                      | -                                                                   |  22.12 kB | 
+chunk-NLEI5HFO.js                                                      | -                                                                   |  14.82 kB | 
+chunk-M7DBJM22.js                                                      | -                                                                   |  14.14 kB | 
+chunk-IXQU5PBH.js                                                      | -                                                                   |  13.07 kB | 
+spec-app-quotes-create-quote-form-create-quote-form.js                 | spec-app-quotes-create-quote-form-create-quote-form                 |  10.65 kB | 
+chunk-SPVEQ3RZ.js                                                      | -                                                                   |  10.37 kB | 
+spec-app-quotes-create-quote-form-signals-create-quote-form-signals.js | spec-app-quotes-create-quote-form-signals-create-quote-form-signals |   8.19 kB | 
+chunk-HWF36L2Z.js                                                      | -                                                                   |   7.21 kB | 
+spec-app-quotes-quote-detail-page-quote-detail-page.js                 | spec-app-quotes-quote-detail-page-quote-detail-page                 |   6.37 kB | 
+spec-app-quotes-quotes-store.js                                        | spec-app-quotes-quotes-store                                        |   6.11 kB | 
+chunk-OFHAENSR.js                                                      | -                                                                   |   5.12 kB | 
+spec-app-quotes-create-quote-form-parity.js                            | spec-app-quotes-create-quote-form-parity                            |   4.86 kB | 
+spec-app-quotes-quote-browser-quote-browser.js                         | spec-app-quotes-quote-browser-quote-browser                         |   4.33 kB | 
+chunk-CGZBV6BD.js                                                      | -                                                                   |   4.07 kB | 
+spec-app-quotes-quote-api.js                                           | spec-app-quotes-quote-api                                           |   3.94 kB | 
+spec-app-http-retry.interceptor.js                                     | spec-app-http-retry.interceptor                                     |   3.70 kB | 
+spec-app-http-error-mapping.interceptor.js                             | spec-app-http-error-mapping.interceptor                             |   3.66 kB | 
+spec-app-http-interceptor-order.js                                     | spec-app-http-interceptor-order                                     |   3.26 kB | 
+spec-app-app.routes.js                                                 | spec-app-app.routes                                                 |   3.21 kB | 
+spec-app-quotes-quotes-api-contract.js                                 | spec-app-quotes-quotes-api-contract                                 |   2.95 kB | 
+spec-app-home-page-home-page.js                                        | spec-app-home-page-home-page                                        |   2.61 kB | 
+spec-app-http-auth-header.interceptor.js                               | spec-app-http-auth-header.interceptor                               |   2.41 kB | 
+chunk-LISPYPH7.js                                                      | -                                                                   |   2.06 kB | 
+spec-app-quotes-quote-browser-quote-browser-friendly-error.js          | spec-app-quotes-quote-browser-quote-browser-friendly-error          |   2.02 kB | 
+chunk-C23FVET7.js                                                      | -                                                                   |   1.99 kB | 
+spec-app-app.js                                                        | spec-app-app                                                        |   1.95 kB | 
+spec-app-auth-auth.guard.js                                            | spec-app-auth-auth.guard                                            |   1.60 kB | 
+spec-app-auth-login-page-login-page.js                                 | spec-app-auth-login-page-login-page                                 |   1.48 kB | 
+chunk-PBD7VZE6.js                                                      | -                                                                   |   1.44 kB | 
+spec-app-auth-guest-only.guard.js                                      | spec-app-auth-guest-only.guard                                      |   1.32 kB | 
+init-testbed.js                                                        | init-testbed                                                        |   1.21 kB | 
+chunk-UWYWKKHB.js                                                      | -                                                                   |   1.11 kB | 
+vitest-mock-patch.js                                                   | vitest-mock-patch                                                   | 974 bytes | 
+chunk-6TGQUMMP.js                                                      | -                                                                   | 891 bytes | 
+chunk-WLDGAR5P.js                                                      | -                                                                   | 849 bytes | 
+chunk-JNMJ6YIH.js                                                      | -                                                                   | 681 bytes | 
+chunk-JC34PNQV.js                                                      | -                                                                   | 520 bytes | 
+chunk-SOP4DTWC.js                                                      | -                                                                   | 421 bytes | 
+styles.css                                                             | styles                                                              | 155 bytes | 
+
+                                                                       | Initial total                                                       | 177.83 kB
+
+Lazy chunk files                                                       | Names                                                               |  Raw size
+chunk-A2XU7HAE.js                                                      | home-page                                                           | 356 bytes | 
+chunk-C5NBUC6U.js                                                      | quote-detail-page                                                   | 250 bytes | 
+chunk-VCAOC6WK.js                                                      | login-page                                                          | 178 bytes | 
+
+Application bundle generation complete. [0.874 seconds] - 2026-08-27T09:07:51.831Z
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.11 [39m[90m/Users/devansh/thinkschool/day-16/task-2[39m
+
+ [31m❯[39m [30m[43m app [49m[39m src/app/quotes/quotes-store.spec.ts [2m([22m[2m13 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 28[2mms[22m[39m
+[31m     [31m×[31m CONCURRENT (detail): an older selectQuote() response arriving last must not overwrite the newer selection[39m[32m 9[2mms[22m[39m
+[31m     [31m×[31m clearSelection resets the selection and supersedes an in-flight selectQuote() request[39m[32m 1[2mms[22m[39m
+ [31m❯[39m [30m[43m app [49m[39m src/app/quotes/quote-detail-page/quote-detail-page.spec.ts [2m([22m[2m7 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 346[2mms[22m[39m
+[31m     [31m×[31m RACE: discards a stale detail response when the id changes before it resolves (id 1, then id 2, flush 1 last -> shows 2)[39m[32m 5[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 3 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/quotes-store.spec.ts[2m > [22mQuotesStore[2m > [22mCONCURRENT (detail): an older selectQuote() response arriving last must not overwrite the newer selection
+[31m[1mAssertionError[22m: expected 1 to be 2 // Object.is equality[39m
+
+- Expected
++ Received
+
+- 2
++ 1
+
+[36m [2m❯[22m src/app/quotes/quotes-store.spec.ts:[2m97:39[22m[39m
+    [90m 95|[39m     pending[0].flush(sample); // A, selecting id 1 -- stale by the tim…
+    [90m 96|[39m
+    [90m 97|[39m     [34mexpect[39m(store[33m.[39m[34mselectedQuote[39m()[33m?.[39mid)[33m.[39m[34mtoBe[39m([34m2[39m)[33m;[39m
+    [90m   |[39m                                       [31m^[39m
+    [90m 98|[39m   })[33m;[39m
+    [90m 99|[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/quotes-store.spec.ts[2m > [22mQuotesStore[2m > [22mclearSelection resets the selection and supersedes an in-flight selectQuote() request
+[31m[1mAssertionError[22m: expected { id: 1, ownerId: 'user-1', …(1) } to be null[39m
+
+- Expected:
+null
+
++ Received:
+{
+  "id": 1,
+  "ownerId": "user-1",
+  "text": "Security is a process.",
+}
+
+[36m [2m❯[22m src/app/quotes/quotes-store.spec.ts:[2m195:35[22m[39m
+    [90m193|[39m     [90m// not repopulate the state clearSelection() just cleared.[39m
+    [90m194|[39m     httpMock[33m.[39m[34mexpectOne[39m([32m'/api/quotes'[39m)[33m.[39m[34mflush[39m(sample)[33m;[39m
+    [90m195|[39m     [34mexpect[39m(store[33m.[39m[34mselectedQuote[39m())[33m.[39m[34mtoBeNull[39m()[33m;[39m
+    [90m   |[39m                                   [31m^[39m
+    [90m196|[39m   })[33m;[39m
+    [90m197|[39m })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m [30m[43m app [49m[39m src/app/quotes/quote-detail-page/quote-detail-page.spec.ts[2m > [22mQuoteDetailPage stale-response guard (component-level)[2m > [22mRACE: discards a stale detail response when the id changes before it resolves (id 1, then id 2, flush 1 last -> shows 2)
+[31m[1mAssertionError[22m: expected '“Security is a process.”' to contain 'Policies make intent explicit.'[39m
+
+Expected: "Policies make intent explicit."
+Received: "“Security is a process.”"
+
+[36m [2m❯[22m src/app/quotes/quote-detail-page/quote-detail-page.spec.ts:[2m180:71[22m[39m
+    [90m178|[39m
+    [90m179|[39m     [35mconst[39m el [33m=[39m fixture[33m.[39mnativeElement [35mas[39m [33mHTMLElement[39m[33m;[39m
+    [90m180|[39m     expect(el.querySelector('.quote-detail-page__text')?.textContent).…
+    [90m   |[39m                                                                       [31m^[39m
+    [90m181|[39m   })[33m;[39m
+    [90m182|[39m })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m17 passed[39m[22m[90m (19)[39m
+[2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m104 passed[39m[22m[90m (107)[39m
+[2m   Start at [22m 14:37:51
+[2m   Duration [22m 1.26s[2m (transform 309ms, setup 2.03s, import 1.00s, tests 2.18s, environment 8.94s)[22m
+

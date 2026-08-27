@@ -287,8 +287,8 @@ status in `verification-log.md`.
 
 ## What did you learn this session?
 
-That a route written with `loadComponent` can still land in the main bundle with zero errors or warnings if anything else statically imports it — only a real build and a grep prove otherwise, which is why the task insisted on that over trusting the source.
+A lazy route can quietly end up in the main bundle anyway if something else in the app imports that component directly — there's no error or warning either way, so I can't just trust the route file. I have to actually build and grep the output to know for sure.
 
 ## What would break this?
 
-A stray eager import of the detail component anywhere in the app would silently pull it back into the main bundle with no error at build or test time — only the grep in `output/lazy-load-proof.md` would catch it. If `Quote.Id` became a GUID, the `/^\d+$/` malformed-id check would start rejecting every real id at runtime, not compile time.
+If I (or anyone) later added an unrelated import of the detail component somewhere else in the app, it would silently get bundled eagerly again with nothing flagging it. And if the API's quote id ever changed from an int to a GUID, my malformed-id check would start rejecting every real id, since it only accepts digits.

@@ -1,0 +1,51 @@
+.quote-browser {
+  font-family: inherit;
+}
+
+.quote-browser h2 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #667085;
+  margin: 0 0 0.75rem;
+}
+
+.quote-browser__status {
+  color: #667085;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.quote-browser ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.quote-browser li a {
+  display: block;
+  text-align: left;
+  padding: 0.65rem 0.9rem;
+  border: 1px solid #e1e4ea;
+  border-radius: 10px;
+  background: #fafbfc;
+  font: inherit;
+  color: #12151c;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.12s ease, background-color 0.12s ease;
+}
+
+.quote-browser li a:hover {
+  border-color: #98a2b3;
+  background: #f2f4f7;
+}
+
+.quote-browser li a:focus-visible {
+  outline: 3px solid #1d4ed8;
+  outline-offset: 2px;
+}

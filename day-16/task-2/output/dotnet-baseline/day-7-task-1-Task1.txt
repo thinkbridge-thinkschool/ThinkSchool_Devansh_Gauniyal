@@ -1,0 +1,9 @@
+  Determining projects to restore...
+/Users/devansh/thinkschool/day-7/task-1/tests/Task1.Tests.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q [/Users/devansh/thinkschool/day-7/task-1/Task1.slnx]
+  All projects are up-to-date for restore.
+/Users/devansh/thinkschool/day-7/task-1/tests/Task1.Tests.csproj : warning NU1903: Package 'SQLitePCLRaw.lib.e_sqlite3' 2.1.11 has a known high severity vulnerability, https://github.com/advisories/GHSA-2m69-gcr7-jv3q
+  Task1.Tests -> /Users/devansh/thinkschool/day-7/task-1/tests/bin/Debug/net10.0/Task1.Tests.dll
+Test run for /Users/devansh/thinkschool/day-7/task-1/tests/bin/Debug/net10.0/Task1.Tests.dll (.NETCoreApp,Version=v10.0)
+A total of 1 test files matched the specified pattern.
+
+Passed!  - Failed:     0, Passed:    11, Skipped:     0, Total:    11, Duration: 55 ms - Task1.Tests.dll (net10.0)
