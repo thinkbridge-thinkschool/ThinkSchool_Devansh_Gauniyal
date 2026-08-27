@@ -1,12 +1,12 @@
 /**
- * Functional route guard (CanActivateFn) for the lazy-loaded quote detail routes (see
- * ../app.routes.ts). Checks the SAME token source auth-header.interceptor.ts already
- * reads -- AuthTokenService, backed by the devAuthToken localStorage key dev-login.ts
- * writes -- rather than a second, competing notion of "signed in". No token is ever
- * hardcoded here.
+ * Functional route guard (CanActivateFn) protecting the main app ('' and its
+ * 'quotes'/'quotes/:id' children -- see ../app.routes.ts). Checks the SAME token source
+ * auth-header.interceptor.ts already reads -- AuthTokenService, backed by the
+ * devAuthToken localStorage key dev-login.ts writes -- rather than a second, competing
+ * notion of "signed in". No token is ever hardcoded here.
  *
  * Returns `true` when a token is present, so navigation proceeds. Returns a UrlTree
- * (redirecting to '/') when it is not, so the navigation is cancelled and replaced
+ * (redirecting to '/login') when it is not, so the navigation is cancelled and replaced
  * atomically. This deliberately does NOT call router.navigate() -- a guard that returns
  * false and separately calls navigate() lets the in-flight (blocked) navigation and the
  * new (redirect) navigation race each other; returning a UrlTree lets the router itself
@@ -27,5 +27,5 @@ export const authGuard: CanActivateFn = (): true | UrlTree => {
   if (hasToken) {
     return true;
   }
-  return inject(Router).createUrlTree(['/']);
+  return inject(Router).createUrlTree(['/login']);
 };

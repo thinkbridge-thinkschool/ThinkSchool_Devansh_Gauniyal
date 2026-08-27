@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { provideRouter, withComponentInputBinding, Router } from '@angular/router';
@@ -7,13 +7,23 @@ import { routes } from '../../app.routes';
 import { QuoteDetailPage } from './quote-detail-page';
 import { Quote } from '../quote';
 
+const sample: Quote[] = [
+  { id: 1, ownerId: 'user-1', text: 'Security is a process.' },
+  { id: 2, ownerId: 'user-2', text: 'Policies make intent explicit.', author: 'Marcus Aurelius' },
+];
+
+// 'quotes'/'quotes:id' are children of '' (HomePage) -- see app.routes.ts -- so every
+// navigation here also mounts HomePage's own QuoteBrowser, which independently fetches
+// GET /api/quotes for the list. That means most navigations here produce TWO pending
+// requests to the same URL, not one; this helper flushes every currently-pending match.
+function flushAllQuotesRequests(httpMock: HttpTestingController, data: Quote[] = sample): void {
+  for (const req of httpMock.match('/api/quotes')) {
+    req.flush(data);
+  }
+}
+
 describe('QuoteDetailPage (routed, guarded, lazy)', () => {
   let httpMock: HttpTestingController;
-
-  const sample: Quote[] = [
-    { id: 1, ownerId: 'user-1', text: 'Security is a process.' },
-    { id: 2, ownerId: 'user-2', text: 'Policies make intent explicit.', author: 'Marcus Aurelius' },
-  ];
 
   beforeEach(async () => {
     localStorage.clear();
@@ -41,8 +51,8 @@ describe('QuoteDetailPage (routed, guarded, lazy)', () => {
     localStorage.setItem('devAuthToken', 'fake-token-for-tests');
     const harness = await RouterTestingHarness.create();
 
-    await harness.navigateByUrl('/quotes/1', QuoteDetailPage);
-    httpMock.expectOne('/api/quotes').flush(sample);
+    await harness.navigateByUrl('/quotes/1');
+    flushAllQuotesRequests(httpMock);
     harness.detectChanges();
 
     const el = harness.routeNativeElement as HTMLElement;
@@ -50,14 +60,16 @@ describe('QuoteDetailPage (routed, guarded, lazy)', () => {
     expect(el.querySelector('.quote-detail-page__text')?.textContent).toContain('Security is a process.');
   });
 
-  it('GUARD REDIRECT: an unauthenticated navigation to /quotes/:id is redirected to "/", not left on a blank detail route', async () => {
+  it('GUARD REDIRECT: an unauthenticated navigation to /quotes/:id is redirected to "/login" and renders the real login page, not a blank detail route', async () => {
     const harness = await RouterTestingHarness.create();
     const router = TestBed.inject(Router);
 
-    const activated = await harness.navigateByUrl('/quotes/1');
+    await harness.navigateByUrl('/quotes/1');
 
-    expect(activated).toBeNull();
-    expect(router.url).toBe('/');
+    expect(router.url).toBe('/login');
+    const el = harness.routeNativeElement as HTMLElement;
+    expect(el.querySelector('app-dev-login')).toBeTruthy();
+    expect(el.querySelector('[data-testid="detail-page-content"]')).toBeFalsy();
   });
 
   // --- the three route-param edges, each distinct ---
@@ -66,34 +78,36 @@ describe('QuoteDetailPage (routed, guarded, lazy)', () => {
     localStorage.setItem('devAuthToken', 'fake-token-for-tests');
     const harness = await RouterTestingHarness.create();
 
-    await harness.navigateByUrl('/quotes', QuoteDetailPage);
+    await harness.navigateByUrl('/quotes');
+    // QuoteDetailPage never calls the API for a missing id, but HomePage's QuoteBrowser
+    // still does for the list -- flush that one request so httpMock.verify() is clean.
+    flushAllQuotesRequests(httpMock);
     harness.detectChanges();
 
     const el = harness.routeNativeElement as HTMLElement;
     expect(el.querySelector('[data-testid="detail-page-status-missing"]')).toBeTruthy();
-    httpMock.expectNone('/api/quotes');
   });
 
   it('PARAM MALFORMED: a non-numeric id renders the malformed state, distinct from missing or not-found', async () => {
     localStorage.setItem('devAuthToken', 'fake-token-for-tests');
     const harness = await RouterTestingHarness.create();
 
-    await harness.navigateByUrl('/quotes/abc', QuoteDetailPage);
+    await harness.navigateByUrl('/quotes/abc');
+    flushAllQuotesRequests(httpMock);
     harness.detectChanges();
 
     const el = harness.routeNativeElement as HTMLElement;
     const malformed = el.querySelector('[data-testid="detail-page-status-malformed"]');
     expect(malformed).toBeTruthy();
     expect(malformed!.textContent).toContain('abc');
-    httpMock.expectNone('/api/quotes');
   });
 
   it('PARAM WELL-FORMED BUT NOT FOUND: a numeric id with no matching quote renders not-found, distinct from malformed', async () => {
     localStorage.setItem('devAuthToken', 'fake-token-for-tests');
     const harness = await RouterTestingHarness.create();
 
-    await harness.navigateByUrl('/quotes/9999', QuoteDetailPage);
-    httpMock.expectOne('/api/quotes').flush(sample);
+    await harness.navigateByUrl('/quotes/9999');
+    flushAllQuotesRequests(httpMock);
     harness.detectChanges();
 
     const el = harness.routeNativeElement as HTMLElement;
@@ -116,12 +130,53 @@ describe('QuoteDetailPage (routed, guarded, lazy)', () => {
     localStorage.setItem('devAuthToken', 'fake-token-for-tests');
     const harness = await RouterTestingHarness.create();
 
-    const activated = await harness.navigateByUrl('/quotes/1', QuoteDetailPage);
-    httpMock.expectOne('/api/quotes').flush(sample);
+    const activated = await harness.navigateByUrl('/quotes/1');
+    flushAllQuotesRequests(httpMock);
     harness.detectChanges();
 
     expect(activated).toBeTruthy();
     const el = harness.routeNativeElement as HTMLElement;
     expect(el.querySelector('[data-testid="detail-page-content"]')).toBeTruthy();
+  });
+});
+
+// Component-level stale-response guard test, mirroring the pattern the carried Day 13
+// QuoteBrowser RACE test used (component created directly, id driven via setInput())
+// rather than full router navigation -- this isolates the guard itself from the
+// double-request complexity nested routing introduces above (see flushAllQuotesRequests).
+describe('QuoteDetailPage stale-response guard (component-level)', () => {
+  let fixture: ComponentFixture<QuoteDetailPage>;
+  let httpMock: HttpTestingController;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [QuoteDetailPage],
+      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
+    }).compileComponents();
+    fixture = TestBed.createComponent(QuoteDetailPage);
+    httpMock = TestBed.inject(HttpTestingController);
+  });
+
+  afterEach(() => {
+    httpMock.verify();
+  });
+
+  it('RACE: discards a stale detail response when the id changes before it resolves (id 1, then id 2, flush 1 last -> shows 2)', () => {
+    fixture.componentRef.setInput('id', '1');
+    fixture.detectChanges();
+
+    fixture.componentRef.setInput('id', '2');
+    fixture.detectChanges();
+
+    const pending = httpMock.match('/api/quotes');
+    expect(pending.length).toBe(2);
+
+    // Flush OUT OF ORDER: id=2's response resolves first, id=1's resolves last.
+    pending[1].flush(sample);
+    pending[0].flush(sample);
+    fixture.detectChanges();
+
+    const el = fixture.nativeElement as HTMLElement;
+    expect(el.querySelector('.quote-detail-page__text')?.textContent).toContain('Policies make intent explicit.');
   });
 });

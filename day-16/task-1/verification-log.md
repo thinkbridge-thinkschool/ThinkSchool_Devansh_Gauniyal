@@ -1,5 +1,85 @@
 # Verification log — day-16/task-1
 
+## Post-submission changes (Devansh's direct follow-up, after the graded submission below)
+
+After the graded submission (everything below this section) was pushed, Devansh asked
+for three product changes while manually verifying the app in a browser:
+
+1. Clicking a quote should navigate straight to its own page, not just show an inline
+   preview.
+2. The sign-in screen should be a real `/login` URL.
+3. The signed-in app should live at `/`.
+
+**What changed, concretely:**
+- `App` (`app.ts`/`app.html`) is now a thin shell -- just `<router-outlet />`. Everything
+  it used to render directly (the auth gate, the demo panel, both forms, the quote list)
+  moved into two new lazy-loaded pages: `home-page/` (route `''`, guarded by the
+  existing `authGuard`) and `auth/login-page/` (route `'login'`, guarded by a new,
+  symmetrical `guestOnlyGuard` that redirects an already-signed-in visitor back to `/`).
+- `authGuard`'s redirect target changed from `'/'` to `'/login'` (`auth.guard.ts`), since
+  `/login` is now the real page to send an unauthenticated visitor to.
+- `quotes` / `quotes/:id` became children of `''` in `app.routes.ts`, so they render
+  inside `HomePage`'s own nested `<router-outlet />` and inherit its guard (they also
+  keep their own `canActivate: [authGuard]` directly, so the existing "guard attached to
+  the detail route" test keeps asserting against those exact route entries).
+- `QuoteBrowser`'s inline detail pane and `selectQuote()` were removed entirely
+  (`quote-browser.ts`/`.html`/`.css`) -- each list item is now a single `routerLink` to
+  `/quotes/:id`. This is a real, deliberate loss of the old Day 13 stale-response-guard
+  demonstration's original home; the same guard pattern already existed independently in
+  `quote-detail-page.ts`'s `loadOnIdChange` effect, so a new component-level RACE test
+  was added there (`quote-detail-page.spec.ts`, describe block
+  "QuoteDetailPage stale-response guard (component-level)") to keep that coverage alive
+  under its new, correct home rather than losing it.
+
+**Real test/build evidence for this round:**
+- `quote-browser.spec.ts` and `quote-browser-friendly-error.spec.ts`: pruned the
+  detail-pane-specific tests (LOADING/ERROR/RACE/AUTHOR for detail), kept every list-only
+  test unchanged, added one test asserting each row's `routerLink` `href` is
+  `/quotes/<id>`.
+- `app.spec.ts`: reduced to one test confirming the shell renders its outlet -- the
+  behavioral tests it used to hold moved to `home-page.spec.ts` and `login-page.spec.ts`.
+- `app.routes.spec.ts`: updated the structural check for the new nested shape, and added
+  three real `RouterTestingHarness` navigations proving the actual redirect behavior:
+  unauthenticated `/` → `/login`; authenticated `/login` → `/`; authenticated `/` renders
+  `HomePage` with `app-quote-browser` present.
+- `auth.guard.spec.ts`: updated the expected `UrlTree` target to `/login`, and the route-
+  config assertion to look under `home.children` for the two quote routes and directly at
+  the home route itself.
+- New `guest-only.guard.spec.ts`: authenticated/unauthenticated/route-config-attached,
+  mirroring `auth.guard.spec.ts`'s structure for the inverse guard.
+- One real fix mid-way: `RouterTestingHarness.navigateByUrl('/quotes/1', QuoteDetailPage)`
+  in the pre-existing detail-page tests broke immediately after nesting, because the
+  harness's top-level activated component became `HomePage` (the parent route), not
+  `QuoteDetailPage` (now a grandchild of the harness's own root outlet) -- real error was
+  a `toBeNull()`/type-mismatch failure on `GUARD REDIRECT`, since redirecting to `/login`
+  now activates a REAL page (`LoginPage`) instead of matching nothing, so `activated` was
+  no longer `null`. Fixed by dropping the required-component-type argument, querying
+  `harness.routeNativeElement` for specific `data-testid`s instead of asserting the
+  top-level component's identity, and rewriting the `GUARD REDIRECT` assertion to check
+  that `LoginPage` (not the detail page) actually rendered.
+- Nested routing also means `HomePage`'s own `QuoteBrowser` and `QuoteDetailPage`
+  independently call `GET /api/quotes` on most navigations now (two requests to the same
+  URL, not one) -- handled in tests with a small `flushAllQuotesRequests()` helper that
+  flushes every currently-pending match rather than assuming exactly one.
+- Full suite after all of the above: **18 test files / 94 tests, all passing**
+  (`npm test`), all `verify-structural.mjs` checks passing.
+- Fresh production build (`output/build-after-login-split.txt`): initial bundle dropped
+  to **2.06 kB** for `main.js` (plus a ~259 kB shared framework chunk) -- `home-page`
+  (52.66 kB), `login-page` (662 bytes) and `quote-detail-page` (3.63 kB) are now all
+  separate lazy chunks, none of which appear in the eager files by the same grep method
+  used in `output/lazy-load-proof.md`.
+
+**Operational note, not a code bug:** while manually verifying this in a browser, the
+local `ng serve` was twice started as plain `npm start` (`ng serve` with no
+`--proxy-config`), which silently serves the SPA shell for every `/api/*` request instead
+of forwarding to the real QuotesApi on port 5080 -- the browser then shows the same
+generic "Sign-in failed" message a real 401 would, with no way to tell the two apart from
+the UI alone. Confirmed by `curl http://localhost:4200/api/quotes` returning `index.html`
+instead of JSON. Not a defect in the app or its routes; `npm start` genuinely doesn't wire
+`proxy.conf.json` in unless `angular.json`'s serve target sets `proxyConfig` (it
+currently doesn't, carried unchanged from day-15). The fix each time was operational
+(restart with `--proxy-config proxy.conf.json`), not a source change.
+
 ## Network-tab confirmation (Devansh's own — PENDING)
 
 The build-output proof in `output/lazy-load-proof.md` is the primary evidence per the

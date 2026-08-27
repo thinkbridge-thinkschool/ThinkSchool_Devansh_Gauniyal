@@ -1,5 +1,30 @@
 # Provenance — day-16/task-1
 
+## Addendum: post-submission changes (Devansh's direct follow-up)
+
+After the graded submission below was pushed, Devansh asked for a real `/login` route,
+`/` as the authenticated home page, and click-to-navigate quote rows (replacing the old
+inline preview). Full reasoning and evidence in `verification-log.md`'s "Post-submission
+changes" section. Summary of what moved:
+
+**New:** `src/app/home-page/home-page.ts` (+`.html`, `.css`, `.spec.ts`) -- the routed
+`''` page, lazily loaded, hosting everything `App` used to render directly.
+`src/app/auth/login-page/login-page.ts` (+`.html`, `.css`, `.spec.ts`) -- the routed
+`'login'` page, lazily loaded. `src/app/auth/guest-only.guard.ts` (+`.spec.ts`) -- the
+inverse of `authGuard`, redirects an already-authenticated visitor away from `/login`.
+
+**Modified further:** `app.ts`/`app.html`/`app.css` (reduced to a thin
+`<router-outlet />` shell), `app.routes.ts` (quotes routes nested as children of a new
+guarded `''` route; `login` route added), `app.spec.ts` (reduced to one shell-render
+test), `app.routes.spec.ts` (updated structural check + three real redirect-navigation
+tests), `auth.guard.ts` (redirect target `'/'` → `'/login'`), `auth.guard.spec.ts`
+(updated expected redirect + route-config lookup for the nested shape),
+`quote-browser.ts`/`.html`/`.css`/`.spec.ts` (inline detail pane and `selectQuote()`
+removed; each row is now a single `routerLink` to its own page),
+`quote-detail-page.spec.ts` (fixed for the nested-harness reality, plus a new
+component-level RACE test preserving the stale-response-guard coverage that used to live
+in `quote-browser.spec.ts`).
+
 **Source:** `day-15/task-1` at commit `f1c2121b43ea269079fcc5030b4f3bc0bbcee029` (the
 commit that last touched that folder, and `HEAD` of `day-15/task-1` at the time this
 branch was cut). Verified as the latest complete app in Phase 1 — it carries the Day 13

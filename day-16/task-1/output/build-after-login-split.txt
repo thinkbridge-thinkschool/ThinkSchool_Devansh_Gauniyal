@@ -1,0 +1,22 @@
+❯ Building...
+✔ Building...
+Initial chunk files | Names             |  Raw size | Estimated transfer size
+chunk-BDO34A6Z.js   | -                 | 259.24 kB |                70.31 kB
+main-YXX6HKFJ.js    | main              |   2.06 kB |               909 bytes
+chunk-RHDUD3BL.js   | -                 |   1.15 kB |               461 bytes
+chunk-M4Z4OSZ5.js   | -                 | 264 bytes |               264 bytes
+styles-2CXFVZI3.css | styles            |  75 bytes |                75 bytes
+
+                    | Initial total     | 262.79 kB |                72.02 kB
+
+Lazy chunk files    | Names             |  Raw size | Estimated transfer size
+chunk-UCPK6Y4A.js   | home-page         |  52.66 kB |                13.24 kB
+chunk-QG4ON4RE.js   | -                 |  34.53 kB |                 8.21 kB
+chunk-ON6FIW7K.js   | quote-detail-page |   3.63 kB |                 1.24 kB
+chunk-4AVJTS4H.js   | login-page        | 662 bytes |               662 bytes
+chunk-4RTQJBDR.js   | -                 | 387 bytes |               387 bytes
+
+Application bundle generation complete. [0.974 seconds] - 2026-08-27T06:12:38.700Z
+
+Output location: /Users/devansh/thinkschool/day-16/task-1/dist/app
+

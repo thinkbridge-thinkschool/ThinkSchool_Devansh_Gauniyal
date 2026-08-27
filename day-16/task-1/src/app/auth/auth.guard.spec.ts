@@ -25,17 +25,19 @@ describe('authGuard', () => {
     expect(result).toBe(true);
   });
 
-  it('UNAUTHENTICATED: returns a UrlTree redirecting to "/" (not a boolean) when no token is present', () => {
+  it('UNAUTHENTICATED: returns a UrlTree redirecting to "/login" (not a boolean) when no token is present', () => {
     const result = TestBed.runInInjectionContext(() => authGuard(route, state));
 
     expect(result instanceof UrlTree).toBe(true);
-    expect((result as UrlTree).toString()).toBe('/');
+    expect((result as UrlTree).toString()).toBe('/login');
   });
 
-  it('ROUTE CONFIG: authGuard is actually attached to both quote-detail routes, not just defined in isolation', () => {
-    const quotesRoute = routes.find((r) => r.path === 'quotes');
-    const quotesIdRoute = routes.find((r) => r.path === 'quotes/:id');
+  it('ROUTE CONFIG: authGuard is actually attached to "" (home) and both its quote-detail children, not just defined in isolation', () => {
+    const homeRoute = routes.find((r) => r.path === '');
+    const quotesRoute = homeRoute?.children?.find((r) => r.path === 'quotes');
+    const quotesIdRoute = homeRoute?.children?.find((r) => r.path === 'quotes/:id');
 
+    expect(homeRoute?.canActivate).toContain(authGuard);
     expect(quotesRoute?.canActivate).toContain(authGuard);
     expect(quotesIdRoute?.canActivate).toContain(authGuard);
   });

@@ -1,13 +1,5 @@
 .quote-browser {
-  display: flex;
-  gap: 2rem;
   font-family: inherit;
-}
-
-.quote-browser__list,
-.quote-browser__detail {
-  flex: 1;
-  min-width: 0;
 }
 
 .quote-browser h2 {
@@ -25,7 +17,7 @@
   margin: 0;
 }
 
-.quote-browser__list ul {
+.quote-browser ul {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -34,8 +26,8 @@
   gap: 0.4rem;
 }
 
-.quote-browser__list button {
-  width: 100%;
+.quote-browser li a {
+  display: block;
   text-align: left;
   padding: 0.65rem 0.9rem;
   border: 1px solid #e1e4ea;
@@ -43,51 +35,17 @@
   background: #fafbfc;
   font: inherit;
   color: #12151c;
+  text-decoration: none;
   cursor: pointer;
   transition: border-color 0.12s ease, background-color 0.12s ease;
 }
 
-.quote-browser__list button:hover {
+.quote-browser li a:hover {
   border-color: #98a2b3;
   background: #f2f4f7;
 }
 
-.quote-browser__list button:focus-visible {
+.quote-browser li a:focus-visible {
   outline: 3px solid #1d4ed8;
   outline-offset: 2px;
-}
-
-.quote-browser__list button.selected {
-  border-color: #1d4ed8;
-  background: rgba(29, 78, 216, 0.06);
-}
-
-.quote-browser__list li {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.quote-browser__list li > a {
-  font-size: 0.8rem;
-  color: #1d4ed8;
-  align-self: flex-end;
-}
-
-.quote-browser__detail-text {
-  font-size: 1.05rem;
-  margin: 0 0 0.4rem;
-}
-
-.quote-browser__detail-author {
-  color: #344054;
-  font-size: 0.9rem;
-  font-style: italic;
-  margin: 0 0 0.4rem;
-}
-
-.quote-browser__detail-owner {
-  color: #98a2b3;
-  font-size: 0.8rem;
-  margin: 0;
 }
