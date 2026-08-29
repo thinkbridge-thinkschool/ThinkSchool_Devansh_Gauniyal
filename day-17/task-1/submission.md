@@ -321,6 +321,7 @@ public sealed class ManagedIdentityQuotes(
 
 - **Live API URL:** `https://quotesapi-devansh-d17t1.azurewebsites.net` — real, deployed, verified.
 - **Live SWA URL:** `https://white-smoke-04fabcf10.7.azurestaticapps.net` — real, deployed on a second, unrestricted Azure subscription (see the note above), verified with a live `200` response (`output/swa-live-response.txt`). CORS from this exact origin to the Function was verified with a real preflight request (`output/cors-preflight-check.txt`): `Access-Control-Allow-Origin` echoes it back exactly.
+  - **Demo sign-in for reviewers:** the site's "Sign in" form (dev-login, a local-dev convenience carried from Day 15, not part of the graded exercise) works against the live API with a throwaway demo account created solely for this: email `devansh@live.demo`, password `fi_LcaU0uGfm`. This is not a real user and guards nothing sensitive — the API's own quote data is fake and held only in memory, reset on every restart.
 - **Lighthouse — run for real against the live URL, Chrome 152, headless, both report files saved to `output/`:**
   - Performance: **100**
   - Best Practices: **100**
