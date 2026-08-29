@@ -1,0 +1,37 @@
+.quote-detail-page {
+  font-family: inherit;
+  max-width: 40rem;
+}
+
+.quote-detail-page h2 {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #667085;
+  margin: 0 0 0.75rem;
+}
+
+.quote-detail-page__status {
+  color: #667085;
+  font-size: 0.9rem;
+  margin: 0 0 0.75rem;
+}
+
+.quote-detail-page__text {
+  font-size: 1.05rem;
+  margin: 0 0 0.4rem;
+}
+
+.quote-detail-page__author {
+  color: #344054;
+  font-size: 0.9rem;
+  font-style: italic;
+  margin: 0 0 0.4rem;
+}
+
+.quote-detail-page__owner {
+  color: #98a2b3;
+  font-size: 0.8rem;
+  margin: 0 0 0.75rem;
+}

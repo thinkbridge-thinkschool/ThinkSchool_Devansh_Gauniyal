@@ -1,0 +1,29 @@
+@if (loggedIn()) {
+  <div class="session-bar">
+    <span class="session-bar__text">{{ status() || 'Signed in' }}</span>
+    <button type="button" class="link-button" (click)="logOut()">Sign out</button>
+  </div>
+} @else {
+  <div class="signin-card">
+    <h1 class="signin-card__title">Sign in</h1>
+    <p class="signin-card__hint">Local development sign-in — not part of the graded exercise.</p>
+
+    <form [formGroup]="form" (ngSubmit)="login()">
+      <label>
+        Email
+        <input type="text" formControlName="email" autocomplete="username" />
+      </label>
+      <label>
+        Password
+        <input type="password" formControlName="password" autocomplete="current-password" />
+      </label>
+      <button type="submit" [disabled]="loggingIn()">
+        {{ loggingIn() ? 'Signing in…' : 'Sign in' }}
+      </button>
+    </form>
+
+    @if (status(); as message) {
+      <p class="signin-card__status" role="alert">{{ message }}</p>
+    }
+  </div>
+}
