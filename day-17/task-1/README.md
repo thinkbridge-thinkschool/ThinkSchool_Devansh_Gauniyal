@@ -4,19 +4,23 @@ This task carries the Day 16 Angular application and the Week-1 Quotes API into 
 
 ## Architecture
 
+The app's general traffic (login, browsing, creating quotes) and the managed-identity proof are two separate paths, deliberately — a real bug from pointing the whole app at the Function is documented in `verification-log.md`, and this is the corrected design:
+
 ```text
-Browser
-  -> Angular SPA on Azure Static Web Apps Free
-  -> GET https://<function-app>.azurewebsites.net/api/quotes
-  -> Azure Function on Consumption Y1, using its system-assigned identity
+General app traffic:
+Browser -> Angular SPA on Azure Static Web Apps Free
+        -> real Week-1 API directly (login, GET /api/quotes, POST /api/quotes, ...)
+
+Managed-identity proof (independent of the above):
+Azure Function on Consumption Y1, using its system-assigned identity
   -> bearer token for api://YOUR_CLIENT_ID
   -> authorized GET https://<api-app>.azurewebsites.net/api/protected
   -> anonymous GET https://<api-app>.azurewebsites.net/api/quotes
 ```
 
-The browser cannot hold a managed identity because it runs on a user's device. The standalone Function is the Azure-owned resource that can obtain a token without a client secret. It first calls the genuinely protected `/api/protected` endpoint; only after that succeeds does it fetch the quote list needed by the SPA. Calling the anonymous list alone would not prove authentication.
+The browser cannot hold a managed identity because it runs on a user's device. The standalone Function is the Azure-owned resource that can obtain a token without a client secret. It first calls the genuinely protected `/api/protected` endpoint; only after that succeeds does it fetch the quote list. Calling the anonymous list alone would not prove authentication. This proof stands on its own — captured directly in `output/` — and does not require the SPA to route its own traffic through the Function to be valid evidence; routing *all* SPA traffic through a single-purpose identity-proof Function was the actual mistake this task's own verification log catches and fixes.
 
-The Function is called directly over CORS. It is not linked as a Static Web Apps backend because [linking an existing Function requires the Standard plan](https://learn.microsoft.com/azure/static-web-apps/functions-bring-your-own), which is outside the permitted Free tier. Microsoft also documents that [Static Web Apps' own managed identity is only for retrieving authentication secrets from Key Vault](https://learn.microsoft.com/azure/static-web-apps/faq); a separate Functions app is required for managed identity in this API path.
+The Function is called directly over CORS (for its own proof endpoint only). It is not linked as a Static Web Apps backend because [linking an existing Function requires the Standard plan](https://learn.microsoft.com/azure/static-web-apps/functions-bring-your-own), which is outside the permitted Free tier. Microsoft also documents that [Static Web Apps' own managed identity is only for retrieving authentication secrets from Key Vault](https://learn.microsoft.com/azure/static-web-apps/faq); a separate Functions app is required for managed identity in this API path.
 
 ## Current deployment status
 
