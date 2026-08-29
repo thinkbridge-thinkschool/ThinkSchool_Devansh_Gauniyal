@@ -1,0 +1,8 @@
+HTTP/1.1 401 Unauthorized
+Content-Length: 0
+Date: Sat, 29 Aug 2026 13:38:54 GMT
+Server: Kestrel
+Set-Cookie: ARRAffinity=da4120b0cd2c3bf45e7a522fd31172e3f3306e5d97465e97afa2b8b5d3b0b609;Path=/;HttpOnly;Secure;Domain=quotesapi-devansh-d17t1.azurewebsites.net
+Set-Cookie: ARRAffinitySameSite=da4120b0cd2c3bf45e7a522fd31172e3f3306e5d97465e97afa2b8b5d3b0b609;Path=/;HttpOnly;SameSite=None;Secure;Domain=quotesapi-devansh-d17t1.azurewebsites.net
+WWW-Authenticate: Bearer
+

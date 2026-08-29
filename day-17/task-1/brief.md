@@ -1,6 +1,6 @@
 Take the Angular 21 app from day-16/task-2 and copy it into day-17/task-1 untouched, then deploy it to Azure Static Web Apps on the free tier at [SWA URL]. Do not modify day-16 or anything earlier.
 
-The Week-1 API is the QuotesApi at day-3/task-3/QuotesApi. Copy it into day-17/task-1 as well and deploy that copy to Azure App Service on the free F1 tier at [API URL]. Do not modify the original under day-3.
+The Week-1 API is the QuotesApi at day-3/task-3/QuotesApi. Copy it into day-17/task-1 as well and deploy that copy to Azure App Service on the free F1 tier at https://quotesapi-devansh-d17t1.azurewebsites.net. Do not modify the original under day-3.
 
 Its real endpoints: GET /api/quotes returns a list of quotes shaped { id: number, ownerId: string, text: string, author: string | null } and is anonymous. GET /api/protected and POST /api/quotes both require authorization. POST takes { text: string, author?: string }. The identifier field is id, an int. There are no validation attributes on any request DTO.
 
