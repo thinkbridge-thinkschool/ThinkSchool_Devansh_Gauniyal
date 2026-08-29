@@ -1,0 +1,25 @@
+<section class="quote-browser">
+  <h2>Quotes</h2>
+
+  @if (listLoading()) {
+    <p class="quote-browser__status" data-testid="list-status-loading">Loading quotes…</p>
+  } @else if (listError()) {
+    <p class="quote-browser__status" data-testid="list-status-error">{{ listError() }}</p>
+  } @else if (isEmpty()) {
+    <p class="quote-browser__status" data-testid="list-status-empty">No quotes yet.</p>
+  } @else {
+    <ul data-testid="quote-list">
+      @for (quote of quotes(); track quote.id) {
+        <li>
+          <a
+            [attr.data-testid]="'open-detail-' + quote.id"
+            [routerLink]="['/quotes', quote.id]"
+            [style.view-transition-name]="'quote-detail-' + quote.id"
+          >
+            {{ quote.text }}
+          </a>
+        </li>
+      }
+    </ul>
+  }
+</section>

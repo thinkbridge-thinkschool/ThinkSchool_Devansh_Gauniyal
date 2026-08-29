@@ -1,0 +1,66 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { Router, provideRouter } from '@angular/router';
+import { HomePage } from './home-page';
+import { QuotesStore } from '../quotes/quotes-store';
+import { routes } from '../app.routes';
+
+describe('HomePage', () => {
+  let fixture: ComponentFixture<HomePage>;
+  let httpMock: HttpTestingController;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [HomePage],
+      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter(routes)],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(HomePage);
+    httpMock = TestBed.inject(HttpTestingController);
+  });
+
+  afterEach(() => {
+    httpMock.verify();
+  });
+
+  it('mounts the quote browser, both create-a-quote forms, and the demo panel', () => {
+    fixture.detectChanges();
+    httpMock.expectOne('/api/quotes').flush([]);
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('app-quote-browser')).toBeTruthy();
+    expect(compiled.querySelector('app-create-quote-form')).toBeTruthy();
+    expect(compiled.querySelector('app-create-quote-form-signals')).toBeTruthy();
+    expect(compiled.querySelector('app-http-demo-panel')).toBeTruthy();
+  });
+
+  // Was: "forwards a just-created quote into the quote browser", asserting on
+  // HomePage's own `justCreated` bridge signal. That signal is gone -- HomePage no
+  // longer holds a copy of this state at all (see home-page.ts's own header comment) --
+  // so this now asserts the thing that signal used to be FOR: a quote added through
+  // the shared QuotesStore shows up in the mounted QuoteBrowser's rendered list,
+  // proving the two components genuinely share one store instance under this host.
+  it('STORE-BACKED: a quote added through the shared store appears in the mounted quote browser', () => {
+    fixture.detectChanges();
+    httpMock.expectOne('/api/quotes').flush([]);
+
+    const store = TestBed.inject(QuotesStore);
+    store.addQuote({ id: 9, ownerId: 'user-9', text: 'Newly created.' });
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('[data-testid="open-detail-9"]')?.textContent?.trim()).toBe('Newly created.');
+  });
+
+  it('LOGOUT: navigates to /login when DevLogin emits loggedOut', async () => {
+    fixture.detectChanges();
+    httpMock.expectOne('/api/quotes').flush([]);
+    const router = TestBed.inject(Router);
+    const navigateSpy = vi.spyOn(router, 'navigateByUrl').mockImplementation(() => Promise.resolve(true));
+
+    fixture.componentInstance['onLoggedOut']();
+
+    expect(navigateSpy).toHaveBeenCalledWith('/login');
+  });
+});

@@ -1,0 +1,9 @@
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+Date: Sat, 29 Aug 2026 13:38:54 GMT
+Transfer-Encoding: chunked
+X-Managed-Identity-Audience-Verified: true
+X-Managed-Identity-Role-Verified: Api.Access
+X-Managed-Identity-Authorized-Endpoint: /api/protected
+
+[{"id":1,"ownerId":"user-1","text":"Security is a process.","author":null},{"id":2,"ownerId":"user-2","text":"Policies make intent explicit.","author":null}]

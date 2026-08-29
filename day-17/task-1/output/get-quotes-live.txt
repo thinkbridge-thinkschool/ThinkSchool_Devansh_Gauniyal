@@ -1,0 +1,2 @@
+[{"id":1,"ownerId":"user-1","text":"Security is a process.","author":null},{"id":2,"ownerId":"user-2","text":"Policies make intent explicit.","author":null}]
+HTTP_STATUS:200

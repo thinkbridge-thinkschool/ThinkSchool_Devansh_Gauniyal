@@ -1,0 +1,2 @@
+{"error":{"code":"managed_identity_claims_invalid","message":"The managed-identity token did not contain the configured audience and Api.Access role."}}
+HTTP_STATUS:403
