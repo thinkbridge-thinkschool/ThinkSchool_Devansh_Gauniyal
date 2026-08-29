@@ -10,15 +10,19 @@ https://github.com/thinkbridge-thinkschool/ThinkSchool_Devansh_Gauniyal/tree/day
 
 This replicates `day-16/task-2` at commit `83af57d8ff88d86d4e252a3cb88c3b4d4787ad22` and adds the Azure deployment; earlier folders are unchanged.
 
-**Current status: the API and the managed-identity Function are live on Azure and the auth chain is proven end-to-end, for real. Only the Static Web App (the browser-facing hop) remains blocked, by a subscription-level Azure Policy, not by code, tests, or effort.** The subscription's system-managed "Allowed resource deployment regions" policy permits only `centralindia, austriaeast, uaenorth, koreacentral, malaysiawest`. Azure Static Web Apps deploys only to `centralus, eastus2, westus2, westeurope, eastasia`. Zero overlap — checked exhaustively, region by region, including the one policy-exempt pseudo-location (`global`), which Azure itself also rejected for this resource type. A scoped policy exemption and an owner-initiated parameter update were both attempted and both rejected by Azure directly; a direct RBAC check confirmed this account already holds `Owner` (the maximum role at subscription scope) and still cannot touch the policy, because it was created by an automated system application at subscription provisioning time, not by any human admin. Microsoft support case `2608290030000568` asks only that `eastasia` be added to the allowed list; still open as of this submission.
+**Current status: everything is live. The API, the managed-identity Function, and the Static Web App are all deployed and the full chain is proven end-to-end, for real, including a real Lighthouse run.**
 
-Everything else in the architecture, however, **is live**: App Service (F1), the Function App (Consumption, system-assigned managed identity), and Storage were deployed to `centralindia`, which this subscription does permit. The `Api.Access` app role was manually assigned to the Function's identity (the one directory-level step this task requires a human to perform), and the full chain was proven working end-to-end — see section 3.
+Getting there took an unplanned detour: the original subscription's system-managed "Allowed resource deployment regions" policy permitted only `centralindia, austriaeast, uaenorth, koreacentral, malaysiawest`, while Azure Static Web Apps deploys only to `centralus, eastus2, westus2, westeurope, eastasia` — zero overlap, checked exhaustively including the one policy-exempt pseudo-location (`global`), which Azure itself also rejected for this resource type. A scoped policy exemption and an owner-initiated parameter update were both attempted and both rejected by Azure directly; a direct RBAC check confirmed the account already held `Owner` (the maximum role at subscription scope) and still could not touch the policy, because it was created by an automated system application at subscription provisioning time, not by any human admin. A Microsoft support case (`2608290030000568`) was filed asking only that one supported region be enabled; it remained unresolved throughout.
+
+The API, Storage, and Function App (with its system-assigned managed identity) were deployed to `centralindia` on the original subscription, which does permit those resource types, and the `Api.Access` app role was manually assigned to the Function's identity — the one directory-level step this task requires a human, not an agent, to perform. That chain was proven working end-to-end before the Static Web App existed anywhere.
+
+For the Static Web App specifically, Devansh signed up for a second, genuinely unrestricted Azure subscription (a real Azure Free Account — confirmed via Microsoft's own signup flow that this was a first-time redemption, not a second Azure-for-Students offer). That subscription has no region policy at all (confirmed directly: an empty policy-assignment list). Because that subscription lives in a different Microsoft Entra tenant than `quotes-api`, the API and Function stayed exactly where they already worked — only the Static Web App, which needs no identity of its own, was created there. It calls the already-live Function over plain HTTPS/CORS, which is unaffected by the subscription or tenant boundary; only managed-identity token acquisition is tenant-bound, and that was already solved.
 
 ### 1. The brief
 
 Verbatim from `brief.md`. The two bracketed URLs remain literal placeholders because no live deployment exists yet — filling them in would be fabricating evidence.
 
-> Take the Angular 21 app from day-16/task-2 and copy it into day-17/task-1 untouched, then deploy it to Azure Static Web Apps on the free tier at [SWA URL]. Do not modify day-16 or anything earlier.
+> Take the Angular 21 app from day-16/task-2 and copy it into day-17/task-1 untouched, then deploy it to Azure Static Web Apps on the free tier at https://white-smoke-04fabcf10.7.azurestaticapps.net. Do not modify day-16 or anything earlier.
 >
 > The Week-1 API is the QuotesApi at day-3/task-3/QuotesApi. Copy it into day-17/task-1 as well and deploy that copy to Azure App Service on the free F1 tier at https://quotesapi-devansh-d17t1.azurewebsites.net. Do not modify the original under day-3.
 >
@@ -316,8 +320,13 @@ public sealed class ManagedIdentityQuotes(
 ### 3. The verification log
 
 - **Live API URL:** `https://quotesapi-devansh-d17t1.azurewebsites.net` — real, deployed, verified.
-- **Live SWA URL:** none yet — still blocked by the Azure Policy described above. It is the one outstanding piece of this deliverable.
-- **Lighthouse:** not run — there is no live frontend URL yet to run it against. Chrome 152 is installed and ready; the moment a Static Web Apps URL exists, `npx lighthouse <url> --output=json --output=html --chrome-flags="--headless"` is the only step remaining.
+- **Live SWA URL:** `https://white-smoke-04fabcf10.7.azurestaticapps.net` — real, deployed on a second, unrestricted Azure subscription (see the note above), verified with a live `200` response (`output/swa-live-response.txt`). CORS from this exact origin to the Function was verified with a real preflight request (`output/cors-preflight-check.txt`): `Access-Control-Allow-Origin` echoes it back exactly.
+- **Lighthouse — run for real against the live URL, Chrome 152, headless, both report files saved to `output/`:**
+  - Performance: **100**
+  - Best Practices: **100**
+  - Accessibility: **88** — failing audits: `color-contrast` (insufficient background/foreground contrast somewhere on the page), `landmark-one-main` (no `<main>` landmark)
+  - SEO: **82** — failing audits: `meta-description` (no meta description tag), `robots-txt` (the default robots.txt Static Web Apps serves isn't valid for this app's actual routes)
+  Two of four categories are below the 95 target. Reported exactly as measured — nothing was re-run or tuned to chase a higher number.
 - **Managed-identity proof — real, live, captured to `output/`:**
   - The `Api.Access` app role on `quotes-api` was assigned to the Function's system-assigned identity manually (the one directory-level step this task requires a human, not an agent, to perform), via `az rest` against the Microsoft Graph API — confirmed by a real response naming both principals and the role.
   - **Before the assignment** (`output/function-call-before-role-assignment.txt`): `GET .../api/quotes` on the Function → `403`, `{"error":{"code":"managed_identity_claims_invalid",...}}` — the Function correctly refused to proceed with an incomplete identity.
@@ -344,7 +353,7 @@ public sealed class ManagedIdentityQuotes(
   - verification-log.md contains a possible connection string.
   ```
   All four were false positives (the word "account" appearing in ordinary prose, and the script's own source containing its own pattern list). Fixed by requiring the actual compound key-value tokens a real Azure connection string uses (`DefaultEndpointsProtocol`, `AccountKey`, `SharedAccessSignature`, each followed by an equals sign) and excluding the script's own source from the scan. Proven with two real mutation checks: injecting a fake connection-string-shaped value produced a real, specific failure, then reverting produced a clean pass; breaking `staticwebapp.config.json`'s `navigationFallback.rewrite` produced a real failure naming exactly that field, then reverting produced a clean pass again. Full command output is in `verification-log.md`.
-- **What breaks if the API's auth or a key endpoint changes:** if `Entra:Audience` or `Entra:TenantId` ever changes without updating the Function's `EntraAudience` setting, the `SmartBearer` issuer-routing scheme sends the resulting token to the wrong JWT handler and it fails with a 401 that looks identical to a bad password — nothing distinguishes "wrong audience" from "no token" from the outside. If `GET /api/protected`'s route or its `RequireAuthorization()` policy is ever removed, the Function's whole proof-of-auth path breaks silently, since that route is the only one the Function uses to demonstrate the token is real.
+- **What breaks if the API's auth or a key endpoint changes:** if `Entra:Audience` or `Entra:TenantId` ever changes without updating the Function's `EntraAudience` setting, the `SmartBearer` issuer-routing scheme sends the resulting token to the wrong JWT handler and it fails with a 401 that looks identical to a bad password — nothing distinguishes "wrong audience" from "no token" from the outside. If `GET /api/protected`'s route or its `RequireAuthorization()` policy is ever removed, the Function's whole proof-of-auth path breaks silently, since that route is the only one the Function uses to demonstrate the token is real. One more fragility specific to this deployment: the Function's CORS allow-list names the SWA's exact hostname; if the Static Web App is ever deleted and recreated, Azure assigns it a brand-new random hostname, and every browser call from the new site would fail CORS until that setting is updated to match.
 
 ### Interpretations
 
@@ -355,7 +364,8 @@ public sealed class ManagedIdentityQuotes(
 - The API's in-memory `Dictionary`-backed store does not survive an App Service restart; this is a demo-scale limitation, not something this task changes.
 - No Azure SQL was provisioned despite the "Azure SQL + Managed Identity" topic tag — that tag names a topic, not a requirement; nothing in the exercise text asks for a database.
 - The CI workflow lives inside `day-17/task-1/.github/workflows/`, not the repository-root `.github/workflows/`, so it cannot change repository-wide CI behavior outside this task's folder without a deliberate separate copy.
-- Lighthouse: Chrome 152 is installed locally and ready to run; not yet executed because there is no live URL yet.
+- Lighthouse: Chrome 152, run for real against the live Static Web App URL — see section 3 for scores and failing audits.
+- The Static Web App had to be deployed on a second, separate Azure subscription (a genuinely unrestricted Azure Free Account) because the original subscription's region policy has zero overlap with Static Web Apps' supported regions; the API and Function stayed on the original subscription since managed identity is tenant-bound and would not work across the subscription boundary.
 
 ## What did you learn this session?
 

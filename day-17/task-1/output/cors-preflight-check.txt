@@ -1,0 +1,5 @@
+HTTP/1.1 200 OK
+Content-Length: 0
+Date: Sat, 29 Aug 2026 15:31:18 GMT
+Access-Control-Allow-Origin: https://white-smoke-04fabcf10.7.azurestaticapps.net
+

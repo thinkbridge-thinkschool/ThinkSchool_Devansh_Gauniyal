@@ -136,5 +136,29 @@ Confirmed successful: real response with `principalDisplayName: "mi-bridge-devan
 - **7A/7B, real call, no immediate success:** `curl https://mi-bridge-devansh-d17t1.azurewebsites.net/api/quotes` immediately after the assignment still returned `403 managed_identity_claims_invalid`. Cause: Azure.Identity's managed-identity credential caches the acquired token in-process for its full lifetime (tens of minutes), so the Function was still serving the token it had acquired *before* the role existed. Correction: `az functionapp restart` to force the process (and its cached token) to restart, then retried.
 - **7A/7B, real success, captured to `output/function-call-after-role-assignment.txt`:** `GET https://mi-bridge-devansh-d17t1.azurewebsites.net/api/quotes` returned `200 OK` with headers `X-Managed-Identity-Audience-Verified: true`, `X-Managed-Identity-Role-Verified: Api.Access`, `X-Managed-Identity-Authorized-Endpoint: /api/protected`, and the real two-quote payload. This is the response-header proof the audience and role checks in `ManagedIdentityQuotes.cs` passed for a real token, without the token's value ever being printed anywhere — the endpoint proven is `GET /api/protected`, the genuinely authorized route, not the anonymous quotes list.
 - **7C, the negative, re-captured fresh to `output/get-protected-401-live.txt`:** `GET https://quotesapi-devansh-d17t1.azurewebsites.net/api/protected` with no Authorization header at all still returns `401` with `WWW-Authenticate: Bearer` and no body — proving the positive result above is meaningful and not just an endpoint that accepts anything.
-- **7D, Lighthouse:** still not run. There is no live Angular frontend anywhere yet — Static Web Apps is still blocked by the region policy, and nothing else in this session substitutes for it. This is the one piece of the deliverable that remains genuinely outstanding.
+- **7D, Lighthouse:** run for real, against a real live URL — see the next section for how that URL came to exist.
 - **7E, states exercised:** loading/error/empty via the 107 (now 110) carried Angular tests, unchanged; the 401-without-token state via the live capture above, for real, against the real deployed API.
+
+## Static Web Apps — unblocked via a second, unrestricted Azure subscription
+
+Devansh signed up for a genuinely separate Azure subscription (a real "Azure Free Account," not a second Azure-for-Students offer) after confirming with Microsoft's own signup flow that this account had never redeemed that specific offer before. `az login --use-device-code` authenticated it; `az policy assignment list` on it returned an empty list — no region restriction at all, confirmed directly, not assumed.
+
+**Architecture decision, made before creating anything:** the new subscription lives in a different Microsoft Entra tenant than the one `quotes-api` is registered in (confirmed by comparing `az account show`'s tenant id on each — neither reproduced here, see the security-scan note). A managed identity can only acquire tokens for resources in its own tenant, so the API and the managed-identity Function had to stay exactly where they already were, proven working. Only the Static Web App — which has no identity of its own and just serves static files to a browser — was created in the new subscription. The browser calling the Function across subscriptions/tenants over plain HTTPS is unaffected by any of this; only token acquisition is tenant-bound, and that already happened correctly.
+
+- `az group create --name rg-day17-task1-swa --location centralus` (new subscription) — succeeded. Central US is one of Static Web Apps' five supported regions.
+- First `az staticwebapp create` failed: `MissingSubscriptionRegistration` for `Microsoft.Web` — routine first-use registration needed on a brand-new subscription, not a policy block. `az provider register --namespace Microsoft.Web`, waited for `Registered`, retried — succeeded. Real URL: `https://white-smoke-04fabcf10.7.azurestaticapps.net`.
+- Rebuilt the Angular app pointed at the already-live Function: `npm run build -- --define "BUILD_API_BASE_URL='https://mi-bridge-devansh-d17t1.azurewebsites.net'"`. Confirmed the URL was actually embedded (`grep -rl` on the built JS) and that `staticwebapp.config.json` was copied into the build output.
+- Deployed with the Static Web Apps CLI (`npx @azure/static-web-apps-cli deploy`), token supplied only via the `SWA_CLI_DEPLOYMENT_TOKEN` environment variable, never as a visible argument, never printed, never written to a file.
+- **Live verification, captured to `output/swa-live-response.txt`:** `GET https://white-smoke-04fabcf10.7.azurestaticapps.net/` → `200`, real Angular `index.html`.
+- Configured CORS on the Function App (in the original subscription) to allow the new SWA's exact origin: `az functionapp cors add --allowed-origins https://white-smoke-04fabcf10.7.azurestaticapps.net`. **Verified with a real CORS preflight** (`output/cors-preflight-check.txt`): `OPTIONS /api/quotes` with `Origin: https://white-smoke-...` → `200` with `Access-Control-Allow-Origin` echoing the exact SWA origin back.
+- **Lighthouse, run for real against the live URL**, Chrome 152, headless:
+  ```
+  npx lighthouse https://white-smoke-04fabcf10.7.azurestaticapps.net/ \
+    --output=json --output=html --chrome-flags="--headless --no-sandbox"
+  ```
+  Real scores, not tuned, both files saved to `output/lighthouse-report.report.{json,html}`:
+  - Performance: **100**
+  - Best Practices: **100**
+  - Accessibility: **88** — failing audits: `color-contrast` (background/foreground contrast insufficient somewhere on the page), `landmark-one-main` (no `<main>` landmark)
+  - SEO: **82** — failing audits: `meta-description` (no meta description tag), `robots-txt` (robots.txt is not valid — Static Web Apps serves a default one that doesn't match this app's actual routes)
+  Two of four categories are below 95. Reported exactly as measured; nothing was re-run or tuned to chase a higher number.

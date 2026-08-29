@@ -20,13 +20,15 @@ The Function is called directly over CORS. It is not linked as a Static Web Apps
 
 ## Current deployment status
 
-The API and the managed-identity Function are live, and the auth chain is proven end-to-end for real:
+Everything is live, across two Azure subscriptions:
 
-- API: `https://quotesapi-devansh-d17t1.azurewebsites.net` (App Service, F1, `centralindia`)
-- Function: `https://mi-bridge-devansh-d17t1.azurewebsites.net` (Consumption, system-assigned identity, `centralindia`)
-- The `Api.Access` app role was manually assigned to the Function's identity; a live call to the Function now returns `200` with headers proving a real managed-identity token's audience and role were verified against the genuinely authorized `GET /api/protected` — see `verification-log.md` and `submission.md` for the full capture.
+- API: `https://quotesapi-devansh-d17t1.azurewebsites.net` (App Service, F1, `centralindia`, original "Azure for Students" subscription)
+- Function: `https://mi-bridge-devansh-d17t1.azurewebsites.net` (Consumption, system-assigned identity, `centralindia`, same subscription)
+- Static Web App: `https://white-smoke-04fabcf10.7.azurestaticapps.net` (Free tier, `centralus`, a **second**, unrestricted Azure subscription)
 
-**Static Web Apps remains blocked.** The Azure for Students system policy on this subscription allows only Central India, Austria East, UAE North, Korea Central, and Malaysia West, while Static Web Apps is offered only in Central US, East US 2, West US 2, West Europe, and East Asia. The lists do not overlap; the other four resource types above happen to run in `centralindia`, which Static Web Apps does not. Microsoft support case `2608290030000568` asks only for East Asia to be added to the system-managed region list; still open.
+The `Api.Access` app role was manually assigned to the Function's identity; a live call to the Function returns `200` with headers proving a real managed-identity token's audience and role were verified against the genuinely authorized `GET /api/protected` — see `verification-log.md` and `submission.md` for the full capture. The Static Web App calls that same Function over CORS, verified with a real preflight request.
+
+**Why two subscriptions:** the original "Azure for Students" subscription carries a system-managed "Allowed resource deployment regions" policy (`centralindia, austriaeast, uaenorth, koreacentral, malaysiawest`), which has zero overlap with the five regions Static Web Apps supports (`centralus, eastus2, westus2, westeurope, eastasia`) — proven exhaustively, not assumed; a scoped exemption and an owner-initiated policy update were both directly rejected by Azure. A Microsoft support case (`2608290030000568`) asking for one region to be added was filed and remained unresolved. Devansh instead signed up for a second, genuinely unrestricted Azure subscription (a real Azure Free Account, confirmed as a first-time offer redemption). That subscription lives in a different Microsoft Entra tenant than `quotes-api`, and managed identity is tenant-bound, so the API and Function stayed exactly where they already worked; only the Static Web App — which needs no identity of its own — was created on the new subscription.
 
 ## Configuration and security
 
@@ -83,11 +85,14 @@ Function App:      mi-bridge-devansh-d17t1 (Windows Consumption/Y1 — Linux Con
 
 Deployment commands obtained the real tenant and client identifiers from the process environment, applied them only as Azure application settings, and never wrote or displayed them. API settings: `Entra__TenantId`, `Entra__Audience`, and a freshly `openssl rand`-generated `InternalJwt__SigningKeyBase64`. Function settings: `QuotesApiBaseUrl`, `EntraAudience`, and `AzureWebJobsStorage__accountName` (identity-based, after removing the connection string `az functionapp create` added by default).
 
-Static Web Apps still cannot be created on this subscription — see "Current deployment status" above. When support enables a supported region, it should be created there with:
+Static Web Apps still cannot be created on this subscription — see "Current deployment status" above for why. It was instead created on a second, unrestricted subscription:
 
 ```text
-Static Web Apps: Free tier
+resource group:    rg-day17-task1-swa (second Azure subscription, different Entra tenant)
+Static Web App:    swa-day17-task1-devansh (Free tier, centralus)
 ```
+
+CORS on the Function App (original subscription) was updated to allow exactly this Static Web App's origin, verified with a real preflight request — see `verification-log.md`.
 
 ## Custom domain decision
 
@@ -95,14 +100,21 @@ The deployment uses the default `*.azurestaticapps.net` hostname. Static Web App
 
 ## Teardown
 
-Delete each real workload explicitly, then the resource group (a Static Web App would be added to this list once one exists):
+Delete each real workload explicitly, then its resource group. Two subscriptions are involved — switch with `az account set --subscription <id>` between blocks, or pass `--subscription` on each command.
 
+Original subscription (API, Function, Storage):
 ```bash
 az functionapp delete --name mi-bridge-devansh-d17t1 --resource-group rg-thinkschool-d17-t1
 az storage account delete --name stday17task1devansh --resource-group rg-thinkschool-d17-t1 --yes
 az webapp delete --name quotesapi-devansh-d17t1 --resource-group rg-thinkschool-d17-t1
 az appservice plan delete --name plan-day17-t1-api --resource-group rg-thinkschool-d17-t1 --yes
 az group delete --name rg-thinkschool-d17-t1 --yes --no-wait
+```
+
+Second subscription (Static Web App):
+```bash
+az staticwebapp delete --name swa-day17-task1-devansh --resource-group rg-day17-task1-swa --yes
+az group delete --name rg-day17-task1-swa --yes --no-wait
 ```
 
 The existing `quotes-api` app registration is not created by this task and must not be deleted during teardown. Neither is the `Api.Access` app-role assignment on it — removing it (rather than deleting the whole registration) is the correct, narrower cleanup step if the Function identity's access should be revoked without touching the registration itself:

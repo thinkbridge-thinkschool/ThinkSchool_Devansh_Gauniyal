@@ -1,0 +1,26 @@
+HTTP/2 200 
+content-type: text/html
+date: Sat, 29 Aug 2026 15:31:18 GMT
+cache-control: public, must-revalidate, max-age=30
+etag: "57300386"
+last-modified: Sat, 29 Aug 2026 15:30:15 GMT
+content-length: 790
+strict-transport-security: max-age=10886400; includeSubDomains; preload
+referrer-policy: same-origin
+x-content-type-options: nosniff
+x-xss-protection: 1; mode=block
+x-dns-prefetch-control: off
+
+<!doctype html>
+<html lang="en" data-beasties-container>
+  <head>
+    <meta charset="utf-8">
+    <title>App</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <style>*,*:before,*:after{box-sizing:border-box}body{margin:0;background:#f6f7f9}</style><link rel="stylesheet" href="styles-2CXFVZI3.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="styles-2CXFVZI3.css"></noscript></head>
+  <body>
+    <app-root></app-root>
+  <link rel="modulepreload" href="chunk-CAQ44VNN.js"><link rel="modulepreload" href="chunk-RHDUD3BL.js"><link rel="modulepreload" href="chunk-M7RJXQDU.js"><script src="main-JP5YONKQ.js" type="module"></script></body>
+</html>
