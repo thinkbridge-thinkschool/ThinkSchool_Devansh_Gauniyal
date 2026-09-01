@@ -371,7 +371,7 @@ public sealed class ManagedIdentityQuotes(
 
 ## What did you learn this session?
 
-I assumed a free-tier resource was blocked only by its own tier limits, but a subscription can carry a completely separate region policy that vetoes it regardless of tier — and once that's a system-managed policy, no exemption or override request from my account can lift it, only Microsoft support can.
+Building this taught me what a managed identity actually is: a way for one piece of cloud infrastructure to prove who it is to another, with no password anywhere — the cloud provider itself vouches for it, the way a bouncer recognizes a regular by face instead of checking ID. That trust turned out to be scoped tightly, though: it only works between resources sitting in the exact same identity system, so my API and my Function had to live in the same Microsoft "directory," not just the same Azure account.
 
 ## What would break this?
 

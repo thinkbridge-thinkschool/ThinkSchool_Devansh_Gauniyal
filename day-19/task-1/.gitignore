@@ -1,0 +1,13 @@
+bin/
+obj/
+.env
+.env.*
+!.env.example
+secrets.json
+local.settings.json
+*.p12
+*.pfx
+*.pem
+*.key
+emulator/mssql-data/
+output/*.db
