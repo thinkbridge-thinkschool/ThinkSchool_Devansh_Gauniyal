@@ -1,0 +1,17 @@
+{
+  "scenario": "CRASH_B_die_after_publish_before_mark_sent",
+  "claim": "A duplicate delivery occurs (publisher/consumer receive the message twice) but it is not a loss, and the idempotent consumer\u0027s dedupe table means only one side effect is ever applied.",
+  "beforeRestart": {
+    "Id": "58275483-60e3-4d4b-8a78-9edbcb02653e",
+    "ProcessedOn": null,
+    "ClaimedBy": "relay-before-crash",
+    "publisherDeliveryCountSoFar": 1,
+    "consumerSideEffectCountSoFar": 1
+  },
+  "afterRestart": {
+    "Id": "58275483-60e3-4d4b-8a78-9edbcb02653e",
+    "ProcessedOn": "2026-09-02T05:19:15.216206Z",
+    "publisherTotalDeliveryCount": 2,
+    "consumerTotalSideEffectCount": 1
+  }
+}

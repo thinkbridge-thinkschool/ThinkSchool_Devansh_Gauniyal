@@ -1,0 +1,17 @@
+{
+  "scenario": "CRASH_A_die_after_commit_before_publish",
+  "claim": "No message is lost: the outbox row survives the crash and is published on the next relay run.",
+  "before": {
+    "Id": "d8933a01-b5f9-47ce-b80c-b512165ffa35",
+    "ProcessedOn": null,
+    "AttemptCount": 0,
+    "consumerReceivedCount": 0
+  },
+  "after": {
+    "Id": "d8933a01-b5f9-47ce-b80c-b512165ffa35",
+    "ProcessedOn": "2026-09-02T05:18:44.195662Z",
+    "AttemptCount": 0,
+    "publisherDeliveryCount": 1,
+    "consumerSideEffectCount": 1
+  }
+}

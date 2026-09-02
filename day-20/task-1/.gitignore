@@ -1,0 +1,13 @@
+bin/
+obj/
+.env
+.env.*
+secrets.json
+local.settings.json
+*.p12
+*.pfx
+*.pem
+*.key
+*.db
+*.db-shm
+*.db-wal
