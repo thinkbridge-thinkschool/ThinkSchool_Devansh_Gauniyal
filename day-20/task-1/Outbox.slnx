@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/OutboxDemo/OutboxDemo.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/OutboxDemo.Tests/OutboxDemo.Tests.csproj" />
+  </Folder>
+</Solution>

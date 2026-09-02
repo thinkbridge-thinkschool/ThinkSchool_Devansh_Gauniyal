@@ -1,0 +1,25 @@
+@OutboxDemo_HostAddress = http://localhost:5036
+
+POST {{OutboxDemo_HostAddress}}/orders
+Content-Type: application/json
+
+{
+  "customerName": "Ada Lovelace",
+  "amount": 42.50
+}
+
+###
+
+POST {{OutboxDemo_HostAddress}}/relay/run
+
+###
+
+GET {{OutboxDemo_HostAddress}}/outbox
+Accept: application/json
+
+###
+
+GET {{OutboxDemo_HostAddress}}/consumer/log
+Accept: application/json
+
+###
