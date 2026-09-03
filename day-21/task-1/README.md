@@ -212,6 +212,15 @@ source task. What was actually found:
    credential (local Redis has none). `AuthApiFactory`/`CachingApiFactory` generate
    random per-run signing keys and passwords via `RandomNumberGenerator`, never a
    literal.
+6. **Documentation bug caught in this same file:** an earlier version of the "how to run
+   it locally" section below just said `dotnet run`. This project (like `day-3/task-3`,
+   which it was copied from) has no `Properties/launchSettings.json`, so `dotnet run`
+   without it defaults to the `Production` environment, not `Development` — and
+   `Program.cs`'s carried Application Insights/Key Vault code path (untouched, see
+   above) requires `KeyVault:Name` outside Development/Testing, so a bare `dotnet run`
+   crashes on startup with `KeyVault:Name must be configured...`. Caught by actually
+   running the command as written before publishing it. Fixed below by setting
+   `ASPNETCORE_ENVIRONMENT=Development` explicitly.
 
 ## How to run it locally
 
@@ -220,12 +229,13 @@ source task. What was actually found:
 docker run -d --name day21-redis -p 6379:6379 redis:7.4-alpine
 # (if the container already exists: docker start day21-redis)
 
-# 2. Run the API
+# 2. Run the API (ASPNETCORE_ENVIRONMENT is required - see verification log point 6;
+#    there's no launchSettings.json here, same as the day-3/task-3 original)
 cd day-21/task-1/QuotesApi
-dotnet run
+ASPNETCORE_ENVIRONMENT=Development dotnet run
 
-# 3. Open the demo page
-open http://localhost:5299/demo.html   # or whatever port `dotnet run` prints
+# 3. Open the demo page (default Kestrel port with no launchSettings.json is 5000)
+open http://localhost:5000/demo.html
 ```
 
 To stop Redis afterward: `docker stop day21-redis` (add `docker rm day21-redis` to
