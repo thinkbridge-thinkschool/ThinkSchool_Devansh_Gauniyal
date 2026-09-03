@@ -1,0 +1,16 @@
+Bombarding http://localhost:5311/api/authors/quote-summary/cached?key=loadtest for 10s using 20 connection(s)
+ 00m09s 00m08s 00m08s 00m08s 00m08s 00m08s 00m07s 00m07s 00m07s 00m07s 00m07s 00m06s 00m06s 00m06s 00m06s 00m06s 00m05s 00m05s 00m05s 00m05s 00m05s 00m04s 00m04s 00m04s 00m04s 00m04s 00m03s 00m03s 00m03s 00m03s 00m03s 00m02s 00m02s 00m02s 00m02s 00m02s 00m01s 00m01s 00m01s 00m01s 00m01s 10s
+Done!
+Statistics        Avg      Stdev        Max
+  Reqs/sec     65633.64   12190.06   79395.47
+  Latency      303.50us     1.03ms   186.11ms
+  Latency Distribution
+     50%   252.00us
+     75%   333.00us
+     90%   436.00us
+     95%   604.00us
+     99%     1.25ms
+  HTTP codes:
+    1xx - 0, 2xx - 656316, 3xx - 0, 4xx - 0, 5xx - 0
+    others - 0
+  Throughput:   250.73MB/s

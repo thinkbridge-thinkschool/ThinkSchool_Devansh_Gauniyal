@@ -1,0 +1,6 @@
+{
+  "concurrency": 20,
+  "duration": "10s",
+  "startedAtUtc": "2026-09-03T06:23:43Z",
+  "baseUrl": "http://localhost:5311"
+}
