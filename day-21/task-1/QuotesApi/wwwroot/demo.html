@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HybridCache stampede demo — Day 21 Task 1</title>
+<style>
+  :root {
+    --purple: #6b46c1;
+    --purple-dark: #4c2f8f;
+    --lavender: #f6f3fc;
+    --ink: #1f1a2e;
+    --muted: #6b6478;
+    --line: #e3d9f7;
+    --ok: #2f9e58;
+    --warn: #c0392b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Avenir Next LT Pro", Mulish, "Segoe UI", system-ui, sans-serif;
+    background: var(--lavender);
+    color: var(--ink);
+    padding: 2.5rem;
+  }
+  h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0 0 0.25rem;
+  }
+  .sub {
+    color: var(--muted);
+    margin: 0 0 2rem;
+    font-size: 0.95rem;
+  }
+  .toolbar {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+  label {
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  input[type="number"] {
+    width: 5rem;
+    padding: 0.4rem 0.5rem;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-size: 0.95rem;
+  }
+  button {
+    background: var(--purple);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem 1.1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button:hover { background: var(--purple-dark); }
+  button:disabled { background: #c7bce6; cursor: default; }
+  button.secondary {
+    background: white;
+    color: var(--purple);
+    border: 1px solid var(--purple);
+  }
+  button.secondary:hover { background: var(--lavender); }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid var(--line);
+  }
+  .card h2 {
+    margin: 0 0 0.25rem;
+    font-size: 1.05rem;
+  }
+  .card p.desc {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin: 0 0 1rem;
+  }
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    border-bottom: 1px dashed var(--line);
+    font-size: 0.9rem;
+  }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-row .label { color: var(--muted); }
+  .stat-row .value { font-weight: 700; font-variant-numeric: tabular-nums; }
+  .value.good { color: var(--ok); }
+  .value.bad { color: var(--warn); }
+  .coldwarm {
+    margin-top: 2rem;
+  }
+  .coldwarm .card { max-width: 100%; }
+  .pill {
+    display: inline-block;
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    background: var(--lavender);
+    color: var(--purple-dark);
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-left: 0.5rem;
+  }
+  .status {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-top: 0.75rem;
+    min-height: 1.2em;
+  }
+  footer {
+    margin-top: 2.5rem;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  code {
+    background: var(--lavender);
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+    font-size: 0.85em;
+  }
+</style>
+</head>
+<body>
+  <h1>HybridCache + stampede protection</h1>
+  <p class="sub">
+    Day 21 Task 1 — hot read: <code>GET /api/authors/quote-summary</code> (real EF Core /
+    SQLite query, deliberately N+1). Cached via HybridCache (L1 in-process + L2 Redis);
+    uncached is the same query and artificial delay with no cache at all.
+  </p>
+
+  <div class="toolbar">
+    <label>Concurrent requests (N)
+      <br /><input id="concurrency" type="number" value="50" min="1" max="500" />
+    </label>
+    <button id="resetBtn" class="secondary">Reset counter + evict cache</button>
+    <span id="globalStatus" class="status"></span>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Cached <span class="pill">HybridCache</span></h2>
+      <p class="desc">
+        Resets to a cold key, then fires N requests in parallel at
+        <code>/api/authors/quote-summary/cached</code>. Coalescing means every caller
+        that arrives while the first is still computing shares that one factory run.
+      </p>
+      <button id="runCached">Run N parallel (cold key)</button>
+      <div class="stat-row"><span class="label">Requests sent</span><span class="value" id="cachedRequests">–</span></div>
+      <div class="stat-row"><span class="label">DB queries before</span><span class="value" id="cachedBefore">–</span></div>
+      <div class="stat-row"><span class="label">DB queries after</span><span class="value good" id="cachedAfter">–</span></div>
+      <div class="stat-row"><span class="label">min / avg / max response (ms)</span><span class="value" id="cachedTimes">–</span></div>
+      <div class="status" id="cachedStatus"></div>
+    </div>
+
+    <div class="card">
+      <h2>Uncached <span class="pill">measurement baseline</span></h2>
+      <p class="desc">
+        Same query, same artificial delay, no cache. Fires the same N requests in
+        parallel at <code>/api/authors/quote-summary/uncached</code> so the DB-load
+        contrast is a real measurement, not a claim.
+      </p>
+      <button id="runUncached">Run N parallel</button>
+      <div class="stat-row"><span class="label">Requests sent</span><span class="value" id="uncachedRequests">–</span></div>
+      <div class="stat-row"><span class="label">DB queries before</span><span class="value" id="uncachedBefore">–</span></div>
+      <div class="stat-row"><span class="label">DB queries after</span><span class="value bad" id="uncachedAfter">–</span></div>
+      <div class="stat-row"><span class="label">min / avg / max response (ms)</span><span class="value" id="uncachedTimes">–</span></div>
+      <div class="status" id="uncachedStatus"></div>
+    </div>
+  </div>
+
+  <div class="coldwarm">
+    <div class="card">
+      <h2>Cold miss vs warm hit</h2>
+      <p class="desc">
+        One request against a fresh cold key, immediately followed by one request
+        against the same now-warm key, so the latency contrast is visible directly
+        (server-measured time, not including network/DNS overhead).
+      </p>
+      <button id="runColdWarm">Fetch cold, then fetch warm</button>
+      <div class="stat-row"><span class="label">Cold (miss) response</span><span class="value bad" id="coldMs">–</span></div>
+      <div class="stat-row"><span class="label">Warm (hit) response</span><span class="value good" id="warmMs">–</span></div>
+      <div class="status" id="coldWarmStatus"></div>
+    </div>
+  </div>
+
+  <footer>
+    Local, single-machine numbers with an artificial DB delay (<code>Measurement:ArtificialDbDelayMs</code>
+    in appsettings.json). See README.md for methodology and honest limits.
+  </footer>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+
+  async function resetServer() {
+    const res = await fetch('/api/measurement/reset', { method: 'POST' });
+    const body = await res.json();
+    return body.count;
+  }
+
+  async function getCount() {
+    const res = await fetch('/api/measurement/db-query-count');
+    const body = await res.json();
+    return body.count;
+  }
+
+  function stats(times) {
+    const min = Math.min(...times).toFixed(1);
+    const max = Math.max(...times).toFixed(1);
+    const avg = (times.reduce((a, b) => a + b, 0) / times.length).toFixed(1);
+    return `${min} / ${avg} / ${max}`;
+  }
+
+  async function fireParallel(url, n) {
+    const started = performance.now();
+    const results = await Promise.all(
+      Array.from({ length: n }, () => {
+        const t0 = performance.now();
+        return fetch(url).then((r) => r.json()).then(() => performance.now() - t0);
+      })
+    );
+    return { times: results, wallClockMs: performance.now() - started };
+  }
+
+  async function runColumn(prefix, url) {
+    const n = parseInt($('concurrency').value, 10) || 50;
+    $('run' + prefix).disabled = true;
+    $(prefix.toLowerCase() + 'Status').textContent = 'resetting...';
+    const before = await resetServer();
+    $(prefix.toLowerCase() + 'Before').textContent = before;
+    $(prefix.toLowerCase() + 'Status').textContent = `firing ${n} parallel requests...`;
+    const key = 'demo-' + Date.now();
+    const fullUrl = url + (url.includes('?') ? '&' : '?') + 'key=' + key;
+    const { times } = await fireParallel(fullUrl, n);
+    const after = await getCount();
+    $(prefix.toLowerCase() + 'Requests').textContent = n;
+    $(prefix.toLowerCase() + 'After').textContent = after;
+    $(prefix.toLowerCase() + 'Times').textContent = stats(times);
+    $(prefix.toLowerCase() + 'Status').textContent = 'done';
+    $('run' + prefix).disabled = false;
+  }
+
+  $('runCached').addEventListener('click', () =>
+    runColumn('Cached', '/api/authors/quote-summary/cached'));
+  $('runUncached').addEventListener('click', () =>
+    runColumn('Uncached', '/api/authors/quote-summary/uncached'));
+
+  $('resetBtn').addEventListener('click', async () => {
+    $('globalStatus').textContent = 'resetting...';
+    const count = await resetServer();
+    $('globalStatus').textContent = `reset — DB query count is now ${count}`;
+  });
+
+  $('runColdWarm').addEventListener('click', async () => {
+    $('runColdWarm').disabled = true;
+    $('coldWarmStatus').textContent = 'resetting...';
+    await resetServer();
+    const key = 'coldwarm-' + Date.now();
+    const url = `/api/authors/quote-summary/cached?key=${key}`;
+
+    $('coldWarmStatus').textContent = 'fetching cold...';
+    const t0 = performance.now();
+    await fetch(url).then((r) => r.json());
+    $('coldMs').textContent = (performance.now() - t0).toFixed(1) + ' ms';
+
+    $('coldWarmStatus').textContent = 'fetching warm...';
+    const t1 = performance.now();
+    await fetch(url).then((r) => r.json());
+    $('warmMs').textContent = (performance.now() - t1).toFixed(1) + ' ms';
+
+    $('coldWarmStatus').textContent = 'done';
+    $('runColdWarm').disabled = false;
+  });
+</script>
+</body>
+</html>

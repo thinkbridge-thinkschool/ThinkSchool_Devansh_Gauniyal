@@ -1,0 +1,16 @@
+Bombarding http://localhost:5311/api/authors/quote-summary/uncached for 10s using 20 connection(s)
+ 00m09s 00m08s 00m08s 00m08s 00m08s 00m08s 00m07s 00m07s 00m07s 00m07s 00m07s 00m06s 00m06s 00m06s 00m06s 00m06s 00m05s 00m05s 00m05s 00m05s 00m05s 00m04s 00m04s 00m04s 00m04s 00m04s 00m03s 00m03s 00m03s 00m03s 00m03s 00m02s 00m02s 00m02s 00m02s 00m02s 00m01s 00m01s 00m01s 00m01s 00m01s 10s
+Done!
+Statistics        Avg      Stdev        Max
+  Reqs/sec        97.15      92.71     803.36
+  Latency      206.56ms    97.13ms      0.88s
+  Latency Distribution
+     50%   172.54ms
+     75%   223.22ms
+     90%   246.14ms
+     95%   280.66ms
+     99%   777.14ms
+  HTTP codes:
+    1xx - 0, 2xx - 977, 3xx - 0, 4xx - 0, 5xx - 0
+    others - 0
+  Throughput:   375.27KB/s

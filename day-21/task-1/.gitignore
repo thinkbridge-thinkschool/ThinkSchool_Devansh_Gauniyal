@@ -1,0 +1,17 @@
+bin/
+obj/
+.env
+.env.*
+secrets.json
+local.settings.json
+*.p12
+*.pfx
+*.pem
+*.key
+*.db
+*.db-shm
+*.db-wal
+# Serilog's per-request logging turns this into tens of MB during a ~650k-request
+# bombardier run - the bombardier report + db-queries json + summary.md are the real
+# evidence; this raw log is a local debugging artifact only.
+output/server.log
