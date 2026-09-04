@@ -104,8 +104,8 @@ Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the
 
 ## What did you learn this session?
 
-That composing four strategies together isn't just "add them all" — order genuinely changes behavior, and once the breaker opens it can silently swallow a later demo (my bulkhead evidence run got short-circuited by a breaker a *different* scenario had tripped, not a clean bulkhead rejection). I also learned Polly enforces real minimums (break duration can't go below 0.5s, retry can't go below 1 attempt) that aren't obvious until you hit them.
+Order genuinely changes behavior, not just style — and once a breaker opens, it can silently swallow evidence from a later, unrelated demo scenario if you're not careful about sequencing.
 
 ## What would break this?
 
-If someone reordered the pipeline so the circuit breaker sat outside retry, retries would stop being able to recover from a transient blip before the breaker even saw a pattern — and if the Redis decorator were ever swapped back to the plain `IDistributedCache` registration, Redis failures would go straight back to hanging or throwing instead of degrading to the database.
+Swapping the Redis registration back to the plain, undecorated client would silently remove the whole safety net — Redis failures would go straight back to hanging or throwing instead of degrading to the database.
