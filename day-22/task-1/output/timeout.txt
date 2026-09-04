@@ -1,0 +1,83 @@
+[12:48:23 WRN] (ebccc2fedfa398e640fa096e5a2ce918) Timeout fired for a call to external-service after 00:00:02.
+[12:48:23 WRN] (ebccc2fedfa398e640fa096e5a2ce918) Execution attempt. Source: 'external-service-external-service//Retry', Operation Key: 'null', Result: 'The operation didn't complete within the allowed timeout of '00:00:02'.', Handled: 'True', Attempt: '0', Execution Time: 2018.2044ms
+Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+[12:48:23 WRN] (ebccc2fedfa398e640fa096e5a2ce918) Resilience event occurred. EventName: 'OnRetry', Source: 'external-service-external-service//Retry', Operation Key: 'null', Result: 'The operation didn't complete within the allowed timeout of '00:00:02'.'
+Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+[12:48:23 WRN] (ebccc2fedfa398e640fa096e5a2ce918) Retry attempt 1 for external-service after TimeoutRejectedException; waiting 00:00:00.9395590 before the next attempt.
+[12:48:26 WRN] (ebccc2fedfa398e640fa096e5a2ce918) Timeout fired for a call to external-service after 00:00:02.
+[12:48:26 WRN] (ebccc2fedfa398e640fa096e5a2ce918) Execution attempt. Source: 'external-service-external-service//Retry', Operation Key: 'null', Result: 'The operation didn't complete within the allowed timeout of '00:00:02'.', Handled: 'True', Attempt: '1', Execution Time: 2004.1233ms
+Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+[12:48:26 WRN] (ebccc2fedfa398e640fa096e5a2ce918) Resilience event occurred. EventName: 'OnRetry', Source: 'external-service-external-service//Retry', Operation Key: 'null', Result: 'The operation didn't complete within the allowed timeout of '00:00:02'.'
+Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+[12:48:26 WRN] (ebccc2fedfa398e640fa096e5a2ce918) Retry attempt 2 for external-service after TimeoutRejectedException; waiting 00:00:00.9825911 before the next attempt.
+[12:48:29 WRN] (ebccc2fedfa398e640fa096e5a2ce918) Timeout fired for a call to external-service after 00:00:02.
+[12:48:29 WRN] (ebccc2fedfa398e640fa096e5a2ce918) Execution attempt. Source: 'external-service-external-service//Retry', Operation Key: 'null', Result: 'The operation didn't complete within the allowed timeout of '00:00:02'.', Handled: 'True', Attempt: '2', Execution Time: 2003.0584ms
+Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+[12:48:29 WRN] (ebccc2fedfa398e640fa096e5a2ce918) Resilience event occurred. EventName: 'OnRetry', Source: 'external-service-external-service//Retry', Operation Key: 'null', Result: 'The operation didn't complete within the allowed timeout of '00:00:02'.'
+Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+[12:48:29 WRN] (ebccc2fedfa398e640fa096e5a2ce918) Retry attempt 3 for external-service after TimeoutRejectedException; waiting 00:00:02.3526489 before the next attempt.
+[12:48:34 WRN] (ebccc2fedfa398e640fa096e5a2ce918) Timeout fired for a call to external-service after 00:00:02.
+[12:48:34 ERR] (ebccc2fedfa398e640fa096e5a2ce918) Execution attempt. Source: 'external-service-external-service//Retry', Operation Key: 'null', Result: 'The operation didn't complete within the allowed timeout of '00:00:02'.', Handled: 'True', Attempt: '3', Execution Time: 2003.9565ms
+Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+[12:48:43 WRN] (9c2070f44f8aeb2ecc0ae9a4f5c7ea24) Timeout fired for a call to external-service after 00:00:02.
+[12:48:43 WRN] (7c32f307c019e43e74bcfa389251b190) Timeout fired for a call to external-service after 00:00:02.
+[12:48:43 WRN] (3f934beb5a0b116214c54e5294fe2936) Timeout fired for a call to external-service after 00:00:02.
+[12:48:43 WRN] (9c2070f44f8aeb2ecc0ae9a4f5c7ea24) Execution attempt. Source: 'external-service-external-service//Retry', Operation Key: 'null', Result: 'The operation didn't complete within the allowed timeout of '00:00:02'.', Handled: 'True', Attempt: '0', Execution Time: 2004.1471ms
+Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+[12:48:43 WRN] (3f934beb5a0b116214c54e5294fe2936) Execution attempt. Source: 'external-service-external-service//Retry', Operation Key: 'null', Result: 'The operation didn't complete within the allowed timeout of '00:00:02'.', Handled: 'True', Attempt: '0', Execution Time: 2004.1463ms
+Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+[12:48:43 WRN] (7c32f307c019e43e74bcfa389251b190) Execution attempt. Source: 'external-service-external-service//Retry', Operation Key: 'null', Result: 'The operation didn't complete within the allowed timeout of '00:00:02'.', Handled: 'True', Attempt: '0', Execution Time: 2004.1473ms
+Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+[12:48:43 WRN] (9c2070f44f8aeb2ecc0ae9a4f5c7ea24) Resilience event occurred. EventName: 'OnRetry', Source: 'external-service-external-service//Retry', Operation Key: 'null', Result: 'The operation didn't complete within the allowed timeout of '00:00:02'.'
+Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+[12:48:43 WRN] (7c32f307c019e43e74bcfa389251b190) Resilience event occurred. EventName: 'OnRetry', Source: 'external-service-external-service//Retry', Operation Key: 'null', Result: 'The operation didn't complete within the allowed timeout of '00:00:02'.'
+Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+[12:48:43 WRN] (3f934beb5a0b116214c54e5294fe2936) Resilience event occurred. EventName: 'OnRetry', Source: 'external-service-external-service//Retry', Operation Key: 'null', Result: 'The operation didn't complete within the allowed timeout of '00:00:02'.'
+Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+[12:48:43 WRN] (3f934beb5a0b116214c54e5294fe2936) Retry attempt 1 for external-service after TimeoutRejectedException; waiting 00:00:01.1327789 before the next attempt.
+[12:48:43 WRN] (9c2070f44f8aeb2ecc0ae9a4f5c7ea24) Retry attempt 1 for external-service after TimeoutRejectedException; waiting 00:00:01.2925702 before the next attempt.
+[12:48:43 WRN] (7c32f307c019e43e74bcfa389251b190) Retry attempt 1 for external-service after TimeoutRejectedException; waiting 00:00:01.3571045 before the next attempt.
+[12:48:43 WRN] (dd52ab6cb50c58960049e7f9135f7d4b) Timeout fired for a call to external-service after 00:00:02.
+[12:48:43 WRN] (09ab0ad899af0d93388bb6227789b594) Timeout fired for a call to external-service after 00:00:02.
+[12:48:43 WRN] (0efb578559f2f2f9ed0a5812a985be25) Timeout fired for a call to external-service after 00:00:02.
+[12:48:43 WRN] (affad6de9a7fb298c61a70d6cedb09b7) Timeout fired for a call to external-service after 00:00:02.
+[12:48:43 WRN] (04e9b9b0ff3db95a24f67076c4ef6757) Timeout fired for a call to external-service after 00:00:02.
+[12:48:43 ERR] (dd52ab6cb50c58960049e7f9135f7d4b) Resilience event occurred. EventName: 'OnCircuitOpened', Source: 'external-service-external-service//CircuitBreaker', Operation Key: 'null', Result: 'The operation didn't complete within the allowed timeout of '00:00:02'.'
+Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+[12:48:43 WRN] (affad6de9a7fb298c61a70d6cedb09b7) Execution attempt. Source: 'external-service-external-service//Retry', Operation Key: 'null', Result: 'The operation didn't complete within the allowed timeout of '00:00:02'.', Handled: 'True', Attempt: '0', Execution Time: 2004.4615ms
+Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+[12:48:43 WRN] (04e9b9b0ff3db95a24f67076c4ef6757) Execution attempt. Source: 'external-service-external-service//Retry', Operation Key: 'null', Result: 'The operation didn't complete within the allowed timeout of '00:00:02'.', Handled: 'True', Attempt: '0', Execution Time: 2003.3847ms
+Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+[12:48:43 WRN] (affad6de9a7fb298c61a70d6cedb09b7) Resilience event occurred. EventName: 'OnRetry', Source: 'external-service-external-service//Retry', Operation Key: 'null', Result: 'The operation didn't complete within the allowed timeout of '00:00:02'.'
+Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+[12:48:43 WRN] (0efb578559f2f2f9ed0a5812a985be25) Execution attempt. Source: 'external-service-external-service//Retry', Operation Key: 'null', Result: 'The operation didn't complete within the allowed timeout of '00:00:02'.', Handled: 'True', Attempt: '0', Execution Time: 2004.4113ms
+Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+[12:48:43 WRN] (09ab0ad899af0d93388bb6227789b594) Execution attempt. Source: 'external-service-external-service//Retry', Operation Key: 'null', Result: 'The operation didn't complete within the allowed timeout of '00:00:02'.', Handled: 'True', Attempt: '0', Execution Time: 2004.7785ms
+Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+[12:48:43 WRN] (0efb578559f2f2f9ed0a5812a985be25) Resilience event occurred. EventName: 'OnRetry', Source: 'external-service-external-service//Retry', Operation Key: 'null', Result: 'The operation didn't complete within the allowed timeout of '00:00:02'.'
+Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+[12:48:43 WRN] (affad6de9a7fb298c61a70d6cedb09b7) Retry attempt 1 for external-service after TimeoutRejectedException; waiting 00:00:00.7868043 before the next attempt.
+[12:48:43 WRN] (0efb578559f2f2f9ed0a5812a985be25) Retry attempt 1 for external-service after TimeoutRejectedException; waiting 00:00:00.3393012 before the next attempt.
+[12:48:43 WRN] (09ab0ad899af0d93388bb6227789b594) Resilience event occurred. EventName: 'OnRetry', Source: 'external-service-external-service//Retry', Operation Key: 'null', Result: 'The operation didn't complete within the allowed timeout of '00:00:02'.'
+Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+[12:48:43 WRN] (04e9b9b0ff3db95a24f67076c4ef6757) Resilience event occurred. EventName: 'OnRetry', Source: 'external-service-external-service//Retry', Operation Key: 'null', Result: 'The operation didn't complete within the allowed timeout of '00:00:02'.'
+Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+[12:48:43 WRN] (04e9b9b0ff3db95a24f67076c4ef6757) Retry attempt 1 for external-service after TimeoutRejectedException; waiting 00:00:00.8705704 before the next attempt.
+[12:48:43 WRN] (09ab0ad899af0d93388bb6227789b594) Retry attempt 1 for external-service after TimeoutRejectedException; waiting 00:00:01.3134425 before the next attempt.
+[12:48:43 WRN] (dd52ab6cb50c58960049e7f9135f7d4b) Execution attempt. Source: 'external-service-external-service//Retry', Operation Key: 'null', Result: 'The operation didn't complete within the allowed timeout of '00:00:02'.', Handled: 'True', Attempt: '0', Execution Time: 2006.1316ms
+Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+[12:48:43 WRN] (dd52ab6cb50c58960049e7f9135f7d4b) Resilience event occurred. EventName: 'OnRetry', Source: 'external-service-external-service//Retry', Operation Key: 'null', Result: 'The operation didn't complete within the allowed timeout of '00:00:02'.'
+Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+[12:48:43 WRN] (dd52ab6cb50c58960049e7f9135f7d4b) Retry attempt 1 for external-service after TimeoutRejectedException; waiting 00:00:00.7452108 before the next attempt.
+ ---> Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+ ---> Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+ ---> Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+ ---> Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+ ---> Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+ ---> Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+ ---> Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+ ---> Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+ ---> Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+ ---> Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+ ---> Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.
+ ---> Polly.Timeout.TimeoutRejectedException: The operation didn't complete within the allowed timeout of '00:00:02'.

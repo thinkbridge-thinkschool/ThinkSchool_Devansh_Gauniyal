@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>HybridCache + Polly resilience demo</title>
+<style>
+  :root {
+    --purple: #6b46c1;
+    --purple-dark: #4c2f8f;
+    --lavender: #f6f3fc;
+    --ink: #1f1a2e;
+    --muted: #6b6478;
+    --line: #e3d9f7;
+    --ok: #2f9e58;
+    --warn: #c0392b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: "Avenir Next LT Pro", Mulish, "Segoe UI", system-ui, sans-serif;
+    background: var(--lavender);
+    color: var(--ink);
+    padding: 2.5rem;
+  }
+  h1 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 0 0 0.25rem;
+  }
+  .sub {
+    color: var(--muted);
+    margin: 0 0 2rem;
+    font-size: 0.95rem;
+  }
+  .toolbar {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+  label {
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+  input[type="number"] {
+    width: 5rem;
+    padding: 0.4rem 0.5rem;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-size: 0.95rem;
+  }
+  button {
+    background: var(--purple);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem 1.1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button:hover { background: var(--purple-dark); }
+  button:disabled { background: #c7bce6; cursor: default; }
+  button.secondary {
+    background: white;
+    color: var(--purple);
+    border: 1px solid var(--purple);
+  }
+  button.secondary:hover { background: var(--lavender); }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid var(--line);
+  }
+  .card h2 {
+    margin: 0 0 0.25rem;
+    font-size: 1.05rem;
+  }
+  .card p.desc {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin: 0 0 1rem;
+  }
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.4rem 0;
+    border-bottom: 1px dashed var(--line);
+    font-size: 0.9rem;
+  }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-row .label { color: var(--muted); }
+  .stat-row .value { font-weight: 700; font-variant-numeric: tabular-nums; }
+  .value.good { color: var(--ok); }
+  .value.bad { color: var(--warn); }
+  .coldwarm {
+    margin-top: 2rem;
+  }
+  .coldwarm .card { max-width: 100%; }
+  .pill {
+    display: inline-block;
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    background: var(--lavender);
+    color: var(--purple-dark);
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-left: 0.5rem;
+  }
+  .status {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-top: 0.75rem;
+    min-height: 1.2em;
+  }
+  footer {
+    margin-top: 2.5rem;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  code {
+    background: var(--lavender);
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+    font-size: 0.85em;
+  }
+  section.day22 {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid var(--line);
+  }
+  .toggle-group {
+    display: inline-flex;
+    border: 1px solid var(--purple);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  .toggle-group button {
+    background: white;
+    color: var(--purple);
+    border-radius: 0;
+    border: none;
+    border-right: 1px solid var(--purple);
+    padding: 0.45rem 0.8rem;
+    font-size: 0.82rem;
+  }
+  .toggle-group button:last-child { border-right: none; }
+  .toggle-group button.active { background: var(--purple); color: white; }
+  .toggle-group button:hover:not(.active) { background: var(--lavender); }
+  .breaker-pill {
+    display: inline-block;
+    padding: 0.2rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+  .breaker-pill.Closed { background: #e3f6ea; color: var(--ok); }
+  .breaker-pill.Open { background: #fbe4e1; color: var(--warn); }
+  .breaker-pill.HalfOpen { background: #fdf2d0; color: #9a6d00; }
+  .outcome-bar {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .outcome-chip {
+    flex: 1;
+    min-width: 6rem;
+    background: var(--lavender);
+    border-radius: 8px;
+    padding: 0.5rem 0.7rem;
+    text-align: center;
+  }
+  .outcome-chip .n { display: block; font-size: 1.3rem; font-weight: 800; }
+  .outcome-chip .label { font-size: 0.72rem; color: var(--muted); }
+  .walkthrough {
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+  .walkthrough ol { margin: 0.5rem 0 0; padding-left: 1.2rem; }
+</style>
+</head>
+<body>
+  <h1>HybridCache + stampede protection</h1>
+  <p class="sub">
+    Day 21 Task 1 — hot read: <code>GET /api/authors/quote-summary</code> (real EF Core /
+    SQLite query, deliberately N+1). Cached via HybridCache (L1 in-process + L2 Redis);
+    uncached is the same query and artificial delay with no cache at all.
+  </p>
+
+  <div class="toolbar">
+    <label>Concurrent requests (N)
+      <br /><input id="concurrency" type="number" value="50" min="1" max="500" />
+    </label>
+    <button id="resetBtn" class="secondary">Reset counter + evict cache</button>
+    <span id="globalStatus" class="status"></span>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Cached <span class="pill">HybridCache</span></h2>
+      <p class="desc">
+        Resets to a cold key, then fires N requests in parallel at
+        <code>/api/authors/quote-summary/cached</code>. Coalescing means every caller
+        that arrives while the first is still computing shares that one factory run.
+      </p>
+      <button id="runCached">Run N parallel (cold key)</button>
+      <div class="stat-row"><span class="label">Requests sent</span><span class="value" id="cachedRequests">–</span></div>
+      <div class="stat-row"><span class="label">DB queries before</span><span class="value" id="cachedBefore">–</span></div>
+      <div class="stat-row"><span class="label">DB queries after</span><span class="value good" id="cachedAfter">–</span></div>
+      <div class="stat-row"><span class="label">min / avg / max response (ms)</span><span class="value" id="cachedTimes">–</span></div>
+      <div class="status" id="cachedStatus"></div>
+    </div>
+
+    <div class="card">
+      <h2>Uncached <span class="pill">measurement baseline</span></h2>
+      <p class="desc">
+        Same query, same artificial delay, no cache. Fires the same N requests in
+        parallel at <code>/api/authors/quote-summary/uncached</code> so the DB-load
+        contrast is a real measurement, not a claim.
+      </p>
+      <button id="runUncached">Run N parallel</button>
+      <div class="stat-row"><span class="label">Requests sent</span><span class="value" id="uncachedRequests">–</span></div>
+      <div class="stat-row"><span class="label">DB queries before</span><span class="value" id="uncachedBefore">–</span></div>
+      <div class="stat-row"><span class="label">DB queries after</span><span class="value bad" id="uncachedAfter">–</span></div>
+      <div class="stat-row"><span class="label">min / avg / max response (ms)</span><span class="value" id="uncachedTimes">–</span></div>
+      <div class="status" id="uncachedStatus"></div>
+    </div>
+  </div>
+
+  <div class="coldwarm">
+    <div class="card">
+      <h2>Cold miss vs warm hit</h2>
+      <p class="desc">
+        One request against a fresh cold key, immediately followed by one request
+        against the same now-warm key, so the latency contrast is visible directly
+        (server-measured time, not including network/DNS overhead).
+      </p>
+      <button id="runColdWarm">Fetch cold, then fetch warm</button>
+      <div class="stat-row"><span class="label">Cold (miss) response</span><span class="value bad" id="coldMs">–</span></div>
+      <div class="stat-row"><span class="label">Warm (hit) response</span><span class="value good" id="warmMs">–</span></div>
+      <div class="status" id="coldWarmStatus"></div>
+    </div>
+  </div>
+
+  <section class="day22">
+    <h1>Resilience with Polly</h1>
+    <p class="sub">
+      Day 22 Task 1 — two dependencies, each with their own fault-injection switch
+      (TEST/DEMO SCAFFOLDING, not production code — see README.md). The external
+      service gets the full pipeline (bulkhead → retry → circuit breaker → timeout);
+      Redis gets bulkhead → circuit breaker → timeout, deliberately no retry.
+    </p>
+
+    <div class="walkthrough">
+      <strong>Walkthrough: drive a breaker from closed to open to half-open to closed</strong>
+      <ol>
+        <li>Pick a dependency below and click <strong>Failing</strong>.</li>
+        <li>Click <strong>Fire N requests</strong> a couple of times (N ≥ 10) — watch the breaker state pill turn <span class="breaker-pill Open">Open</span> and the outcomes shift to short-circuited.</li>
+        <li>Wait ~10 seconds (the configured break duration) without clicking anything.</li>
+        <li>Click <strong>Healthy</strong>, then <strong>Fire N requests</strong> once more — the state pill passes through <span class="breaker-pill HalfOpen">HalfOpen</span> for the first probe, then settles back to <span class="breaker-pill Closed">Closed</span> once it succeeds.</li>
+      </ol>
+      Click <strong>Refresh state</strong> any time to see the breakers' current state without firing a request.
+    </div>
+
+    <div class="toolbar">
+      <button id="refreshBreakers" class="secondary">Refresh breaker state</button>
+      <span id="breakerGlobalStatus" class="status"></span>
+    </div>
+
+    <div class="grid" id="dependencyGrid">
+      <div class="card" data-dep="redis">
+        <h2>Redis <span class="pill">bulkhead · breaker · timeout</span></h2>
+        <p class="desc">No retry: on a cache failure the correct move is to skip the cache and go straight to the database, not retry the cache read.</p>
+        <div class="stat-row">
+          <span class="label">Mode</span>
+          <span class="toggle-group" data-toggle="redis">
+            <button data-mode="healthy" class="active">Healthy</button>
+            <button data-mode="failing">Failing</button>
+            <button data-mode="slow">Slow</button>
+          </span>
+        </div>
+        <div class="stat-row"><span class="label">Breaker state</span><span class="breaker-pill Closed" data-state="redis">Closed</span></div>
+        <div class="toolbar" style="margin: 0.75rem 0 0;">
+          <label>N <input type="number" class="n-input" data-dep="redis" value="15" min="1" max="100" /></label>
+          <button data-fire="redis">Fire N requests</button>
+        </div>
+        <div class="outcome-bar" data-outcomes="redis">
+          <div class="outcome-chip"><span class="n" data-outcome="success">0</span><span class="label">succeeded</span></div>
+          <div class="outcome-chip"><span class="n" data-outcome="failed">0</span><span class="label">failed</span></div>
+          <div class="outcome-chip"><span class="n" data-outcome="short-circuited">0</span><span class="label">breaker-open</span></div>
+          <div class="outcome-chip"><span class="n" data-outcome="bulkhead-rejected">0</span><span class="label">bulkhead</span></div>
+        </div>
+        <div class="status" data-status="redis"></div>
+      </div>
+
+      <div class="card" data-dep="external-service">
+        <h2>External service <span class="pill">bulkhead · retry · breaker · timeout</span></h2>
+        <p class="desc">Idempotent GET, so it's the only dependency that gets retry-with-backoff.</p>
+        <div class="stat-row">
+          <span class="label">Mode</span>
+          <span class="toggle-group" data-toggle="external-service">
+            <button data-mode="healthy" class="active">Healthy</button>
+            <button data-mode="failing">Failing</button>
+            <button data-mode="slow">Slow</button>
+          </span>
+        </div>
+        <div class="stat-row"><span class="label">Breaker state</span><span class="breaker-pill Closed" data-state="externalService">Closed</span></div>
+        <div class="toolbar" style="margin: 0.75rem 0 0;">
+          <label>N <input type="number" class="n-input" data-dep="external-service" value="15" min="1" max="100" /></label>
+          <button data-fire="external-service">Fire N requests</button>
+        </div>
+        <div class="outcome-bar" data-outcomes="external-service">
+          <div class="outcome-chip"><span class="n" data-outcome="success">0</span><span class="label">succeeded</span></div>
+          <div class="outcome-chip"><span class="n" data-outcome="failed">0</span><span class="label">failed</span></div>
+          <div class="outcome-chip"><span class="n" data-outcome="short-circuited">0</span><span class="label">breaker-open</span></div>
+          <div class="outcome-chip"><span class="n" data-outcome="bulkhead-rejected">0</span><span class="label">bulkhead</span></div>
+        </div>
+        <div class="status" data-status="external-service"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Local, single-machine numbers with an artificial DB delay (<code>Measurement:ArtificialDbDelayMs</code>
+    in appsettings.json). See README.md for methodology and honest limits.
+  </footer>
+
+<script>
+  const $ = (id) => document.getElementById(id);
+
+  async function resetServer() {
+    const res = await fetch('/api/measurement/reset', { method: 'POST' });
+    const body = await res.json();
+    return body.count;
+  }
+
+  async function getCount() {
+    const res = await fetch('/api/measurement/db-query-count');
+    const body = await res.json();
+    return body.count;
+  }
+
+  function stats(times) {
+    const min = Math.min(...times).toFixed(1);
+    const max = Math.max(...times).toFixed(1);
+    const avg = (times.reduce((a, b) => a + b, 0) / times.length).toFixed(1);
+    return `${min} / ${avg} / ${max}`;
+  }
+
+  async function fireParallel(url, n) {
+    const started = performance.now();
+    const results = await Promise.all(
+      Array.from({ length: n }, () => {
+        const t0 = performance.now();
+        return fetch(url).then((r) => r.json()).then(() => performance.now() - t0);
+      })
+    );
+    return { times: results, wallClockMs: performance.now() - started };
+  }
+
+  async function runColumn(prefix, url) {
+    const n = parseInt($('concurrency').value, 10) || 50;
+    $('run' + prefix).disabled = true;
+    $(prefix.toLowerCase() + 'Status').textContent = 'resetting...';
+    const before = await resetServer();
+    $(prefix.toLowerCase() + 'Before').textContent = before;
+    $(prefix.toLowerCase() + 'Status').textContent = `firing ${n} parallel requests...`;
+    const key = 'demo-' + Date.now();
+    const fullUrl = url + (url.includes('?') ? '&' : '?') + 'key=' + key;
+    const { times } = await fireParallel(fullUrl, n);
+    const after = await getCount();
+    $(prefix.toLowerCase() + 'Requests').textContent = n;
+    $(prefix.toLowerCase() + 'After').textContent = after;
+    $(prefix.toLowerCase() + 'Times').textContent = stats(times);
+    $(prefix.toLowerCase() + 'Status').textContent = 'done';
+    $('run' + prefix).disabled = false;
+  }
+
+  $('runCached').addEventListener('click', () =>
+    runColumn('Cached', '/api/authors/quote-summary/cached'));
+  $('runUncached').addEventListener('click', () =>
+    runColumn('Uncached', '/api/authors/quote-summary/uncached'));
+
+  $('resetBtn').addEventListener('click', async () => {
+    $('globalStatus').textContent = 'resetting...';
+    const count = await resetServer();
+    $('globalStatus').textContent = `reset — DB query count is now ${count}`;
+  });
+
+  $('runColdWarm').addEventListener('click', async () => {
+    $('runColdWarm').disabled = true;
+    $('coldWarmStatus').textContent = 'resetting...';
+    await resetServer();
+    const key = 'coldwarm-' + Date.now();
+    const url = `/api/authors/quote-summary/cached?key=${key}`;
+
+    $('coldWarmStatus').textContent = 'fetching cold...';
+    const t0 = performance.now();
+    await fetch(url).then((r) => r.json());
+    $('coldMs').textContent = (performance.now() - t0).toFixed(1) + ' ms';
+
+    $('coldWarmStatus').textContent = 'fetching warm...';
+    const t1 = performance.now();
+    await fetch(url).then((r) => r.json());
+    $('warmMs').textContent = (performance.now() - t1).toFixed(1) + ' ms';
+
+    $('coldWarmStatus').textContent = 'done';
+    $('runColdWarm').disabled = false;
+  });
+
+  // ===== Day 22 Task 1: resilience demo =====
+  const callUrl = {
+    'redis': '/api/resilience/redis/call',
+    'external-service': '/api/resilience/external/call'
+  };
+  const stateKey = { 'redis': 'redis', 'external-service': 'externalService' };
+
+  function setBreakerPill(dep, state) {
+    const el = document.querySelector(`[data-state="${stateKey[dep]}"]`);
+    if (!el) return;
+    el.textContent = state;
+    el.className = 'breaker-pill ' + state;
+  }
+
+  async function refreshBreakers() {
+    const res = await fetch('/api/resilience/breakers');
+    const body = await res.json();
+    setBreakerPill('redis', body.redis);
+    setBreakerPill('external-service', body.externalService);
+  }
+
+  async function setFaultMode(dep, mode) {
+    await fetch(`/api/faults/${dep}?mode=${mode}`, { method: 'POST' });
+    document.querySelectorAll(`[data-toggle="${dep}"] button`).forEach((btn) => {
+      btn.classList.toggle('active', btn.dataset.mode === mode);
+    });
+    document.querySelector(`[data-status="${dep}"]`).textContent = `mode set to ${mode}`;
+  }
+
+  document.querySelectorAll('.toggle-group').forEach((group) => {
+    const dep = group.dataset.toggle;
+    group.querySelectorAll('button').forEach((btn) => {
+      btn.addEventListener('click', () => setFaultMode(dep, btn.dataset.mode));
+    });
+  });
+
+  async function fireN(dep) {
+    const n = parseInt(document.querySelector(`.n-input[data-dep="${dep}"]`).value, 10) || 15;
+    const statusEl = document.querySelector(`[data-status="${dep}"]`);
+    const button = document.querySelector(`[data-fire="${dep}"]`);
+    button.disabled = true;
+    statusEl.textContent = `firing ${n} requests...`;
+
+    const tally = { success: 0, failed: 0, 'short-circuited': 0, 'bulkhead-rejected': 0 };
+    const results = await Promise.all(
+      Array.from({ length: n }, () => fetch(callUrl[dep]).then((r) => r.json()).catch(() => ({ outcome: 'failed' })))
+    );
+    results.forEach((r) => {
+      const key = tally.hasOwnProperty(r.outcome) ? r.outcome : 'failed';
+      tally[key]++;
+    });
+
+    Object.entries(tally).forEach(([outcome, count]) => {
+      const chip = document.querySelector(`[data-outcomes="${dep}"] [data-outcome="${outcome}"]`);
+      if (chip) chip.textContent = count;
+    });
+
+    await refreshBreakers();
+    statusEl.textContent = `done — ${n} requests fired`;
+    button.disabled = false;
+  }
+
+  document.querySelectorAll('[data-fire]').forEach((btn) => {
+    btn.addEventListener('click', () => fireN(btn.dataset.fire));
+  });
+
+  $('refreshBreakers').addEventListener('click', async () => {
+    $('breakerGlobalStatus').textContent = 'refreshing...';
+    await refreshBreakers();
+    $('breakerGlobalStatus').textContent = 'refreshed';
+  });
+
+  refreshBreakers();
+</script>
+</body>
+</html>
