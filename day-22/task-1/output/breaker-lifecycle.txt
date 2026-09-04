@@ -1,0 +1,7 @@
+[12:12:08 ERR] (6e58cfa61d90ec5032303ce10ef242d4) Circuit breaker OPENED for external-service for 00:00:10; further calls will fail fast instead of hitting the dependency.
+[12:12:20 WRN] (6e58cfa61d90ec5032303ce10ef242d4) Circuit breaker for external-service is now HALF-OPEN; the next call is a probe.
+[12:12:20 INF] (6e58cfa61d90ec5032303ce10ef242d4) Circuit breaker CLOSED for external-service; calls will reach the dependency again.
+[12:12:20 ERR] (5a35969c518e520c358b42d996d44e12) Circuit breaker OPENED for Redis for 00:00:10; further calls will fail fast and HybridCache will fall back to the database.
+[12:12:33 WRN] (5a35969c518e520c358b42d996d44e12) Circuit breaker for Redis is now HALF-OPEN; the next call is a probe.
+[12:12:33 INF] (5a35969c518e520c358b42d996d44e12) Circuit breaker CLOSED for Redis; calls will reach Redis again.
+[12:12:47 ERR] (6e58cfa61d90ec5032303ce10ef242d4) Circuit breaker OPENED for external-service for 00:00:10; further calls will fail fast instead of hitting the dependency.

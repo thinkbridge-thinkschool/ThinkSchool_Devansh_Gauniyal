@@ -1,0 +1,8 @@
+[12:48:41 WRN] (8a2b1ba75c3d73a7f1b6923a6b4c2ae8) Bulkhead REJECTED a call to external-service - too many concurrent calls already.
+[12:48:41 WRN] (d7cf138f4679fa7a1d4899953f29ca7a) Bulkhead REJECTED a call to external-service - too many concurrent calls already.
+[12:48:41 WRN] (1148c112ab638464f5f001b412b7581e) Bulkhead REJECTED a call to external-service - too many concurrent calls already.
+[12:48:41 WRN] (1e9893f5102b7ce07ad368f51653b19b) Bulkhead REJECTED a call to external-service - too many concurrent calls already.
+[12:48:41 WRN] (cfc62574c63cd3235d2fa2d061b5d8ee) Bulkhead REJECTED a call to external-service - too many concurrent calls already.
+[12:48:41 WRN] (3c930c8a711bc20baeae2afb2c024573) Bulkhead REJECTED a call to external-service - too many concurrent calls already.
+[12:48:41 WRN] (0aa732e428d6341ed3d75e38c1b51f16) Bulkhead REJECTED a call to external-service - too many concurrent calls already.
+[12:48:41 WRN] (91fa56937be94e6fb1851f4a48b5923e) Bulkhead REJECTED a call to external-service - too many concurrent calls already.

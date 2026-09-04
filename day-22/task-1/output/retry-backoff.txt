@@ -1,0 +1,26 @@
+[12:12:05 WRN] (6e58cfa61d90ec5032303ce10ef242d4) Retry attempt 1 for external-service after HTTP 503; waiting 00:00:00.8739813 before the next attempt.
+[12:12:06 WRN] (6e58cfa61d90ec5032303ce10ef242d4) Retry attempt 2 for external-service after HTTP 503; waiting 00:00:01.4574137 before the next attempt.
+[12:12:07 WRN] (6e58cfa61d90ec5032303ce10ef242d4) Retry attempt 3 for external-service after HTTP 503; waiting 00:00:00.8399667 before the next attempt.
+[12:12:35 WRN] (b045d42c328ffe8258290195f92e6f69) Timeout fired for a call to external-service after 00:00:02.
+[12:12:35 WRN] (b045d42c328ffe8258290195f92e6f69) Retry attempt 1 for external-service after TimeoutRejectedException; waiting 00:00:00.9347996 before the next attempt.
+[12:12:38 WRN] (b045d42c328ffe8258290195f92e6f69) Timeout fired for a call to external-service after 00:00:02.
+[12:12:38 WRN] (b045d42c328ffe8258290195f92e6f69) Retry attempt 2 for external-service after TimeoutRejectedException; waiting 00:00:00.5769335 before the next attempt.
+[12:12:40 WRN] (b045d42c328ffe8258290195f92e6f69) Timeout fired for a call to external-service after 00:00:02.
+[12:12:40 WRN] (b045d42c328ffe8258290195f92e6f69) Retry attempt 3 for external-service after TimeoutRejectedException; waiting 00:00:02.7884061 before the next attempt.
+[12:12:45 WRN] (b045d42c328ffe8258290195f92e6f69) Timeout fired for a call to external-service after 00:00:02.
+[12:12:47 WRN] (bcaf6e0f0cbc7da82e30de95f4b7af45) Timeout fired for a call to external-service after 00:00:02.
+[12:12:47 WRN] (bd4692d3a68128a757ed777fe11777e1) Timeout fired for a call to external-service after 00:00:02.
+[12:12:47 WRN] (777bf0e8af5d788131d52348e80fc9a3) Timeout fired for a call to external-service after 00:00:02.
+[12:12:47 WRN] (bd4692d3a68128a757ed777fe11777e1) Retry attempt 1 for external-service after TimeoutRejectedException; waiting 00:00:00.9325602 before the next attempt.
+[12:12:47 WRN] (05b3402959884f07c0924a087db8ec0b) Timeout fired for a call to external-service after 00:00:02.
+[12:12:47 WRN] (bcaf6e0f0cbc7da82e30de95f4b7af45) Retry attempt 1 for external-service after TimeoutRejectedException; waiting 00:00:00.9259959 before the next attempt.
+[12:12:47 WRN] (9ce6de0186527212fbb5b2bdf265ba94) Timeout fired for a call to external-service after 00:00:02.
+[12:12:47 WRN] (00406bee95916ac31ce82097e9631be8) Timeout fired for a call to external-service after 00:00:02.
+[12:12:47 WRN] (9ce6de0186527212fbb5b2bdf265ba94) Retry attempt 1 for external-service after TimeoutRejectedException; waiting 00:00:00.4669569 before the next attempt.
+[12:12:47 WRN] (777bf0e8af5d788131d52348e80fc9a3) Retry attempt 1 for external-service after TimeoutRejectedException; waiting 00:00:01.1970611 before the next attempt.
+[12:12:47 WRN] (b2ff21f112dd80ca959cea53afa00c32) Timeout fired for a call to external-service after 00:00:02.
+[12:12:47 WRN] (cbfb08c112dcdf9726729dfa395c8c5d) Timeout fired for a call to external-service after 00:00:02.
+[12:12:47 WRN] (00406bee95916ac31ce82097e9631be8) Retry attempt 1 for external-service after TimeoutRejectedException; waiting 00:00:01.0385728 before the next attempt.
+[12:12:47 WRN] (05b3402959884f07c0924a087db8ec0b) Retry attempt 1 for external-service after TimeoutRejectedException; waiting 00:00:01.2673322 before the next attempt.
+[12:12:47 WRN] (b2ff21f112dd80ca959cea53afa00c32) Retry attempt 1 for external-service after TimeoutRejectedException; waiting 00:00:01.2820571 before the next attempt.
+[12:12:47 WRN] (cbfb08c112dcdf9726729dfa395c8c5d) Retry attempt 1 for external-service after TimeoutRejectedException; waiting 00:00:01.0801278 before the next attempt.
