@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Modules\Invoicing\Capstone.Invoicing.Infrastructure\Capstone.Invoicing.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Procurement\Capstone.Procurement.Infrastructure\Capstone.Procurement.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <!--
+    No OpenAPI/Swagger package: the default webapi template pulled in
+    Microsoft.AspNetCore.OpenApi, which transitively brings a Microsoft.OpenApi
+    version with a known high-severity advisory (GHSA-v5pm-xwqc-g5wc). This host
+    doesn't expose a real API surface yet (design + scaffold task), so the
+    dependency was removed rather than accepted.
+  -->
+
+</Project>
