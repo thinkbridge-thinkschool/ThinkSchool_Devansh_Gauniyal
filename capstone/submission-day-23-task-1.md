@@ -496,8 +496,7 @@ Command: `az deployment sub create --name capstone-infra-dev-deploy --location c
   `capstone/infra/VERIFICATION-LOG.md`, §6.
 
 ## What did you learn this session?
-Two resource providers (Microsoft.Sql, Microsoft.ServiceBus) weren't registered on my subscription at all, and the failure looked like a subscription problem, not a provider one, until I checked directly.
-I also learned Azure SQL's free tier renews every month for the life of the subscription, not just for 12 months like I assumed — I had to go verify that instead of trusting my memory.
+Two resource providers I needed weren't even registered on my subscription, and Azure's error message made that look like a totally different problem until I checked directly.
 
 ## What would break this?
-If my subscription turns out not to qualify for the SQL free-limit offer, or if the serverless database gets hit continuously with no idle gaps so it never auto-pauses, the SQL cost could jump from close to zero to more than my entire remaining credit within the 21-day window — that's the one real financial risk here, not a code bug.
+If the serverless database never gets an idle gap to auto-pause, its cost can climb enough to burn through my entire remaining credit before it expires.
