@@ -1,0 +1,65 @@
+WARNING: /Users/devansh/thinkschool/capstone/infra/modules/api.bicep(38,15) : Warning BCP081: Resource type "Microsoft.Web/serverFarms@2026-07-15" does not have types available. Bicep is unable to validate resource properties prior to deployment, but this will not block the resource from being deployed. [https://aka.ms/bicep/core-diagnostics#BCP081]
+/Users/devansh/thinkschool/capstone/infra/modules/api.bicep(53,17) : Warning BCP081: Resource type "Microsoft.Web/sites@2026-07-15" does not have types available. Bicep is unable to validate resource properties prior to deployment, but this will not block the resource from being deployed. [https://aka.ms/bicep/core-diagnostics#BCP081]
+
+Note: The result may contain false positive predictions (noise).
+You can help us improve the accuracy of the result by opening an issue here: https://aka.ms/WhatIfIssues
+
+Resource and property changes are indicated with these symbols:
+  - Delete
+  + Create
+  ~ Modify
+  = Nochange
+  * Ignore
+  x Noeffect
+
+The deployment will update the following scopes:
+
+Scope: /subscriptions/<SUBSCRIPTION_ID>
+
+  = resourceGroups/rg-capstone-dev [2023-07-01]
+
+Scope: /subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev
+
+  ~ Microsoft.ServiceBus/namespaces/sb-capstone-dev-zv36uz/topics/invoice-approved-events [2026-01-01]
+    - properties.autoDeleteOnIdle:          "P10675199DT2H48M5.4775807S"
+    - properties.enableBatchedOperations:   true
+    - properties.enableExpress:             false
+    - properties.maxMessageSizeInKilobytes: 256
+    - properties.maxSizeInMegabytes:        1024
+    - properties.supportOrdering:           true
+
+  ~ Microsoft.ServiceBus/namespaces/sb-capstone-dev-zv36uz/topics/supplier-notifications [2026-01-01]
+    - properties.autoDeleteOnIdle:          "P10675199DT2H48M5.4775807S"
+    - properties.enableBatchedOperations:   true
+    - properties.enableExpress:             false
+    - properties.maxMessageSizeInKilobytes: 256
+    - properties.maxSizeInMegabytes:        1024
+    - properties.supportOrdering:           true
+
+  ~ Microsoft.Sql/servers/sql-capstone-dev-zpx4al/databases/sqldb-capstone-dev/backupShortTermRetentionPolicies/default [2025-01-01]
+    - properties.diffBackupIntervalInHours: 12
+
+  ~ Microsoft.Web/sites/capstone-dev-api-skom32 [2026-07-15]
+    + properties.siteConfig.ftpsState:           "Disabled"
+    + properties.siteConfig.localMySqlEnabled:   false
+    + properties.siteConfig.minTlsVersion:       "1.2"
+    + properties.siteConfig.netFrameworkVersion: "v4.6"
+
+  = Microsoft.ServiceBus/namespaces/sb-capstone-dev-zv36uz [2026-01-01]
+    x sku.tier: "Standard"
+
+  = Microsoft.Sql/servers/sql-capstone-dev-zpx4al [2025-01-01]
+    x properties.version: "12.0"
+
+  = Microsoft.Sql/servers/sql-capstone-dev-zpx4al/databases/sqldb-capstone-dev [2025-01-01]
+    x properties.minCapacity: 0.5
+    x sku.capacity:           1
+    x sku.tier:               "GeneralPurpose"
+
+  = Microsoft.Sql/servers/sql-capstone-dev-zpx4al/firewallRules/AllowAllAzureServices [2025-01-01]
+  = Microsoft.Web/serverFarms/plan-capstone-dev-api [2026-07-15]
+    x sku.tier: "Basic"
+
+  * Microsoft.Sql/servers/sql-capstone-dev-zpx4al/databases/master
+
+Resource changes: 4 to modify, 6 no change, 1 to ignore.

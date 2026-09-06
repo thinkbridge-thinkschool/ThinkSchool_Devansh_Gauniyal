@@ -1,0 +1,14 @@
+# Local parameter overrides and anything that could hold a real credential.
+*.local.bicepparam
+*.local.json
+.env
+.env.*
+*.secrets.json
+
+# Bicep/ARM build output (az bicep build) - regenerate, don't commit. Scoped to the
+# template/module/parameter files' own directories so real captured command output
+# under output/ (what-if and deploy results, genuinely committed as evidence) is
+# never matched by this rule.
+/*.json
+/modules/*.json
+/parameters/*.json
