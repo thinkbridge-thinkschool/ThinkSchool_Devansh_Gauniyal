@@ -136,6 +136,14 @@ through `SubmitInvoiceUseCase`, returning the generated PO and invoice IDs — p
 full Procurement → Invoicing round trip actually runs, not just compiles. It's demo
 scaffolding for this purpose only; it is not the deliverable and not a real API shape.
 
+## Infrastructure
+
+Bicep templates for this project's Azure infrastructure (API host, SQL, Service
+Bus) live at [`infra/`](infra/), beside the application code they describe, for the
+same reason the application itself lives at `capstone/` rather than a day-numbered
+folder — see `infra/README.md` for what each module does, how dev and prod differ,
+and why Service Bus is provisioned ahead of the application's messaging code.
+
 ## What's deliberately not built yet
 
 Per the task: this is a design-and-scaffold kickoff, not a feature build. Later
