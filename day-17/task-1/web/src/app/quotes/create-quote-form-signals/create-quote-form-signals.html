@@ -33,6 +33,15 @@
     </p>
   </div>
 
+  <div class="field">
+    <label for="quote-description-signals">Description (optional)</label>
+    <textarea
+      id="quote-description-signals"
+      rows="3"
+      [formField]="quoteForm.description"
+    ></textarea>
+  </div>
+
   <button type="submit" [disabled]="quoteForm().submitting()">
     {{ quoteForm().submitting() ? 'Submitting…' : 'Submit quote' }}
   </button>

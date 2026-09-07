@@ -5,7 +5,7 @@ import { QuoteApi } from '../quote-api';
 import { QuotesStore } from '../quotes-store';
 import type { Quote } from '../quote';
 
-type FormField = 'text' | 'author';
+type FormField = 'text' | 'author' | 'description';
 
 @Component({
   selector: 'app-create-quote-form',
@@ -33,14 +33,16 @@ export class CreateQuoteForm {
 
   private submitAttempted = false;
 
-  // The real CreateQuoteRequest DTO (day-3/task-3/QuotesApi/Quotes/QuoteRequests.cs)
-  // carries no validation attributes on either field -- both are optional,
+  // The real CreateQuoteRequest DTO (api/QuotesApi/Quotes/QuoteRequests.cs)
+  // carries no validation attributes on any field -- all three are optional,
   // nullable server-side. `text` being required here is a client-only UX
   // safety net (see README.md). `author` being required is the same kind of
   // directed, client-only decision -- Devansh asked for it to be compulsory
   // on the form; the server still accepts a request with no author at all,
   // so this is a deliberately stricter client rule, not a mirrored
-  // constraint. Documented here so it stays checkable, not silently assumed.
+  // constraint. `description` is left optional, matching the server's own
+  // lack of a constraint on it -- there was no direction to make it
+  // required, unlike author.
   protected readonly form = new FormGroup({
     text: new FormControl('', {
       nonNullable: true,
@@ -49,6 +51,9 @@ export class CreateQuoteForm {
     author: new FormControl('', {
       nonNullable: true,
       validators: [Validators.required],
+    }),
+    description: new FormControl('', {
+      nonNullable: true,
     }),
   });
 
@@ -82,10 +87,18 @@ export class CreateQuoteForm {
 
     this.submitting.set(true);
 
+    const description = this.form.controls.description.value.trim();
+
     this.quoteApi
       .createQuote({
         text: this.textControl.value,
         author: this.form.controls.author.value.trim(),
+        // Omitted entirely, not sent as `description: undefined`, when blank --
+        // an object literal with an explicit `undefined` value still has that
+        // key under Object.keys(), which is what the request-shape contract
+        // tests check (they run against HttpTestingController's captured
+        // pre-serialization object, not JSON.stringify's output).
+        ...(description ? { description } : {}),
       })
       .subscribe({
         next: (quote) => {

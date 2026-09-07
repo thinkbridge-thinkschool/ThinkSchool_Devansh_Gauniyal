@@ -23,6 +23,9 @@
       @if (quote()!.author) {
         <p class="quote-detail-page__author" data-testid="detail-page-author">— {{ quote()!.author }}</p>
       }
+      @if (quote()!.description) {
+        <p class="quote-detail-page__description" data-testid="detail-page-description">{{ quote()!.description }}</p>
+      }
       <p class="quote-detail-page__owner">{{ quote()!.ownerId }}</p>
     </article>
   } @else {

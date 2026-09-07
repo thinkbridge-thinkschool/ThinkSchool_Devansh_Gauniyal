@@ -191,9 +191,9 @@ describe('CreateQuoteForm', () => {
 
   // --- Accessibility ----------------------------------------------------------
 
-  it('A11Y: every input (text and author) has a label whose for matches its id', () => {
+  it('A11Y: every input (text, author, and description) has a label whose for matches its id', () => {
     const labels = fixture.nativeElement.querySelectorAll('label') as NodeListOf<HTMLLabelElement>;
-    expect(labels.length).toBe(2);
+    expect(labels.length).toBe(3);
     labels.forEach((label) => {
       const targetId = label.getAttribute('for');
       expect(targetId).toBeTruthy();

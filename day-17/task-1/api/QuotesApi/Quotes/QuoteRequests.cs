@@ -5,5 +5,6 @@ namespace QuotesApi.Quotes;
 // existing caller that only ever sent { text } -- day-4/task-2's
 // AuthCoverageGapTests among them -- keeps compiling and keeps working
 // unchanged; this is a purely additive change to the wire contract.
-public sealed record CreateQuoteRequest(string Text, string? Author = null);
+// Description added the same way: optional, nullable, no validation attribute.
+public sealed record CreateQuoteRequest(string Text, string? Author = null, string? Description = null);
 public sealed record UpdateQuoteRequest(string Text);
