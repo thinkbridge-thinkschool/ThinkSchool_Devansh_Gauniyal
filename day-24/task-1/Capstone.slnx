@@ -1,0 +1,24 @@
+<Solution>
+  <Folder Name="/host/">
+    <Project Path="host/Capstone.Web/Capstone.Web.csproj" />
+  </Folder>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Modules/" />
+  <Folder Name="/src/Modules/Invoicing/">
+    <Project Path="src/Modules/Invoicing/Capstone.Invoicing.Application/Capstone.Invoicing.Application.csproj" />
+    <Project Path="src/Modules/Invoicing/Capstone.Invoicing.Domain/Capstone.Invoicing.Domain.csproj" />
+    <Project Path="src/Modules/Invoicing/Capstone.Invoicing.Infrastructure/Capstone.Invoicing.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Modules/Procurement/">
+    <Project Path="src/Modules/Procurement/Capstone.Procurement.Application/Capstone.Procurement.Application.csproj" />
+    <Project Path="src/Modules/Procurement/Capstone.Procurement.Domain/Capstone.Procurement.Domain.csproj" />
+    <Project Path="src/Modules/Procurement/Capstone.Procurement.Infrastructure/Capstone.Procurement.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/src/SharedKernel/">
+    <Project Path="src/SharedKernel/Capstone.SharedKernel/Capstone.SharedKernel.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Capstone.ArchitectureTests/Capstone.ArchitectureTests.csproj" />
+    <Project Path="tests/Capstone.Invoicing.Domain.Tests/Capstone.Invoicing.Domain.Tests.csproj" />
+  </Folder>
+</Solution>
