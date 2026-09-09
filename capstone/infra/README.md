@@ -608,6 +608,26 @@ a SQL server redeploy untouched (it's stored in the database itself), but if
 the database were ever dropped and recreated, the `CREATE USER`/`ALTER ROLE`
 statements above would need to be run again by a human, the same way.
 
+### What's running right now, and its cost
+
+Unlike Day 24 (fully torn down at the end of that session), `rg-capstone-dev`
+was deliberately left running after Day 25 — Week 5 continues on this same
+infrastructure. Its 16 resources (API host, SQL server + database, Service
+Bus namespace + 2 topics, the managed identity, Key Vault + 1 secret, the
+Entra admin designation, and 3 role assignments) cost roughly **$0.75-0.80
+USD/day** while idle: App Service B1 ≈ $0.43/day, Service Bus Standard's flat
+base charge ≈ $0.33/day, SQL serverless dev covered by the free monthly limit
+≈ $0/day, Key Vault operations negligible — verified live against the [Azure
+Retail Prices API](https://prices.azure.com/api/retail/prices) for Central
+India on 2026-09-09, not guessed.
+
+Tear down when Week 5 no longer needs it (same command as Day 24's, since
+this is still the same Deployment Stack):
+
+```bash
+az stack sub delete --name capstone-dev --action-on-unmanage deleteAll --yes
+```
+
 ### Honest limits, even after Day 25
 
 - **No private networking.** Key Vault and Service Bus both still allow public
