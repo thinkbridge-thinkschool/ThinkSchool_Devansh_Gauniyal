@@ -14,7 +14,7 @@ No plaintext secret was introduced: every new app setting on both Web Apps is
 either a non-secret identifier/hostname or a Key Vault reference — read back
 live and reproduced in the "Proof of zero plaintext secrets" section below.
 
-Commit representing this day's state: `<filled in after commit>`.
+Commit representing this day's state: `0a212f35fc00a128a5eddec67a5549306f32fcf9`.
 
 Dev infrastructure is intentionally left running (26 resources per
 `az stack sub show`: Day 25's 16 plus Log Analytics, App Insights, its
