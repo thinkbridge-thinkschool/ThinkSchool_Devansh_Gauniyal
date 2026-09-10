@@ -1,0 +1,19 @@
+// Day 26 - p50 and p99 latency, by endpoint.
+//
+// Question this answers: for each HTTP route the API serves, how fast are
+// successful and unsuccessful requests, at the median and at the tail? p50 tells
+// you the typical experience; p99 tells you what your slowest 1-in-100 requests
+// look like, which is what a real latency complaint is usually about (the
+// complainant is almost never a median request).
+//
+// `name` is Application Insights' pre-parsed "METHOD /route" operation name -
+// grouping by it, not the raw URL, avoids splintering the same endpoint into one
+// row per distinct id/query-string value.
+requests
+| where timestamp > ago(1h)
+| summarize
+    RequestCount = count(),
+    P50Ms = percentile(duration, 50),
+    P99Ms = percentile(duration, 99)
+    by EndpointName = name
+| order by RequestCount desc

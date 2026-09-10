@@ -1,0 +1,183 @@
+{
+  "tables": [
+    {
+      "columns": [
+        {
+          "name": "timestamp",
+          "type": "datetime"
+        },
+        {
+          "name": "itemType",
+          "type": "string"
+        },
+        {
+          "name": "cloud_RoleName",
+          "type": "string"
+        },
+        {
+          "name": "Name",
+          "type": "string"
+        },
+        {
+          "name": "operation_ParentId",
+          "type": "string"
+        },
+        {
+          "name": "id",
+          "type": "string"
+        },
+        {
+          "name": "duration",
+          "type": "real"
+        },
+        {
+          "name": "success",
+          "type": "string"
+        }
+      ],
+      "name": "PrimaryResult",
+      "rows": [
+        [
+          "2026-09-10T11:50:15.8352078Z",
+          "request",
+          "capstone-dev-api-f7nsoj",
+          "POST /demo/trace-worker",
+          "d6fb2be59b61c555d076a18a861c234a",
+          "ad7c5c0c56589f03",
+          988.5319,
+          "True"
+        ],
+        [
+          "2026-09-10T11:50:15.8471656Z",
+          "dependency",
+          "capstone-dev-api-f7nsoj",
+          "capstone-api.send-trace-demo-message",
+          "ad7c5c0c56589f03",
+          "8f9c0b24d27e46d7",
+          975.7279,
+          "True"
+        ],
+        [
+          "2026-09-10T11:50:15.8582245Z",
+          "dependency",
+          "capstone-dev-api-f7nsoj",
+          "ServiceBusSender.Send",
+          "8f9c0b24d27e46d7",
+          "d481e2e1788da927",
+          962.1401,
+          "True"
+        ],
+        [
+          "2026-09-10T11:50:15.9941813Z",
+          "dependency",
+          "capstone-dev-api-f7nsoj",
+          "DefaultAzureCredential.GetToken",
+          "d481e2e1788da927",
+          "dbb9db3cec48c270",
+          19.6672,
+          "True"
+        ],
+        [
+          "2026-09-10T11:50:16.0076642Z",
+          "trace",
+          "capstone-dev-api-f7nsoj",
+          "False MSAL 4.84.2.0 MSAL.NetCore .NET 10.0.11 Linux [2026-09-10 11:50:16Z - b5527c65-142b-4dac-bf9d-e963596ca710] [Internal cache] Total number of cache partitions found while getting access tokens: 1",
+          "dbb9db3cec48c270",
+          "",
+          null,
+          ""
+        ],
+        [
+          "2026-09-10T11:50:16.0084485Z",
+          "trace",
+          "capstone-dev-api-f7nsoj",
+          "False MSAL 4.84.2.0 MSAL.NetCore .NET 10.0.11 Linux [2026-09-10 11:50:16Z - b5527c65-142b-4dac-bf9d-e963596ca710] [FindAccessTokenAsync] Discovered 2 access tokens in cache using partition key: 1b8d1172-ac6a-4c69-83c1-5729904bc38c_managed_identity_AppTokenCache",
+          "dbb9db3cec48c270",
+          "",
+          null,
+          ""
+        ],
+        [
+          "2026-09-10T11:50:16.0137618Z",
+          "trace",
+          "capstone-dev-api-f7nsoj",
+          "False MSAL 4.84.2.0 MSAL.NetCore .NET 10.0.11 Linux [2026-09-10 11:50:16Z - b5527c65-142b-4dac-bf9d-e963596ca710] \r\n[LogMetricsFromAuthResult] Cache Refresh Reason: NotApplicable\r\n[LogMetricsFromAuthResult] DurationInCacheInMs: 0\r\n[LogMetricsFromAuthResult] DurationTotalInMs: 7\r\n[LogMetricsFromAuthResult] DurationInHttpInMs: 0",
+          "dbb9db3cec48c270",
+          "",
+          null,
+          ""
+        ],
+        [
+          "2026-09-10T11:50:16.0137941Z",
+          "trace",
+          "capstone-dev-api-f7nsoj",
+          "False MSAL 4.84.2.0 MSAL.NetCore .NET 10.0.11 Linux [2026-09-10 11:50:16Z - b5527c65-142b-4dac-bf9d-e963596ca710] TokenEndpoint: ****",
+          "dbb9db3cec48c270",
+          "",
+          null,
+          ""
+        ],
+        [
+          "2026-09-10T11:50:16.8324267Z",
+          "request",
+          "capstone-worker",
+          "ServiceBusProcessor.ProcessMessage",
+          "8f9c0b24d27e46d7",
+          "7503be6a1962f828",
+          261.2799,
+          "True"
+        ],
+        [
+          "2026-09-10T11:50:16.8325098Z",
+          "request",
+          "capstone-worker",
+          "capstone-worker.process-trace-demo-message",
+          "8f9c0b24d27e46d7",
+          "5571a5b1562ee24b",
+          260.446,
+          "True"
+        ],
+        [
+          "2026-09-10T11:50:16.8332652Z",
+          "trace",
+          "capstone-worker",
+          "Trace-demo worker received message 8dc3ee9b-998f-4f47-b493-2b3839e944a8, parent context found: True",
+          "5571a5b1562ee24b",
+          "",
+          null,
+          ""
+        ],
+        [
+          "2026-09-10T11:50:16.8370954Z",
+          "dependency",
+          "capstone-worker",
+          "SQL: INSERT dbo.TraceDemoEvents",
+          "5571a5b1562ee24b",
+          "d47e7b830d8fa116",
+          43.8592,
+          "True"
+        ],
+        [
+          "2026-09-10T11:50:16.9384474Z",
+          "dependency",
+          "capstone-worker",
+          "ServiceBusReceiver.Complete",
+          "d47e7b830d8fa116",
+          "f971624a82f99dd1",
+          152.8816,
+          "True"
+        ],
+        [
+          "2026-09-10T11:50:17.0928184Z",
+          "trace",
+          "capstone-worker",
+          "Trace-demo worker completed message 8dc3ee9b-998f-4f47-b493-2b3839e944a8 with trace id d6fb2be59b61c555d076a18a861c234a",
+          "d47e7b830d8fa116",
+          "",
+          null,
+          ""
+        ]
+      ]
+    }
+  ]
+}
