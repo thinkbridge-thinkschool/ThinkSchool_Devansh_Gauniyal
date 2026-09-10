@@ -129,8 +129,10 @@ span independently agree on the same parent — see
 `infra/VERIFICATION-LOG.md` §8.
 
 **Evidence a distributed trace spans API → worker → DB**: the table above,
-backed by the real, captured JSON result. I will attach the portal screenshot
-myself.
+backed by the real, captured JSON result, and the portal screenshot at
+`observability/screenshots/distributed-trace-api-worker-db.png` (the same
+query and result set, captured live in the Application Insights Logs blade;
+cropped to remove the account/tenant corner before committing).
 
 ### The alert definition
 
