@@ -132,9 +132,9 @@ as this day ended, copied after the work above, never edited directly.
 Commit representing this day's state: `5c1991d91c4df3e384ca3f133c3d0b725786640d`.
 
 ## What did you learn this session?
-Turns out Service Bus can't be network-locked on Standard tier at all, not even a cheap VNet rule — only Premium supports it, and I only learned that from a real rejected deployment.
-Also learned a blocked SQL server still accepts a TCP handshake — you need an actual login attempt to prove the block is real, not just a ping.
+Authentication and network isolation are two separate layers, not one — auth answers "who are you," a private endpoint answers "can you even reach it," and a stolen token is far less dangerous if the second layer is missing the attacker.
+A scanner like ZAP only checks surface-level stuff like headers and cookies — it can't tell you whether your authorization logic actually checks who owns what.
 
 ## What would break this?
-Right now any valid token can read or approve any invoice — there's no check yet that ties the token to a specific buyer or supplier.
-And since Service Bus has no network restriction, anyone with a valid token for it could reach it from anywhere, not just from inside our app.
+Checking "is this token valid" without also checking "does this token's owner actually own this resource" isn't real access control, no matter how strong the login step looks.
+And any resource guarded by identity alone, with no network restriction behind it, is reachable by anyone worldwide who gets hold of one valid credential.
