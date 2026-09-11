@@ -1,0 +1,16 @@
+// Day 26 - error rate over time, by endpoint.
+//
+// Question this answers: is a given endpoint's failure rate rising, falling, or
+// flat, and which endpoint is driving it? Bucketed into 5-minute bins so a
+// transient blip is visible as a shape, not flattened into one summary number -
+// the same bin size the error-rate alert (infra/modules/alerting.bicep) evaluates
+// on, so this query is the "why did it fire" companion to that alert, not a
+// different metric wearing the same name.
+requests
+| where timestamp > ago(1h)
+| summarize
+    Total = count(),
+    Failed = countif(success == false),
+    ErrorRatePercent = round(100.0 * countif(success == false) / count(), 2)
+    by EndpointName = name, TimeBucket = bin(timestamp, 5m)
+| order by EndpointName asc, TimeBucket asc
