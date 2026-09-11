@@ -129,7 +129,7 @@ Live app connections are unaffected by any of this — `/`, `/v1/*`, and
 The live project is `capstone/` — `day-27/task-1/` is a frozen snapshot of it
 as this day ended, copied after the work above, never edited directly.
 
-Commit representing this day's state: `<FILLED IN AFTER COMMIT>`.
+Commit representing this day's state: `5c1991d91c4df3e384ca3f133c3d0b725786640d`.
 
 ## What did you learn this session?
 I learned that "add a private endpoint" isn't always a checkbox — Service Bus's Standard tier flatly cannot do any network restriction at all, not even the cheaper VNet-rule kind, only Premium can, and I only found that out by trying it against the real resource and reading the actual rejection.
