@@ -1,0 +1,17 @@
+# .NET build output
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+
+# OS
+.DS_Store
+
+# azd local environment state (Day 24) - holds the real subscription id and
+# environment name per azd environment (.azure/<env>/.env). azd generates its
+# own nested .azure/.gitignore ("*") that already excludes this - confirmed
+# with `git check-ignore -v` - this line documents the exclusion explicitly at
+# the project level rather than relying solely on that generated file.
+.azure/
