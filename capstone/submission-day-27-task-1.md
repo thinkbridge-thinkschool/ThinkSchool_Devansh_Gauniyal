@@ -132,9 +132,9 @@ as this day ended, copied after the work above, never edited directly.
 Commit representing this day's state: `5c1991d91c4df3e384ca3f133c3d0b725786640d`.
 
 ## What did you learn this session?
-Authentication and network isolation are two separate layers, not one — auth answers "who are you," a private endpoint answers "can you even reach it," and a stolen token is far less dangerous if the second layer is missing the attacker.
-A scanner like ZAP only checks surface-level stuff like headers and cookies — it can't tell you whether your authorization logic actually checks who owns what.
+Auth and network isolation are separate layers — one checks who you are, the other checks if you can even reach the resource.
+Also, a scanner like ZAP only catches surface issues like headers — it can't tell if your authorization logic actually checks ownership.
 
 ## What would break this?
-Checking "is this token valid" without also checking "does this token's owner actually own this resource" isn't real access control, no matter how strong the login step looks.
-And any resource guarded by identity alone, with no network restriction behind it, is reachable by anyone worldwide who gets hold of one valid credential.
+Checking "is this token valid" without checking "does this caller own this resource" isn't real access control.
+And identity alone, with no network wall behind it, means one leaked credential is reachable from anywhere.
