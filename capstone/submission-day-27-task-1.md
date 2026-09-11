@@ -132,9 +132,9 @@ as this day ended, copied after the work above, never edited directly.
 Commit representing this day's state: `5c1991d91c4df3e384ca3f133c3d0b725786640d`.
 
 ## What did you learn this session?
-I learned that "add a private endpoint" isn't always a checkbox — Service Bus's Standard tier flatly cannot do any network restriction at all, not even the cheaper VNet-rule kind, only Premium can, and I only found that out by trying it against the real resource and reading the actual rejection.
-I also learned a disabled public endpoint can still accept a TCP connection — the real proof of a network block is a protocol-level login attempt, not a ping.
+Turns out Service Bus can't be network-locked on Standard tier at all, not even a cheap VNet rule — only Premium supports it, and I only learned that from a real rejected deployment.
+Also learned a blocked SQL server still accepts a TCP handshake — you need an actual login attempt to prove the block is real, not just a ping.
 
 ## What would break this?
-Anyone who reuses my "just require a valid token" auth as if it were real authorization would be wrong — right now any authenticated caller can read or approve any invoice, because there's no mapping yet from a token to a specific buyer or supplier.
-If Service Bus ever carries real invoice data, today's setup means anyone who obtains a valid token for it can reach it from anywhere on the internet, since there's no network wall behind the identity check.
+Right now any valid token can read or approve any invoice — there's no check yet that ties the token to a specific buyer or supplier.
+And since Service Bus has no network restriction, anyone with a valid token for it could reach it from anywhere, not just from inside our app.
