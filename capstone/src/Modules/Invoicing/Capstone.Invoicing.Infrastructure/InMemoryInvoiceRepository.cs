@@ -4,8 +4,11 @@ using Capstone.Invoicing.Domain;
 
 namespace Capstone.Invoicing.Infrastructure;
 
-// In-memory only - see the equivalent note on Procurement.Infrastructure's
-// repository. Real persistence is Day 28+ work.
+// In-memory only. Superseded at runtime by InvoiceEfRepository (Day 29's real
+// persistence, see Persistence/InvoicingDbContext.cs) - kept in the solution rather
+// than deleted, since tests/Capstone.ArchitectureTests still references this type
+// to identify the Capstone.Invoicing.Infrastructure assembly, and a fast in-memory
+// implementation may still be useful for tests that don't need a real database.
 public sealed class InMemoryInvoiceRepository : IInvoiceRepository// contains code that performs ininvoicerepo
 {
     private readonly ConcurrentDictionary<InvoiceId, Invoice> _invoices = new();
