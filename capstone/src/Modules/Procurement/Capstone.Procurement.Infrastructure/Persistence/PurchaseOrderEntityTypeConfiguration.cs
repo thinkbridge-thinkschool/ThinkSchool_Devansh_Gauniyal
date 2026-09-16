@@ -1,4 +1,6 @@
+using System.Text.Json;
 using Capstone.Procurement.Domain;
+using Capstone.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -11,6 +13,14 @@ namespace Capstone.Procurement.Infrastructure.Persistence;
 // and the Reserve/Release/Consume methods, never re-derived on read.
 internal sealed class PurchaseOrderEntityTypeConfiguration : IEntityTypeConfiguration<PurchaseOrder>
 {
+    // See Capstone.Invoicing.Infrastructure.Persistence.InvoiceEntityTypeConfiguration's
+    // identical field and MoneyJsonConverter's own comment for why this is
+    // required.
+    private static readonly JsonSerializerOptions JsonOptions = new()
+    {
+        Converters = { new MoneyJsonConverter() },
+    };
+
     public void Configure(EntityTypeBuilder<PurchaseOrder> builder)
     {
         builder.ToTable("PurchaseOrders", schema: "procurement");
@@ -40,19 +50,19 @@ internal sealed class PurchaseOrderEntityTypeConfiguration : IEntityTypeConfigur
             consumed.Property(m => m.Currency).HasColumnName("Consumed_Currency").HasMaxLength(3);
         });
 
-        // Lines: a complex-type collection backed by the private `_lines` field
-        // (same backing-field convention as Invoice.Lines) - a JSON column, since
-        // it's only ever read/written whole alongside its owning purchase order.
-        builder.ComplexCollection(p => p.Lines, lines =>
-        {
-            lines.ToJson();
-            lines.Ignore(l => l.LineValue);
-            lines.ComplexProperty(l => l.UnitPrice, money =>
-            {
-                money.Property(m => m.Amount);
-                money.Property(m => m.Currency);
-            });
-        });
+        // Lines - a single JSON-text column via System.Text.Json, not EF's
+        // native complex-JSON collection mapping - see
+        // Capstone.Invoicing.Infrastructure.Persistence.InvoiceEntityTypeConfiguration's
+        // top comment for why (a real bug in that feature's query-shaping code,
+        // reproduced live against a real SQL Server integration test).
+        builder.Property(p => p.Lines)
+            .HasField("_lines")
+            .HasConversion(
+                lines => JsonSerializer.Serialize(lines, JsonOptions),
+                json => JsonSerializer.Deserialize<List<PurchaseOrderLine>>(json, JsonOptions)!)
+            .HasColumnName("Lines")
+            .HasColumnType("nvarchar(max)")
+            .IsRequired();
 
         builder.Ignore(p => p.Total);
         builder.Ignore(p => p.Available);

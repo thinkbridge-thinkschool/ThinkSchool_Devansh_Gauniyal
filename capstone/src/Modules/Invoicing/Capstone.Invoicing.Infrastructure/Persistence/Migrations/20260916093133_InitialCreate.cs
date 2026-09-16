@@ -25,6 +25,8 @@ namespace Capstone.Invoicing.Infrastructure.Persistence.Migrations
                     PurchaseOrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     InvoiceNumber = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
+                    Lines = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MatchResult = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SubmittedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     DueDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
@@ -33,9 +35,7 @@ namespace Capstone.Invoicing.Infrastructure.Persistence.Migrations
                     Approval_ApprovedBy = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Approval_Kind = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     Terms_NetDays = table.Column<int>(type: "int", nullable: false),
-                    Terms_ReviewWindowDays = table.Column<int>(type: "int", nullable: false),
-                    Lines = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MatchResult = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Terms_ReviewWindowDays = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {

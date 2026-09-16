@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using Capstone.SharedKernel;
 
 namespace Capstone.Invoicing.Domain;
@@ -17,17 +16,20 @@ public sealed class Invoice : AggregateRoot<InvoiceId>
 
     // EF Core materialization only (Capstone.Invoicing.Infrastructure.Persistence)
     // - never called by application code, which has exactly one way to create an
-    // Invoice: Submit() below. Required because Terms, MatchResult and Lines are
-    // mapped as EF "complex" types (no identity of their own - see
+    // Invoice: Submit() below. Required because Terms and Approval are mapped as
+    // EF "complex" types (no identity of their own - see
     // InvoiceEntityTypeConfiguration), and EF Core's constructor-binding
     // materialization explicitly cannot bind constructor parameters to
     // complex/owned properties, only plain scalar ones (confirmed live: without
     // this constructor, `dotnet ef migrations add` fails with "Cannot bind
-    // 'lines', 'terms', 'matchResult'... Navigations to related entities,
-    // including references to owned types, cannot be bound"). With this
-    // constructor present, EF instead sets every property - including the
-    // get-only ones below - directly via reflection after construction, which it
-    // supports natively for auto-implemented properties.
+    // ... Navigations to related entities, including references to owned types,
+    // cannot be bound"). With this constructor present, EF instead sets every
+    // property - including the get-only ones below - directly via reflection
+    // after construction, which it supports natively for auto-implemented
+    // properties. Lines and MatchResult are NOT complex types (see their own
+    // comments) and so aren't the reason this constructor exists, but they're
+    // still set to a placeholder here since every property needs some initial
+    // value.
     private Invoice()
         : base(default!)
     {
@@ -80,15 +82,7 @@ public sealed class Invoice : AggregateRoot<InvoiceId>
     public PurchaseOrderReference PurchaseOrderId { get; }
     public string InvoiceNumber { get; }
     public string Currency { get; }
-    // ReadOnlyCollection<T>, not the plain IReadOnlyCollection<T> this used to
-    // return - EF Core's complex-type collection mapping (Persistence/
-    // InvoiceEntityTypeConfiguration.cs) requires the navigation's declared type
-    // to implement IList<T>, which IReadOnlyCollection<T> does not. Behaviourally
-    // identical for callers: every mutating member still throws
-    // NotSupportedException at runtime, so external code still cannot alter this
-    // invoice's lines - only the compile-time type signature changed, purely to
-    // satisfy the ORM, not to open a mutation path.
-    public ReadOnlyCollection<InvoiceLineItem> Lines => _lines.AsReadOnly();
+    public IReadOnlyCollection<InvoiceLineItem> Lines => _lines;
     public PaymentTermsSnapshot Terms { get; }
     public MatchResult MatchResult { get; }
     public DateTimeOffset SubmittedAt { get; }
@@ -176,7 +170,7 @@ public sealed class Invoice : AggregateRoot<InvoiceId>
                 $"Invoice total {total} exceeds the {purchaseOrder.Available} available on purchase order {purchaseOrder.Id}.");
         }
 
-        var matchResult = new MatchResult(variances.Count == 0, variances.AsReadOnly());
+        var matchResult = new MatchResult(variances.Count == 0, variances);
         var submittedAt = clock.GetUtcNow();
 
         var invoice = new Invoice(

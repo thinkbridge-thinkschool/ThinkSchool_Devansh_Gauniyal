@@ -36,6 +36,11 @@ namespace Capstone.Procurement.Infrastructure.Persistence.Migrations
                         .HasMaxLength(3)
                         .HasColumnType("nvarchar(3)");
 
+                    b.Property<string>("Lines")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Lines");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -57,32 +62,6 @@ namespace Capstone.Procurement.Infrastructure.Persistence.Migrations
                                 .HasMaxLength(3)
                                 .HasColumnType("nvarchar(3)")
                                 .HasColumnName("Consumed_Currency");
-                        });
-
-                    b.ComplexCollection(typeof(List<Dictionary<string, object>>), "Lines", "Capstone.Procurement.Domain.PurchaseOrder.Lines#PurchaseOrderLine", b1 =>
-                        {
-                            b1.IsRequired();
-
-                            b1.Property<string>("ItemReference")
-                                .IsRequired();
-
-                            b1.Property<int>("LineNumber");
-
-                            b1.Property<int>("OrderedQuantity");
-
-                            b1.ComplexProperty(typeof(Dictionary<string, object>), "UnitPrice", "Capstone.Procurement.Domain.PurchaseOrder.Lines#PurchaseOrderLine.UnitPrice#Money", b2 =>
-                                {
-                                    b2.IsRequired();
-
-                                    b2.Property<decimal>("Amount");
-
-                                    b2.Property<string>("Currency")
-                                        .IsRequired();
-                                });
-
-                            b1
-                                .ToJson("Lines")
-                                .HasColumnType("nvarchar(max)");
                         });
 
                     b.ComplexProperty(typeof(Dictionary<string, object>), "Reserved", "Capstone.Procurement.Domain.PurchaseOrder.Reserved#Money", b1 =>

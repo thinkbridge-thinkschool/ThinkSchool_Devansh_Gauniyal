@@ -48,6 +48,16 @@ namespace Capstone.Invoicing.Infrastructure.Persistence.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
+                    b.Property<string>("Lines")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Lines");
+
+                    b.Property<string>("MatchResult")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("MatchResult");
+
                     b.Property<Guid>("PurchaseOrderId")
                         .HasColumnType("uniqueidentifier");
 
@@ -77,77 +87,6 @@ namespace Capstone.Invoicing.Infrastructure.Persistence.Migrations
                                 .HasMaxLength(20)
                                 .HasColumnType("nvarchar(20)")
                                 .HasColumnName("Approval_Kind");
-                        });
-
-                    b.ComplexCollection(typeof(List<Dictionary<string, object>>), "Lines", "Capstone.Invoicing.Domain.Invoice.Lines#InvoiceLineItem", b1 =>
-                        {
-                            b1.IsRequired();
-
-                            b1.Property<int>("BilledQuantity");
-
-                            b1.Property<int>("PurchaseOrderLineNumber");
-
-                            b1.ComplexProperty(typeof(Dictionary<string, object>), "UnitPrice", "Capstone.Invoicing.Domain.Invoice.Lines#InvoiceLineItem.UnitPrice#Money", b2 =>
-                                {
-                                    b2.IsRequired();
-
-                                    b2.Property<decimal>("Amount");
-
-                                    b2.Property<string>("Currency")
-                                        .IsRequired();
-                                });
-
-                            b1
-                                .ToJson("Lines")
-                                .HasColumnType("nvarchar(max)");
-                        });
-
-                    b.ComplexProperty(typeof(Dictionary<string, object>), "MatchResult", "Capstone.Invoicing.Domain.Invoice.MatchResult#MatchResult", b1 =>
-                        {
-                            b1.IsRequired();
-
-                            b1.Property<bool>("WithinTolerance");
-
-                            b1.ComplexCollection(typeof(List<Dictionary<string, object>>), "LineVariances", "Capstone.Invoicing.Domain.Invoice.MatchResult#MatchResult.LineVariances#LineVariance", b2 =>
-                                {
-                                    b2.IsRequired();
-
-                                    b2.Property<int>("LineNumber");
-
-                                    b2.ComplexProperty(typeof(Dictionary<string, object>), "Invoiced", "Capstone.Invoicing.Domain.Invoice.MatchResult#MatchResult.LineVariances#LineVariance.Invoiced#Money", b3 =>
-                                        {
-                                            b3.IsRequired();
-
-                                            b3.Property<decimal>("Amount");
-
-                                            b3.Property<string>("Currency")
-                                                .IsRequired();
-                                        });
-
-                                    b2.ComplexProperty(typeof(Dictionary<string, object>), "PurchaseOrderLineValue", "Capstone.Invoicing.Domain.Invoice.MatchResult#MatchResult.LineVariances#LineVariance.PurchaseOrderLineValue#Money", b3 =>
-                                        {
-                                            b3.IsRequired();
-
-                                            b3.Property<decimal>("Amount");
-
-                                            b3.Property<string>("Currency")
-                                                .IsRequired();
-                                        });
-
-                                    b2.ComplexProperty(typeof(Dictionary<string, object>), "Variance", "Capstone.Invoicing.Domain.Invoice.MatchResult#MatchResult.LineVariances#LineVariance.Variance#Money", b3 =>
-                                        {
-                                            b3.IsRequired();
-
-                                            b3.Property<decimal>("Amount");
-
-                                            b3.Property<string>("Currency")
-                                                .IsRequired();
-                                        });
-                                });
-
-                            b1
-                                .ToJson("MatchResult")
-                                .HasColumnType("nvarchar(max)");
                         });
 
                     b.ComplexProperty(typeof(Dictionary<string, object>), "Terms", "Capstone.Invoicing.Domain.Invoice.Terms#PaymentTermsSnapshot", b1 =>

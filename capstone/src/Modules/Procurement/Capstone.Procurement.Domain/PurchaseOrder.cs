@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using Capstone.SharedKernel;
 
 namespace Capstone.Procurement.Domain;
@@ -55,11 +54,7 @@ public sealed class PurchaseOrder : AggregateRoot<PurchaseOrderId>
     public Guid BuyerId { get; }
     public string Currency { get; }
     public PurchaseOrderStatus Status { get; private set; }
-    // See Capstone.Invoicing.Domain.Invoice.Lines's identical comment - the
-    // return type is ReadOnlyCollection<T> (implements IList<T>) rather than
-    // IReadOnlyCollection<T> purely to satisfy EF Core's complex-type collection
-    // mapping; every mutating member still throws NotSupportedException.
-    public ReadOnlyCollection<PurchaseOrderLine> Lines => _lines.AsReadOnly();
+    public IReadOnlyCollection<PurchaseOrderLine> Lines => _lines;
 
     public Money Total => _lines
         .Select(l => l.LineValue)

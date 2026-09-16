@@ -1,23 +1,53 @@
+using System.Text.Json;
 using Capstone.Invoicing.Domain;
+using Capstone.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Capstone.Invoicing.Infrastructure.Persistence;
 
 // Maps the Invoice aggregate exactly as Capstone.Invoicing.Domain already defines
-// it. Only one domain type changed to make this mapping possible: DueDate gained a
-// private setter (see Invoice.cs's comment) so materialization restores the
-// persisted value instead of silently re-deriving it from SubmittedAt+Terms on
-// every read - everything else here maps the aggregate as it already stood.
+// it - no domain type was changed to make this mapping possible except one:
+// DueDate gained a private setter (see Invoice.cs's comment) so materialization
+// restores the persisted value instead of silently re-deriving it from
+// SubmittedAt+Terms on every read.
 //
 // Money is a `readonly record struct` with no identity of its own - exactly what
 // EF Core's "complex property" mapping (stable since EF Core 8) exists for, as
-// opposed to `OwnsOne`/`OwnsMany`, which model owned ENTITY types. Used
-// consistently below, whether Money sits directly on the aggregate (there is none
-// here - see PurchaseOrderEntityTypeConfiguration for that case) or nested inside a
-// JSON-mapped owned collection (Lines, MatchResult's LineVariances).
+// opposed to `OwnsOne`/`OwnsMany`, which model owned ENTITY types. Used for Terms
+// and Approval below, both flat (no nested collection).
+//
+// Lines and MatchResult are NOT mapped as EF complex types, despite also being
+// value objects with no identity - EF Core 10.0.12's native complex-type JSON
+// mapping for COLLECTIONS (ComplexCollection().ToJson(), and a ComplexProperty
+// containing one) hits a real bug in its query-shaping code the moment a row is
+// read back: RelationalShapedQueryCompilingExpressionVisitor.CreateJsonShapers
+// throws a bare NullReferenceException from
+// EntityFrameworkMemberInfoExtensions.GetMemberType, reproduced live and
+// consistently against a real SQL Server container (see
+// tests/Capstone.Integration.Tests) regardless of the collection navigation's
+// visibility or access mode - every variant tried (public/internal property,
+// field vs property access mode, a dedicated shadow property) hit the identical
+// failure, which points at the feature itself rather than this mapping's
+// configuration. Both are stored instead as a single JSON-text column via a
+// plain HasConversion, serialized/deserialized with System.Text.Json directly -
+// a longer-established, simpler mechanism than EF's native complex-JSON
+// collections, and unaffected by that bug because EF never treats the column as
+// anything but a string.
 internal sealed class InvoiceEntityTypeConfiguration : IEntityTypeConfiguration<Invoice>
 {
+    // MoneyJsonConverter is required: System.Text.Json's default reflection-based
+    // deserialization cannot construct Money at all (a struct with no
+    // parameterless constructor and no settable properties - confirmed live
+    // that it silently produces Amount=0, Currency="" instead of using Money's
+    // one public constructor, rather than throwing). See MoneyJsonConverter's
+    // own comment. Applies automatically to every Money value nested anywhere
+    // in Lines/MatchResult below, however deep.
+    private static readonly JsonSerializerOptions JsonOptions = new()
+    {
+        Converters = { new MoneyJsonConverter() },
+    };
+
     public void Configure(EntityTypeBuilder<Invoice> builder)
     {
         builder.ToTable("Invoices", schema: "invoicing");
@@ -61,55 +91,28 @@ internal sealed class InvoiceEntityTypeConfiguration : IEntityTypeConfiguration<
             approval.Property(a => a.ApprovedBy).HasColumnName("Approval_ApprovedBy");
         });
 
-        // MatchResult (plus its nested LineVariances, each carrying three Money
-        // values) maps to one JSON column - it is only ever read and written
-        // whole, alongside its owning invoice, never queried into directly, which
-        // is exactly the case EF Core's JSON-column complex-type mapping is for.
-        // Money, InvoiceLineItem, MatchResult and LineVariance are all modelled as
-        // EF "complex types" (ComplexProperty/ComplexCollection), not owned entity
-        // types (OwnsOne/OwnsMany) - correct here since none of them has identity
-        // of its own; EF Core's complex-type collections require a JSON column,
-        // which is exactly the storage shape these value objects need anyway.
-        builder.ComplexProperty(i => i.MatchResult, matchResult =>
-        {
-            matchResult.ToJson();
-            matchResult.ComplexCollection(m => m.LineVariances, variances =>
-            {
-                variances.ComplexProperty(v => v.Invoiced, money =>
-                {
-                    money.Property(m => m.Amount);
-                    money.Property(m => m.Currency);
-                });
-                variances.ComplexProperty(v => v.PurchaseOrderLineValue, money =>
-                {
-                    money.Property(m => m.Amount);
-                    money.Property(m => m.Currency);
-                });
-                variances.ComplexProperty(v => v.Variance, money =>
-                {
-                    money.Property(m => m.Amount);
-                    money.Property(m => m.Currency);
-                });
-            });
-        });
+        // MatchResult (with its nested LineVariances, each carrying three Money
+        // values) - a single JSON-text column via System.Text.Json, not EF's
+        // native complex-JSON mapping. See this file's top comment for why.
+        builder.Property(i => i.MatchResult)
+            .HasConversion(
+                matchResult => JsonSerializer.Serialize(matchResult, JsonOptions),
+                json => JsonSerializer.Deserialize<MatchResult>(json, JsonOptions)!)
+            .HasColumnName("MatchResult")
+            .HasColumnType("nvarchar(max)")
+            .IsRequired();
 
-        // Lines: a complex-type collection backed by the private `_lines` field -
-        // EF Core's default backing-field convention matches `_lines` to the
-        // get-only `Lines` property automatically, so the aggregate's own
-        // encapsulation (no public setter, no way to hand the collection to the
-        // caller for mutation) needed no changes for this to work. Also a JSON
-        // column, for the same reason as MatchResult above.
-        builder.ComplexCollection(i => i.Lines, lines =>
-        {
-            lines.HasField("_lines").UsePropertyAccessMode(PropertyAccessMode.Field);
-            lines.ToJson();
-            lines.Ignore(l => l.LineAmount);
-            lines.ComplexProperty(l => l.UnitPrice, money =>
-            {
-                money.Property(m => m.Amount);
-                money.Property(m => m.Currency);
-            });
-        });
+        // Lines - same JSON-text-column approach as MatchResult above, backed by
+        // the private `_lines` field (HasField tells EF where the deserialized
+        // list lands; Lines itself has no setter).
+        builder.Property(i => i.Lines)
+            .HasField("_lines")
+            .HasConversion(
+                lines => JsonSerializer.Serialize(lines, JsonOptions),
+                json => JsonSerializer.Deserialize<List<InvoiceLineItem>>(json, JsonOptions)!)
+            .HasColumnName("Lines")
+            .HasColumnType("nvarchar(max)")
+            .IsRequired();
 
         builder.Ignore(i => i.Total);
     }

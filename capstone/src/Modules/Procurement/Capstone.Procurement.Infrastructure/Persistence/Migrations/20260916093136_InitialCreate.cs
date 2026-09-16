@@ -24,11 +24,11 @@ namespace Capstone.Procurement.Infrastructure.Persistence.Migrations
                     BuyerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
                     Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Lines = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Consumed_Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Consumed_Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
                     Reserved_Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Reserved_Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
-                    Lines = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Reserved_Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false)
                 },
                 constraints: table =>
                 {
