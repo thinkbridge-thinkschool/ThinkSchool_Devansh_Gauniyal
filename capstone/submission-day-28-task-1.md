@@ -135,7 +135,7 @@ rather than an addition to them.
 The live project is `capstone/` — `day-28/task-1/` is a frozen snapshot of it as this
 day ended, never edited directly.
 
-Commit representing this day's state: `<commit-hash-filled-in-after-commit>`.
+Commit representing this day's state: `ea3b966e7762a8a402648ba9b3d6dba054c2041e`.
 
 The critique above is self-generated pending real mentor feedback — the section is
 marked for it explicitly rather than left implicit.
