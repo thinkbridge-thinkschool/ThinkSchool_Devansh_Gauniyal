@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using Capstone.SharedKernel;
 
 namespace Capstone.Procurement.Domain;
@@ -17,7 +18,21 @@ namespace Capstone.Procurement.Domain;
 // direction between the two modules' domains.
 public sealed class PurchaseOrder : AggregateRoot<PurchaseOrderId>
 {
-    private readonly List<PurchaseOrderLine> _lines;
+    private readonly List<PurchaseOrderLine> _lines = [];
+
+    // EF Core materialization only (Capstone.Procurement.Infrastructure.Persistence)
+    // - never called by application code, which has exactly one way to create a
+    // PurchaseOrder: Issue() below. Required for the same reason as Invoice's
+    // identical private parameterless constructor: Lines is mapped as an EF
+    // complex-type collection, and EF Core's constructor-binding materialization
+    // cannot bind a constructor parameter to a complex/owned property.
+    private PurchaseOrder()
+        : base(default!)
+    {
+        // Id and Currency are set by EF Core via reflection immediately after
+        // construction, the same way Status/Reserved/Consumed already are.
+        Currency = null!;
+    }
 
     private PurchaseOrder(
         PurchaseOrderId id,
@@ -40,7 +55,11 @@ public sealed class PurchaseOrder : AggregateRoot<PurchaseOrderId>
     public Guid BuyerId { get; }
     public string Currency { get; }
     public PurchaseOrderStatus Status { get; private set; }
-    public IReadOnlyCollection<PurchaseOrderLine> Lines => _lines;
+    // See Capstone.Invoicing.Domain.Invoice.Lines's identical comment - the
+    // return type is ReadOnlyCollection<T> (implements IList<T>) rather than
+    // IReadOnlyCollection<T> purely to satisfy EF Core's complex-type collection
+    // mapping; every mutating member still throws NotSupportedException.
+    public ReadOnlyCollection<PurchaseOrderLine> Lines => _lines.AsReadOnly();
 
     public Money Total => _lines
         .Select(l => l.LineValue)

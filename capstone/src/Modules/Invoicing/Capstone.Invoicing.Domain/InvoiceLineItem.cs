@@ -9,5 +9,14 @@ namespace Capstone.Invoicing.Domain;
 // legitimately diverge; that divergence is what matching exists to check.
 public sealed record InvoiceLineItem(int PurchaseOrderLineNumber, int BilledQuantity, Money UnitPrice)
 {
+    // EF Core materialization only - UnitPrice (Money) is mapped as a complex
+    // property, and EF Core's constructor-binding materialization cannot bind a
+    // constructor parameter to a complex/owned property (see Invoice.cs's private
+    // parameterless constructor for the fuller explanation of the same root cause).
+    public InvoiceLineItem()
+        : this(0, 0, default)
+    {
+    }
+
     public Money LineAmount => new(BilledQuantity * UnitPrice.Amount, UnitPrice.Currency);
 }

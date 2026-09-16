@@ -7,5 +7,12 @@ namespace Capstone.Procurement.Domain;
 // Invoicing's line-level matching refers back to.
 public sealed record PurchaseOrderLine(int LineNumber, string ItemReference, int OrderedQuantity, Money UnitPrice)
 {
+    // EF Core materialization only - see InvoiceLineItem.cs's identical
+    // constructor for the full explanation (UnitPrice is a complex property).
+    public PurchaseOrderLine()
+        : this(0, string.Empty, 0, default)
+    {
+    }
+
     public Money LineValue => new(OrderedQuantity * UnitPrice.Amount, UnitPrice.Currency);
 }

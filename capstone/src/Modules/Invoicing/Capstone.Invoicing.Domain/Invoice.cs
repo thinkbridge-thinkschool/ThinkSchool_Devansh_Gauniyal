@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using Capstone.SharedKernel;
 
 namespace Capstone.Invoicing.Domain;
@@ -12,7 +13,33 @@ namespace Capstone.Invoicing.Domain;
 //     something to resolve, not a malformed request to reject.
 public sealed class Invoice : AggregateRoot<InvoiceId>
 {
-    private readonly List<InvoiceLineItem> _lines;
+    private readonly List<InvoiceLineItem> _lines = [];
+
+    // EF Core materialization only (Capstone.Invoicing.Infrastructure.Persistence)
+    // - never called by application code, which has exactly one way to create an
+    // Invoice: Submit() below. Required because Terms, MatchResult and Lines are
+    // mapped as EF "complex" types (no identity of their own - see
+    // InvoiceEntityTypeConfiguration), and EF Core's constructor-binding
+    // materialization explicitly cannot bind constructor parameters to
+    // complex/owned properties, only plain scalar ones (confirmed live: without
+    // this constructor, `dotnet ef migrations add` fails with "Cannot bind
+    // 'lines', 'terms', 'matchResult'... Navigations to related entities,
+    // including references to owned types, cannot be bound"). With this
+    // constructor present, EF instead sets every property - including the
+    // get-only ones below - directly via reflection after construction, which it
+    // supports natively for auto-implemented properties.
+    private Invoice()
+        : base(default!)
+    {
+        // Id (from the base type) and every property assigned `null!` here are
+        // set by EF Core via reflection immediately after construction, the same
+        // way DueDate/Status/DisputeReason/Approval already are - these
+        // placeholders are discarded before anything else ever sees them.
+        InvoiceNumber = null!;
+        Currency = null!;
+        Terms = null!;
+        MatchResult = null!;
+    }
 
     private Invoice(
         InvoiceId id,
@@ -53,15 +80,28 @@ public sealed class Invoice : AggregateRoot<InvoiceId>
     public PurchaseOrderReference PurchaseOrderId { get; }
     public string InvoiceNumber { get; }
     public string Currency { get; }
-    public IReadOnlyCollection<InvoiceLineItem> Lines => _lines;
+    // ReadOnlyCollection<T>, not the plain IReadOnlyCollection<T> this used to
+    // return - EF Core's complex-type collection mapping (Persistence/
+    // InvoiceEntityTypeConfiguration.cs) requires the navigation's declared type
+    // to implement IList<T>, which IReadOnlyCollection<T> does not. Behaviourally
+    // identical for callers: every mutating member still throws
+    // NotSupportedException at runtime, so external code still cannot alter this
+    // invoice's lines - only the compile-time type signature changed, purely to
+    // satisfy the ORM, not to open a mutation path.
+    public ReadOnlyCollection<InvoiceLineItem> Lines => _lines.AsReadOnly();
     public PaymentTermsSnapshot Terms { get; }
     public MatchResult MatchResult { get; }
     public DateTimeOffset SubmittedAt { get; }
 
     // Stored, not recomputed on every read - see DESIGN.md: a later change to how
     // terms are calculated must never silently move a date already communicated to
-    // the supplier.
-    public DateTimeOffset DueDate { get; }
+    // the supplier. The private setter exists solely so EF Core's constructor-
+    // binding materialization (Capstone.Invoicing.Infrastructure.Persistence) can
+    // overwrite the constructor's freshly-computed value with whatever was actually
+    // persisted, the moment a row is loaded back - without it, every read would
+    // silently re-derive DueDate from SubmittedAt+Terms instead of trusting the
+    // stored column, exactly the bug this field exists to prevent.
+    public DateTimeOffset DueDate { get; private set; }
 
     public InvoiceStatus Status { get; private set; }
     public string? DisputeReason { get; private set; }
@@ -136,7 +176,7 @@ public sealed class Invoice : AggregateRoot<InvoiceId>
                 $"Invoice total {total} exceeds the {purchaseOrder.Available} available on purchase order {purchaseOrder.Id}.");
         }
 
-        var matchResult = new MatchResult(variances.Count == 0, variances);
+        var matchResult = new MatchResult(variances.Count == 0, variances.AsReadOnly());
         var submittedAt = clock.GetUtcNow();
 
         var invoice = new Invoice(
