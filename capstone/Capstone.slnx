@@ -20,6 +20,7 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Capstone.ArchitectureTests/Capstone.ArchitectureTests.csproj" />
+    <Project Path="tests/Capstone.Integration.Tests/Capstone.Integration.Tests.csproj" />
     <Project Path="tests/Capstone.Invoicing.Domain.Tests/Capstone.Invoicing.Domain.Tests.csproj" />
   </Folder>
 </Solution>
