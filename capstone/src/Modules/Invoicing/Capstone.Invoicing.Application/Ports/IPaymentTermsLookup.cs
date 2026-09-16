@@ -10,5 +10,5 @@ namespace Capstone.Invoicing.Application.Ports;
 // workflow, or versioning, that's the signal it has become its own context.
 public interface IPaymentTermsLookup
 {
-    Task<PaymentTermsSnapshot> GetAgreedTermsAsync(Guid buyerId, Guid supplierId, CancellationToken cancellationToken);
+    Task<PaymentTermsSnapshot> GetAgreedTermsAsync(Guid buyerId, Guid supplierId, CancellationToken cancellationToken);// defines the terms 
 }

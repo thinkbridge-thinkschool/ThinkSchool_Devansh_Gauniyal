@@ -10,5 +10,5 @@ public sealed record ApprovalRecord(DateTimeOffset ApprovedAt, ApprovalKind Kind
         new(approvedAt, ApprovalKind.Human, approvedBy);
 
     public static ApprovalRecord DeemedBySla(DateTimeOffset deemedAt) =>
-        new(deemedAt, ApprovalKind.DeemedBySla, ApprovedBy: null);
+        new(deemedAt, ApprovalKind.DeemedBySla, ApprovedBy: null);// this here shows the invoice being approved by deemed by approval
 }

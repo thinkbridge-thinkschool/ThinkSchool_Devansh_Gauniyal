@@ -77,14 +77,14 @@ public sealed class PurchaseOrder : AggregateRoot<PurchaseOrderId>
 
     // Called when an invoice that was reserving capacity is rejected or withdrawn -
     // the amount was never actually owed, so it goes back to Available.
-    public void ReleaseReservation(Money amount)
+    public void ReleaseReservation(Money amount)// called to release the amount 
     {
         Reserved -= amount;
     }
 
     // Called when an invoice is approved: the amount stops being merely "possible"
     // and becomes an actual, locked liability against this order.
-    public void ConsumeReservation(Money amount)
+    public void ConsumeReservation(Money amount)// confirms the reserved amount 
     {
         Reserved -= amount;
         Consumed += amount;

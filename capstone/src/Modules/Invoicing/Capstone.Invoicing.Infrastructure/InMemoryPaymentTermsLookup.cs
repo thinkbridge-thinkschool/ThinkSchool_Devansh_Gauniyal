@@ -10,7 +10,7 @@ namespace Capstone.Invoicing.Infrastructure;
 // wire, not just an interface nobody can run.
 public sealed class InMemoryPaymentTermsLookup : IPaymentTermsLookup
 {
-    private static readonly PaymentTermsSnapshot DefaultTerms = new(netDays: 45, reviewWindowDays: 10);
+    private static readonly PaymentTermsSnapshot DefaultTerms = new(netDays: 45, reviewWindowDays: 10);// supplies the current defaults 
 
     public Task<PaymentTermsSnapshot> GetAgreedTermsAsync(Guid buyerId, Guid supplierId, CancellationToken cancellationToken) =>
         Task.FromResult(DefaultTerms);

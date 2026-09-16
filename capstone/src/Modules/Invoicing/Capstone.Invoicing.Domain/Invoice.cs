@@ -170,7 +170,7 @@ public sealed class Invoice : AggregateRoot<InvoiceId>
     // scheduled use case. Only a Submitted invoice the buyer never acted on is
     // eligible; an active Dispute means the buyer DID act, just not by approving, so
     // it is deliberately excluded here.
-    public void ApplyDeemedApproval(TimeProvider clock)
+    public void ApplyDeemedApproval(TimeProvider clock)// deemed approval enters through here
     {
         if (Status != InvoiceStatus.Submitted)
         {
@@ -185,10 +185,10 @@ public sealed class Invoice : AggregateRoot<InvoiceId>
                 $"Invoice {Id}'s review window does not elapse until {deadline:O}.");
         }
 
-        ApplyApproval(ApprovalRecord.DeemedBySla(deadline));
+        ApplyApproval(ApprovalRecord.DeemedBySla(deadline));// go to approval records.cs  they show how the invoice was approved 
     }
 
-    public void Dispute(string reason, TimeProvider clock)
+    public void Dispute(string reason, TimeProvider clock) // call enters when we call dispute 
     {
         if (string.IsNullOrWhiteSpace(reason))
         {
@@ -210,7 +210,7 @@ public sealed class Invoice : AggregateRoot<InvoiceId>
     // invoice that references this one. Never mutate this invoice's lines/amount -
     // it's already been shown to the buyer once, disputed, and must keep saying what
     // it said.
-    public void Reject(string reason, TimeProvider clock)
+    public void Reject(string reason, TimeProvider clock)// reject invoice use case enters here afer the call 
     {
         if (string.IsNullOrWhiteSpace(reason))
         {
@@ -226,7 +226,7 @@ public sealed class Invoice : AggregateRoot<InvoiceId>
         Raise(new InvoiceRejected(Id, reason, Total, clock.GetUtcNow()));
     }
 
-    public void Withdraw(TimeProvider clock)
+    public void Withdraw(TimeProvider clock)// withdraw invoice enters here after the call 
     {
         if (Status != InvoiceStatus.Submitted)
         {
@@ -246,7 +246,7 @@ public sealed class Invoice : AggregateRoot<InvoiceId>
         }
     }
 
-    private void ApplyApproval(ApprovalRecord record)
+    private void ApplyApproval(ApprovalRecord record)// here we come from approval record and marks the invoice approved 
     {
         // Once set, nothing below this point can run again - Status is no longer
         // Submitted or Disputed, so every other mutator's guard rejects the call.

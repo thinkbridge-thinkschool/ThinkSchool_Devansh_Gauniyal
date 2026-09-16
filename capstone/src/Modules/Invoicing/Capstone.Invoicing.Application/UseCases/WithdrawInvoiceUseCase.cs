@@ -10,16 +10,16 @@ public sealed class WithdrawInvoiceUseCase(
 {
     public async Task ExecuteAsync(InvoiceId invoiceId, CancellationToken cancellationToken)
     {
-        var invoice = await invoices.FindAsync(invoiceId, cancellationToken)
+        var invoice = await invoices.FindAsync(invoiceId, cancellationToken)//calls the internal memory
             ?? throw new InvalidOperationException($"Invoice {invoiceId} was not found.");
 
-        invoice.Withdraw(clock);
+        invoice.Withdraw(clock);// calling invoive.cs for withdrawl 
 
         foreach (var domainEvent in invoice.DomainEvents)
         {
             if (domainEvent is InvoiceWithdrawn withdrawn)
             {
-                await purchaseOrderCapacity.ReleaseReservationAsync(
+                await purchaseOrderCapacity.ReleaseReservationAsync(// calls the adapter 
                     invoice.PurchaseOrderId, withdrawn.ReleasedAmount, cancellationToken);
             }
         }

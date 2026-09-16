@@ -6,11 +6,11 @@ namespace Capstone.Invoicing.Infrastructure;
 
 // In-memory only - see the equivalent note on Procurement.Infrastructure's
 // repository. Real persistence is Day 28+ work.
-public sealed class InMemoryInvoiceRepository : IInvoiceRepository
+public sealed class InMemoryInvoiceRepository : IInvoiceRepository// contains code that performs ininvoicerepo
 {
     private readonly ConcurrentDictionary<InvoiceId, Invoice> _invoices = new();
 
-    public Task<Invoice?> FindAsync(InvoiceId id, CancellationToken cancellationToken) =>
+    public Task<Invoice?> FindAsync(InvoiceId id, CancellationToken cancellationToken) =>// returns invoice 
         Task.FromResult(_invoices.GetValueOrDefault(id));
 
     public Task AddAsync(Invoice invoice, CancellationToken cancellationToken)
@@ -21,7 +21,7 @@ public sealed class InMemoryInvoiceRepository : IInvoiceRepository
 
     public Task<IReadOnlyList<Invoice>> FindSubmittedAsync(CancellationToken cancellationToken)
     {
-        IReadOnlyList<Invoice> submitted = [.. _invoices.Values.Where(i => i.Status == InvoiceStatus.Submitted)];
+        IReadOnlyList<Invoice> submitted = [.. _invoices.Values.Where(i => i.Status == InvoiceStatus.Submitted)];// returns only the submitted invoices 
         return Task.FromResult(submitted);
     }
 

@@ -49,7 +49,7 @@ var samplingRatio = float.TryParse(builder.Configuration["OTEL_SAMPLING_RATIO"],
 var connectionString = builder.Configuration["APPLICATIONINSIGHTS_CONNECTION_STRING"]
     ?? throw new InvalidOperationException("APPLICATIONINSIGHTS_CONNECTION_STRING is not configured.");
 
-builder.Services.AddOpenTelemetry()
+builder.Services.AddOpenTelemetry()//calls telemetry helps shows which work was done in worker and which was done in api
     .ConfigureResource(resource => resource.AddService(serviceName: "capstone-worker"))
     .WithTracing(tracing => tracing
         .AddSource("Capstone.Worker")

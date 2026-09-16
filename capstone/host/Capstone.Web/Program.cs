@@ -69,7 +69,7 @@ var samplingRatio = float.TryParse(builder.Configuration["OTEL_SAMPLING_RATIO"],
     ? parsedRatio
     : 1.0F;
 
-builder.Services.AddOpenTelemetry()
+builder.Services.AddOpenTelemetry()// api configfures opentelemetry 
     .ConfigureResource(resource => resource.AddService(serviceName: "capstone-api"))
     .UseAzureMonitor(options =>
     {
@@ -106,9 +106,9 @@ builder.Services.AddSingleton<IPurchaseOrderCapacityGateway, PurchaseOrderCapaci
 
 // Invoicing module. Its only knowledge of Procurement is through the port it
 // defines itself (IPurchaseOrderCapacityPort) and the adapter that implements it.
-builder.Services.AddSingleton<IInvoiceRepository, InMemoryInvoiceRepository>();
-builder.Services.AddSingleton<IPaymentTermsLookup, InMemoryPaymentTermsLookup>();
-builder.Services.AddSingleton<IPurchaseOrderCapacityPort, ProcurementCapacityAdapter>();
+builder.Services.AddSingleton<IInvoiceRepository, InMemoryInvoiceRepository>();// whenever anything asks for ininvoice port give it inMemoryinvoicerep
+builder.Services.AddSingleton<IPaymentTermsLookup, InMemoryPaymentTermsLookup>();// connects these two 
+builder.Services.AddSingleton<IPurchaseOrderCapacityPort, ProcurementCapacityAdapter>();// whenever something asks for Ipurchaseport give it adapter
 
 builder.Services.AddScoped<SubmitInvoiceUseCase>();
 builder.Services.AddScoped<ApproveInvoiceUseCase>();
@@ -134,7 +134,7 @@ var authConfigured = !string.IsNullOrWhiteSpace(tenantId) && !string.IsNullOrWhi
 
 if (authConfigured)
 {
-    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)// entra id authentication
         .AddJwtBearer(options =>
         {
             options.Authority = $"https://login.microsoftonline.com/{tenantId}/v2.0";
@@ -156,7 +156,7 @@ if (authConfigured)
 // limiter, partitioned per client IP, applied to every route in this host - see
 // THREAT-MODEL.md's Denial-of-service section for why this is per-instance, not a
 // global cap across the whole App Service plan.
-const int RateLimitPermitsPerWindow = 100;
+const int RateLimitPermitsPerWindow = 100;// rate limiting limiting the number of requests per ip
 builder.Services.AddRateLimiter(options =>
 {
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
@@ -312,7 +312,7 @@ if (authConfigured)
 // side in host/Capstone.Worker/TraceDemoWorker.cs, not left to any SDK-automatic
 // mechanism, so this project can prove propagation instead of assuming it (see
 // infra/README.md, "Day 26 - proving propagation across the Service Bus hop").
-var traceWorker = app.MapPost("/demo/trace-worker", async (IConfiguration configuration, CancellationToken cancellationToken) =>
+var traceWorker = app.MapPost("/demo/trace-worker", async (IConfiguration configuration, CancellationToken cancellationToken) =>//
 {
     using var activity = apiActivitySource.StartActivity("capstone-api.send-trace-demo-message", ActivityKind.Producer);
 

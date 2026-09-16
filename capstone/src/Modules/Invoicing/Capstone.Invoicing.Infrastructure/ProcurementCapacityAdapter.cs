@@ -13,8 +13,8 @@ namespace Capstone.Invoicing.Infrastructure;
 // Procurement's Guid/PurchaseOrderCapacitySnapshot. Neither module's Domain project
 // is referenced here, and neither module's Domain project references the other -
 // see capstone/README.md, "dependency direction", for what that buys.
-public sealed class ProcurementCapacityAdapter(IPurchaseOrderCapacityGateway procurement) : IPurchaseOrderCapacityPort
-{
+public sealed class ProcurementCapacityAdapter(IPurchaseOrderCapacityGateway procurement) : IPurchaseOrderCapacityPort//this line shows this provides the operations listed there at Ipurchaseorder
+{// it also shows that Ipurchaseordergateway is called by procurement 
     public async Task<PurchaseOrderSnapshot?> GetSnapshotAsync(
         PurchaseOrderReference purchaseOrderId, CancellationToken cancellationToken)
     {
@@ -37,9 +37,9 @@ public sealed class ProcurementCapacityAdapter(IPurchaseOrderCapacityGateway pro
     public Task ReserveAsync(PurchaseOrderReference purchaseOrderId, Money amount, CancellationToken cancellationToken) =>
         procurement.ReserveAsync(purchaseOrderId.Value, amount, cancellationToken);
 
-    public Task ReleaseReservationAsync(PurchaseOrderReference purchaseOrderId, Money amount, CancellationToken cancellationToken) =>
+    public Task ReleaseReservationAsync(PurchaseOrderReference purchaseOrderId, Money amount, CancellationToken cancellationToken) =>// passes id and amount to procurement gateway
         procurement.ReleaseReservationAsync(purchaseOrderId.Value, amount, cancellationToken);
 
-    public Task ConsumeReservationAsync(PurchaseOrderReference purchaseOrderId, Money amount, CancellationToken cancellationToken) =>
+    public Task ConsumeReservationAsync(PurchaseOrderReference purchaseOrderId, Money amount, CancellationToken cancellationToken) =>// passes the request to procurement 
         procurement.ConsumeReservationAsync(purchaseOrderId.Value, amount, cancellationToken);
 }

@@ -12,9 +12,9 @@ namespace Capstone.Invoicing.Application.UseCases;
 // a unit of work / database transaction spanning both repositories, which this
 // in-memory scaffold does not attempt - see README.md, "what's deliberately not
 // built yet".
-public sealed class SubmitInvoiceUseCase(
+public sealed class SubmitInvoiceUseCase(// all are dependency injections since they are called through constructirs they are constructor injections 
     IInvoiceRepository invoices,
-    IPurchaseOrderCapacityPort purchaseOrderCapacity,
+    IPurchaseOrderCapacityPort purchaseOrderCapacity,// lookup calls IpurchaseOrdercapacity.cs
     IPaymentTermsLookup paymentTerms,
     TimeProvider clock)
 {

@@ -10,10 +10,10 @@ public sealed class DisputeInvoiceUseCase(IInvoiceRepository invoices, TimeProvi
 {
     public async Task ExecuteAsync(InvoiceId invoiceId, string reason, CancellationToken cancellationToken)
     {
-        var invoice = await invoices.FindAsync(invoiceId, cancellationToken)
+        var invoice = await invoices.FindAsync(invoiceId, cancellationToken)// calls in memory storage 
             ?? throw new InvalidOperationException($"Invoice {invoiceId} was not found.");
 
-        invoice.Dispute(reason, clock);
+        invoice.Dispute(reason, clock);// calls for the invoice.cs for dispute 
         invoice.ClearDomainEvents();
     }
 }

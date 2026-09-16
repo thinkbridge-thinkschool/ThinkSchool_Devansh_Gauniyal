@@ -15,16 +15,16 @@ public sealed class RejectInvoiceUseCase(
 {
     public async Task ExecuteAsync(InvoiceId invoiceId, string reason, CancellationToken cancellationToken)
     {
-        var invoice = await invoices.FindAsync(invoiceId, cancellationToken)
+        var invoice = await invoices.FindAsync(invoiceId, cancellationToken)// calls the in memory invoice repo 
             ?? throw new InvalidOperationException($"Invoice {invoiceId} was not found.");
 
-        invoice.Reject(reason, clock);
+        invoice.Reject(reason, clock);// calls invoice.cs for rejecting the invoice
 
         foreach (var domainEvent in invoice.DomainEvents)
         {
             if (domainEvent is InvoiceRejected rejected)
             {
-                await purchaseOrderCapacity.ReleaseReservationAsync(
+                await purchaseOrderCapacity.ReleaseReservationAsync(// pases the request to procurement adapter 
                     invoice.PurchaseOrderId, rejected.ReleasedAmount, cancellationToken);
             }
         }

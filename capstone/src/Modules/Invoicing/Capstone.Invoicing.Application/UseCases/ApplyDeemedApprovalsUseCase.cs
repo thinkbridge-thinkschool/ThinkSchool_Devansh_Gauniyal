@@ -18,29 +18,29 @@ public sealed class ApplyDeemedApprovalsUseCase(
     {
         var deemed = new List<InvoiceId>();
 
-        foreach (var invoice in await invoices.FindSubmittedAsync(cancellationToken))
+        foreach (var invoice in await invoices.FindSubmittedAsync(cancellationToken))// get all submitted invoices from the in memory repository 
         {
             var deadline = invoice.SubmittedAt.AddDays(invoice.Terms.ReviewWindowDays);
-            if (clock.GetUtcNow() < deadline)
+            if (clock.GetUtcNow() < deadline)// checking deadline 
             {
                 continue;
             }
 
-            invoice.ApplyDeemedApproval(clock);
+            invoice.ApplyDeemedApproval(clock);// if deadline arrives approve it therefore calling invoice.cs
 
             foreach (var domainEvent in invoice.DomainEvents)
             {
                 if (domainEvent is InvoiceApproved approved)
                 {
-                    await purchaseOrderCapacity.ConsumeReservationAsync(
+                    await purchaseOrderCapacity.ConsumeReservationAsync(// calls adapter 
                         invoice.PurchaseOrderId, approved.ConsumedAmount, cancellationToken);
                 }
             }
 
             invoice.ClearDomainEvents();
-            deemed.Add(invoice.Id);
+            deemed.Add(invoice.Id);// adds newly approved invoice to the list 
         }
 
-        return deemed;
+        return deemed;//returns list 
     }
 }

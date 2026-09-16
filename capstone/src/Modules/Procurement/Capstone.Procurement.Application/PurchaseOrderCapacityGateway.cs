@@ -4,7 +4,7 @@ using Capstone.SharedKernel;
 namespace Capstone.Procurement.Application;
 
 public sealed class PurchaseOrderCapacityGateway(IPurchaseOrderRepository purchaseOrders) : IPurchaseOrderCapacityGateway
-{
+{// IPurchaseOrderRepository calls in memory purchase order repository 
     public async Task<PurchaseOrderCapacitySnapshot?> GetSnapshotAsync(Guid purchaseOrderId, CancellationToken cancellationToken)
     {
         var purchaseOrder = await purchaseOrders.FindAsync(new PurchaseOrderId(purchaseOrderId), cancellationToken);
@@ -19,14 +19,14 @@ public sealed class PurchaseOrderCapacityGateway(IPurchaseOrderRepository purcha
 
     public async Task ReleaseReservationAsync(Guid purchaseOrderId, Money amount, CancellationToken cancellationToken)
     {
-        var purchaseOrder = await RequireAsync(purchaseOrderId, cancellationToken);
-        purchaseOrder.ReleaseReservation(amount);
+        var purchaseOrder = await RequireAsync(purchaseOrderId, cancellationToken);// finds the P/O
+        purchaseOrder.ReleaseReservation(amount);// calls purchaseOrder.cs 
     }
 
     public async Task ConsumeReservationAsync(Guid purchaseOrderId, Money amount, CancellationToken cancellationToken)
     {
-        var purchaseOrder = await RequireAsync(purchaseOrderId, cancellationToken);
-        purchaseOrder.ConsumeReservation(amount);
+        var purchaseOrder = await RequireAsync(purchaseOrderId, cancellationToken);//finds the P/O
+        purchaseOrder.ConsumeReservation(amount);// calls purchaseOrder.cs
     }
 
     private async Task<PurchaseOrder> RequireAsync(Guid purchaseOrderId, CancellationToken cancellationToken) =>
