@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <!--
+    Day 29 - these tests run against a REAL SQL Server (via Testcontainers, not
+    SQLite) because the thing being proven is that the EF Core mapping in
+    Capstone.Invoicing.Infrastructure/Persistence and
+    Capstone.Procurement.Infrastructure/Persistence - complex-type JSON columns,
+    decimal(18,2) columns, schema-qualified tables - actually round-trips
+    against the same database engine the deployed app uses. A lighter provider
+    would not have caught several of the mapping errors this design hit during
+    `dotnet ef migrations add` (see submission-day-29-task-1.md).
+  -->
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.4" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="Testcontainers.MsSql" Version="4.15.0" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Modules\Invoicing\Capstone.Invoicing.Domain\Capstone.Invoicing.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Invoicing\Capstone.Invoicing.Application\Capstone.Invoicing.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Invoicing\Capstone.Invoicing.Infrastructure\Capstone.Invoicing.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Procurement\Capstone.Procurement.Domain\Capstone.Procurement.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Procurement\Capstone.Procurement.Application\Capstone.Procurement.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Procurement\Capstone.Procurement.Infrastructure\Capstone.Procurement.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
