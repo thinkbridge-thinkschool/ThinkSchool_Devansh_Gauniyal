@@ -1,0 +1,49 @@
+# azd configuration for the capstone infrastructure (Day 24 Task 1).
+#
+# This project has no azd "services" - Day 23 deliberately scoped application
+# code deployment out of the infrastructure-as-code task (see infra/README.md,
+# "modules/api.bicep"), and today's task is about Deployment Stacks, not app
+# code delivery. azd here drives provisioning only (`azd provision`), wrapped
+# in an Azure Deployment Stack once alpha.deployment.stacks is enabled:
+#
+#   azd config set alpha.deployment.stacks on
+#
+# Two environments exist - dev and prod - each wired to its own EXISTING Day 23
+# parameter file (infra/parameters/dev.bicepparam / prod.bicepparam) via the
+# preprovision hook below, which selects the correct file for the active azd
+# environment ($AZURE_ENV_NAME) rather than duplicating any parameter value
+# into this file. See infra/README.md, "How azd environments relate to the
+# Bicep parameter files" for the full explanation.
+name: capstone
+
+infra:
+  provider: bicep
+  path: infra
+  module: main
+  deploymentStacks:
+    # delete (not detach) for both: when a stack is deleted, its resources AND
+    # the resource group main.bicep created for them should actually be
+    # removed, not left as orphans - this is what "clean teardown" means for
+    # this project (see infra/README.md, "Why these deny-settings and
+    # actionOnUnmanage choices").
+    actionOnUnmanage:
+      resources: delete
+      resourceGroups: delete
+    denySettings:
+      # denyDelete, not denyWriteAndDelete: blocks any out-of-band DELETE of a
+      # stack-managed resource (protects against accidental/drift-by-deletion,
+      # demonstrated live - see VERIFICATION-LOG.md) while still allowing
+      # property writes (e.g. tags) to happen out-of-band, so drift-by-write
+      # can be demonstrated and shown corrected on the next apply, rather than
+      # being blocked outright. See infra/README.md for the full reasoning,
+      # including why "none" and "denyWriteAndDelete" were both rejected.
+      mode: denyDelete
+      applyToChildScopes: true
+      excludedActions: []
+      excludedResources: []
+      excludedPrincipals: []
+
+hooks:
+  preprovision:
+    shell: sh
+    run: ./infra/scripts/select-environment-parameters.sh

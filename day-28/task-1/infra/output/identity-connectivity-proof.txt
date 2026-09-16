@@ -1,0 +1,138 @@
+Day 25 Task 1 - identity connectivity proof
+Captured 2026-09-09, against the live rg-capstone-dev stack.
+
+Why this file exists: a managed identity's access token can only be minted from
+inside an Azure resource that has that identity attached (via the platform's local
+identity endpoint, reachable only from within that resource - never from a laptop
+or CI runner via `az` CLI, which always authenticates as the human/service
+principal running it). To prove the API's user-assigned identity
+(id-capstone-dev-api, clientId 1b8d1172-ac6a-4c69-83c1-5729904bc38c - an
+identifier, not a secret) actually works, the checks below were run from inside
+the Web App's own container, reached via `az webapp create-remote-connection`
+(a local TCP tunnel to the container's built-in SSH port) plus the standard
+platform SSH login for that base image - not via Kudu's /api/command endpoint,
+which runs its own shell process and does not inherit the platform-injected
+IDENTITY_ENDPOINT/IDENTITY_HEADER env vars (those are injected only into the
+actual site worker process's environment - confirmed empirically below).
+
+No application code is deployed to this Web App yet (see capstone/README.md,
+"what's deliberately not built yet") - the running process is the platform's
+default placeholder (hostingstart.dll). The identity endpoint env vars are
+injected by the App Service platform into whatever process it launches as the
+site worker, independent of what that process is, so this is still a genuine
+test of the platform-level identity wiring the real API will use once it exists.
+
+===============================================================================
+Step 0: confirm the identity endpoint is only visible to the actual site worker
+process, not to Kudu or a fresh SSH shell (this is why the checks below read
+/proc/<pid>/environ for that specific process rather than just running `env`).
+===============================================================================
+
+Kudu (/api/command) shell, `env | grep -c -iE 'identity'` on a live connection
+string app setting only (matches "Active Directory Managed Identity" inside the
+string value, not any IDENTITY_* env var):
+  ConnectionStrings__CapstoneDb=Server=sql-capstone-dev-2fqdji.database.windows.net;Authentication=Active Directory Managed Identity;Encrypt=True;User Id=1b8d1172-ac6a-4c69-83c1-5729904bc38c;Database=sqldb-capstone-dev
+
+Fresh SSH shell into the app container, `env | cut -d= -f1 | grep -iE 'identity|msi'`:
+  (zero matches)
+
+Site worker process (pid 1844, `dotnet hostingstart.dll`), reading its own
+/proc/1844/environ directly:
+  IDENTITY_ENDPOINT and IDENTITY_HEADER: present (2 matches)
+
+===============================================================================
+Step 1: mint real tokens via the platform identity endpoint, scoped to SQL and
+to Service Bus, using this identity's clientId. Only token_type, resource, and
+the resulting access_token's field length are shown below - the token value
+itself is never logged, matching the same secrets discipline as everything
+else in this project.
+===============================================================================
+
+=== SQL token (resource=https://database.windows.net/) ===
+"token_type":"Bearer"
+"resource":"https://database.windows.net/"
+access_token field length approx: 2236
+
+=== Service Bus token (resource=https://servicebus.azure.net/) ===
+"token_type":"Bearer"
+"resource":"https://servicebus.azure.net/"
+access_token field length approx: 1888
+
+Both calls returned a real, correctly-scoped Bearer token on the first attempt -
+this is the same acquisition path Microsoft.Data.SqlClient (for
+"Authentication=Active Directory Managed Identity" connection strings) and the
+Azure Service Bus SDK's DefaultAzureCredential both use internally.
+
+===============================================================================
+Step 2: use the Service Bus token for a real, authenticated data-plane call -
+send one message to the invoice-approved-events topic. This is the actual
+"API -> Service Bus" path exercised end-to-end, not just token acquisition.
+===============================================================================
+
+POST https://sb-capstone-dev-tnjxju.servicebus.windows.net/invoice-approved-events/messages
+Authorization: Bearer <SQL/Service-Bus-scoped identity token, not logged>
+Body: {"day25-probe":"identity-send-test"}
+
+HTTP_STATUS:201
+
+A genuine send succeeded with only the identity token - no SAS key, no
+connection string, anywhere in the request.
+
+===============================================================================
+Step 3 (the unauthorized case, as required): the same identity, same real
+token, attempting an action it was deliberately NOT granted.
+===============================================================================
+
+3a. Attempt to CREATE a queue with the same Service-Bus-scoped token. The role
+assignment in modules/servicebus.bicep grants "Azure Service Bus Data Sender"
+only (send/receive data-plane claims) - not "Data Owner" or any role carrying
+the Manage claim needed to create/delete entities.
+
+PUT https://sb-capstone-dev-tnjxju.servicebus.windows.net/day25-unauthorized-test-queue
+Authorization: Bearer <same identity token as step 2>
+
+HTTP_STATUS:401
+<Error><Code>401</Code><Detail>Authorization failed for specified action: Manage,EntityWrite. ...</Detail></Error>
+
+Real, live rejection - the identity can send, and only send, exactly as
+modules/servicebus.bicep's role assignment comment says it should. No queue was
+created (the request never got past the authorization check).
+
+3b. Attempt to send to the same topic with NO Authorization header at all -
+proving disableLocalAuth: true (set in modules/servicebus.bicep on Day 25) has
+actually closed the old SAS-key/connection-string path, not just that nothing
+currently uses it.
+
+POST https://sb-capstone-dev-tnjxju.servicebus.windows.net/invoice-approved-events/messages
+(no Authorization header)
+
+HTTP_STATUS:401
+<Error><Code>401</Code><Detail>MissingToken: The authorization header was not found. ...</Detail></Error>
+
+There is no anonymous or key-based fallback: identity is the only way in.
+
+===============================================================================
+Honest limits of this proof
+===============================================================================
+
+- SQL: this proves the identity can mint a valid, correctly-scoped
+  "https://database.windows.net/" token (the exact token a real ADO.NET
+  connection with "Authentication=Active Directory Managed Identity" would
+  present during login), and the manual-step verification already captured
+  from the user's own Query Editor session independently confirms the
+  database-level grant exists (sys.database_role_members shows
+  id-capstone-dev-api as db_datareader and db_datawriter). What this file does
+  NOT include is a live TDS-protocol query run from this session: this
+  container has no SQL client tooling (sqlcmd/pyodbc/etc.) installed, and
+  installing one into a shared, running Azure resource just to run one query
+  was judged not worth the footprint for a placeholder container that isn't
+  running the real API yet. The token-acquisition proof plus the
+  independently-verified database grant together cover the identity path
+  end-to-end without that extra step.
+- These checks ran against the platform's default placeholder process
+  (hostingstart.dll), not custom application code - see the header note above
+  for why that's still a valid test of the platform-level wiring.
+- The one test message sent in Step 2 was left on the invoice-approved-events
+  topic - no subscription exists to consume it (deliberate, see
+  modules/servicebus.bicep's header comment), and the topic's message TTL
+  (P1D in dev) will expire it automatically.

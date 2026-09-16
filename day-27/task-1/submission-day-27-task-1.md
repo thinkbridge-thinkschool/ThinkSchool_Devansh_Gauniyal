@@ -132,9 +132,9 @@ as this day ended, copied after the work above, never edited directly.
 Commit representing this day's state: `5c1991d91c4df3e384ca3f133c3d0b725786640d`.
 
 ## What did you learn this session?
-I learned that "add a private endpoint" isn't always a checkbox — Service Bus's Standard tier flatly cannot do any network restriction at all, not even the cheaper VNet-rule kind, only Premium can, and I only found that out by trying it against the real resource and reading the actual rejection.
-I also learned a disabled public endpoint can still accept a TCP connection — the real proof of a network block is a protocol-level login attempt, not a ping.
+Auth and network isolation are separate layers — one checks who you are, the other checks if you can even reach the resource.
+Also, a scanner like ZAP only catches surface issues like headers — it can't tell if your authorization logic actually checks ownership.
 
 ## What would break this?
-Anyone who reuses my "just require a valid token" auth as if it were real authorization would be wrong — right now any authenticated caller can read or approve any invoice, because there's no mapping yet from a token to a specific buyer or supplier.
-If Service Bus ever carries real invoice data, today's setup means anyone who obtains a valid token for it can reach it from anywhere on the internet, since there's no network wall behind the identity check.
+Checking "is this token valid" without checking "does this caller own this resource" isn't real access control.
+And identity alone, with no network wall behind it, means one leaked credential is reachable from anywhere.

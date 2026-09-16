@@ -1,0 +1,19 @@
+// Day 26 - dependency call breakdown: time spent in SQL, Service Bus, and any
+// outbound HTTP, per operation.
+//
+// Question this answers: when a request is slow, where is the time actually
+// going - inside the app's own code, or waiting on something external? `type`
+// distinguishes the dependency kind (SQL, Azure Service Bus, HTTP, etc - exactly
+// what OpenTelemetry's SqlClient instrumentation and the Azure SDK's own Service
+// Bus activity source report, see host/Capstone.Web/Program.cs). `target` is the
+// specific downstream (a SQL server FQDN, a Service Bus namespace) - useful once
+// there is more than one of a given type.
+dependencies
+| where timestamp > ago(1h)
+| summarize
+    CallCount = count(),
+    AvgDurationMs = round(avg(duration), 2),
+    P95DurationMs = round(percentile(duration, 95), 2),
+    SuccessRatePercent = round(100.0 * countif(success == true) / count(), 1)
+    by DependencyType = type, Operation = name, Target = target
+| order by DependencyType asc, CallCount desc
