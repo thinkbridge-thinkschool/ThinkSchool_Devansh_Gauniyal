@@ -314,6 +314,17 @@ app.MapPost("/demo/submit-sample-invoice", async (
         [new PurchaseOrderLine(1, "Widgets", 100, new Money(20m, "USD"))]);
     await purchaseOrders.AddAsync(purchaseOrder, cancellationToken);
 
+    // Committed here, before SubmitInvoiceUseCase runs, not just once at the
+    // end - against a real database, the use case looks up this PO via a LINQ
+    // query (IPurchaseOrderCapacityGateway.GetSnapshotAsync), which always hits
+    // the database and never sees an added-but-unsaved entity the way the old
+    // in-memory repository's dictionary did. Confirmed live: without this,
+    // deployed against real Azure SQL, this endpoint failed every time with
+    // "Purchase order ... was not found." The real /v1 endpoints below don't
+    // have this problem - PO creation and invoice submission are already two
+    // separate requests, each committing before the next begins.
+    await unitOfWork.SaveChangesAsync(cancellationToken);
+
     var command = new SubmitInvoiceCommand(
         supplierId,
         InvoiceNumber: "INV-0001",
@@ -326,12 +337,6 @@ app.MapPost("/demo/submit-sample-invoice", async (
         MatchingPolicy.Default("USD"),
         cancellationToken);
 
-    // Day 29 - commits the PO issued above and the invoice submitted against it
-    // in one transaction when a real database is configured (see IUnitOfWork);
-    // a no-op against the in-memory repositories otherwise. Without this call,
-    // this demo endpoint would silently stop working the moment persistence
-    // went from in-memory to real, since EF Core only stages changes until
-    // SaveChangesAsync is actually called.
     await unitOfWork.SaveChangesAsync(cancellationToken);
 
     return Results.Ok(new { purchaseOrderId = poId.Value, invoiceId = invoiceId.Value });
