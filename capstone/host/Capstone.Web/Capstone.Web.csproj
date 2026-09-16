@@ -31,6 +31,17 @@
     -->
     <PackageReference Include="Microsoft.Data.SqlClient.Extensions.Azure" Version="7.0.2" />
     <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.20.2" />
+    <!--
+      Day 29 - design-time tooling only (PrivateAssets="all" keeps it out of the
+      published app). Needed here, the startup project, for `dotnet ef migrations
+      add`/`database update` to discover InvoicingDbContext/ProcurementDbContext -
+      neither Infrastructure project needs it itself. Same 10.0.12 version as the
+      runtime EF packages in the two Infrastructure projects.
+    -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.12">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <!--

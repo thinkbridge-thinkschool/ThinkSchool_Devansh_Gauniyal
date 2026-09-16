@@ -7,13 +7,17 @@ using Capstone.Invoicing.Application.Ports;
 using Capstone.Invoicing.Application.UseCases;
 using Capstone.Invoicing.Domain;
 using Capstone.Invoicing.Infrastructure;
+using Capstone.Invoicing.Infrastructure.Persistence;
 using Capstone.Procurement.Application;
 using Capstone.Procurement.Domain;
 using Capstone.Procurement.Infrastructure;
+using Capstone.Procurement.Infrastructure.Persistence;
 using Capstone.SharedKernel;
+using Capstone.Web.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
 using OpenTelemetry.Resources;
@@ -100,14 +104,50 @@ builder.Services.ConfigureOpenTelemetryTracerProvider((_, tracerProviderBuilder)
 
 builder.Services.AddSingleton(TimeProvider.System);
 
+// Day 29 - real persistence. A connection string is only ever set by
+// infra/modules/api.bicep (identity-based, "Authentication=Active Directory
+// Managed Identity" - no credential of any kind embedded in it) in a deployed
+// environment; local appsettings.Development.json deliberately has none (same
+// pattern Day 27 already established for auth - see this file's comment on
+// `authConfigured`), so local `dotnet run` keeps working against the in-memory
+// repositories exactly as before, with no live database required.
+var connectionString = builder.Configuration.GetConnectionString("CapstoneDb");
+var persistenceConfigured = !string.IsNullOrWhiteSpace(connectionString);
+
+if (persistenceConfigured)
+{
+    // Both DbContexts below are registered against the SAME SqlConnection
+    // instance (scoped - one per request), not one each. That is what lets
+    // SharedTransactionUnitOfWork wrap both contexts' SaveChangesAsync calls in
+    // one local transaction: two contexts sharing one physical connection can
+    // share a DbTransaction on it; two separate connections could not, even to
+    // the same database, without a distributed transaction, which Azure SQL
+    // does not support. `contextOwnsConnection: false` on both registrations
+    // because the DI container - not either DbContext - owns and disposes this
+    // scoped connection.
+    builder.Services.AddScoped(_ => new SqlConnection(connectionString));
+    builder.Services.AddDbContext<InvoicingDbContext>((sp, options) =>
+        options.UseSqlServer(sp.GetRequiredService<SqlConnection>(), contextOwnsConnection: false));
+    builder.Services.AddDbContext<ProcurementDbContext>((sp, options) =>
+        options.UseSqlServer(sp.GetRequiredService<SqlConnection>(), contextOwnsConnection: false));
+
+    builder.Services.AddScoped<IPurchaseOrderRepository, PurchaseOrderEfRepository>();
+    builder.Services.AddScoped<IInvoiceRepository, InvoiceEfRepository>();
+    builder.Services.AddScoped<IUnitOfWork, SharedTransactionUnitOfWork>();
+}
+else
+{
+    builder.Services.AddSingleton<IPurchaseOrderRepository, InMemoryPurchaseOrderRepository>();
+    builder.Services.AddSingleton<IInvoiceRepository, InMemoryInvoiceRepository>();
+    builder.Services.AddSingleton<IUnitOfWork, NoOpUnitOfWork>();
+}
+
 // Procurement module.
-builder.Services.AddSingleton<IPurchaseOrderRepository, InMemoryPurchaseOrderRepository>();
 builder.Services.AddSingleton<IPurchaseOrderCapacityGateway, PurchaseOrderCapacityGateway>();
 
 // Invoicing module. Its only knowledge of Procurement is through the port it
 // defines itself (IPurchaseOrderCapacityPort) and the adapter that implements it.
-builder.Services.AddSingleton<IInvoiceRepository, InMemoryInvoiceRepository>();// whenever anything asks for ininvoice port give it inMemoryinvoicerep
-builder.Services.AddSingleton<IPaymentTermsLookup, InMemoryPaymentTermsLookup>();// connects these two 
+builder.Services.AddSingleton<IPaymentTermsLookup, InMemoryPaymentTermsLookup>();// connects these two
 builder.Services.AddSingleton<IPurchaseOrderCapacityPort, ProcurementCapacityAdapter>();// whenever something asks for Ipurchaseport give it adapter
 
 builder.Services.AddScoped<SubmitInvoiceUseCase>();
@@ -200,6 +240,26 @@ builder.Services.AddOpenApi("v1", options =>
 
 var app = builder.Build();
 
+// Day 29 - apply pending EF Core migrations against the real database on
+// startup, using the exact same managed-identity connection every other
+// request already uses (see Program.cs's `persistenceConfigured` check above).
+// This project's SQL server has been private-endpoint-only since Day 27
+// (THREAT-MODEL.md), so a local machine cannot reach it - and
+// "Authentication=Active Directory Managed Identity" only resolves at all
+// when the code asking is itself running as that managed identity. Applying
+// migrations from inside this app's own startup, over the same network path
+// and identity already proven live by /demo/db-ping, is the only way to reach
+// this database at all; a separate `dotnet ef database update` run from a
+// developer's machine could not, regardless of credentials. Migrate() is
+// idempotent - already-applied migrations are skipped - so this is safe to run
+// on every restart, not just the first.
+if (persistenceConfigured)
+{
+    using var migrationScope = app.Services.CreateScope();
+    await migrationScope.ServiceProvider.GetRequiredService<InvoicingDbContext>().Database.MigrateAsync();
+    await migrationScope.ServiceProvider.GetRequiredService<ProcurementDbContext>().Database.MigrateAsync();
+}
+
 // Day 27 - security headers, added after a real OWASP ZAP baseline scan against
 // this deployed app flagged their absence (see submission-day-27-task-1.md for
 // the before/after report). `UseHsts()` is ASP.NET Core's own middleware for
@@ -242,6 +302,7 @@ app.MapGet("/", () => Results.Ok(new { message = "Capstone host is running." }))
 app.MapPost("/demo/submit-sample-invoice", async (
     IPurchaseOrderRepository purchaseOrders,
     SubmitInvoiceUseCase submitInvoice,
+    IUnitOfWork unitOfWork,
     CancellationToken cancellationToken) =>
 {
     var supplierId = Guid.NewGuid();
@@ -264,6 +325,14 @@ app.MapPost("/demo/submit-sample-invoice", async (
         new PurchaseOrderReference(poId.Value),
         MatchingPolicy.Default("USD"),
         cancellationToken);
+
+    // Day 29 - commits the PO issued above and the invoice submitted against it
+    // in one transaction when a real database is configured (see IUnitOfWork);
+    // a no-op against the in-memory repositories otherwise. Without this call,
+    // this demo endpoint would silently stop working the moment persistence
+    // went from in-memory to real, since EF Core only stages changes until
+    // SaveChangesAsync is actually called.
+    await unitOfWork.SaveChangesAsync(cancellationToken);
 
     return Results.Ok(new { purchaseOrderId = poId.Value, invoiceId = invoiceId.Value });
 });
@@ -388,6 +457,7 @@ if (authConfigured)
 v1.MapPost("/purchase-orders", async (
     CreatePurchaseOrderRequest request,
     IPurchaseOrderRepository purchaseOrders,
+    IUnitOfWork unitOfWork,
     CancellationToken cancellationToken) =>
 {
     var errors = ValidatePurchaseOrderRequest(request);
@@ -402,6 +472,7 @@ v1.MapPost("/purchase-orders", async (
 
     var purchaseOrder = PurchaseOrder.Issue(PurchaseOrderId.New(), request.VendorId, request.BuyerId, request.Currency, lines);
     await purchaseOrders.AddAsync(purchaseOrder, cancellationToken);
+    await unitOfWork.SaveChangesAsync(cancellationToken);
 
     return Results.Created($"/v1/purchase-orders/{purchaseOrder.Id.Value}", new { purchaseOrderId = purchaseOrder.Id.Value });
 })
@@ -410,6 +481,7 @@ v1.MapPost("/purchase-orders", async (
 v1.MapPost("/invoices", async (
     SubmitInvoiceRequest request,
     SubmitInvoiceUseCase submitInvoice,
+    IUnitOfWork unitOfWork,
     CancellationToken cancellationToken) =>
 {
     var errors = ValidateSubmitInvoiceRequest(request);
@@ -432,6 +504,13 @@ v1.MapPost("/invoices", async (
             MatchingPolicy.Default(request.Currency),
             cancellationToken);
 
+        // Commits the new Invoice row AND the PO capacity reservation it
+        // triggered in one transaction (see IUnitOfWork) - the exact invariant
+        // DESIGN.md requires this to be synchronous for: two concurrent
+        // submissions against the same PO must not both reserve past its
+        // remaining capacity.
+        await unitOfWork.SaveChangesAsync(cancellationToken);
+
         return Results.Created($"/v1/invoices/{invoiceId.Value}", new { invoiceId = invoiceId.Value });
     }
     catch (InvalidOperationException ex)
@@ -439,6 +518,45 @@ v1.MapPost("/invoices", async (
         // A domain rule rejected this request (unknown PO, wrong vendor, capacity
         // exceeded, etc.) - a real, expected outcome of bad input, not a server
         // fault, so it is reported as 409 rather than an unhandled 500.
+        return Results.Problem(ex.Message, statusCode: StatusCodes.Status409Conflict);
+    }
+})
+.AddEndpointFilter(EnforceMaxBodySize);
+
+v1.MapPost("/invoices/{id:guid}/approve", async (
+    Guid id,
+    ApproveInvoiceRequest request,
+    ApproveInvoiceUseCase approveInvoice,
+    IUnitOfWork unitOfWork,
+    CancellationToken cancellationToken) =>
+{
+    if (request.ApprovingActorId == Guid.Empty)
+    {
+        return Results.ValidationProblem(new Dictionary<string, string[]>
+        {
+            [nameof(request.ApprovingActorId)] = ["ApprovingActorId is required."],
+        });
+    }
+
+    try
+    {
+        await approveInvoice.ExecuteAsync(new InvoiceId(id), request.ApprovingActorId, cancellationToken);
+
+        // Commits the invoice's Approved status/due-date lock AND the PO
+        // capacity moving from Reserved to Consumed in one transaction - the
+        // same reasoning as the submit endpoint above, now for the other half
+        // of DESIGN.md's capacity invariant.
+        await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Results.NoContent();
+    }
+    catch (InvalidOperationException ex)
+    {
+        // Covers both "no such invoice" and a domain rule rejecting the
+        // transition (already Approved/Rejected/Withdrawn - see
+        // Invoice.EnsureCanBeApproved) - in both cases the request named a real
+        // invoice that simply cannot be approved right now, not a malformed
+        // request, so 409 rather than 404 or 400.
         return Results.Problem(ex.Message, statusCode: StatusCodes.Status409Conflict);
     }
 })
@@ -584,5 +702,11 @@ public sealed record CreatePurchaseOrderRequest(Guid VendorId, Guid BuyerId, str
 public sealed record SubmitInvoiceLineRequest(int PurchaseOrderLineNumber, int BilledQuantity, decimal UnitPrice);
 
 public sealed record SubmitInvoiceRequest(Guid PurchaseOrderId, Guid SupplierId, string InvoiceNumber, string Currency, List<SubmitInvoiceLineRequest> Lines);
+
+// Day 29 - who is approving is still a raw, caller-supplied Guid, exactly like
+// SupplierId/BuyerId elsewhere in this API - see THREAT-MODEL.md's Spoofing
+// section: closing the Counterparty/Identity mapping gap (Day 30's plan) is
+// what would make this trustworthy rather than merely present.
+public sealed record ApproveInvoiceRequest(Guid ApprovingActorId);
 
 public partial class Program;
