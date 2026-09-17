@@ -267,7 +267,17 @@ if (authConfigured)
 // limiter, partitioned per client IP, applied to every route in this host - see
 // THREAT-MODEL.md's Denial-of-service section for why this is per-instance, not a
 // global cap across the whole App Service plan.
-const int RateLimitPermitsPerWindow = 100;// rate limiting limiting the number of requests per ip
+//
+// Day 31: made configurable (default unchanged at 100) - discovered live during
+// today's perf pass that a load-testing tool from one IP hits this limit almost
+// immediately (bombardier's first ~100 requests succeed, then 429s dominate the
+// rest of the run, invalidating any latency measurement taken from inside that
+// window). RateLimit:PermitsPerWindow is not set by infra/modules/api.bicep, so
+// the deployed environment keeps the exact same 100/minute/IP behavior it has had
+// since Day 27; only this session's local load test overrides it via an
+// environment variable, specifically to make a realistic concurrent measurement
+// possible without weakening anything deployed.
+var rateLimitPermitsPerWindow = builder.Configuration.GetValue("RateLimit:PermitsPerWindow", 100);
 builder.Services.AddRateLimiter(options =>
 {
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
@@ -276,7 +286,7 @@ builder.Services.AddRateLimiter(options =>
             partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
             factory: _ => new FixedWindowRateLimiterOptions
             {
-                PermitLimit = RateLimitPermitsPerWindow,
+                PermitLimit = rateLimitPermitsPerWindow,
                 Window = TimeSpan.FromMinutes(1),
                 QueueLimit = 0,
             }));
