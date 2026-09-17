@@ -1,0 +1,32 @@
+// Day 26 - follow one distributed trace end to end across API -> worker -> DB.
+//
+// Question this answers: for one specific request, what actually happened across
+// every process it touched, in what order, and does it all genuinely share one
+// trace id? `operation_Id` is Application Insights' name for the W3C trace id
+// (32 hex chars, no dashes) - the same value `Activity.Current?.TraceId` produces
+// in host/Capstone.Web/Program.cs and host/Capstone.Worker/TraceDemoWorker.cs.
+// `cloud_RoleName` is what proves this is genuinely two services (capstone-api,
+// capstone-worker - the `service.name` values set via `.AddService(...)` in both
+// Program.cs files), not one process logging twice. `operation_ParentId` is what
+// proves correct parent/child nesting, not just a shared trace id coincidentally
+// grouping unrelated spans.
+//
+// Replace TARGET_TRACE_ID with a real value - e.g. the messageId returned by
+// POST /demo/trace-worker won't work directly (that's the Service Bus message id,
+// not the trace id); read the trace id from the request's own
+// traceresponse/traceparent, or simply find it by first running:
+//   requests | where name == "POST /demo/trace-worker" | project operation_Id
+// and using the operation_Id of the request you just triggered.
+let TARGET_TRACE_ID = "REPLACE_WITH_REAL_TRACE_ID";
+union requests, dependencies, traces
+| where operation_Id == TARGET_TRACE_ID
+| project
+    timestamp,
+    itemType,
+    cloud_RoleName,
+    Name = coalesce(name, message),
+    operation_ParentId,
+    id,
+    duration,
+    success
+| order by timestamp asc
