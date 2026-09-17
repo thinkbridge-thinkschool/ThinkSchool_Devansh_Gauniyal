@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Capstone.Invoicing.Application\Capstone.Invoicing.Application.csproj" />
+    <ProjectReference Include="..\..\Procurement\Capstone.Procurement.Application\Capstone.Procurement.Application.csproj" />
+  </ItemGroup>
+
+  <!--
+    Day 29 - real persistence. Version pinned to match the rest of this solution's
+    EF/ASP.NET Core package versions (10.0.12, already used by
+    host/Capstone.Web.csproj) - confirmed latest stable non-preview via the NuGet
+    v3-flatcontainer API on 2026-09-16.
+  -->
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.12" />
+    <!--
+      Day 30 - ServiceBusSupplierNotifier's transport. Same version already
+      pinned in host/Capstone.Web.csproj and host/Capstone.Worker.csproj.
+    -->
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.20.2" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>
