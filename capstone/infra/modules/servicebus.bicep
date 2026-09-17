@@ -185,3 +185,11 @@ output namespaceResourceId string = namespace.id
 output topicNames array = topicNames
 output demoSubscriptionTopicName string = demoSubscriptionTopicName
 output demoSubscriptionName string = demoSubscriptionName
+
+// Day 30: named outputs for the two real async flows DESIGN.md describes, now
+// that the API actually publishes to them (see ../README.md and
+// submission-day-30-task-1.md) - topicNames above already carried both
+// strings, but a positional array is awkward for api.bicep to consume by
+// meaning rather than by index.
+output supplierNotificationsTopicName string = topicNames[0]
+output invoiceApprovedEventsTopicName string = topicNames[1]

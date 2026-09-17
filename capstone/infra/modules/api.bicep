@@ -53,6 +53,12 @@ param demoSubscriptionTopicName string
 @description('Day 26: name of the trace-demo worker\'s Service Bus subscription, from modules/servicebus.bicep. Exposed as an app setting so the WebJob (host/Capstone.Worker, deployed into this same Web App - see ../README.md) knows what to read from without hardcoding it.')
 param demoSubscriptionName string
 
+@description('Day 30: topic name for the supplier-notification async flow, from modules/servicebus.bicep - the API only ever publishes here (see ServiceBusSupplierNotifier), never subscribes.')
+param supplierNotificationsTopicName string
+
+@description('Day 30: topic name for the InvoiceApproved integration-event outbox relay, from modules/servicebus.bicep. No subscription exists on this topic - see DESIGN.md, the Financing consumer it would feed is named as boundary-only, not built.')
+param invoiceApprovedEventsTopicName string
+
 @description('Day 26: OpenTelemetry trace sampling ratio, 0.0-1.0. Passed through as an app setting, read by both the API and the WebJob at startup - see ../README.md, "Day 26 - sampling" for why dev uses 1.0 (no sampling) rather than the platform default.')
 param otelSamplingRatio string = '1.0'
 
@@ -129,6 +135,14 @@ var appSettings = [
   {
     name: 'ServiceBus__DemoSubscriptionName'
     value: demoSubscriptionName
+  }
+  {
+    name: 'ServiceBus__SupplierNotificationsTopicName'
+    value: supplierNotificationsTopicName
+  }
+  {
+    name: 'ServiceBus__InvoiceApprovedEventsTopicName'
+    value: invoiceApprovedEventsTopicName
   }
   {
     name: 'OTEL_SAMPLING_RATIO'

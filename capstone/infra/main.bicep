@@ -167,6 +167,8 @@ module api 'modules/api.bicep' = {
     appInsightsConnectionStringSecretName: keyVault.outputs.appInsightsConnectionStringSecretName
     demoSubscriptionTopicName: serviceBus.outputs.demoSubscriptionTopicName
     demoSubscriptionName: serviceBus.outputs.demoSubscriptionName
+    supplierNotificationsTopicName: serviceBus.outputs.supplierNotificationsTopicName
+    invoiceApprovedEventsTopicName: serviceBus.outputs.invoiceApprovedEventsTopicName
     otelSamplingRatio: otelSamplingRatio
     appServiceIntegrationSubnetId: network.outputs.appServiceIntegrationSubnetId
     apiAadAppId: apiAadAppId
