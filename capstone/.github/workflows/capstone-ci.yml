@@ -1,0 +1,104 @@
+name: Capstone CI
+
+# Day 31 - a new workflow file, deliberately not a change to ci.yml,
+# day-3-task-3-ci.yml or day-3-task-7-ci.yml: those belong to earlier days and this
+# task does not touch them. GitHub only runs workflows placed at the repository
+# root's .github/workflows/, which is why this file lives here rather than inside
+# capstone/ - a copy also lives at capstone/.github/workflows/capstone-ci.yml
+# (never executed from there) purely so the frozen day-31/task-1 snapshot is
+# self-describing about what gates its own build.
+"on":
+  push:
+    paths:
+      - "capstone/**"
+      - ".github/workflows/capstone-ci.yml"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "capstone/**"
+      - ".github/workflows/capstone-ci.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: capstone-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  SOLUTION_PATH: capstone/Capstone.slnx
+  RESULTS_DIR: ${{ github.workspace }}/capstone-test-results
+  # Day 26's UseAzureMonitor() throws at startup with no connection string at all -
+  # every test project that starts the real host (Capstone.Web.Api.Tests, via
+  # WebApplicationFactory) needs one, even a dummy one pointed at no real Azure
+  # Monitor resource. Same value this session has used for every local `dotnet run`
+  # since Day 29 - see capstone/submission-day-29-task-1.md.
+  APPLICATIONINSIGHTS_CONNECTION_STRING: "InstrumentationKey=00000000-0000-0000-0000-000000000000;IngestionEndpoint=https://westus2-0.in.applicationinsights.azure.com/"
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5
+
+      - name: Set up .NET SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Restore
+        run: dotnet restore ${{ env.SOLUTION_PATH }}
+
+      # Day 31 gate #1: warnings fail the build, not just errors. The codebase has
+      # been warning-clean through Day 30 (confirmed the same day this workflow was
+      # written - `dotnet build` reports 0 warnings) - this keeps that bar in place
+      # going forward, cheap to satisfy today and meaningful the day someone
+      # introduces the first one, rather than a threshold that has to be invented
+      # from nothing.
+      - name: Build (warnings as errors)
+        run: dotnet build ${{ env.SOLUTION_PATH }} --no-restore -warnaserror
+
+      # Day 31 gate #2: every automated test in the solution runs here, including
+      # the two suites that spin up a real SQL Server via Testcontainers
+      # (Capstone.Integration.Tests, Capstone.Web.Api.Tests) - ubuntu-latest
+      # runners ship Docker already, so this needs no extra setup and no
+      # credential of any kind. What does NOT run here, and cannot without a
+      # secret this workflow deliberately has none of: anything against the real
+      # deployed Azure SQL/Service Bus/App Service (the migration-application
+      # proof, the live 401 checks, the ZAP scan) - those stay manual/local, see
+      # submission-day-31-task-1.md's "which tests run in CI" line.
+      - name: Test
+        run: >
+          dotnet test ${{ env.SOLUTION_PATH }} --no-build
+          --logger "trx;LogFileName=test-results.trx"
+          --collect:"XPlat Code Coverage"
+          --results-directory ${{ env.RESULTS_DIR }}
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: capstone-test-results
+          path: ${{ env.RESULTS_DIR }}/**/test-results.trx
+          if-no-files-found: warn
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: capstone-coverage-report
+          path: ${{ env.RESULTS_DIR }}/**/coverage.cobertura.xml
+          if-no-files-found: warn
+
+# Day 31 - deliberately no coverage-percentage gate today, unlike this repo's
+# root ci.yml (COVERAGE_THRESHOLD: 70). Today's real, measured per-layer numbers
+# are uneven by design - see submission-day-31-task-1.md - Capstone.Web sits at
+# 38.5% because Program.cs's demo/telemetry-wiring code isn't what today's new
+# tests target, while the use-case layer sits at 100%. A single uniform threshold
+# picked today would either be toothless (set low enough to pass everything) or
+# block legitimate future work on the host's untested startup wiring for a number
+# invented under today's time pressure, not from an agreed baseline. Coverage is
+# still measured and uploaded every run (the artifact above) so a real threshold
+# can be set later from actual trend data, deliberately, not guessed at here.
