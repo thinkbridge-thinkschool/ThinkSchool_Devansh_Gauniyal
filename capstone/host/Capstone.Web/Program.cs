@@ -13,6 +13,7 @@ using Capstone.Procurement.Domain;
 using Capstone.Procurement.Infrastructure;
 using Capstone.Procurement.Infrastructure.Persistence;
 using Capstone.SharedKernel;
+using Capstone.Web;
 using Capstone.Web.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.RateLimiting;
@@ -134,12 +135,41 @@ if (persistenceConfigured)
     builder.Services.AddScoped<IPurchaseOrderRepository, PurchaseOrderEfRepository>();
     builder.Services.AddScoped<IInvoiceRepository, InvoiceEfRepository>();
     builder.Services.AddScoped<IUnitOfWork, SharedTransactionUnitOfWork>();
+    // Day 30 - the outbox side of DESIGN.md's InvoiceApproved integration event.
+    // Scoped, not singleton: it writes through the SAME per-request
+    // InvoicingDbContext everything else above uses, which is exactly what
+    // makes the write transactional with the invoice's own state change.
+    builder.Services.AddScoped<IIntegrationEventOutbox, EfIntegrationEventOutbox>();
 }
 else
 {
     builder.Services.AddSingleton<IPurchaseOrderRepository, InMemoryPurchaseOrderRepository>();
     builder.Services.AddSingleton<IInvoiceRepository, InMemoryInvoiceRepository>();
     builder.Services.AddSingleton<IUnitOfWork, NoOpUnitOfWork>();
+    builder.Services.AddSingleton<IIntegrationEventOutbox, NoOpIntegrationEventOutbox>();
+}
+
+// Day 30 - the other genuinely async flow DESIGN.md names (supplier
+// notification on approval/dispute). Configured independently of persistence
+// above, even though in practice a deployed environment always sets both -
+// this is the one thing ISupplierNotifier actually needs (a namespace to send
+// to), not a database.
+var serviceBusNamespace = builder.Configuration["ServiceBus:FullyQualifiedNamespace"];
+var serviceBusConfigured = !string.IsNullOrWhiteSpace(serviceBusNamespace);
+
+if (serviceBusConfigured)
+{
+    // Singleton, per the SDK's own guidance (ServiceBusClient is expensive to
+    // construct and safe to share) - the existing /demo/trace-worker endpoint
+    // below constructs its own per request instead, but that predates this
+    // registration and is left as-is rather than refactored under today's
+    // scope; new code uses this shared instance.
+    builder.Services.AddSingleton(sp => new ServiceBusClient(serviceBusNamespace, azureCredential));
+    builder.Services.AddScoped<ISupplierNotifier, ServiceBusSupplierNotifier>();
+}
+else
+{
+    builder.Services.AddSingleton<ISupplierNotifier, NoOpSupplierNotifier>();
 }
 
 // Procurement module.
@@ -156,6 +186,28 @@ builder.Services.AddScoped<DisputeInvoiceUseCase>();
 builder.Services.AddScoped<RejectInvoiceUseCase>();
 builder.Services.AddScoped<WithdrawInvoiceUseCase>();
 builder.Services.AddScoped<ApplyDeemedApprovalsUseCase>();
+
+// Day 30 - the deemed-approval SLA sweep now actually runs (see
+// DeemedApprovalSweepBackgroundService) - closing DESIGN.md's named gap for
+// abandoned Submitted invoices. Real database required (nothing to sweep
+// in-memory when this host restarts on every code change locally); real
+// TimeProvider.System, since a demo timer faking elapsed days would prove
+// nothing about the actual deployed cadence - see that file's own comment for
+// how firing IS proven, given that constraint.
+if (persistenceConfigured)
+{
+    builder.Services.AddHostedService<DeemedApprovalSweepBackgroundService>();
+}
+
+// Day 30 - the relay half of the InvoiceApproved outbox: publishes rows
+// EfIntegrationEventOutbox already wrote, to Service Bus, on its own schedule,
+// independent of the request that wrote them. Requires both a database (rows
+// to read) and Service Bus (somewhere to publish them) - neither alone is
+// enough.
+if (persistenceConfigured && serviceBusConfigured)
+{
+    builder.Services.AddHostedService<OutboxRelayBackgroundService>();
+}
 
 // Day 27 - authentication (STRIDE: Spoofing, Elevation of privilege - see
 // capstone/THREAT-MODEL.md). Auth:TenantId/Auth:ApiAppId are non-secret
@@ -499,7 +551,8 @@ v1.MapPost("/invoices", async (
         request.SupplierId,
         request.InvoiceNumber,
         request.Currency,
-        [.. request.Lines.Select(l => new InvoiceLineItem(l.PurchaseOrderLineNumber, l.BilledQuantity, new Money(l.UnitPrice, request.Currency)))]);
+        [.. request.Lines.Select(l => new InvoiceLineItem(l.PurchaseOrderLineNumber, l.BilledQuantity, new Money(l.UnitPrice, request.Currency)))],
+        request.CorrectsInvoiceId is { } correctsId ? new InvoiceId(correctsId) : null);
 
     try
     {
@@ -566,6 +619,161 @@ v1.MapPost("/invoices/{id:guid}/approve", async (
     }
 })
 .AddEndpointFilter(EnforceMaxBodySize);
+
+// Day 30 - the dispute path DESIGN.md always described but nothing previously
+// exposed: DisputeInvoiceUseCase, RejectInvoiceUseCase and WithdrawInvoiceUseCase
+// have existed since the Day 22 scaffold, fully covered by
+// tests/Capstone.Invoicing.Domain.Tests - only their HTTP surface was missing.
+
+v1.MapPost("/invoices/{id:guid}/dispute", async (
+    Guid id,
+    DisputeInvoiceRequest request,
+    DisputeInvoiceUseCase disputeInvoice,
+    IUnitOfWork unitOfWork,
+    CancellationToken cancellationToken) =>
+{
+    if (string.IsNullOrWhiteSpace(request.Reason))
+    {
+        return Results.ValidationProblem(new Dictionary<string, string[]>
+        {
+            [nameof(request.Reason)] = ["Reason is required."],
+        });
+    }
+
+    try
+    {
+        await disputeInvoice.ExecuteAsync(new InvoiceId(id), request.Reason, cancellationToken);
+
+        // No PO-capacity change here - see DisputeInvoiceUseCase's own comment:
+        // a dispute doesn't touch the reservation the original submission
+        // already made. Still goes through IUnitOfWork so the invoice's own
+        // status change and dispute reason persist together.
+        await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Results.NoContent();
+    }
+    catch (InvalidOperationException ex)
+    {
+        return Results.Problem(ex.Message, statusCode: StatusCodes.Status409Conflict);
+    }
+})
+.AddEndpointFilter(EnforceMaxBodySize);
+
+v1.MapPost("/invoices/{id:guid}/reject", async (
+    Guid id,
+    RejectInvoiceRequest request,
+    RejectInvoiceUseCase rejectInvoice,
+    IUnitOfWork unitOfWork,
+    CancellationToken cancellationToken) =>
+{
+    if (string.IsNullOrWhiteSpace(request.Reason))
+    {
+        return Results.ValidationProblem(new Dictionary<string, string[]>
+        {
+            [nameof(request.Reason)] = ["Reason is required."],
+        });
+    }
+
+    try
+    {
+        await rejectInvoice.ExecuteAsync(new InvoiceId(id), request.Reason, cancellationToken);
+
+        // Commits the invoice becoming Rejected AND the PO capacity it was
+        // reserving being released, together - the buyer's side of the same
+        // "reservation must move atomically with the invoice's own state"
+        // invariant the submit/approve endpoints already enforce.
+        await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Results.NoContent();
+    }
+    catch (InvalidOperationException ex)
+    {
+        // Covers "no such invoice" and "not Disputed yet" (Invoice.Reject
+        // requires a dispute to exist first - see DESIGN.md's state lifecycle).
+        return Results.Problem(ex.Message, statusCode: StatusCodes.Status409Conflict);
+    }
+})
+.AddEndpointFilter(EnforceMaxBodySize);
+
+v1.MapPost("/invoices/{id:guid}/withdraw", async (
+    Guid id,
+    WithdrawInvoiceUseCase withdrawInvoice,
+    IUnitOfWork unitOfWork,
+    CancellationToken cancellationToken) =>
+{
+    try
+    {
+        await withdrawInvoice.ExecuteAsync(new InvoiceId(id), cancellationToken);
+        await unitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Results.NoContent();
+    }
+    catch (InvalidOperationException ex)
+    {
+        // Covers "no such invoice" and "not Submitted" - Invoice.Withdraw only
+        // applies to an untouched Submitted invoice (see DESIGN.md's state
+        // lifecycle diagram: Withdraw has no arrow out of Disputed). A
+        // supplier stuck in an unresolved dispute cannot use this to exit
+        // unilaterally - see submission-day-30-task-1.md for why that gap is
+        // named, not solved, today.
+        return Results.Problem(ex.Message, statusCode: StatusCodes.Status409Conflict);
+    }
+});
+
+// Day 30 - the manual half of the deemed-approval sweep's verification story
+// (see DeemedApprovalSweepBackgroundService's comment on why live-firing a
+// real review window can't be demonstrated within one working session). This
+// endpoint runs the EXACT SAME use case the timer calls, on demand, so the
+// mechanism itself - a real query against real Azure SQL, correctly finding
+// nothing to act on for a fresh invoice - can be proven live without waiting
+// for the timer's own interval. Authenticated like everything else under /v1;
+// not a separate admin tier, since that distinction doesn't exist yet (see
+// THREAT-MODEL.md's Elevation-of-privilege section).
+v1.MapPost("/system/deemed-approval-sweep", async (
+    ApplyDeemedApprovalsUseCase applyDeemedApprovals,
+    IUnitOfWork unitOfWork,
+    CancellationToken cancellationToken) =>
+{
+    var deemed = await applyDeemedApprovals.ExecuteAsync(cancellationToken);
+    await unitOfWork.SaveChangesAsync(cancellationToken);
+
+    return Results.Ok(new { deemedApprovedInvoiceIds = deemed.Select(i => i.Value) });
+});
+
+v1.MapGet("/invoices/{id:guid}", async (
+    Guid id,
+    IInvoiceRepository invoices,
+    CancellationToken cancellationToken) =>
+{
+    var invoice = await invoices.FindAsync(new InvoiceId(id), cancellationToken);
+    if (invoice is null)
+    {
+        return Results.NotFound();
+    }
+
+    return Results.Ok(new
+    {
+        invoiceId = invoice.Id.Value,
+        invoice.InvoiceNumber,
+        invoice.SupplierId,
+        invoice.BuyerId,
+        status = invoice.Status.ToString(),
+        invoice.Currency,
+        total = invoice.Total.Amount,
+        invoice.SubmittedAt,
+        invoice.DueDate,
+        invoice.DisputeReason,
+        correctsInvoiceId = invoice.CorrectsInvoiceId?.Value,
+        approval = invoice.Approval is null
+            ? null
+            : new
+            {
+                kind = invoice.Approval.Kind.ToString(),
+                invoice.Approval.ApprovedAt,
+                invoice.Approval.ApprovedBy,
+            },
+    });
+});
 
 v1.MapGet("/invoices", async (
     IInvoiceRepository invoices,
@@ -706,12 +914,25 @@ public sealed record CreatePurchaseOrderRequest(Guid VendorId, Guid BuyerId, str
 
 public sealed record SubmitInvoiceLineRequest(int PurchaseOrderLineNumber, int BilledQuantity, decimal UnitPrice);
 
-public sealed record SubmitInvoiceRequest(Guid PurchaseOrderId, Guid SupplierId, string InvoiceNumber, string Currency, List<SubmitInvoiceLineRequest> Lines);
+// CorrectsInvoiceId (Day 30) - optional; when present, names the Rejected
+// invoice this submission replaces. See SubmitInvoiceUseCase for the check
+// that it actually is Rejected.
+public sealed record SubmitInvoiceRequest(
+    Guid PurchaseOrderId,
+    Guid SupplierId,
+    string InvoiceNumber,
+    string Currency,
+    List<SubmitInvoiceLineRequest> Lines,
+    Guid? CorrectsInvoiceId = null);
 
 // Day 29 - who is approving is still a raw, caller-supplied Guid, exactly like
 // SupplierId/BuyerId elsewhere in this API - see THREAT-MODEL.md's Spoofing
 // section: closing the Counterparty/Identity mapping gap (Day 30's plan) is
 // what would make this trustworthy rather than merely present.
 public sealed record ApproveInvoiceRequest(Guid ApprovingActorId);
+
+public sealed record DisputeInvoiceRequest(string Reason);
+
+public sealed record RejectInvoiceRequest(string Reason);
 
 public partial class Program;
