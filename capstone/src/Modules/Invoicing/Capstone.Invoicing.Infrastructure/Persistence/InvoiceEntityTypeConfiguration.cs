@@ -127,5 +127,25 @@ internal sealed class InvoiceEntityTypeConfiguration : IEntityTypeConfiguration<
             .IsRequired();
 
         builder.Ignore(i => i.Total);
+
+        // Day 31: measured live (bombardier, 50,000-row local dataset) that
+        // GET /v1/invoices - InvoiceEfRepository.ListAsync's
+        // OrderBy(SubmittedAt).Skip().Take() - was the hottest path in the API by
+        // a wide margin (p99 508ms, versus 5.76ms for a by-id lookup and 36ms for
+        // a submit) precisely because no index supported that ORDER BY: SQL
+        // Server had to sort the entire table on every single page request,
+        // however small the page. This index lets it read rows already in
+        // SubmittedAt order and apply Skip/Take without a full sort - see
+        // submission-day-31-task-1.md for the before/after numbers.
+        builder.HasIndex(i => i.SubmittedAt).HasDatabaseName("IX_Invoices_SubmittedAt");
+
+        // Day 31: the same gap on the other unindexed filter this table takes -
+        // InvoiceEfRepository.FindSubmittedAsync's WHERE Status = 'Submitted',
+        // read every time DeemedApprovalSweepBackgroundService (or its manual
+        // trigger endpoint) ticks. Not the endpoint actually benchmarked today,
+        // but the identical unindexed-scan shape, on the same table, discovered
+        // while looking at this one - fixed alongside it rather than left for a
+        // separate day now that the cause is already understood.
+        builder.HasIndex(i => i.Status).HasDatabaseName("IX_Invoices_Status");
     }
 }
