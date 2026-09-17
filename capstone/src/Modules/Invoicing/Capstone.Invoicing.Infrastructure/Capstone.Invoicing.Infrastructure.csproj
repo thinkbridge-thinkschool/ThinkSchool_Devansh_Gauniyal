@@ -13,6 +13,11 @@
   -->
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.12" />
+    <!--
+      Day 30 - ServiceBusSupplierNotifier's transport. Same version already
+      pinned in host/Capstone.Web.csproj and host/Capstone.Worker.csproj.
+    -->
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.20.2" />
   </ItemGroup>
 
   <PropertyGroup>
