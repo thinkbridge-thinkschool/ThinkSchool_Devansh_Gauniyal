@@ -37,7 +37,7 @@ Confirmed the index is what did it, not noise: `sys.dm_db_index_usage_stats` sho
 
 **Live project and snapshot:** the live project is `capstone/` — `day-31/task-1/` is a frozen snapshot of it as this day ended, never edited directly.
 
-**Commit representing this day's state:** `f904be0a4fa868cbf4d608f3e58b4eebca839d3f`.
+**Commit representing this day's state:** `4f29e540908e1ba9dd5e096ecd5daf6c31a3cbbc`.
 
 ## What did you learn this session?
 Running the app locally the normal way accidentally caught a real bug — a singleton depending on a scoped database connection — that had been quietly live in production since Day 29 without ever throwing, because production doesn't validate the DI graph the way local dev does by default. "It works when I deploy it" and "it's wired correctly" turned out not to be the same claim.
