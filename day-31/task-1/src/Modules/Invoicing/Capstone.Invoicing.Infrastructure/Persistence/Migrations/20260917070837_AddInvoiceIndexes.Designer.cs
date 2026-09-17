@@ -5,6 +5,7 @@ using Capstone.Invoicing.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -12,9 +13,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Capstone.Invoicing.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(InvoicingDbContext))]
-    partial class InvoicingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260917070837_AddInvoiceIndexes")]
+    partial class AddInvoiceIndexes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

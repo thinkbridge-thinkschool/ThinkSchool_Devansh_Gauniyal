@@ -5,6 +5,7 @@ using Capstone.Invoicing.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -12,9 +13,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Capstone.Invoicing.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(InvoicingDbContext))]
-    partial class InvoicingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260917053427_AddDisputeResolutionAndOutbox")]
+    partial class AddDisputeResolutionAndOutbox
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -106,12 +109,6 @@ namespace Capstone.Invoicing.Infrastructure.Persistence.Migrations
                         });
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Status")
-                        .HasDatabaseName("IX_Invoices_Status");
-
-                    b.HasIndex("SubmittedAt")
-                        .HasDatabaseName("IX_Invoices_SubmittedAt");
 
                     b.ToTable("Invoices", "invoicing");
                 });

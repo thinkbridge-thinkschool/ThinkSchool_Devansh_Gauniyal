@@ -1,0 +1,150 @@
+WARNING: /Users/devansh/thinkschool/capstone/infra/modules/api.bicep(38,15) : Warning BCP081: Resource type "Microsoft.Web/serverFarms@2026-07-15" does not have types available. Bicep is unable to validate resource properties prior to deployment, but this will not block the resource from being deployed. [https://aka.ms/bicep/core-diagnostics#BCP081]
+/Users/devansh/thinkschool/capstone/infra/modules/api.bicep(53,17) : Warning BCP081: Resource type "Microsoft.Web/sites@2026-07-15" does not have types available. Bicep is unable to validate resource properties prior to deployment, but this will not block the resource from being deployed. [https://aka.ms/bicep/core-diagnostics#BCP081]
+
+Note: The result may contain false positive predictions (noise).
+You can help us improve the accuracy of the result by opening an issue here: https://aka.ms/WhatIfIssues
+
+Resource and property changes are indicated with this symbol:
+  + Create
+
+The deployment will update the following scopes:
+
+Scope: /subscriptions/<SUBSCRIPTION_ID>
+
+  + resourceGroups/rg-capstone-dev [2023-07-01]
+
+      apiVersion:       "2023-07-01"
+      id:               "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev"
+      location:         "centralindia"
+      name:             "rg-capstone-dev"
+      tags.environment: "dev"
+      tags.managed-by:  "bicep"
+      tags.project:     "capstone"
+      tags.source:      "capstone/infra"
+      type:             "Microsoft.Resources/resourceGroups"
+
+Scope: /subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev
+
+  + Microsoft.ServiceBus/namespaces/sb-capstone-dev-zv36uz [2026-01-01]
+
+      apiVersion:                     "2026-01-01"
+      id:                             "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev/providers/Microsoft.ServiceBus/namespaces/sb-capstone-dev-zv36uz"
+      location:                       "centralindia"
+      name:                           "sb-capstone-dev-zv36uz"
+      properties.disableLocalAuth:    false
+      properties.minimumTlsVersion:   "1.2"
+      properties.publicNetworkAccess: "Enabled"
+      sku.name:                       "Standard"
+      tags.environment:               "dev"
+      tags.managed-by:                "bicep"
+      tags.project:                   "capstone"
+      tags.source:                    "capstone/infra"
+      type:                           "Microsoft.ServiceBus/namespaces"
+
+  + Microsoft.ServiceBus/namespaces/sb-capstone-dev-zv36uz/topics/invoice-approved-events [2026-01-01]
+
+      apiVersion:                                     "2026-01-01"
+      id:                                             "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev/providers/Microsoft.ServiceBus/namespaces/sb-capstone-dev-zv36uz/topics/invoice-approved-events"
+      name:                                           "invoice-approved-events"
+      properties.defaultMessageTimeToLive:            "P1D"
+      properties.duplicateDetectionHistoryTimeWindow: "PT10M"
+      properties.enablePartitioning:                  false
+      properties.requiresDuplicateDetection:          true
+      type:                                           "Microsoft.ServiceBus/namespaces/topics"
+
+  + Microsoft.ServiceBus/namespaces/sb-capstone-dev-zv36uz/topics/supplier-notifications [2026-01-01]
+
+      apiVersion:                                     "2026-01-01"
+      id:                                             "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev/providers/Microsoft.ServiceBus/namespaces/sb-capstone-dev-zv36uz/topics/supplier-notifications"
+      name:                                           "supplier-notifications"
+      properties.defaultMessageTimeToLive:            "P1D"
+      properties.duplicateDetectionHistoryTimeWindow: "PT10M"
+      properties.enablePartitioning:                  false
+      properties.requiresDuplicateDetection:          true
+      type:                                           "Microsoft.ServiceBus/namespaces/topics"
+
+  + Microsoft.Sql/servers/sql-capstone-dev-zpx4al [2025-01-01]
+
+      apiVersion:                            "2025-01-01"
+      id:                                    "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev/providers/Microsoft.Sql/servers/sql-capstone-dev-zpx4al"
+      location:                              "centralindia"
+      name:                                  "sql-capstone-dev-zpx4al"
+      properties.administratorLogin:         "*******"
+      properties.administratorLoginPassword: "*******"
+      properties.minimalTlsVersion:          "1.2"
+      properties.publicNetworkAccess:        "Enabled"
+      tags.environment:                      "dev"
+      tags.managed-by:                       "bicep"
+      tags.project:                          "capstone"
+      tags.source:                           "capstone/infra"
+      type:                                  "Microsoft.Sql/servers"
+
+  + Microsoft.Sql/servers/sql-capstone-dev-zpx4al/databases/sqldb-capstone-dev [2025-01-01]
+
+      apiVersion:                                  "2025-01-01"
+      id:                                          "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev/providers/Microsoft.Sql/servers/sql-capstone-dev-zpx4al/databases/sqldb-capstone-dev"
+      location:                                    "centralindia"
+      name:                                        "sqldb-capstone-dev"
+      properties.autoPauseDelay:                   60
+      properties.freeLimitExhaustionBehavior:      "AutoPause"
+      properties.requestedBackupStorageRedundancy: "Local"
+      properties.useFreeLimit:                     true
+      properties.zoneRedundant:                    false
+      sku.family:                                  "Gen5"
+      sku.name:                                    "GP_S_Gen5"
+      tags.environment:                            "dev"
+      tags.managed-by:                             "bicep"
+      tags.project:                                "capstone"
+      tags.source:                                 "capstone/infra"
+      type:                                        "Microsoft.Sql/servers/databases"
+
+  + Microsoft.Sql/servers/sql-capstone-dev-zpx4al/databases/sqldb-capstone-dev/backupShortTermRetentionPolicies/default [2025-01-01]
+
+      apiVersion:               "2025-01-01"
+      id:                       "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev/providers/Microsoft.Sql/servers/sql-capstone-dev-zpx4al/databases/sqldb-capstone-dev/backupShortTermRetentionPolicies/default"
+      name:                     "default"
+      properties.retentionDays: 7
+      type:                     "Microsoft.Sql/servers/databases/backupShortTermRetentionPolicies"
+
+  + Microsoft.Sql/servers/sql-capstone-dev-zpx4al/firewallRules/AllowAllAzureServices [2025-01-01]
+
+      apiVersion:                "2025-01-01"
+      id:                        "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev/providers/Microsoft.Sql/servers/sql-capstone-dev-zpx4al/firewallRules/AllowAllAzureServices"
+      name:                      "AllowAllAzureServices"
+      properties.endIpAddress:   "0.0.0.0"
+      properties.startIpAddress: "0.0.0.0"
+      type:                      "Microsoft.Sql/servers/firewallRules"
+
+  + Microsoft.Web/serverFarms/plan-capstone-dev-api [2026-07-15]
+
+      apiVersion:          "2026-07-15"
+      id:                  "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev/providers/Microsoft.Web/serverFarms/plan-capstone-dev-api"
+      kind:                "linux"
+      location:            "centralindia"
+      name:                "plan-capstone-dev-api"
+      properties.reserved: true
+      sku.capacity:        1
+      sku.name:            "B1"
+      tags.environment:    "dev"
+      tags.managed-by:     "bicep"
+      tags.project:        "capstone"
+      tags.source:         "capstone/infra"
+      type:                "Microsoft.Web/serverFarms"
+
+  + Microsoft.Web/sites/capstone-dev-api-skom32 [2026-07-15]
+
+      apiVersion:              "2026-07-15"
+      id:                      "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev/providers/Microsoft.Web/sites/capstone-dev-api-skom32"
+      kind:                    "app,linux"
+      location:                "centralindia"
+      name:                    "capstone-dev-api-skom32"
+      properties.httpsOnly:    true
+      properties.serverFarmId: "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev/providers/Microsoft.Web/serverFarms/plan-capstone-dev-api"
+      properties.siteConfig:   "*******"
+      tags.environment:        "dev"
+      tags.managed-by:         "bicep"
+      tags.project:            "capstone"
+      tags.source:             "capstone/infra"
+      type:                    "Microsoft.Web/sites"
+
+Resource changes: 10 to create.

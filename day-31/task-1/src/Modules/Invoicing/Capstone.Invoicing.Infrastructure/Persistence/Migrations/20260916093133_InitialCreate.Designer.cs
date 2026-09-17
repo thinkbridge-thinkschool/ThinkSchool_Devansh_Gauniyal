@@ -5,6 +5,7 @@ using Capstone.Invoicing.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -12,9 +13,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Capstone.Invoicing.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(InvoicingDbContext))]
-    partial class InvoicingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260916093133_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,9 +32,6 @@ namespace Capstone.Invoicing.Infrastructure.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("BuyerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CorrectsInvoiceId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Currency")
@@ -107,40 +107,7 @@ namespace Capstone.Invoicing.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Status")
-                        .HasDatabaseName("IX_Invoices_Status");
-
-                    b.HasIndex("SubmittedAt")
-                        .HasDatabaseName("IX_Invoices_SubmittedAt");
-
                     b.ToTable("Invoices", "invoicing");
-                });
-
-            modelBuilder.Entity("Capstone.Invoicing.Infrastructure.Persistence.OutboxMessage", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("EventType")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTimeOffset>("OccurredAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Payload")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset?>("PublishedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PublishedAt");
-
-                    b.ToTable("OutboxMessages", "invoicing");
                 });
 #pragma warning restore 612, 618
         }

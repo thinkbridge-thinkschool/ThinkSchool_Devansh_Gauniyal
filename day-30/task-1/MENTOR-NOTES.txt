@@ -1,0 +1,141 @@
+Day 30, Task 1 — Feature completeness: dispute resolution, deemed approval, real async flows
+
+Corrective-invoice linkage (Invoice.CorrectsInvoiceId), validated at the application
+layer since Invoice.Submit() has no repository access to check invoice status itself:
+
+if (command.CorrectsInvoiceId is { } correctedId)
+{
+    var correctedInvoice = await invoices.FindAsync(correctedId, cancellationToken)
+        ?? throw new InvalidOperationException($"Invoice {correctedId} was not found.");
+
+    if (correctedInvoice.Status != InvoiceStatus.Rejected)
+    {
+        throw new InvalidOperationException(
+            $"Invoice {correctedId} is {correctedInvoice.Status}, not Rejected - only a rejected invoice can be corrected.");
+    }
+}
+
+Transactional outbox — writes to the SAME DbContext instance the approving request's
+own repository call uses, so the outbox row and the invoice's state change land in one
+transaction without this class managing that guarantee itself:
+
+public sealed class EfIntegrationEventOutbox(InvoicingDbContext dbContext) : IIntegrationEventOutbox
+{
+    public Task EnqueueInvoiceApprovedAsync(InvoiceApproved domainEvent, CancellationToken cancellationToken)
+    {
+        var payload = new InvoiceApprovedIntegrationEvent(
+            domainEvent.InvoiceId.Value,
+            domainEvent.ApprovalKind.ToString(),
+            domainEvent.ApprovedBy,
+            domainEvent.ConsumedAmount.Amount,
+            domainEvent.ConsumedAmount.Currency,
+            domainEvent.OccurredAt);
+
+        dbContext.OutboxMessages.Add(new OutboxMessage
+        {
+            Id = Guid.NewGuid(),
+            EventType = nameof(InvoiceApprovedIntegrationEvent),
+            Payload = JsonSerializer.Serialize(payload),
+            OccurredAt = domainEvent.OccurredAt
+        });
+
+        return Task.CompletedTask;
+    }
+}
+
+Best-effort supplier notification — the opposite pattern by design: every send is
+wrapped so a failure is logged and swallowed, never rethrown, since a notification must
+never fail the request it's attached to:
+
+public async Task NotifyInvoiceApprovedAsync(Guid supplierId, string invoiceNumber, CancellationToken cancellationToken)
+{
+    try
+    {
+        var sender = client.CreateSender(topicName);
+        var message = new ServiceBusMessage(JsonSerializer.Serialize(new { supplierId, invoiceNumber, kind = "Approved" }));
+        await sender.SendMessageAsync(message, cancellationToken);
+    }
+    catch (Exception ex)
+    {
+        logger.LogWarning(ex, "Failed to notify supplier {SupplierId} of invoice {InvoiceNumber} approval - swallowed, not fatal to the request.", supplierId, invoiceNumber);
+    }
+}
+
+Deemed-approval sweep as a real hosted service, running against the deployed clock, in
+a fresh DI scope per tick (a live 10-day review window can't be waited out in a working
+session, so POST /v1/system/deemed-approval-sweep also exposes the same use case
+on demand for live proof against real Azure SQL):
+
+public sealed class DeemedApprovalSweepBackgroundService(
+    IServiceScopeFactory scopeFactory, IConfiguration configuration,
+    ILogger<DeemedApprovalSweepBackgroundService> logger) : BackgroundService
+{
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+    {
+        var minutes = configuration.GetValue("DeemedApprovalSweep:IntervalMinutes", 15);
+        using var timer = new PeriodicTimer(TimeSpan.FromMinutes(minutes));
+
+        while (await timer.WaitForNextTickAsync(stoppingToken))
+        {
+            await using var scope = scopeFactory.CreateAsyncScope();
+            var useCase = scope.ServiceProvider.GetRequiredService<ApplyDeemedApprovalsUseCase>();
+            var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+
+            var deemed = await useCase.ExecuteAsync(stoppingToken);
+            if (deemed.Count > 0)
+            {
+                await unitOfWork.SaveChangesAsync(stoppingToken);
+                logger.LogInformation("Deemed-approval sweep approved {Count} invoice(s).", deemed.Count);
+            }
+        }
+    }
+}
+
+Required tolerance-boundary domain tests the suite was missing (MatchingPolicy already
+used <=, this proves it at the cent):
+
+[Fact]
+public void Submit_LineExactlyAtToleranceBoundary_DoesNotDispute()
+{
+    var invoice = Invoice.Submit(CommandForAmount(2010.00m), OpenPurchaseOrder(), Terms(), Policy(), Clock());
+    Assert.Equal(InvoiceStatus.Submitted, invoice.Status);
+    Assert.True(invoice.MatchResult.WithinTolerance);
+}
+
+[Fact]
+public void Submit_LineOneCentPastToleranceBoundary_CreatesDisputedInvoice()
+{
+    var invoice = Invoice.Submit(CommandForAmount(2010.01m), OpenPurchaseOrder(), Terms(), Policy(), Clock());
+    Assert.Equal(InvoiceStatus.Disputed, invoice.Status);
+    Assert.False(invoice.MatchResult.WithinTolerance);
+}
+
+Actual verification:
+- dotnet test Capstone.slnx: 46/46 passing (29 domain, 12 integration against real
+  SQL Server via Testcontainers, 5 architecture) - up from 25/4/5 = 34 before today.
+- Migration applied against the real deployed Azure SQL (captured from live Kudu docker
+  logs, not reconstructed):
+    Applying migration '20260917053427_AddDisputeResolutionAndOutbox'.
+    ALTER TABLE [invoicing].[Invoices] ADD [CorrectsInvoiceId] uniqueidentifier NULL;
+    CREATE TABLE [invoicing].[OutboxMessages] (...);
+    CREATE INDEX [IX_OutboxMessages_PublishedAt] ON [invoicing].[OutboxMessages] ([PublishedAt]);
+- OutboxRelayBackgroundService confirmed alive in production, polling OutboxMessages
+  every 10 seconds (repeated SELECT ... FROM [invoicing].[OutboxMessages] AS [o] in the
+  same log, 06:22-06:25 UTC).
+- All five new/touched endpoints return 401 with no bearer token, live against the
+  deployed app: /dispute, /reject, /withdraw, /system/deemed-approval-sweep,
+  GET /v1/invoices/{id}, GET /v1/invoices.
+- Zero plaintext secrets and SQL public network access = Disabled, both reconfirmed
+  live after today's temporary elevate-migrate-revert cycle.
+- A real, unplanned finding during the local curl walkthrough: submitting a
+  partial-quantity corrective invoice (8 of 10 units) tripped the matching tolerance
+  automatically, since matching compares against the PO line's full value, not a
+  pro-rated one - the correction landed Disputed, not Submitted, and correctly then
+  refused both a further correction and a withdrawal attempt (both 409).
+
+Deliberately not built today: withdrawal/expiry of a Disputed invoice (needs bilateral
+resolution by design, not a unilateral supplier exit - see submission notes) and the
+Counterparty/Identity to per-caller filtering on GET /v1/invoices (named "not cut" in
+Day 28's own plan, cut anyway in favor of what today's actual brief asked for).
+
+Implementation commit: 013416b576a7b4af9242beab69da03aabca96168
