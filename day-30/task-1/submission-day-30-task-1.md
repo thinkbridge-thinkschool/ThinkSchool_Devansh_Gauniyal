@@ -115,7 +115,7 @@ services, docs, Bicep outputs, out-of-band settings note.)
 The live project is `capstone/` — `day-30/task-1/` is a frozen snapshot of it as this day
 ended, never edited directly.
 
-Commit representing this day's state: `9328d6b1df44ecf0f75cccef8a95eec9c8d2fb21`.
+Commit representing this day's state: `264306023e43f540a3bd977884f4ee032c0edf3f`.
 
 ### Cut from Day 28's plan, and why
 
