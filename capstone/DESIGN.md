@@ -64,8 +64,10 @@ Purchase order, buyer, supplier — referenced by ID only.
 - **Due date = submission timestamp + term days, computed and stored at submission** —
   never typed in, never re-derived from approval. This is the central rule.
 - Once `Approved`, terms, due date and lines are immutable. A correction is a **new**
-  invoice referencing the disputed one — never a mutation of an approved or disputed
-  record.
+  invoice referencing the disputed one (`Invoice.CorrectsInvoiceId`, Day 30) — never
+  a mutation of an approved or disputed record. The link is only accepted when the
+  referenced invoice is actually `Rejected` — checked by `SubmitInvoiceUseCase`, not
+  `Invoice.Submit()` itself, which has no repository access to verify it.
 - A disputed invoice cannot become `Approved` without the dispute being resolved
   first (resolution = approve as-is, or reject + new corrective invoice).
 - **Deemed approval:** if the buyer takes no action within a configurable review
@@ -99,21 +101,30 @@ No `Draft` (no invariants, forces "unless draft" everywhere) and no `Matched` st
 ## Purchase order capacity (Procurement, minimal)
 
 `Total`, `Reserved`, `Consumed`. Submit reserves; `Approve` converts reservation to
-consumed; `Reject`/`Withdraw` releases it. **Known gap, not solved here:** an
-abandoned `Submitted` invoice ties up capacity indefinitely — needs an expiry path.
+consumed; `Reject`/`Withdraw` releases it. **Partially closed (Day 30):** an
+abandoned `Submitted` invoice no longer ties up capacity indefinitely — the
+deemed-approval sweep (below) now actually runs on a schedule, so every
+`Submitted` invoice eventually resolves, one way or another. **Still open:** the
+same is not true of `Disputed` invoices — nothing expires a dispute nobody
+resolves, since no unilateral default (auto-approve favours the supplier,
+auto-reject favours the buyer) is right for a genuine disagreement. See
+submission-day-30-task-1.md for the reasoning.
 
 ## Async flows — kept deliberately small
 
 Everything money- or state-critical (state change, terms snapshot, due-date
 derivation, capacity reservation/consumption) is **synchronous**, inside the same
 transaction as the request. Two things are genuinely async, because they're side
-effects, not consistency requirements:
+effects, not consistency requirements — both wired for real as of Day 30 (see
+submission-day-30-task-1.md):
 1. **Supplier notification** on approval/dispute — failure doesn't affect correctness;
    the invoice is the source of truth, the notification a convenience, retried
-   independently.
+   independently by the transport, not re-queued by this project itself.
 2. **`InvoiceApproved` integration event**, for a Financing consumer that doesn't
    exist yet — written to an outbox in the same transaction as approval, so a broker
-   outage can never silently lose the fact that an invoice was approved.
+   outage can never silently lose the fact that an invoice was approved. A relay
+   publishes outbox rows to Service Bus on its own schedule; no consumer exists yet,
+   deliberately, since none is named as needed.
 
 Not treated as async: PO capacity consumption (a real invariant, not a side effect —
 made synchronous specifically to avoid a race between two concurrent submissions).

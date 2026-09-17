@@ -152,35 +152,36 @@ The reusable KQL queries and their captured results live at
 
 ## What's deliberately not built yet
 
-Per the task: this is a design-and-scaffold kickoff, not a feature build. Later
-Academy days (28–32) are where these get built:
+This started (Day 22) as a design-and-scaffold kickoff; persistence (Day 29), auth
+(Day 27), and both named async flows plus the dispute/withdraw/deemed-approval
+surface (Day 30) have since landed - see each day's `submission-day-*.md` for what
+shipped when. What's still genuinely open:
 
-- **Persistence.** Both repositories are in-memory (`ConcurrentDictionary`-backed).
-  No database, no migrations, no EF Core.
-- **Messaging / outbox.** DESIGN.md names two async flows (supplier notification,
-  `InvoiceApproved` integration event via outbox) — neither is wired to a real queue
-  or outbox table. `ApplyDeemedApprovalsUseCase` is a plain callable use case, not a
-  background service or hosted timer; nothing currently calls it automatically.
-  **Day 26 exception, narrowly scoped:** `host/Capstone.Worker` does consume from
-  Service Bus now, but only to demonstrate distributed tracing across a broker for
-  that day's App Insights/KQL task — it is not either real async flow above, carries
-  no invoice/notification logic, and does not change anything in this list. See
-  `infra/README.md`, "Observability (Day 26) — the worker: what it is, and what it
-  explicitly is not."
-- **UI.** No frontend of any kind. The two host endpoints exist only to prove the DI
-  graph resolves.
-- **Auth.** No authentication or authorization anywhere in the host.
-- **Caching, resilience.** Not applicable yet — there's no external dependency (real
+- **UI.** No frontend of any kind. The host endpoints exist to prove the flows work,
+  not as a real API consumer experience.
+- **Counterparty/Identity mapping.** Every endpoint still takes a raw, caller-supplied
+  `Guid` for who's acting (`supplierId`, `approvingActorId`, ...) - see
+  THREAT-MODEL.md's Spoofing/Elevation-of-privilege sections for the three findings
+  this one gap causes at once.
+- **Caching, resilience.** Not applicable yet - there's no external dependency (real
   database, real downstream service) worth caching or protecting against transient
-  failure. (Both were built for *other* Academy days, against real dependencies —
-  see Day 21 Task 1 and Day 22 Task 1 — and are deliberately not carried into this
-  greenfield project.)
+  failure beyond what's already there. (Both were built for *other* Academy days,
+  against real dependencies - see Day 21 Task 1 and Day 22 Task 1 - and are
+  deliberately not carried into this greenfield project.)
 - **A real Payment Terms bounded context.** Terms are a hardcoded default lookup
   (`InMemoryPaymentTermsLookup`, 45/10 days for every buyer-supplier pair) — see
   DESIGN.md for why this is a deliberate deferral, not an oversight, and what would
   need to change for it to become its own context.
-- **PO reservation expiry.** An abandoned `Submitted` invoice ties up PO capacity
-  indefinitely. Named as a known gap in DESIGN.md, not solved here.
+- **Disputed-invoice expiry.** Day 30 closed this for abandoned `Submitted` invoices
+  (the deemed-approval sweep now actually runs); a `Disputed` invoice nobody resolves
+  still ties up PO capacity indefinitely, and deliberately has no automatic
+  resolution - see DESIGN.md's "Purchase order capacity" section for why.
+  `Invoice.Withdraw()` only applies to `Submitted`, not `Disputed` - a supplier stuck
+  in an unresolved dispute cannot exit unilaterally either.
+- **A real InvoiceApproved consumer.** The outbox and its relay (Day 30) publish to
+  `invoice-approved-events`; nothing subscribes yet, because DESIGN.md names the
+  Financing context this would feed as "boundary only" - not because the pipe is
+  unfinished.
 - **Matching tolerance as per-relationship configuration.** Currently a single global
   default (`MatchingPolicy.Default`), explicitly documented as a placeholder rather
   than a researched figure.
