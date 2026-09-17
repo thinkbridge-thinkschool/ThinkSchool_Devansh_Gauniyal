@@ -137,6 +137,13 @@ var appSettings = [
     value: demoSubscriptionName
   }
   {
+    // Day 30: set out-of-band via `az webapp config appsettings set` during
+    // this session's deploy, same reasoning and same pattern as
+    // SCM_DO_BUILD_DURING_DEPLOYMENT below - the values these two produce are
+    // identical to what a full `az stack sub create` would set, so the next
+    // real Deployment Stack apply (which needs the SQL admin credential this
+    // session doesn't have - see ../README.md, "Supplying the SQL
+    // credential") reconciles cleanly rather than drifting anything away.
     name: 'ServiceBus__SupplierNotificationsTopicName'
     value: supplierNotificationsTopicName
   }
