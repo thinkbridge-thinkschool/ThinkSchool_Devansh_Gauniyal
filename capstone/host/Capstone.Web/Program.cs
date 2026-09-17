@@ -173,12 +173,31 @@ else
 }
 
 // Procurement module.
-builder.Services.AddSingleton<IPurchaseOrderCapacityGateway, PurchaseOrderCapacityGateway>();
+//
+// Day 31: Scoped, not Singleton (as both were registered through Day 30) - this
+// wraps IPurchaseOrderRepository, which is Scoped itself once persistence is
+// configured (PurchaseOrderEfRepository, tied to the per-request DbContext/
+// SqlConnection above). A Singleton depending on a Scoped service is a captive
+// dependency: the DI container resolves it once, on whichever request happens
+// first, and every later request - concurrent or not - reuses that same closed-
+// over DbContext/connection instance, which EF Core explicitly does not support
+// concurrent use of. Caught locally today via `dotnet run`'s Development-mode
+// eager DI-graph validation (ValidateOnBuild), which a deployed environment
+// (Production mode, no eager validation) does not perform - meaning this bug has
+// been silently live since Day 29 without ever throwing on startup, only on the
+// first concurrent write request submit/approve/reject/withdraw/the sweep all
+// depend on. Scoped is correct unconditionally, not just when persistence is
+// configured - it works exactly the same when the repository behind it is the
+// Singleton in-memory implementation, since a shorter-lived service is always
+// allowed to depend on a longer-lived one.
+builder.Services.AddScoped<IPurchaseOrderCapacityGateway, PurchaseOrderCapacityGateway>();
 
 // Invoicing module. Its only knowledge of Procurement is through the port it
 // defines itself (IPurchaseOrderCapacityPort) and the adapter that implements it.
 builder.Services.AddSingleton<IPaymentTermsLookup, InMemoryPaymentTermsLookup>();// connects these two
-builder.Services.AddSingleton<IPurchaseOrderCapacityPort, ProcurementCapacityAdapter>();// whenever something asks for Ipurchaseport give it adapter
+// Day 31: Scoped for the same reason as IPurchaseOrderCapacityGateway above -
+// this wraps it directly, so the same captive-dependency bug applied here too.
+builder.Services.AddScoped<IPurchaseOrderCapacityPort, ProcurementCapacityAdapter>();// whenever something asks for Ipurchaseport give it adapter
 
 builder.Services.AddScoped<SubmitInvoiceUseCase>();
 builder.Services.AddScoped<ApproveInvoiceUseCase>();
