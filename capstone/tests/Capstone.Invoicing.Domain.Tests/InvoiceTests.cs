@@ -26,11 +26,12 @@ public sealed class InvoiceTests
 
     private static MatchingPolicy Policy() => MatchingPolicy.Default("USD");
 
-    private static SubmitInvoiceCommand CommandForAmount(decimal lineAmount) => new(
+    private static SubmitInvoiceCommand CommandForAmount(decimal lineAmount, InvoiceId? correctsInvoiceId = null) => new(
         SupplierId,
         InvoiceNumber: "INV-1",
         Currency: "USD",
-        Lines: [new InvoiceLineItem(PurchaseOrderLineNumber: 1, BilledQuantity: 1, UnitPrice: new Money(lineAmount, "USD"))]);
+        Lines: [new InvoiceLineItem(PurchaseOrderLineNumber: 1, BilledQuantity: 1, UnitPrice: new Money(lineAmount, "USD"))],
+        correctsInvoiceId);
 
     private static FixedTimeProvider Clock() => new(SubmittedAt);
 
@@ -102,6 +103,49 @@ public sealed class InvoiceTests
         var invoice = Invoice.Submit(CommandForAmount(2005m), OpenPurchaseOrder(), Terms(), Policy(), Clock());
 
         Assert.Equal(InvoiceStatus.Submitted, invoice.Status);
+    }
+
+    // ===== Tolerance boundary (Day 30) - MatchingPolicy.IsWithinTolerance uses
+    // `difference <= effectiveTolerance`, so the boundary value itself must pass
+    // and one cent past it must not. Effective tolerance for a $2000 PO line is
+    // the lower of 1% ($20) and the fixed $10, i.e. exactly $10 - so the line
+    // boundary is $2010.00. =====
+
+    [Fact]
+    public void Submit_LineExactlyAtToleranceBoundary_DoesNotDispute()
+    {
+        var invoice = Invoice.Submit(CommandForAmount(2010.00m), OpenPurchaseOrder(), Terms(), Policy(), Clock());
+
+        Assert.Equal(InvoiceStatus.Submitted, invoice.Status);
+        Assert.True(invoice.MatchResult.WithinTolerance);
+    }
+
+    [Fact]
+    public void Submit_LineOneCentPastToleranceBoundary_CreatesDisputedInvoice()
+    {
+        var invoice = Invoice.Submit(CommandForAmount(2010.01m), OpenPurchaseOrder(), Terms(), Policy(), Clock());
+
+        Assert.Equal(InvoiceStatus.Disputed, invoice.Status);
+        Assert.False(invoice.MatchResult.WithinTolerance);
+    }
+
+    [Fact]
+    public void Submit_WithCorrectsInvoiceId_StoresTheLink()
+    {
+        var rejectedInvoiceId = InvoiceId.New();
+
+        var invoice = Invoice.Submit(
+            CommandForAmount(2000m, rejectedInvoiceId), OpenPurchaseOrder(), Terms(), Policy(), Clock());
+
+        Assert.Equal(rejectedInvoiceId, invoice.CorrectsInvoiceId);
+    }
+
+    [Fact]
+    public void Submit_WithoutCorrectsInvoiceId_LeavesItNull()
+    {
+        var invoice = Invoice.Submit(CommandForAmount(2000m), OpenPurchaseOrder(), Terms(), Policy(), Clock());
+
+        Assert.Null(invoice.CorrectsInvoiceId);
     }
 
     [Fact]

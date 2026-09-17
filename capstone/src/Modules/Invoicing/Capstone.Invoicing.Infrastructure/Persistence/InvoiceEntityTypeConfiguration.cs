@@ -64,6 +64,18 @@ internal sealed class InvoiceEntityTypeConfiguration : IEntityTypeConfiguration<
             .HasConversion(reference => reference.Value, value => new PurchaseOrderReference(value))
             .IsRequired();
 
+        // CorrectsInvoiceId (Day 30) - nullable, the same InvoiceId->Guid
+        // conversion as the primary key above, just without ValueGeneratedNever
+        // (this isn't a key). No foreign key constraint: the referenced invoice
+        // lives in the same table, but SubmitInvoiceUseCase - not the database -
+        // is what enforces "only a Rejected invoice may be corrected", since that
+        // rule depends on the referenced row's STATUS at submission time, not
+        // merely its existence.
+        builder.Property(i => i.CorrectsInvoiceId)
+            .HasConversion(
+                id => id == null ? (Guid?)null : id.Value.Value,
+                value => value == null ? (InvoiceId?)null : new InvoiceId(value.Value));
+
         builder.Property(i => i.InvoiceNumber).HasMaxLength(64).IsRequired();
         builder.Property(i => i.Currency).HasMaxLength(3).IsRequired();
         builder.Property(i => i.SubmittedAt).IsRequired();

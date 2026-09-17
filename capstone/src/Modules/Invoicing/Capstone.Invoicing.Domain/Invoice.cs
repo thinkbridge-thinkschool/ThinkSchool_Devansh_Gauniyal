@@ -53,7 +53,8 @@ public sealed class Invoice : AggregateRoot<InvoiceId>
         IReadOnlyCollection<InvoiceLineItem> lines,
         PaymentTermsSnapshot terms,
         MatchResult matchResult,
-        DateTimeOffset submittedAt)
+        DateTimeOffset submittedAt,
+        InvoiceId? correctsInvoiceId)
         : base(id)
     {
         SupplierId = supplierId;
@@ -65,6 +66,7 @@ public sealed class Invoice : AggregateRoot<InvoiceId>
         Terms = terms;
         MatchResult = matchResult;
         SubmittedAt = submittedAt;
+        CorrectsInvoiceId = correctsInvoiceId;
 
         // The central rule (see DESIGN.md): the due date is knowable the instant the
         // invoice is submitted, because it depends only on the one timestamp the
@@ -86,6 +88,12 @@ public sealed class Invoice : AggregateRoot<InvoiceId>
     public PaymentTermsSnapshot Terms { get; }
     public MatchResult MatchResult { get; }
     public DateTimeOffset SubmittedAt { get; }
+
+    // Day 30 - the correction path DESIGN.md names: set only when this invoice was
+    // submitted specifically to replace a Rejected one (see SubmitInvoiceUseCase,
+    // which is the only place this link is validated - a Rejected predecessor,
+    // never anything else). Null for every ordinary submission.
+    public InvoiceId? CorrectsInvoiceId { get; }
 
     // Stored, not recomputed on every read - see DESIGN.md: a later change to how
     // terms are calculated must never silently move a date already communicated to
@@ -183,7 +191,8 @@ public sealed class Invoice : AggregateRoot<InvoiceId>
             command.Lines,
             terms,
             matchResult,
-            submittedAt);
+            submittedAt,
+            command.CorrectsInvoiceId);
 
         invoice.Raise(new InvoiceSubmitted(invoice.Id, total, submittedAt));
         return invoice;

@@ -24,6 +24,25 @@ public sealed class SubmitInvoiceUseCase(// all are dependency injections since 
         MatchingPolicy matchingPolicy,
         CancellationToken cancellationToken)
     {
+        // Day 30 - the correction path DESIGN.md names: Invoice.Submit() has no
+        // repository access to check this itself, so it's verified here, one
+        // layer up, before the new invoice is even constructed. A corrective
+        // invoice may only reference an invoice that is actually Rejected - not
+        // Submitted/Disputed/Approved/Withdrawn/missing - because "correction"
+        // specifically means "the buyer rejected this and the supplier is
+        // resubmitting", not any other relationship between two invoices.
+        if (command.CorrectsInvoiceId is { } correctedId)
+        {
+            var correctedInvoice = await invoices.FindAsync(correctedId, cancellationToken)
+                ?? throw new InvalidOperationException($"Invoice {correctedId} was not found.");
+
+            if (correctedInvoice.Status != InvoiceStatus.Rejected)
+            {
+                throw new InvalidOperationException(
+                    $"Invoice {correctedId} is {correctedInvoice.Status}, not Rejected - only a rejected invoice can be corrected.");
+            }
+        }
+
         var purchaseOrder = await purchaseOrderCapacity.GetSnapshotAsync(purchaseOrderId, cancellationToken)
             ?? throw new InvalidOperationException($"Purchase order {purchaseOrderId} was not found.");
 
