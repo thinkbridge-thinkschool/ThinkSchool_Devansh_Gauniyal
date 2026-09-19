@@ -7,8 +7,7 @@ resolving; that's the credit running out, not evidence the project was ever brok
 **Live project and snapshot:** the live project is `capstone/` — `day-32/task-1/` is a
 frozen snapshot of it as this day ended, never edited directly.
 
-**Commit representing this day's state:** _[fill in after pushing — see the
-follow-up commit that records it, same pattern as every prior day]_
+**Commit representing this day's state:** `5d58933d3169ec301d73f07008f15ede6fbc1e61`
 
 ## Notes for mentor
 
