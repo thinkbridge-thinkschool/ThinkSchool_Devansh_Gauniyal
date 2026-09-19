@@ -1,0 +1,12 @@
+=== proof dev is gone (the interactive delete's own output was lost when that tool call was interrupted mid-flight, but the delete itself had already been dispatched to Azure and completed asynchronously - confirming with fresh queries now) ===
+Tue Sep  8 17:18:23 IST 2026
+
+--- az stack sub show --name capstone-dev ---
+ERROR: (ResourceNotFound) The resource 'capstone-dev' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix
+Code: ResourceNotFound
+Message: The resource 'capstone-dev' was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix
+
+--- az group show --name rg-capstone-dev ---
+ERROR: (ResourceGroupNotFound) Resource group 'rg-capstone-dev' could not be found.
+Code: ResourceGroupNotFound
+Message: Resource group 'rg-capstone-dev' could not be found.

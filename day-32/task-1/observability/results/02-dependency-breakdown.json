@@ -1,0 +1,129 @@
+{
+  "tables": [
+    {
+      "columns": [
+        {
+          "name": "DependencyType",
+          "type": "string"
+        },
+        {
+          "name": "Operation",
+          "type": "string"
+        },
+        {
+          "name": "Target",
+          "type": "string"
+        },
+        {
+          "name": "CallCount",
+          "type": "long"
+        },
+        {
+          "name": "AvgDurationMs",
+          "type": "real"
+        },
+        {
+          "name": "P95DurationMs",
+          "type": "real"
+        },
+        {
+          "name": "SuccessRatePercent",
+          "type": "real"
+        }
+      ],
+      "name": "PrimaryResult",
+      "rows": [
+        [
+          "HTTP",
+          "GET /msi/token",
+          "169.254.129.6:8081",
+          2,
+          2067.62,
+          3133.28,
+          100
+        ],
+        [
+          "InProc | Microsoft.AAD",
+          "DefaultAzureCredential.GetToken",
+          "DefaultAzureCredential.GetToken",
+          10,
+          365.2,
+          3363.88,
+          100
+        ],
+        [
+          "InProc | Microsoft.AAD",
+          "ManagedIdentityCredential.GetToken",
+          "ManagedIdentityCredential.GetToken",
+          1,
+          1042.16,
+          1042.16,
+          100
+        ],
+        [
+          "Other",
+          "capstone-api.send-trace-demo-message",
+          "capstone-api.send-trace-demo-message",
+          10,
+          1618.07,
+          7109.69,
+          100
+        ],
+        [
+          "SQL",
+          "SQL: SELECT",
+          "sql-capstone-dev-2fqdji.database.windows.net | sqldb-capstone-dev",
+          30,
+          14.19,
+          30,
+          100
+        ],
+        [
+          "SQL",
+          "SQL: INSERT dbo.TraceDemoEvents",
+          "sql-capstone-dev-2fqdji.database.windows.net | sqldb-capstone-dev",
+          11,
+          68.24,
+          202.11,
+          81.8
+        ],
+        [
+          "servicebus",
+          "ServiceBusReceiver.Receive",
+          "sb-capstone-dev-tnjxju.servicebus.windows.net/supplier-notifications/Subscriptions/trace-demo-worker",
+          31,
+          34745.46,
+          60549.54,
+          100
+        ],
+        [
+          "servicebus",
+          "ServiceBusSender.Send",
+          "sb-capstone-dev-tnjxju.servicebus.windows.net/supplier-notifications",
+          10,
+          1548.25,
+          6739.34,
+          100
+        ],
+        [
+          "servicebus",
+          "ServiceBusReceiver.Complete",
+          "sb-capstone-dev-tnjxju.servicebus.windows.net/supplier-notifications/Subscriptions/trace-demo-worker",
+          9,
+          99.34,
+          152.88,
+          100
+        ],
+        [
+          "servicebus",
+          "ServiceBusReceiver.Abandon",
+          "sb-capstone-dev-tnjxju.servicebus.windows.net/supplier-notifications/Subscriptions/trace-demo-worker",
+          5,
+          76.83,
+          282.4,
+          100
+        ]
+      ]
+    }
+  ]
+}
