@@ -1,0 +1,311 @@
+WARNING: /Users/devansh/thinkschool/capstone/infra/modules/api.bicep(38,15) : Warning BCP081: Resource type "Microsoft.Web/serverFarms@2026-07-15" does not have types available. Bicep is unable to validate resource properties prior to deployment, but this will not block the resource from being deployed. [https://aka.ms/bicep/core-diagnostics#BCP081]
+/Users/devansh/thinkschool/capstone/infra/modules/api.bicep(53,17) : Warning BCP081: Resource type "Microsoft.Web/sites@2026-07-15" does not have types available. Bicep is unable to validate resource properties prior to deployment, but this will not block the resource from being deployed. [https://aka.ms/bicep/core-diagnostics#BCP081]
+
+{
+  "id": "/subscriptions/<SUBSCRIPTION_ID>/providers/Microsoft.Resources/deployments/capstone-infra-dev-deploy-rerun",
+  "location": "centralindia",
+  "name": "capstone-infra-dev-deploy-rerun",
+  "properties": {
+    "correlationId": "7ac99c68-cb32-4d11-8c3e-07e124d4fde7",
+    "debugSetting": null,
+    "dependencies": [
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev",
+            "resourceName": "rg-capstone-dev",
+            "resourceType": "Microsoft.Resources/resourceGroups"
+          }
+        ],
+        "id": "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev/providers/Microsoft.Resources/deployments/capstone-api-dev",
+        "resourceGroup": "rg-capstone-dev",
+        "resourceName": "capstone-api-dev",
+        "resourceType": "Microsoft.Resources/deployments"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev",
+            "resourceName": "rg-capstone-dev",
+            "resourceType": "Microsoft.Resources/resourceGroups"
+          }
+        ],
+        "id": "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev/providers/Microsoft.Resources/deployments/capstone-sql-dev",
+        "resourceGroup": "rg-capstone-dev",
+        "resourceName": "capstone-sql-dev",
+        "resourceType": "Microsoft.Resources/deployments"
+      },
+      {
+        "dependsOn": [
+          {
+            "id": "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev",
+            "resourceName": "rg-capstone-dev",
+            "resourceType": "Microsoft.Resources/resourceGroups"
+          }
+        ],
+        "id": "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev/providers/Microsoft.Resources/deployments/capstone-servicebus-dev",
+        "resourceGroup": "rg-capstone-dev",
+        "resourceName": "capstone-servicebus-dev",
+        "resourceType": "Microsoft.Resources/deployments"
+      }
+    ],
+    "diagnostics": null,
+    "duration": "PT48.1918218S",
+    "error": null,
+    "extensions": [],
+    "mode": "Incremental",
+    "onErrorDeployment": null,
+    "outputResources": [
+      {
+        "apiVersion": null,
+        "extension": null,
+        "id": "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev",
+        "identifiers": null,
+        "resourceType": "Microsoft.Resources/resourceGroups"
+      },
+      {
+        "apiVersion": null,
+        "extension": null,
+        "id": "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev/providers/Microsoft.ServiceBus/namespaces/sb-capstone-dev-zv36uz",
+        "identifiers": null,
+        "resourceGroup": "rg-capstone-dev",
+        "resourceType": "Microsoft.ServiceBus/namespaces"
+      },
+      {
+        "apiVersion": null,
+        "extension": null,
+        "id": "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev/providers/Microsoft.ServiceBus/namespaces/sb-capstone-dev-zv36uz/topics/invoice-approved-events",
+        "identifiers": null,
+        "resourceGroup": "rg-capstone-dev",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+      },
+      {
+        "apiVersion": null,
+        "extension": null,
+        "id": "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev/providers/Microsoft.ServiceBus/namespaces/sb-capstone-dev-zv36uz/topics/supplier-notifications",
+        "identifiers": null,
+        "resourceGroup": "rg-capstone-dev",
+        "resourceType": "Microsoft.ServiceBus/namespaces/topics"
+      },
+      {
+        "apiVersion": null,
+        "extension": null,
+        "id": "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev/providers/Microsoft.Sql/servers/sql-capstone-dev-zpx4al",
+        "identifiers": null,
+        "resourceGroup": "rg-capstone-dev",
+        "resourceType": "Microsoft.Sql/servers"
+      },
+      {
+        "apiVersion": null,
+        "extension": null,
+        "id": "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev/providers/Microsoft.Sql/servers/sql-capstone-dev-zpx4al/databases/sqldb-capstone-dev",
+        "identifiers": null,
+        "resourceGroup": "rg-capstone-dev",
+        "resourceType": "Microsoft.Sql/servers/databases"
+      },
+      {
+        "apiVersion": null,
+        "extension": null,
+        "id": "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev/providers/Microsoft.Sql/servers/sql-capstone-dev-zpx4al/databases/sqldb-capstone-dev/backupShortTermRetentionPolicies/default",
+        "identifiers": null,
+        "resourceGroup": "rg-capstone-dev",
+        "resourceType": "Microsoft.Sql/servers/databases/backupShortTermRetentionPolicies"
+      },
+      {
+        "apiVersion": null,
+        "extension": null,
+        "id": "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev/providers/Microsoft.Sql/servers/sql-capstone-dev-zpx4al/firewallRules/AllowAllAzureServices",
+        "identifiers": null,
+        "resourceGroup": "rg-capstone-dev",
+        "resourceType": "Microsoft.Sql/servers/firewallRules"
+      },
+      {
+        "apiVersion": null,
+        "extension": null,
+        "id": "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev/providers/Microsoft.Web/serverFarms/plan-capstone-dev-api",
+        "identifiers": null,
+        "resourceGroup": "rg-capstone-dev",
+        "resourceType": "Microsoft.Web/serverFarms"
+      },
+      {
+        "apiVersion": null,
+        "extension": null,
+        "id": "/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/rg-capstone-dev/providers/Microsoft.Web/sites/capstone-dev-api-skom32",
+        "identifiers": null,
+        "resourceGroup": "rg-capstone-dev",
+        "resourceType": "Microsoft.Web/sites"
+      }
+    ],
+    "outputs": {
+      "apiHostName": {
+        "type": "String",
+        "value": "capstone-dev-api-skom32.azurewebsites.net"
+      },
+      "apiName": {
+        "type": "String",
+        "value": "capstone-dev-api-skom32"
+      },
+      "resourceGroupName": {
+        "type": "String",
+        "value": "rg-capstone-dev"
+      },
+      "serviceBusNamespaceFqdn": {
+        "type": "String",
+        "value": "sb-capstone-dev-zv36uz.servicebus.windows.net"
+      },
+      "serviceBusNamespaceName": {
+        "type": "String",
+        "value": "sb-capstone-dev-zv36uz"
+      },
+      "serviceBusTopicNames": {
+        "type": "Array",
+        "value": [
+          "supplier-notifications",
+          "invoice-approved-events"
+        ]
+      },
+      "sqlDatabaseName": {
+        "type": "String",
+        "value": "sqldb-capstone-dev"
+      },
+      "sqlServerFqdn": {
+        "type": "String",
+        "value": "sql-capstone-dev-zpx4al.database.windows.net"
+      },
+      "sqlServerName": {
+        "type": "String",
+        "value": "sql-capstone-dev-zpx4al"
+      }
+    },
+    "parameters": {
+      "apiSkuCapacity": {
+        "type": "Int",
+        "value": 1
+      },
+      "apiSkuName": {
+        "type": "String",
+        "value": "B1"
+      },
+      "apiSkuTier": {
+        "type": "String",
+        "value": "Basic"
+      },
+      "environmentName": {
+        "type": "String",
+        "value": "dev"
+      },
+      "location": {
+        "type": "String",
+        "value": "centralindia"
+      },
+      "resourceGroupName": {
+        "type": "String",
+        "value": "rg-capstone-dev"
+      },
+      "serviceBusDuplicateDetectionWindow": {
+        "type": "String",
+        "value": "PT10M"
+      },
+      "serviceBusEnablePartitioning": {
+        "type": "Bool",
+        "value": false
+      },
+      "serviceBusMessageTtl": {
+        "type": "String",
+        "value": "P1D"
+      },
+      "sqlAdministratorLogin": {
+        "type": "String",
+        "value": "capstoneadmin"
+      },
+      "sqlAdministratorPassword": {
+        "type": "SecureString"
+      },
+      "sqlBackupRetentionDays": {
+        "type": "Int",
+        "value": 7
+      },
+      "sqlBackupStorageRedundancy": {
+        "type": "String",
+        "value": "Local"
+      },
+      "sqlCapacity": {
+        "type": "Int",
+        "value": 1
+      },
+      "sqlComputeModel": {
+        "type": "String",
+        "value": "Serverless"
+      },
+      "sqlSkuName": {
+        "type": "String",
+        "value": "GP_S_Gen5"
+      },
+      "sqlUseFreeLimit": {
+        "type": "Bool",
+        "value": true
+      },
+      "sqlZoneRedundant": {
+        "type": "Bool",
+        "value": false
+      },
+      "tags": {
+        "type": "Object",
+        "value": {
+          "environment": "dev",
+          "managed-by": "bicep",
+          "project": "capstone",
+          "source": "capstone/infra"
+        }
+      }
+    },
+    "parametersLink": null,
+    "providers": [
+      {
+        "id": null,
+        "namespace": "Microsoft.Resources",
+        "providerAuthorizationConsentState": null,
+        "registrationPolicy": null,
+        "registrationState": null,
+        "resourceTypes": [
+          {
+            "aliases": null,
+            "apiProfiles": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "defaultApiVersion": null,
+            "locationMappings": null,
+            "locations": [
+              "centralindia"
+            ],
+            "properties": null,
+            "resourceType": "resourceGroups",
+            "zoneMappings": null
+          },
+          {
+            "aliases": null,
+            "apiProfiles": null,
+            "apiVersions": null,
+            "capabilities": null,
+            "defaultApiVersion": null,
+            "locationMappings": null,
+            "locations": [
+              null
+            ],
+            "properties": null,
+            "resourceType": "deployments",
+            "zoneMappings": null
+          }
+        ]
+      }
+    ],
+    "provisioningState": "Succeeded",
+    "templateHash": "5497815554730876927",
+    "templateLink": null,
+    "timestamp": "2026-09-06T18:42:33.428331+00:00",
+    "validatedResources": null,
+    "validationLevel": null
+  },
+  "tags": null,
+  "type": "Microsoft.Resources/deployments"
+}

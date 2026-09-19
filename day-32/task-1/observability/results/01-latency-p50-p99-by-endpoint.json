@@ -1,0 +1,153 @@
+{
+  "tables": [
+    {
+      "columns": [
+        {
+          "name": "EndpointName",
+          "type": "string"
+        },
+        {
+          "name": "RequestCount",
+          "type": "long"
+        },
+        {
+          "name": "P50Ms",
+          "type": "real"
+        },
+        {
+          "name": "P99Ms",
+          "type": "real"
+        }
+      ],
+      "name": "PrimaryResult",
+      "rows": [
+        [
+          "GET /",
+          65,
+          0.2842,
+          605.3824
+        ],
+        [
+          "POST /demo/submit-sample-invoice",
+          40,
+          0.3076,
+          160.3684
+        ],
+        [
+          "GET /demo/db-ping",
+          30,
+          9.1179,
+          2439.9159
+        ],
+        [
+          "ServiceBusProcessor.ProcessMessage",
+          14,
+          250.5838,
+          16052.7449
+        ],
+        [
+          "capstone-worker.process-trace-demo-message",
+          14,
+          250.4271,
+          14917.8375
+        ],
+        [
+          "POST /demo/trace-worker",
+          10,
+          988.5319,
+          7218.5931
+        ],
+        [
+          "GET /demo/this-route-does-not-exist-1",
+          1,
+          1.7022,
+          1.7022
+        ],
+        [
+          "GET /demo/this-route-does-not-exist-2",
+          1,
+          0.1197,
+          0.1197
+        ],
+        [
+          "GET /demo/this-route-does-not-exist-6",
+          1,
+          0.2485,
+          0.2485
+        ],
+        [
+          "GET /demo/this-route-does-not-exist-3",
+          1,
+          0.1016,
+          0.1016
+        ],
+        [
+          "GET /demo/this-route-does-not-exist-4",
+          1,
+          0.1037,
+          0.1037
+        ],
+        [
+          "GET /demo/this-route-does-not-exist-7",
+          1,
+          0.1037,
+          0.1037
+        ],
+        [
+          "GET /demo/this-route-does-not-exist-8",
+          1,
+          0.098,
+          0.098
+        ],
+        [
+          "GET /demo/this-route-does-not-exist-10",
+          1,
+          0.1071,
+          0.1071
+        ],
+        [
+          "GET /demo/this-route-does-not-exist-12",
+          1,
+          0.1018,
+          0.1018
+        ],
+        [
+          "GET /demo/this-route-does-not-exist-14",
+          1,
+          0.1031,
+          0.1031
+        ],
+        [
+          "GET /demo/this-route-does-not-exist-5",
+          1,
+          0.2121,
+          0.2121
+        ],
+        [
+          "GET /demo/this-route-does-not-exist-9",
+          1,
+          7.71,
+          7.71
+        ],
+        [
+          "GET /demo/this-route-does-not-exist-11",
+          1,
+          0.1125,
+          0.1125
+        ],
+        [
+          "GET /demo/this-route-does-not-exist-13",
+          1,
+          0.1152,
+          0.1152
+        ],
+        [
+          "GET /demo/this-route-does-not-exist-15",
+          1,
+          0.1034,
+          0.1034
+        ]
+      ]
+    }
+  ]
+}

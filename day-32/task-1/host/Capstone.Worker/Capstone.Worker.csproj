@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Capstone.Worker</RootNamespace>
+  </PropertyGroup>
+
+  <!--
+    Day 26 - the trace-demo worker (see ../../infra/README.md, "Day 26 - the
+    trace-demo worker"). Originally built as a plain console/Generic-Host app meant
+    to run as a continuous WebJob inside Capstone.Web's own App Service - that
+    genuinely failed (Linux Kudu refused to run it; see Program.cs's header comment
+    and ../../infra/README.md's verification log). Now a second, minimal Linux Web
+    App (infra/modules/worker.bicep) on the SAME plan and identity as Capstone.Web -
+    hence Sdk.Web, not Sdk.Worker: it needs one HTTP endpoint for App Service's own
+    platform health probe, even though the real work is still a BackgroundService.
+
+    Package versions confirmed live against the NuGet v3-flatcontainer API on
+    2026-09-10 - same verification pass as ../Capstone.Web/Capstone.Web.csproj, see
+    ../../infra/README.md.
+  -->
+  <ItemGroup>
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.18.0" />
+    <PackageReference Include="Azure.Monitor.OpenTelemetry.Exporter" Version="1.9.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.SqlClient" Version="1.18.0" />
+    <PackageReference Include="Azure.Identity" Version="1.21.0" />
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.20.2" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.2" />
+    <!-- Day 26 - same fix as ../Capstone.Web/Capstone.Web.csproj - see that file's comment. -->
+    <PackageReference Include="Microsoft.Data.SqlClient.Extensions.Azure" Version="7.0.2" />
+  </ItemGroup>
+
+</Project>

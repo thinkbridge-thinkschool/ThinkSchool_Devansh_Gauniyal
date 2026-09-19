@@ -1,0 +1,77 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Modules\Invoicing\Capstone.Invoicing.Infrastructure\Capstone.Invoicing.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Procurement\Capstone.Procurement.Infrastructure\Capstone.Procurement.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <!--
+    Day 26 - OpenTelemetry -> Azure Monitor. Every version below was confirmed live
+    against the NuGet v3-flatcontainer API on 2026-09-10 (latest non-preview at that
+    date), not written from memory - see capstone/infra/README.md, "Day 26 - exact
+    package versions and how they were verified".
+  -->
+  <ItemGroup>
+    <PackageReference Include="Azure.Monitor.OpenTelemetry.AspNetCore" Version="1.6.0" />
+    <PackageReference Include="Azure.Identity" Version="1.21.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.SqlClient" Version="1.18.0" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.2" />
+    <!--
+      Day 26 - what actually broke: Microsoft.Data.SqlClient 7.x moved Entra ID
+      (Active Directory) authentication providers - including
+      "Authentication=Active Directory Managed Identity", the mode
+      infra/modules/api.bicep's connection string uses - out of the base package
+      and into this extension. Without it, SqlConnection.OpenAsync() throws
+      System.ArgumentException: "Cannot find an authentication provider for
+      'ActiveDirectoryManagedIdentity'" at the FIRST real connection attempt -
+      exactly the "no proof of a live TDS query" gap Day 25 named and left open.
+      Confirmed live against the deployed app's own exception (see
+      infra/README.md's verification log) before adding this, not assumed from
+      the package's release notes.
+    -->
+    <PackageReference Include="Microsoft.Data.SqlClient.Extensions.Azure" Version="7.0.2" />
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.20.2" />
+    <!--
+      Day 29 - design-time tooling only (PrivateAssets="all" keeps it out of the
+      published app). Needed here, the startup project, for `dotnet ef migrations
+      add`/`database update` to discover InvoicingDbContext/ProcurementDbContext -
+      neither Infrastructure project needs it itself. Same 10.0.12 version as the
+      runtime EF packages in the two Infrastructure projects.
+    -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.12">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <!--
+    Day 27 - hardening the API surface. See capstone/THREAT-MODEL.md and
+    submission-day-27-task-1.md for what each of these closes.
+  -->
+  <ItemGroup>
+    <!--
+      Microsoft.AspNetCore.OpenApi was removed on Day 22 (see the note this
+      replaces) because it transitively pulled a Microsoft.OpenApi version with
+      a known high-severity advisory (GHSA-v5pm-xwqc-g5wc, fixed in 2.7.5+).
+      10.0.12 depends on Microsoft.OpenApi [2.12.0, 3.0.0) - re-verified live
+      against the NuGet v3-flatcontainer API and the GitHub advisory record on
+      2026-09-11 that 2.12.0 is already past the patched floor, so this no
+      longer pulls the vulnerable range. Gives the API a real OpenAPI document
+      to version and to declare its bearer-auth requirement on (see Program.cs).
+    -->
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.12" />
+    <!--
+      JWT bearer validation against Entra ID - see Program.cs's AddJwtBearer
+      call and THREAT-MODEL.md's Spoofing/Elevation-of-privilege sections for
+      what this does and does not close.
+    -->
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.12" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+</Project>
