@@ -138,4 +138,18 @@ export class QuotesStore {
     }
     this._quotes.set([quote, ...current]);
   }
+
+  // The edit flow's effect on the list and the currently selected detail (see
+  // EditQuoteForm, which calls this after a successful PUT): replaces the matching
+  // quote in place wherever it's held. Same "always reassign, never mutate in place"
+  // rule as addQuote() -- a signal only notifies on reassignment.
+  replaceQuote(quote: Quote): void {
+    const current = this._quotes();
+    if (current) {
+      this._quotes.set(current.map((existing) => (existing.id === quote.id ? quote : existing)));
+    }
+    if (this._selectedQuote()?.id === quote.id) {
+      this._selectedQuote.set(quote);
+    }
+  }
 }

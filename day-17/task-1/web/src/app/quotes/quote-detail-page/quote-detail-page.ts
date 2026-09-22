@@ -11,9 +11,10 @@
  * no per-item GET route -- store.selectQuote() re-calls the one real list endpoint and
  * resolves the requested id client-side, exactly as before this move.
  */
-import { Component, computed, effect, inject, input } from '@angular/core';
+import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { QuotesStore } from '../quotes-store';
+import { EditQuoteForm } from '../edit-quote-form/edit-quote-form';
 
 export type QuoteDetailPageParamProblem = 'missing' | 'malformed';
 
@@ -25,7 +26,7 @@ const NON_NEGATIVE_INTEGER = /^\d+$/;
 
 @Component({
   selector: 'app-quote-detail-page',
-  imports: [RouterLink],
+  imports: [RouterLink, EditQuoteForm],
   templateUrl: './quote-detail-page.html',
   styleUrl: './quote-detail-page.css',
 })
@@ -54,16 +55,31 @@ export class QuoteDetailPage {
   protected readonly quote = this.store.selectedQuote;
   protected readonly errorMessage = this.store.detailError;
 
+  protected readonly editing = signal(false);
+
   // Drives the store's selection from the route param. store.selectQuote() carries its
   // own stale-response guard (a request token, see quotes-store.ts); store.clearSelection()
   // handles the missing/malformed cases so a stale selection from a previous valid id
   // does not linger and any in-flight request for it is superseded.
   private readonly loadOnIdChange = effect(() => {
     const id = this.numericId();
+    this.editing.set(false);
     if (id === null) {
       this.store.clearSelection();
       return;
     }
     this.store.selectQuote(id);
   });
+
+  protected startEdit(): void {
+    this.editing.set(true);
+  }
+
+  protected onEditSaved(): void {
+    this.editing.set(false);
+  }
+
+  protected onEditCancelled(): void {
+    this.editing.set(false);
+  }
 }

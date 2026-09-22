@@ -65,6 +65,8 @@ function genericMessageForStatus(status: number): string {
       return 'That could not be found.';
     case 405:
       return 'That request is not supported.';
+    case 409:
+      return 'This author already has a quote with this exact text.';
     default:
       return status >= 500
         ? 'The server had a problem handling that request. Please try again.'

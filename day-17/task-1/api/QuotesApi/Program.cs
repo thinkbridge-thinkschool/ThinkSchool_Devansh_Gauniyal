@@ -373,7 +373,12 @@ app.MapPost("/api/quotes", (
         return Results.Forbid();
     }
 
-    return Results.Ok(quotes.Create(userId, request.Text, request.Author, request.Description));
+    if (quotes.ExistsForAuthor(request.Author, request.Text))
+    {
+        return Results.Conflict(new { message = "This author already has a quote with this exact text." });
+    }
+
+    return Results.Ok(quotes.Create(userId, request.Text, request.Author));
 }).RequireAuthorization(AuthorizationPolicies.CanEditQuotes);
 
 app.MapPut("/api/quotes/{id:int}", (
@@ -381,7 +386,12 @@ app.MapPut("/api/quotes/{id:int}", (
     UpdateQuoteRequest request,
     IQuoteRepository quotes) =>
 {
-    var updated = quotes.Update(id, request.Text);
+    if (quotes.ExistsForAuthor(request.Author, request.Text, id))
+    {
+        return Results.Conflict(new { message = "This author already has a quote with this exact text." });
+    }
+
+    var updated = quotes.Update(id, request.Text, request.Author);
     return updated is null
         ? Results.NotFound()
         : Results.Ok(updated);

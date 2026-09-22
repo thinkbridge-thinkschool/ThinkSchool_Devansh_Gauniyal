@@ -35,3 +35,24 @@
   font-size: 0.8rem;
   margin: 0 0 0.75rem;
 }
+
+.quote-detail-page article > button {
+  padding: 0.5rem 1.25rem;
+  border: 1px solid #d0d5dd;
+  border-radius: 8px;
+  background: #fff;
+  color: #344054;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+}
+
+.quote-detail-page article > button:hover {
+  background: #f2f4f7;
+}
+
+.quote-detail-page article > button:focus-visible {
+  outline: 3px solid #1d4ed8;
+  outline-offset: 2px;
+}
