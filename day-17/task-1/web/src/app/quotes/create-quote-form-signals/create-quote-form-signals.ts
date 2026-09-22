@@ -13,14 +13,17 @@ import type { Quote } from '../quote';
 interface CreateQuoteModel {
   text: string;
   author: string;
+  description: string;
 }
 
-// The real CreateQuoteRequest DTO (day-3/task-3/QuotesApi/Quotes/QuoteRequests.cs)
-// carries no validation attributes on either field -- both are optional, nullable
-// server-side. Both `required()` calls below are client-only UX safety nets, the
-// same directed decision already documented on the reactive version
+// The real CreateQuoteRequest DTO (api/QuotesApi/Quotes/QuoteRequests.cs)
+// carries no validation attributes on any field -- all three are optional,
+// nullable server-side. Both `required()` calls below are client-only UX safety
+// nets, the same directed decision already documented on the reactive version
 // (create-quote-form.ts): `text`'s because a blank quote is meaningless to save,
 // `author`'s because Devansh asked for it to be compulsory on the form.
+// `description` has no `required()` call -- it stays optional, matching the
+// reactive form's equivalent field.
 const createQuoteSchema = schema<CreateQuoteModel>((path) => {
   required(path.text, { message: 'Quote text is required.' });
   required(path.author, { message: 'Author is required.' });
@@ -40,7 +43,7 @@ export class CreateQuoteFormSignals {
   private readonly authorInput =
     viewChild.required<ElementRef<HTMLInputElement>>('authorInput');
 
-  private readonly model = signal<CreateQuoteModel>({ text: '', author: '' });
+  private readonly model = signal<CreateQuoteModel>({ text: '', author: '', description: '' });
 
   protected readonly serverError = signal<string | null>(null);
   protected readonly submittedQuote = signal<string | null>(null);
@@ -63,14 +66,24 @@ export class CreateQuoteFormSignals {
         this.serverError.set(null);
         const value = field().value();
         try {
+          const description = value.description.trim();
           const quote = await new Promise<Quote>((resolve, reject) => {
-            this.quoteApi.createQuote({ text: value.text, author: value.author }).subscribe({
-              next: resolve,
-              error: reject,
-            });
+            this.quoteApi
+              .createQuote({
+                text: value.text,
+                author: value.author,
+                // Same reasoning as the reactive form: omitted entirely, not sent
+                // as `description: undefined`, so the request-shape parity/
+                // contract tests see the identical key set for identical input.
+                ...(description ? { description } : {}),
+              })
+              .subscribe({
+                next: resolve,
+                error: reject,
+              });
           });
           this.submittedQuote.set(quote.text);
-          this.model.set({ text: '', author: '' });
+          this.model.set({ text: '', author: '', description: '' });
           this.store.addQuote(quote);
           this.quoteCreated.emit(quote);
         } catch (error) {

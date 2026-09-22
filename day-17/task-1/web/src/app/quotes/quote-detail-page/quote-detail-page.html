@@ -19,11 +19,20 @@
     <p class="quote-detail-page__status" data-testid="detail-page-status-error">{{ errorMessage() }}</p>
   } @else if (quote()) {
     <article data-testid="detail-page-content">
-      <p class="quote-detail-page__text">“{{ quote()!.text }}”</p>
-      @if (quote()!.author) {
-        <p class="quote-detail-page__author" data-testid="detail-page-author">— {{ quote()!.author }}</p>
+      @if (editing()) {
+        <app-edit-quote-form
+          [quote]="quote()!"
+          (saved)="onEditSaved()"
+          (cancelled)="onEditCancelled()"
+        />
+      } @else {
+        <p class="quote-detail-page__text">“{{ quote()!.text }}”</p>
+        @if (quote()!.author) {
+          <p class="quote-detail-page__author" data-testid="detail-page-author">— {{ quote()!.author }}</p>
+        }
+        <p class="quote-detail-page__owner">{{ quote()!.ownerId }}</p>
+        <button type="button" data-testid="detail-page-edit" (click)="startEdit()">Edit</button>
       }
-      <p class="quote-detail-page__owner">{{ quote()!.ownerId }}</p>
     </article>
   } @else {
     <p class="quote-detail-page__status" data-testid="detail-page-status-not-found">

@@ -6,4 +6,4 @@ namespace QuotesApi.Quotes;
 // AuthCoverageGapTests among them -- keeps compiling and keeps working
 // unchanged; this is a purely additive change to the wire contract.
 public sealed record CreateQuoteRequest(string Text, string? Author = null);
-public sealed record UpdateQuoteRequest(string Text);
+public sealed record UpdateQuoteRequest(string Text, string? Author = null);

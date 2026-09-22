@@ -1,0 +1,50 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate data-testid="edit-quote-form">
+  <div class="field">
+    <label for="edit-quote-text">Quote text</label>
+    <textarea
+      id="edit-quote-text"
+      formControlName="text"
+      #textInput
+      rows="4"
+      [attr.aria-invalid]="showError('text') ? 'true' : null"
+      [attr.aria-describedby]="showError('text') ? 'edit-quote-text-error' : null"
+    ></textarea>
+    <p id="edit-quote-text-error" class="error" role="alert">
+      @if (showError('text')) {
+        Quote text is required.
+      }
+    </p>
+  </div>
+
+  <div class="field">
+    <label for="edit-quote-author">Author</label>
+    <input
+      id="edit-quote-author"
+      type="text"
+      formControlName="author"
+      #authorInput
+      [attr.aria-invalid]="showError('author') ? 'true' : null"
+      [attr.aria-describedby]="showError('author') ? 'edit-quote-author-error' : null"
+    />
+    <p id="edit-quote-author-error" class="error" role="alert">
+      @if (showError('author')) {
+        Author is required.
+      }
+    </p>
+  </div>
+
+  <div class="actions">
+    <button type="submit" [disabled]="submitting()" data-testid="edit-quote-save">
+      {{ submitting() ? 'Saving…' : 'Save changes' }}
+    </button>
+    <button type="button" class="secondary" [disabled]="submitting()" (click)="onCancel()" data-testid="edit-quote-cancel">
+      Cancel
+    </button>
+  </div>
+
+  <p class="server-error" role="alert">
+    @if (serverError(); as message) {
+      {{ message }}
+    }
+  </p>
+</form>

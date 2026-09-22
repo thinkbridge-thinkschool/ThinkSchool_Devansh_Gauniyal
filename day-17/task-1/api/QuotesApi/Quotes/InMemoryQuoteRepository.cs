@@ -36,7 +36,7 @@ public sealed class InMemoryQuoteRepository : IQuoteRepository
         }
     }
 
-    public Quote? Update(int id, string text)
+    public Quote? Update(int id, string text, string? author = null)
     {
         lock (_gate)
         {
@@ -45,7 +45,7 @@ public sealed class InMemoryQuoteRepository : IQuoteRepository
                 return null;
             }
 
-            var updated = quote with { Text = text };
+            var updated = quote with { Text = text, Author = author };
             _quotes[id] = updated;
             return updated;
         }
@@ -56,6 +56,22 @@ public sealed class InMemoryQuoteRepository : IQuoteRepository
         lock (_gate)
         {
             return _quotes.Remove(id);
+        }
+    }
+
+    public bool ExistsForAuthor(string? author, string text, int? excludingId = null)
+    {
+        if (string.IsNullOrWhiteSpace(author))
+        {
+            return false;
+        }
+
+        lock (_gate)
+        {
+            return _quotes.Values.Any(quote =>
+                quote.Id != excludingId
+                && string.Equals(quote.Author?.Trim(), author.Trim(), StringComparison.OrdinalIgnoreCase)
+                && string.Equals(quote.Text.Trim(), text.Trim(), StringComparison.Ordinal));
         }
     }
 }

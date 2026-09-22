@@ -27,6 +27,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { CreateQuoteRequest } from './create-quote-request';
+import { UpdateQuoteRequest } from './update-quote-request';
 import { Quote } from './quote';
 import { API_BASE_URL, apiUrl } from '../api-base-url';
 
@@ -49,5 +50,9 @@ export class QuoteApi {
 
   createQuote(request: CreateQuoteRequest): Observable<Quote> {
     return this.http.post<Quote>(this.quotesEndpoint, request);
+  }
+
+  updateQuote(id: number, request: UpdateQuoteRequest): Observable<Quote> {
+    return this.http.put<Quote>(`${this.quotesEndpoint}/${id}`, request);
   }
 }
